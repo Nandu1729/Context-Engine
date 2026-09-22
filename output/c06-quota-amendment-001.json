@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "amendment": "known-cached-input-excluded-v1",
+  "recorded_date": "2026-09-20",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "baseline_snapshot_digest": "15b7372e2d8af1f39cc9edde3e913c65c3692c8d0381568805e04c7b5ce2c0db",
+  "baseline_terminal": 619,
+  "first_amended_batch": 132,
+  "admission_source_sha256": "0af8c6a8227fa7e4f67baf35de9107e64634ca6faac5ae3bbd03b7e1cba9652c",
+  "archived_engine_sha256": "efeaa9f2459e067ac21f93a960ec0cc537c0d266e42c25a98aa67e1ae81da6a6",
+  "source": "https://console.groq.com/docs/rate-limits",
+  "owner_confirmation": "Original Groq organization; continue remaining tests on Free tier",
+  "engineering_amendment": "Exclude only validated receipt-confirmed cached input from token quota admission. No speculative caching credit; full reservations until settlement.",
+  "baseline_daily_full_tokens": 197221,
+  "baseline_daily_known_cached_tokens": 54272,
+  "baseline_daily_quota_tokens": 142949,
+  "quota_policy": {
+    "account_id": "groq-personal-context-engine-v1",
+    "billing_mode": "free_tier",
+    "daily_budget_microusd": 0,
+    "rpm": 30,
+    "tpm": 8000,
+    "rpd": 1000,
+    "tpd": 200000
+  },
+  "unchanged": ["archived package files", "fixture", "algorithm", "generation", "thresholds", "execution identity", "account identity", "quota ceilings", "full usage rows", "prices", "prior results"],
+  "provenance_limit": "The original engine freeze does not cover this external operational admission override. Amended batches must be read with this artifact, code hash, per-batch admission sidecars and ledger events. This is not an unmodified enforcement replay."
+}

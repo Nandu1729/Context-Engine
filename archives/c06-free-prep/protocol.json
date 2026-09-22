@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "protocol_id": "incident-evaluation-v1",
+  "approval": "owner_pending",
+  "scenario_id": "incident-100-v1",
+  "variants": [
+    {
+      "id": "A0",
+      "cap": false,
+      "pins": false,
+      "retrieve": false,
+      "summarize": false,
+      "window": false
+    },
+    {
+      "id": "A1",
+      "cap": false,
+      "pins": false,
+      "retrieve": false,
+      "summarize": false,
+      "window": true
+    },
+    {
+      "id": "A2",
+      "cap": true,
+      "pins": false,
+      "retrieve": false,
+      "summarize": false,
+      "window": true
+    },
+    {
+      "id": "A3",
+      "cap": true,
+      "pins": true,
+      "retrieve": false,
+      "summarize": false,
+      "window": true
+    },
+    {
+      "id": "A4",
+      "cap": true,
+      "pins": true,
+      "retrieve": true,
+      "summarize": false,
+      "window": true
+    },
+    {
+      "id": "A5",
+      "cap": true,
+      "pins": true,
+      "retrieve": true,
+      "summarize": true,
+      "window": true
+    }
+  ],
+  "budgets": [
+    900,
+    3000
+  ],
+  "models": [
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b"
+  ],
+  "generation": {
+    "temperature": 0,
+    "reasoning_effort": "low",
+    "max_completion_tokens": 256
+  },
+  "budget": {
+    "model_capacity": 131072,
+    "retrieval_reserve": 280,
+    "summary_reserve": 80
+  },
+  "cap": {
+    "max_tokens": 35,
+    "head_tokens": 22,
+    "tail_tokens": 8
+  },
+  "retrieval": {
+    "chunk_characters": 360,
+    "overlap_characters": 80,
+    "top_k": 4,
+    "minimum_score": 0,
+    "k1": 1.5,
+    "b": 0.75
+  },
+  "tokenizer": {
+    "encoding_name": "o200k_harmony",
+    "calibration_factor": 1.07,
+    "adapter_overhead_tokens": 0
+  },
+  "targets": {
+    "input_budget": 900,
+    "variant": "A5",
+    "fit": 31,
+    "retained": 28,
+    "correct": 27,
+    "median_input_reduction": 0.9,
+    "max_truncated": 0
+  },
+  "grading": {
+    "normalization": "nfkc-casefold-whitespace-v1",
+    "answer_mode": "exact-alias-or-json-answer",
+    "presence_mode": "identifier-boundary-v1",
+    "abstentions": [
+      "UNKNOWN"
+    ]
+  },
+  "primary_pins": "empty",
+  "summary_coverage": "frozen-content-bound-to-omitted-history",
+  "zone_boundaries": [
+    33,
+    66,
+    100
+  ],
+  "bm25_variant": "BM25Plus-delta1",
+  "corpus_limits": {
+    "turns": 100,
+    "facts": 31
+  },
+  "notes": "Model IDs and capacity are PRD defaults, not live-provider availability claims. Approval and spending authorization are required before inference."
+}

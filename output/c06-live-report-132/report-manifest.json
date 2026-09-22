@@ -1,0 +1,15 @@
+{
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "snapshot_digest": "bce9df3cb4daa8fc8417e43c411b28f20ae9e708da07fefdb76faedaf016f352",
+  "report_inference_calls": 0,
+  "matplotlib": "3.11.1",
+  "pillow": "12.3.0",
+  "files": {
+    "scorecard.json": "a7e18683210dd591615e6451dd192b34253d31fe2a93cfd3c2c6931fdb6387e9",
+    "leaderboard.md": "4ab998a584670378bc96152115b3b62da65324aff055603ea9c03d3ddb18d8b4",
+    "context_cost.png": "b9426fe2afbb640a9c55bb103ba6e0a83a48ab97f33cd6fc1b33f3a42853c113",
+    "recall_by_zone.png": "12f3477e1faaa332e7cd6b1c95083efdd867460cc5fd9a9b30a43e03b6f8bd8a",
+    "gpt-oss-120b-results.json": "140abf5f661eb6b4bb42a844cdbb9a6a01f6ba6379f550299a39806ea5bf9e9c",
+    "gpt-oss-20b-results.json": "a4447e65b8d26e961c059ef7bf9d90957d1bcd4d8fc8c56eebcb19aecf23bf44"
+  }
+}

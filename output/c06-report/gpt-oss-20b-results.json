@@ -1,0 +1,2008 @@
+{
+  "schema_version": 1,
+  "execution_id": "8085a1e70194249f012acc49ea13e26bc973232669094e97c2a3502a1cac3f2c",
+  "snapshot_digest": "2ba7749319afbac1e87bbbe8a6189092906d947e7da5341208e3b29c99a3d423",
+  "mode": "offline",
+  "validity": {
+    "status": "TEST_ONLY",
+    "gates": [
+      {
+        "gate": "V1",
+        "status": "PASS",
+        "reason": "checked"
+      },
+      {
+        "gate": "V2",
+        "status": "PASS",
+        "reason": "checked"
+      },
+      {
+        "gate": "V3",
+        "status": "PASS",
+        "reason": "requests_reassembled_and_recounted"
+      },
+      {
+        "gate": "V4",
+        "status": "PASS",
+        "reason": "all_probes_have_terminal_dispositions"
+      },
+      {
+        "gate": "V5",
+        "status": "PASS",
+        "reason": "frozen_identity_matches"
+      }
+    ],
+    "pending_probe_ids": []
+  },
+  "quality_acceptance": {
+    "status": "NOT_EVALUATED",
+    "reason": "requires_valid_real_run_and_owner_registration"
+  },
+  "configuration": {
+    "budgets": [
+      900,
+      3000
+    ],
+    "facts": [
+      "merchant",
+      "ticket",
+      "service",
+      "owner",
+      "database",
+      "queue",
+      "rollback",
+      "runbook",
+      "cluster",
+      "bucket",
+      "region",
+      "canary",
+      "dashboard",
+      "certificate",
+      "feature",
+      "cache",
+      "trace",
+      "replica",
+      "schema",
+      "retries",
+      "timeout",
+      "region_backup",
+      "policy",
+      "namespace",
+      "endpoint",
+      "checksum",
+      "shard",
+      "batch",
+      "approval",
+      "handoff",
+      "archive"
+    ],
+    "freeze": {
+      "fixture_hashes": {
+        "ground_truth": "c319c47c0548ced89dc68deba183c3028c35aad2aabd756db8b3bbdfe4c064e6",
+        "pin_retention": "febe00b1b71016fd679a3d99a2bccdb901ff9b956f0933d1003578c06faf5f3b",
+        "protocol": "ff811ea7ba2806c6447272e0397b9d83ab22901ab771c8d04bda3995d2f15200",
+        "scenario": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54",
+        "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196"
+      },
+      "runtime": {
+        "code_hash": "69200538ba3435f8098ed9b4804a65c537a81cb159576cc705eb88237e001325",
+        "dependencies": {
+          "certifi": "2026.7.22",
+          "charset-normalizer": "3.5.1",
+          "idna": "3.19",
+          "numpy": "2.5.3",
+          "rank-bm25": "0.2.2",
+          "regex": "2026.9.3",
+          "requests": "2.34.2",
+          "tiktoken": "0.14.0",
+          "urllib3": "2.7.0"
+        },
+        "package_version": "0.6.0",
+        "python": "3.12.13"
+      },
+      "schema_version": 1
+    },
+    "models": [
+      "openai/gpt-oss-120b",
+      "openai/gpt-oss-20b"
+    ],
+    "protocol": {
+      "approval": "owner_pending",
+      "bm25_variant": "BM25Plus-delta1",
+      "budget": {
+        "model_capacity": 131072,
+        "retrieval_reserve": 280,
+        "summary_reserve": 80
+      },
+      "budgets": [
+        900,
+        3000
+      ],
+      "cap": {
+        "head_tokens": 22,
+        "max_tokens": 35,
+        "tail_tokens": 8
+      },
+      "corpus_limits": {
+        "facts": 31,
+        "turns": 100
+      },
+      "generation": {
+        "max_completion_tokens": 256,
+        "reasoning_effort": "low",
+        "temperature": 0
+      },
+      "grading": {
+        "abstentions": [
+          "UNKNOWN"
+        ],
+        "answer_mode": "exact-alias-or-json-answer",
+        "normalization": "nfkc-casefold-whitespace-v1",
+        "presence_mode": "identifier-boundary-v1"
+      },
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ],
+      "notes": "Model IDs and capacity are PRD defaults, not live-provider availability claims. Approval and spending authorization are required before inference.",
+      "primary_pins": "empty",
+      "protocol_id": "incident-evaluation-v1",
+      "retrieval": {
+        "b": 0.75,
+        "chunk_characters": 360,
+        "k1": 1.5,
+        "minimum_score": 0,
+        "overlap_characters": 80,
+        "top_k": 4
+      },
+      "scenario_id": "incident-100-v1",
+      "schema_version": 1,
+      "summary_coverage": "frozen-content-bound-to-omitted-history",
+      "targets": {
+        "correct": 27,
+        "fit": 31,
+        "input_budget": 900,
+        "max_truncated": 0,
+        "median_input_reduction": 0.9,
+        "retained": 28,
+        "variant": "A5"
+      },
+      "tokenizer": {
+        "adapter_overhead_tokens": 0,
+        "calibration_factor": 1.07,
+        "encoding_name": "o200k_harmony"
+      },
+      "variants": [
+        {
+          "cap": false,
+          "id": "A0",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": false
+        },
+        {
+          "cap": false,
+          "id": "A1",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A2",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A3",
+          "pins": true,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A4",
+          "pins": true,
+          "retrieve": true,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A5",
+          "pins": true,
+          "retrieve": true,
+          "summarize": true,
+          "window": true
+        }
+      ],
+      "zone_boundaries": [
+        33,
+        66,
+        100
+      ]
+    },
+    "schema_version": 1,
+    "variants": [
+      "A0",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "provider_profile": {
+    "adapter": "groq-chat-v1",
+    "clients": {
+      "openai/gpt-oss-120b": {
+        "generation": {
+          "max_completion_tokens": 256,
+          "model": "openai/gpt-oss-120b",
+          "reasoning_effort": "low",
+          "temperature": 0,
+          "tool_choice": "none"
+        },
+        "ledger_path": "/Users/nandyyy/Project/Context Engineering/output/private/c06-final/provider.sqlite",
+        "prices": {
+          "cached_input_per_million_microusd": 500000,
+          "input_per_million_microusd": 1000000,
+          "output_per_million_microusd": 2000000,
+          "version": "synthetic-v1"
+        },
+        "quota": {
+          "account_id": "synthetic-benchmark",
+          "daily_budget_microusd": 100000000,
+          "rpd": 10000,
+          "rpm": 10000,
+          "tpd": 100000000,
+          "tpm": 100000000
+        },
+        "replay": {
+          "enabled": false,
+          "ttl_seconds": 3600
+        },
+        "retry": {
+          "attempt_timeout": 20.0,
+          "max_attempts": 3,
+          "max_backoff": 10.0,
+          "total_timeout": 45.0
+        },
+        "transport": "c06-synthetic-unknown-v1"
+      },
+      "openai/gpt-oss-20b": {
+        "generation": {
+          "max_completion_tokens": 256,
+          "model": "openai/gpt-oss-20b",
+          "reasoning_effort": "low",
+          "temperature": 0,
+          "tool_choice": "none"
+        },
+        "ledger_path": "/Users/nandyyy/Project/Context Engineering/output/private/c06-final/provider.sqlite",
+        "prices": {
+          "cached_input_per_million_microusd": 500000,
+          "input_per_million_microusd": 1000000,
+          "output_per_million_microusd": 2000000,
+          "version": "synthetic-v1"
+        },
+        "quota": {
+          "account_id": "synthetic-benchmark",
+          "daily_budget_microusd": 100000000,
+          "rpd": 10000,
+          "rpm": 10000,
+          "tpd": 100000000,
+          "tpm": 100000000
+        },
+        "replay": {
+          "enabled": false,
+          "ttl_seconds": 3600
+        },
+        "retry": {
+          "attempt_timeout": 20.0,
+          "max_attempts": 3,
+          "max_backoff": 10.0,
+          "total_timeout": 45.0
+        },
+        "transport": "c06-synthetic-unknown-v1"
+      }
+    },
+    "dependencies": {
+      "anyio": "4.15.1",
+      "h11": "0.16.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "typing-extensions": "4.16.0"
+    },
+    "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+    "max_run_cost_microusd": 100000000,
+    "mode": "offline",
+    "security_scope": "synthetic-benchmark-v1",
+    "snapshot_revision": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54"
+  },
+  "groups": [
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A0",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 31,
+      "pending": 0,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 16607,
+      "median_estimated_input_reduction": 0.0,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A1",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 1,
+        "denominator": 31,
+        "rate": 0.03225806451612903,
+        "wilson95": [
+          0.005717221525416816,
+          0.16194105164724906
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 1,
+        "denominator": 31,
+        "rate": 0.03225806451612903,
+        "wilson95": [
+          0.005717221525416816,
+          0.16194105164724906
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 797,
+      "median_estimated_input_reduction": 0.9520081893177575,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 1,
+            "denominator": 10,
+            "rate": 0.1,
+            "wilson95": [
+              0.017876213095072896,
+              0.4041500267952385
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A2",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 879,
+      "median_estimated_input_reduction": 0.9470705124345156,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A3",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 879,
+      "median_estimated_input_reduction": 0.9470705124345156,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A4",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 29,
+        "denominator": 31,
+        "rate": 0.9354838709677419,
+        "wilson95": [
+          0.7928136326370188,
+          0.9821252164780854
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 29,
+        "denominator": 31,
+        "rate": 0.9354838709677419,
+        "wilson95": [
+          0.7928136326370188,
+          0.9821252164780854
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 825,
+      "median_estimated_input_reduction": 0.9503191617487655,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0,
+            "wilson95": [
+              0.7224672001371107,
+              0.9999999999999999
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 11,
+            "denominator": 11,
+            "rate": 1.0,
+            "wilson95": [
+              0.7411670330319684,
+              1.0
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 8,
+            "denominator": 10,
+            "rate": 0.8,
+            "wilson95": [
+              0.49016247153664183,
+              0.9433178485456247
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A5",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 29,
+        "denominator": 31,
+        "rate": 0.9354838709677419,
+        "wilson95": [
+          0.7928136326370188,
+          0.9821252164780854
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 29,
+        "denominator": 31,
+        "rate": 0.9354838709677419,
+        "wilson95": [
+          0.7928136326370188,
+          0.9821252164780854
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 801,
+      "median_estimated_input_reduction": 0.9517644224978923,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0,
+            "wilson95": [
+              0.7224672001371107,
+              0.9999999999999999
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 11,
+            "denominator": 11,
+            "rate": 1.0,
+            "wilson95": [
+              0.7411670330319684,
+              1.0
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 8,
+            "denominator": 10,
+            "rate": 0.8,
+            "wilson95": [
+              0.49016247153664183,
+              0.9433178485456247
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A0",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 31,
+      "pending": 0,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 16607,
+      "median_estimated_input_reduction": 0.0,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A1",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 4,
+        "denominator": 31,
+        "rate": 0.12903225806451613,
+        "wilson95": [
+          0.0513428437462915,
+          0.28852406256306423
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 4,
+        "denominator": 31,
+        "rate": 0.12903225806451613,
+        "wilson95": [
+          0.0513428437462915,
+          0.28852406256306423
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 2975,
+      "median_estimated_input_reduction": 0.8208586740531101,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 4,
+            "denominator": 10,
+            "rate": 0.4,
+            "wilson95": [
+              0.16818032970623614,
+              0.6873262302663417
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A2",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 2989,
+      "median_estimated_input_reduction": 0.8200156560486542,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A3",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 2989,
+      "median_estimated_input_reduction": 0.8200156560486542,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A4",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 19,
+        "denominator": 31,
+        "rate": 0.6129032258064516,
+        "wilson95": [
+          0.4382410861966073,
+          0.7626689857961975
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 19,
+        "denominator": 31,
+        "rate": 0.6129032258064516,
+        "wilson95": [
+          0.4382410861966073,
+          0.7626689857961975
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 2939,
+      "median_estimated_input_reduction": 0.8230157774298447,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0,
+            "wilson95": [
+              0.7224672001371107,
+              0.9999999999999999
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 9,
+            "denominator": 11,
+            "rate": 0.8181818181818182,
+            "wilson95": [
+              0.523019438039156,
+              0.9486323102539149
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A5",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 19,
+        "denominator": 31,
+        "rate": 0.6129032258064516,
+        "wilson95": [
+          0.4382410861966073,
+          0.7626689857961975
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 19,
+        "denominator": 31,
+        "rate": 0.6129032258064516,
+        "wilson95": [
+          0.4382410861966073,
+          0.7626689857961975
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 31,
+      "provider_usage_unknown": 0,
+      "test_responses": 31,
+      "cost": null,
+      "new_cost_microusd": 1550,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 2914,
+      "median_estimated_input_reduction": 0.8245212573768518,
+      "observed_attempt_usage": {
+        "input_tokens": 1240,
+        "output_tokens": 155,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 62,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 31,
+        "attempts": 31,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0,
+            "wilson95": [
+              0.7224672001371107,
+              0.9999999999999999
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 9,
+            "denominator": 11,
+            "rate": 0.8181818181818182,
+            "wilson95": [
+              0.523019438039156,
+              0.9486323102539149
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 11
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        }
+      }
+    }
+  ],
+  "report_inference_calls": 0,
+  "warning": "Synthetic UNKNOWN responses and prices; not model-quality or API-cost evidence",
+  "selected_model": "openai/gpt-oss-20b",
+  "projection_note": "Model-specific scorecard; parent manifest retained"
+}

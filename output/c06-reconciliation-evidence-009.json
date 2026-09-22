@@ -1,0 +1,21 @@
+{
+  "source": "Owner-supplied Groq Logs and cost-chart screenshots, 2026-09-22",
+  "attempt_id": "e3a669a8071b43f790729bed841e3b37",
+  "probe_id": "8435cffb799f9a0f76f33b1ad5a96b14d5f946d0a5684292a8be9b75afb6e2c2",
+  "model": "openai/gpt-oss-20b",
+  "request_local_time": "2026-09-22T02:11:49+05:30",
+  "request_utc_time": "2026-09-21T20:41:49Z",
+  "http_status": 200,
+  "usage": {"input_tokens": 2513, "output_tokens": 34, "cached_input_tokens": null, "reasoning_tokens": null},
+  "provider_request_id_visible_only": "req_0...zgm7",
+  "ttft_seconds": 0.597,
+  "latency_seconds": 0.646,
+  "cost_chart_display": "$0.00 for Sep 22; rounded chart is not precise per-request billing evidence",
+  "matching_basis": "Exact requested timestamp/model; sole uncertain local attempt. Original organization confirmed by owner earlier. Full upstream request ID and completion content unavailable.",
+  "cache_policy": "No cache credit without observed detail",
+  "outcome": "Account usage only; original timeout and missing answer remain unchanged",
+  "image_sha256": {
+    "provider-log.png": "743e25e6aa3ce9e743e7071e79c56bc7a0525657b1c7bea6f135b5557769e453",
+    "cost-chart.png": "6310980368b1fcbda71d5f7f769149f467758cdfa20e3d3786d717cfa2ed924e"
+  }
+}

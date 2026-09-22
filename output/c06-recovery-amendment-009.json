@@ -1,0 +1,17 @@
+{
+  "amendment": "009-external-timeout-accounting-only",
+  "source_sha256": "5fc781adc1aaac0067b31ef32d1fa0ab1aeffc0c6533205924f1fce5c5d302b0",
+  "baseline_sha256": "d38d2924b4968ab61bd30164174be78aeb52660226bc2a3dd980554f0ab3b973",
+  "evidence_sha256": "d47e4420b0409171c574913909cb5a8ed0fe8a691965b88be25420e1f1e1ac5e",
+  "previous_plan_sha256": "2cfd3b154dc8c516554806e6350bc9000fa7f8bd2e3e4412a708569c685aaefe",
+  "previous_source_sha256": "9893673effa0fd65673ad224f1a06e23fdffb23d85467a8cb1a6da0cf8abc349",
+  "admission_plan_sha256": "54f4d7bf252d43b27818cddfa3d374dea43db10a9fdeccd87a55391a14aa2525",
+  "admission_source_sha256": "51ffa0be7a647868db8b2667574a5b313e3bc6cf7bbd12abfbde2efb94e540fe",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "probe_id": "8435cffb799f9a0f76f33b1ad5a96b14d5f946d0a5684292a8be9b75afb6e2c2",
+  "attempt_id": "e3a669a8071b43f790729bed841e3b37",
+  "usage": {"input_tokens": 2513, "output_tokens": 34, "cached_input_tokens": null, "reasoning_tokens": null},
+  "scope": "One audited settlement using owner-supplied provider logs. Exact lost-answer receipt stays immutable. Only cumulative run-cost admission uses externally reconciled cost for this one receipt. Untouched cases only, unchanged case admission004/free-tier/quotas/protocol; no retry or answer fabrication. New failures halt.",
+  "accounting_time": "Native settlement-time attribution retained; conservatively counts 2547 tokens in reconciliation window, no cache credit. Historical snapshot remains original known subtotal plus absent receipt. Reconciliation supplement discloses external usage separately.",
+  "freeze_boundary": "External operational override, not covered by archived engine freeze; source and evidence hashes bind each new recovery/status sidecar. No archived source/receipt changes."
+}

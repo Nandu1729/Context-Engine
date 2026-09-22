@@ -1,0 +1,75 @@
+{
+  "completed_generation_calls": 2,
+  "experiment": "gemini-comparison-001",
+  "http_attempts": 4,
+  "model": "gemini-3.5-flash-lite",
+  "plan_hash": "374e697390422ca974d1815c15a8e41bfe59042a385c6a8c8d3f92091d89393f",
+  "probes": [
+    {
+      "countTokens": {
+        "method": "countTokens",
+        "plan_hash": "374e697390422ca974d1815c15a8e41bfe59042a385c6a8c8d3f92091d89393f",
+        "request_hash": "bfeb1d8c2cf82e81deb03a5159ad1aab56792b992c93816cefdcbc617ca5372b",
+        "state": "completed",
+        "tokens": 705,
+        "variant": "A1"
+      },
+      "engine_estimated_input": 798,
+      "fact_id": "shard",
+      "generateContent": {
+        "answer": "UNKNOWN",
+        "answer_correct": false,
+        "finish_reason": "STOP",
+        "method": "generateContent",
+        "model_version": "gemini-3.5-flash-lite",
+        "plan_hash": "374e697390422ca974d1815c15a8e41bfe59042a385c6a8c8d3f92091d89393f",
+        "request_hash": "bfeb1d8c2cf82e81deb03a5159ad1aab56792b992c93816cefdcbc617ca5372b",
+        "state": "completed",
+        "usage": {
+          "input": 705,
+          "output": 1,
+          "thoughts": 0,
+          "total": 706
+        },
+        "valid": true,
+        "variant": "A1"
+      },
+      "retained_evidence": false,
+      "variant": "A1"
+    },
+    {
+      "countTokens": {
+        "method": "countTokens",
+        "plan_hash": "374e697390422ca974d1815c15a8e41bfe59042a385c6a8c8d3f92091d89393f",
+        "request_hash": "2fcb1211ec3fa688024f848078eca7a7e13c5a9b41767f6c2ffa39714450d05a",
+        "state": "completed",
+        "tokens": 714,
+        "variant": "A5"
+      },
+      "engine_estimated_input": 804,
+      "fact_id": "shard",
+      "generateContent": {
+        "answer": "shard-19",
+        "answer_correct": true,
+        "finish_reason": "STOP",
+        "method": "generateContent",
+        "model_version": "gemini-3.5-flash-lite",
+        "plan_hash": "374e697390422ca974d1815c15a8e41bfe59042a385c6a8c8d3f92091d89393f",
+        "request_hash": "2fcb1211ec3fa688024f848078eca7a7e13c5a9b41767f6c2ffa39714450d05a",
+        "state": "completed",
+        "usage": {
+          "input": 714,
+          "output": 4,
+          "thoughts": 0,
+          "total": 718
+        },
+        "valid": true,
+        "variant": "A5"
+      },
+      "retained_evidence": true,
+      "variant": "A5"
+    }
+  ],
+  "qualification": "diagnostic only; Groq C06 unchanged",
+  "status": "complete"
+}

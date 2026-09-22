@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-09-21",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "source_sha256": "51ffa0be7a647868db8b2667574a5b313e3bc6cf7bbd12abfbde2efb94e540fe",
+  "baseline_sha256": "032329248bb7f846a2cf5a0d8d73c0bc78936befa73ab62e3b939746ad45c022",
+  "reviewed_source_sha256": "ce56861122fa0f09f5f83a62085a5aa659e6a5e8a75417488f0babb753f1a7c3",
+  "first_batch": 157,
+  "cause": "Amendment001 rejected any completed request key, incorrectly blocking A3 merchant because independent A2 merchant has identical payload/key. Scientific protocol expects independent ablation cases; completed-case protection belongs to journal case identity.",
+  "correction": "Admit only a single claimed prepared case with matching reconstructed full request key,model,reservation and frozen identity. Permit same payload for a distinct case; ledger case events block fulfilled redispatch even before journal finalization. Preserve original request keys and all usage/receipts.",
+  "preserve": "All651 baseline terminal entries and two exact reviewed failures; original archived engine/protocol/profile,generation,retry configuration,account,quota ceilings,prices and full ledger. Cache quota projection unchanged. Previous source/artifacts remain immutable.",
+  "loop_safety": "Stop a zero-progress batch when local status remains ready. Skip numbers with any existing sidecar,including orphan156; preserve partial exports. One logical case per batch and any new failure/uncertainty still halt.",
+  "provenance": "Recovery/status sidecars bind amendment004 and its source. Legacy admission sidecars reference amendment001 quota projection only; they are not complete enforcement provenance after157. New ledger c06_case_admission_v1 and c06_admission_amendment004 events bind case/attempt/amendment. All changes are external operational amendments,not covered by original core freeze."
+}

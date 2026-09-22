@@ -1,0 +1,149 @@
+{
+  "mode": "offline_provider_demo",
+  "status": "PASS",
+  "real_inference_calls": 0,
+  "simulated_transport_calls": 2,
+  "pricing": "synthetic; not provider pricing or billing evidence",
+  "results": {
+    "first": {
+      "status": "success",
+      "request_key": "79e9d10975ee90ca0339261d55c180d9bd9f36caec9ac7c9c4a0bafaa4dabdfe",
+      "attempt_ids": [
+        "ba902b3f35b0476aaacc687b2f00b37a"
+      ],
+      "completion": {
+        "model": "openai/gpt-oss-120b",
+        "response_id": "synthetic-1",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 40,
+          "output_tokens": 5,
+          "cached_input_tokens": 4,
+          "reasoning_tokens": 2
+        },
+        "system_fingerprint": null
+      },
+      "error_code": null,
+      "replay_of": null,
+      "new_cost_microusd": 48,
+      "original_cost_microusd": 48,
+      "warning": null,
+      "content_included": false
+    },
+    "identical_replay": {
+      "status": "replay",
+      "request_key": "79e9d10975ee90ca0339261d55c180d9bd9f36caec9ac7c9c4a0bafaa4dabdfe",
+      "attempt_ids": [],
+      "completion": {
+        "model": "openai/gpt-oss-120b",
+        "response_id": "synthetic-1",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 40,
+          "output_tokens": 5,
+          "cached_input_tokens": 4,
+          "reasoning_tokens": 2
+        },
+        "system_fingerprint": null
+      },
+      "error_code": null,
+      "replay_of": "ba902b3f35b0476aaacc687b2f00b37a",
+      "new_cost_microusd": 0,
+      "original_cost_microusd": 48,
+      "warning": null,
+      "content_included": false
+    },
+    "changed_question": {
+      "status": "success",
+      "request_key": "42aed847ccc429a396e97c9f5ebd32bdf3e36eb2b0fb956b89d5c397a359ceb9",
+      "attempt_ids": [
+        "221a658374374387b0177259fe8822ae"
+      ],
+      "completion": {
+        "model": "openai/gpt-oss-120b",
+        "response_id": "synthetic-2",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 40,
+          "output_tokens": 5,
+          "cached_input_tokens": 4,
+          "reasoning_tokens": 2
+        },
+        "system_fingerprint": null
+      },
+      "error_code": null,
+      "replay_of": null,
+      "new_cost_microusd": 48,
+      "original_cost_microusd": 48,
+      "warning": null,
+      "content_included": false
+    },
+    "changed_generation": {
+      "status": "error",
+      "request_key": "7839d168364f8f7528f0c62f11e884b23684ab5615e57c25a6671da602152942",
+      "attempt_ids": [],
+      "completion": null,
+      "error_code": "quota_exhausted",
+      "replay_of": null,
+      "new_cost_microusd": 0,
+      "original_cost_microusd": null,
+      "warning": null,
+      "content_included": false
+    }
+  },
+  "ledger": {
+    "attempts": [
+      {
+        "id": "ba902b3f35b0476aaacc687b2f00b37a",
+        "account": "88b503bd1e3e2b135c8cdd09b96e98d282b5c8a7f43294a457c1b801c0867563",
+        "request_key": "79e9d10975ee90ca0339261d55c180d9bd9f36caec9ac7c9c4a0bafaa4dabdfe",
+        "model": "openai/gpt-oss-120b",
+        "created": 1788837309.4510431,
+        "settled": 1788837309.452033,
+        "state": "completed",
+        "reserved_tokens": 274,
+        "reserved_cost": 530,
+        "charged_tokens": 45,
+        "cost": 48,
+        "usage_json": "{\"cached_input_tokens\":4,\"input_tokens\":40,\"output_tokens\":5,\"reasoning_tokens\":2}",
+        "price_json": "{\"cached_input_per_million_microusd\":500000,\"input_per_million_microusd\":1000000,\"output_per_million_microusd\":2000000,\"version\":\"synthetic-v1\"}",
+        "completion_hash": "507892b5019becf3ba8993daad95e4f58a23aaa5bae8ccf102488d81df7eeb42",
+        "reason": "stop",
+        "request_count": 1
+      },
+      {
+        "id": "221a658374374387b0177259fe8822ae",
+        "account": "88b503bd1e3e2b135c8cdd09b96e98d282b5c8a7f43294a457c1b801c0867563",
+        "request_key": "42aed847ccc429a396e97c9f5ebd32bdf3e36eb2b0fb956b89d5c397a359ceb9",
+        "model": "openai/gpt-oss-120b",
+        "created": 1788837309.452887,
+        "settled": 1788837309.4535449,
+        "state": "completed",
+        "reserved_tokens": 274,
+        "reserved_cost": 530,
+        "charged_tokens": 45,
+        "cost": 48,
+        "usage_json": "{\"cached_input_tokens\":4,\"input_tokens\":40,\"output_tokens\":5,\"reasoning_tokens\":2}",
+        "price_json": "{\"cached_input_per_million_microusd\":500000,\"input_per_million_microusd\":1000000,\"output_per_million_microusd\":2000000,\"version\":\"synthetic-v1\"}",
+        "completion_hash": "2970561bcf2efd3f3c54135e11c91cd188980cf51683229078a93df16af2ec58",
+        "reason": "stop",
+        "request_count": 1
+      }
+    ],
+    "events": [
+      {
+        "id": "ccb3b9bcb1d846d4854ab2dfb1888ced",
+        "account": "88b503bd1e3e2b135c8cdd09b96e98d282b5c8a7f43294a457c1b801c0867563",
+        "request_key": "79e9d10975ee90ca0339261d55c180d9bd9f36caec9ac7c9c4a0bafaa4dabdfe",
+        "created": 1788837309.4524632,
+        "kind": "replay",
+        "source_attempt": "ba902b3f35b0476aaacc687b2f00b37a",
+        "evidence_ref": null,
+        "new_cost": 0
+      }
+    ],
+    "known_cost_microusd": 96,
+    "held_cost_microusd": 0,
+    "unresolved_attempts": 0
+  }
+}

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling==1.32.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "context-engineering-core"
+version = "0.8.0"
+description = "Provider-independent context layers, source contracts, and token budget accounting"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["tiktoken>=0.14,<0.15", "rank-bm25>=0.2.2,<0.3"]
+
+[project.optional-dependencies]
+provider = ["httpx>=0.28,<0.29"]
+reports = ["matplotlib>=3.11,<3.12"]
+service = ["fastapi>=0.135,<0.136", "uvicorn>=0.41,<0.42", "PyJWT[crypto]>=2.12,<3", "httpx>=0.28,<0.29"]
+
+[project.scripts]
+context-engine = "context_engine.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "hypothesis>=6,<7", "ruff>=0.11,<1", "httpx>=0.28,<0.29", "matplotlib>=3.11,<3.12", "fastapi>=0.135,<0.136", "uvicorn>=0.41,<0.42", "PyJWT[crypto]>=2.12,<3"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/context_engine"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/brain.py" = ["E501"]
+"tests/test_brain.py" = ["E501"]

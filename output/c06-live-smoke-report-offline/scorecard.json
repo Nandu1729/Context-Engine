@@ -1,0 +1,391 @@
+{
+  "schema_version": 1,
+  "execution_id": "9463cbc769ecb56e68a7eb1e350de3ab3a34c5951dce83b2a8abe55af7105f0c",
+  "snapshot_digest": "4bca13514391760278c71d41b6b507490cd17154fbcc0d537a2776f11bf108db",
+  "mode": "live",
+  "validity": {
+    "status": "VALID",
+    "gates": [
+      {
+        "gate": "V1",
+        "status": "PASS",
+        "reason": "checked"
+      },
+      {
+        "gate": "V2",
+        "status": "PASS",
+        "reason": "checked"
+      },
+      {
+        "gate": "V3",
+        "status": "PASS",
+        "reason": "requests_reassembled_and_recounted"
+      },
+      {
+        "gate": "V4",
+        "status": "PASS",
+        "reason": "all_probes_have_terminal_dispositions"
+      },
+      {
+        "gate": "V5",
+        "status": "PASS",
+        "reason": "frozen_identity_matches"
+      }
+    ],
+    "pending_probe_ids": []
+  },
+  "quality_acceptance": {
+    "status": "NOT_EVALUATED",
+    "reason": "requires_all_primary_probes"
+  },
+  "configuration": {
+    "budgets": [
+      900
+    ],
+    "facts": [
+      "shard"
+    ],
+    "freeze": {
+      "fixture_hashes": {
+        "ground_truth": "c319c47c0548ced89dc68deba183c3028c35aad2aabd756db8b3bbdfe4c064e6",
+        "pin_retention": "febe00b1b71016fd679a3d99a2bccdb901ff9b956f0933d1003578c06faf5f3b",
+        "protocol": "789585023df970bcfea2723b5b7994a1251f0aa512f6ee5820b8ad7353eb571c",
+        "scenario": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54",
+        "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196"
+      },
+      "runtime": {
+        "code_hash": "efeaa9f2459e067ac21f93a960ec0cc537c0d266e42c25a98aa67e1ae81da6a6",
+        "dependencies": {
+          "certifi": "2026.7.22",
+          "charset-normalizer": "3.5.1",
+          "idna": "3.19",
+          "numpy": "2.5.3",
+          "rank-bm25": "0.2.2",
+          "regex": "2026.9.3",
+          "requests": "2.34.2",
+          "tiktoken": "0.14.0",
+          "urllib3": "2.7.0"
+        },
+        "package_version": "0.7.2",
+        "python": "3.12.13"
+      },
+      "schema_version": 1
+    },
+    "models": [
+      "openai/gpt-oss-120b"
+    ],
+    "protocol": {
+      "approval": "owner_approved",
+      "bm25_variant": "BM25Plus-delta1",
+      "budget": {
+        "model_capacity": 131072,
+        "retrieval_reserve": 280,
+        "summary_reserve": 80
+      },
+      "budgets": [
+        900,
+        3000
+      ],
+      "cap": {
+        "head_tokens": 22,
+        "max_tokens": 35,
+        "tail_tokens": 8
+      },
+      "corpus_limits": {
+        "facts": 31,
+        "turns": 100
+      },
+      "generation": {
+        "max_completion_tokens": 256,
+        "reasoning_effort": "low",
+        "temperature": 0
+      },
+      "grading": {
+        "abstentions": [
+          "UNKNOWN"
+        ],
+        "answer_mode": "exact-alias-or-json-answer",
+        "normalization": "nfkc-casefold-whitespace-v1",
+        "presence_mode": "identifier-boundary-v1"
+      },
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ],
+      "notes": "Model IDs and capacity are PRD defaults, not live-provider availability claims. Approval and spending authorization are required before inference.",
+      "primary_pins": "empty",
+      "protocol_id": "incident-evaluation-v1",
+      "retrieval": {
+        "b": 0.75,
+        "chunk_characters": 360,
+        "k1": 1.5,
+        "minimum_score": 0,
+        "overlap_characters": 80,
+        "top_k": 4
+      },
+      "scenario_id": "incident-100-v1",
+      "schema_version": 1,
+      "summary_coverage": "frozen-content-bound-to-omitted-history",
+      "targets": {
+        "correct": 27,
+        "fit": 31,
+        "input_budget": 900,
+        "max_truncated": 0,
+        "median_input_reduction": 0.9,
+        "retained": 28,
+        "variant": "A5"
+      },
+      "tokenizer": {
+        "adapter_overhead_tokens": 0,
+        "calibration_factor": 1.07,
+        "encoding_name": "o200k_harmony"
+      },
+      "variants": [
+        {
+          "cap": false,
+          "id": "A0",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": false
+        },
+        {
+          "cap": false,
+          "id": "A1",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A2",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A3",
+          "pins": true,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A4",
+          "pins": true,
+          "retrieve": true,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A5",
+          "pins": true,
+          "retrieve": true,
+          "summarize": true,
+          "window": true
+        }
+      ],
+      "zone_boundaries": [
+        33,
+        66,
+        100
+      ]
+    },
+    "schema_version": 1,
+    "variants": [
+      "A5"
+    ]
+  },
+  "provider_profile": {
+    "adapter": "groq-chat-v1",
+    "clients": {
+      "openai/gpt-oss-120b": {
+        "generation": {
+          "max_completion_tokens": 256,
+          "model": "openai/gpt-oss-120b",
+          "reasoning_effort": "low",
+          "temperature": 0,
+          "tool_choice": "none"
+        },
+        "ledger_path": "/Users/nandyyy/Project/Context Engineering/output/private/c06-live-account.sqlite",
+        "prices": {
+          "cached_input_per_million_microusd": 0,
+          "input_per_million_microusd": 0,
+          "output_per_million_microusd": 0,
+          "version": "owner-confirmed-free-2026-09-13"
+        },
+        "quota": {
+          "account_id": "groq-personal-context-engine-v1",
+          "billing_mode": "free_tier",
+          "daily_budget_microusd": 0,
+          "rpd": 1000,
+          "rpm": 30,
+          "tpd": 200000,
+          "tpm": 8000
+        },
+        "replay": {
+          "enabled": false,
+          "ttl_seconds": 3600
+        },
+        "retry": {
+          "attempt_timeout": 20.0,
+          "max_attempts": 3,
+          "max_backoff": 10.0,
+          "total_timeout": 45.0
+        },
+        "transport": "groq-live-httpx-0.28.1-v1"
+      }
+    },
+    "dependencies": {
+      "anyio": "4.15.1",
+      "h11": "0.16.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "typing-extensions": "4.16.0"
+    },
+    "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+    "max_run_cost_microusd": 0,
+    "mode": "live",
+    "security_scope": "synthetic-benchmark-v1",
+    "snapshot_revision": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54"
+  },
+  "groups": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A5",
+      "planned": 1,
+      "measured": 1,
+      "fit_all_planned": {
+        "count": 1,
+        "denominator": 1,
+        "rate": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1.0
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 1,
+        "denominator": 1,
+        "rate": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1.0
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 1,
+        "denominator": 1,
+        "rate": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1.0
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 1,
+        "denominator": 1,
+        "rate": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1.0
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 1,
+        "denominator": 1,
+        "rate": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1.0
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 0,
+      "abstentions": 0,
+      "provider_usage_unknown": 1,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": true,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 804,
+      "median_estimated_input_reduction": 0.9515895953757225,
+      "observed_attempt_usage": {
+        "input_tokens": 752,
+        "output_tokens": 42,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 29,
+        "cached_details_unknown": 1,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 1,
+        "attempts": 1,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 1,
+            "denominator": 1,
+            "rate": 1.0,
+            "wilson95": [
+              0.20654931437723745,
+              1.0
+            ]
+          },
+          "answer_correct": {
+            "count": 1,
+            "denominator": 1,
+            "rate": 1.0,
+            "wilson95": [
+              0.20654931437723745,
+              1.0
+            ]
+          },
+          "completed": 1
+        }
+      }
+    }
+  ],
+  "report_inference_calls": 0,
+  "warning": "Owner-confirmed free-tier pricing; zero configured charges are not a billing attestation or paid-plan savings measurement; replay is not an independent answer"
+}

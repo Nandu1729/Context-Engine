@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": {
+    "unauthenticated_denied": true,
+    "tenants_isolated": true,
+    "cross_tenant_export_denied": true,
+    "api_sdk_equivalent": true,
+    "audit_content_free": true
+  },
+  "estimated_tokens": 70,
+  "api_version": "1.0.0",
+  "real_inference_calls": 0,
+  "external_network_calls": 0,
+  "loopback_http": true,
+  "persistent_demo_server": false
+}

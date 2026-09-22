@@ -1,0 +1,2171 @@
+{
+  "schema_version": 1,
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "snapshot_digest": "dd47b21817670bd10683983c5e792062fa1a1f2255f031c062782dfb227656c6",
+  "mode": "live",
+  "validity": {
+    "status": "INTERRUPTED",
+    "gates": [
+      {
+        "gate": "V1",
+        "status": "PASS",
+        "reason": "checked"
+      },
+      {
+        "gate": "V2",
+        "status": "PASS",
+        "reason": "checked"
+      },
+      {
+        "gate": "V3",
+        "status": "PASS",
+        "reason": "requests_reassembled_and_recounted"
+      },
+      {
+        "gate": "V4",
+        "status": "NOT_RUN",
+        "reason": "pending_probe_dispositions"
+      },
+      {
+        "gate": "V5",
+        "status": "PASS",
+        "reason": "frozen_identity_matches"
+      }
+    ],
+    "pending_probe_ids": [
+      "8269307f51222a66238bd373f38ae3305af4cdaf700c27b1f59a22b96ef2712d",
+      "91964d4e699b2811f7fe30598c00b73eb82594a5143f811ab81d82fbdca582aa",
+      "60b9c79448705c6e5b9038db301dae6850b771ebac9d7d71d62491888dea5ebd",
+      "1ae286f57bb30f8f009408d410398d5c751fb51a17466cd4d937be02cd11171a",
+      "f6a8a13bb454763e6b978d05bddf6a465a521a732655a6992be844ba217e13df",
+      "c526636b2f89bcc1eb632e28f8e5ecc5cda727b9655207c314da8c2393f17d13",
+      "c6b28872359a0e0682de9ec5a396feda58f776313f335ab7beeb64908225df3f",
+      "d998064551d033670744944a3cdcff0ecdcbf8c976e63dd211660d6456da9be7",
+      "bb56481e52a531f752b3a0c462ab0d3dccc3043831e4b78b9637cedfa894acc4",
+      "a9eff6b9a19169408eb322ea00a34897b85b8f0f01974863a0bfcaf7137ca301",
+      "6d8d90891d1a51b88aa9dc290fa8a71872946de3f87721df77fb8ac4b3662ff0",
+      "723bc3b1196ad077a2250f7a8acf7362815236d7f5e17b4523c580b8e5c8c07f",
+      "e30d0eeb761aeecdae2b2bdd4d91257f392d4606ae001ac6191bbb6bdc03f611",
+      "33cc4cfec780b205957f8889f20cdfa6bb94ff8c8070d9a215963a761373cffa",
+      "94508081003608aeab5e71cb6f8b812a1e0e973b01b4d850faa3722b75fd071f",
+      "15027bd72f009c6c266a4325489a83f3517ccf93b48eaeb4c94a9e257a8df8cd",
+      "70c4b3a143934a1a060ac2120c3dd12d3833a63f565cca4d32b5f45775770dc6",
+      "42d2655594e803fe186edb73c661d3129e7a24e94afb634972d6c6811a29a390",
+      "9156febffb84f785b43a6f0f26931d34d8e728773c935e15d9a8cb4265e8b0de",
+      "1ef57f949d4802071921887861d14d58935e785441a5121976b32ac5f31c9b4a",
+      "3b919941ac765af4dbae0445c80da8271edd90802d071f7af9b7748251d1d0eb",
+      "7c2e94e663e775723f365e4971ed0ccd7a9bbe707a8735945658954149b29ad9",
+      "5314c330e6affcb18a1b2a4f7eb82bb66c2c2171cf8ae215346611627dd75851",
+      "9fdd8cfb7fbc151988a6641d30784744c89c86b44a433fbf01695c713daa7e2e",
+      "7fe3f400530a08ec616bf2c66314097da31e20b9285207ba35ce2951abd5ac16",
+      "8fa9634fe3ae404cae6965371a85dd4c765c2bc7f94fa064086cdfcacb87cc13",
+      "2794a47fdafe0779e6bceef7bf1ee9538f0a63eae16708ee9e161ebf5beb5354",
+      "b6d7a4f112c49bcdc899c70cd4be538406be36c19668887d74e1b81e7b79defc",
+      "2c2d85f88ed4ddd42b0d31ff50b7eed9f13d299471cce4097e7b31936b6bf038",
+      "805748002a3d66680d4b8c27ea5a2f67a6b77ae00c408848c39cf9de87902006",
+      "055ab063bc4d8542c73e2c1b146f86e4b7d7f14f625cda61c76af57be8a9746a",
+      "338e9822c16dfb5dd3527a43d8c93c765d11f47cb5bfb09692811f3542268cb0",
+      "edca057015184fac07a82fdea82f2efa1cb463b6ae269ceef80695c275a50b39",
+      "f4407213486aeaaf04950879ae70c9fc48eb748863dae921fdf2c3e3cc5340ca",
+      "975ef22138c811d796048102a6ca260ef957496278c7c56b516d42c2a1fd520d",
+      "550eb3c4ad1c54f707a989ea9b6eae930cefdae1aa18dd22a7fc4dbaffa20bb2",
+      "0e4709a9f9a727e99098945ee9c6a910f9c44f0bb8e40196e987803607e9b29c",
+      "d926fda3ce6ba22a0b31910a9e1e0100700f331527670e1c548c1df3079a1683",
+      "a82f6d0ae8a30e96c8dcb2b759039c8f990805009ab9a11dd80111ba98f491ab",
+      "43fda55207d40629443b4fb0711be094e14638208e5aa8a7917bab994cc7cc63",
+      "c8614002e293cc4526bd83343f55244dbb2820a121a0bc594824ed97a29bbf19",
+      "35cf0a7533d493e25a851b4ca58cb423134edc5aeb3505b6465097a4e61f6c95",
+      "195c0898ab11cac38c543c056ef726b4dd6ae9102c525d19e60034959b0d515b",
+      "587c23a5601b7aa6743e8be2dcf82db39c54d61be327811c4cbd6e615776fb05",
+      "eb6e4f84334b7b68312895a0bc4fae481a10638e8a5e0de733be4c62a14328ef",
+      "9c4a6f60e67cf403ffe720628870822fea3a0619a70b464eefa1de4e10faa341",
+      "75133f4f70525bcbe31eff89e4fe03c3ee13209821db4a2bfbd7c1d6fa979693",
+      "0580c269fd354f1c732c4ba9fb7d7442df73c63ca098dc13bb23f1160fab377b",
+      "c762bf1005f51bf262f09b5897be29cf3b3e57e8b75cc086f7018df2deb99226",
+      "26455c528680f05fe350793613c9086788aa74539c02e283735791e765287b8a",
+      "e903cd64444d0176747eccca0b559667dfd33d80e54b4ac05165c852b30690a1",
+      "dcab0f0ec452c0c6d675426b90f40fb65b7f7592efde92cc37ee718bf6503d6b",
+      "fa2c66fde734f8c4b9c4bdffabbc399133eb3988339f3de59ca10748c286f41e",
+      "05b6d4cdf27cde4d36203303ebdf39551c3d6b2a7f7edd3e756a0e97812f46f2",
+      "aa15ab97d545757c779a9cd432ccc66c09736f3ae5e2945681c5f87ba45de4da",
+      "b09a732779a7e2cb505fe5be54adb5ac19948bae71da99b4430a4a3ba23a95d7",
+      "65047ba07b375a575f02df07948fc8bc4bdac6986e96337e105fff6adfa2175d",
+      "77af3733c3802ffd9ffdd8660a79b54e6400866b9d82bb8541fce167a8319482",
+      "7570e65262693c040c69bcd156a11403e1803210fa7a0777a57bc9fa3c2d2f1f",
+      "562d55bcde94f40de29d289da45633ab01259120bf15a9c3c4e616be98cbb483",
+      "54a720ab9eb5e7ac04cbaea558d82373d16def92d149d1cc5532e76e96a53260",
+      "a85b583bdf566a979c18a5dd6975ba5e170f356593cea20f876584feabd9051e",
+      "f1c9b9afbcb1163fdc5a95dc763c5fb7de310f9c3e5622586478215a90ed2078",
+      "cea79341dfe366e348d764415100584e490ad9ec57ab1b524a46606d161fd458",
+      "baf9fa67813d69f95ef81b3b16a49d3ccc8dd63cfaac95b54f0fed7a8f3cea41",
+      "0f21ca20cb995dd1b7554ea0d716af98bf5bdc591a965f28522db3225c731b19",
+      "b917b5584b0e88a4b243e9bfce5bca365f50857f47c21fbdc8ece32b79cf092c",
+      "892014ece36c74389733f26597d979d07bbe76c46964d8573970ac5b0ff7f20a",
+      "f068b831c17fb8771e04ad53aae9b4714f0808c287f0edce0a0966885e0c7ecb",
+      "e42548757ddf757b60531f24d15903049bf3abd411a65db2cefd065081981c94",
+      "1e1ee16baafe3092a56099361cbd51b81b1973bf740ca5e99c2c77eb20091bf5",
+      "b38794c81c4fcbbd20b5ae3c7ec41b3a2d5ea0ead5cbbaa7e97071edb35e18bd",
+      "b04a9d920182fe3cffacf74f3925cda5b96df3fd3c5cc3de37227a1453605b93",
+      "1d5729eceb7aea2ebc0ea2f1d1d3c1c93f3e9c320e3af19ba13287711c3e0843",
+      "f1227f3d924bf3a1e612590ee866d3d54d0a3609187ca8cff1bdb3fcc5e3dff2",
+      "02edefcb60dbd2e3089c458a5fa252f1a918616daa1bdbb1e40fde2b73a5df4c",
+      "9fd7bf33d790adaa240516ad6657853b743b15c80f2b2a7275b1ea2892c234d4",
+      "eb9f92b9d37997f77f653d8247fe4f8e601d0d733bca834e64b63ea6b6867e8d",
+      "0fe1ddd213ee3ed661d8b797ff681f4a5608a275ffa96bab4263b9895437ea90",
+      "e8daa0e91aafe13fd2ad15ca9e925ada679e628287ccf07016caa6a8bed5daff",
+      "2dddcf8cd6f5ee1fa87b480fda7a89272d57aad3c93940a303e02a573803fcdd",
+      "b936b6ce36ba1d9d3fc85f840fb0b3cef670c6653d6290bd303a7993fa875ad1",
+      "a4a6c45590189d91e95e316a79cf890812f855461708ff29b1519e5102d70f9c",
+      "97e21b50b4a635d49228799c493308dba3dfbff9492ee86db271bf0d998fcc95",
+      "04e5e1e6de73de97f2fa17e7fc63fb1771b854ef019e70d9d5379589bee00afa",
+      "152fa38ea4c36382d8e24132d9bf64ac45eb4818ff698c3fa8f8709b06249a22",
+      "5ffc78de8708b3128044ae0480fe8aebc2fd66920cc81c6ea29dc2b2bdd97db2",
+      "3c47de081f123cca26f59c6c42d92810b0ae8f75ff67e48983dcb7569e456383",
+      "be9958ab9f289b3ef13e26c544394a897e2ba6197668d94d3453fe65cf4da049",
+      "70d72e2076f485264f3ef07d6f78195a3cf8d66233521f21db7fd3691d0947af",
+      "c3bd580fdd9f2a1c9597a022a328fd0c30117cbb2fbacf7f1af37e759b22c41b",
+      "900638586daa763ba709432e05c8f440b19ff53469518b95142a608c9e1395fa",
+      "42e3917ce03f9ebcdb8110ede8a253305fe0aea38620d8e6fc4079e8369aa09e",
+      "0f85cac07b3d9075e299dc4ce977211c6477df052fb1fe576a68889b65a21c37",
+      "b697875ea8ea5fa16022834530323cd78a57e0febbf4b0e20802ecfa413c196f",
+      "ca60465c8c06d338e6dff107ffee40774ad265955229cd07434f36eb71363164",
+      "12dcc2e77fa2c57af8ef3521d8ea0101717775d6226a169ec67892b915fc2df9",
+      "182070729cef307dfef95fcb97693c964599f56690598a19e854038eda7abe2d",
+      "d76b1b4504880091a64f86fb3666a631329fd9b0e37a20e132f6ce7b3189929e",
+      "367fafd99677b4d1eade257819e1b25d6cad578afdbe9a40ed24b969a6118575",
+      "eb3ff5625c82a1e7aff98780cf24bf99b48af1d32a34119199e38733ae68ac06",
+      "f208ce247611955d2b391bbeecda14ff404d123a28693503815757839a891f6e",
+      "91603a0c8dc816bb0bea03700d2e2c7a27957e9d7da3aaa35b40af915cb59248",
+      "102a6c5425ea6771fc53c35b79009ea3fa9418ed2a10902b9d2715973a912e45",
+      "6f54ded6680bb27651cae6ab80911925650f1d6fd28f7fbacad0d1e577266297",
+      "4da1c84cd874f15d02b175fe20296abd0a43cd2e285b13458831c40f30884f61",
+      "f1c3cea99da84be99910e39be6fddc34f26fe81c862138edd49b89c4c8fa2f8b",
+      "c1c2fc38b7f33f5b839d70704e4541a5c8e2590457084dfb912282b745ad250c",
+      "d75c8e16b7e03f6a81574c9647b627f6a5158d16e5e219947a386cd6ebf37c50",
+      "c2741b0356adae252db79f6177092fd26cd86e1ab25b26194385b2d6d91ed2ca",
+      "45af8514ad41374fde9c48d961a22de5c3f5b7c3b8ce655572499a82a8ce60c8",
+      "02a76cc59c26bad5ac3e227f7d863e39138b88924dfe8b22b8609c8c9f28c624",
+      "e44b4e4c6f501f67ec60da2b7e6a6d0b0a1e858c33418bbf1d8b433f84642efb",
+      "6e0701829fb73d68a0c2ca4826b1205cacbb843f8a9da6161f63e62ca3072784",
+      "75290d33ceb2ba182e63fea207ed82967379aa07fa2924156c86293250ec219f",
+      "e7cd6309a28494c5f5b8e9323ab779b4f491cea7c3909caac4db6a875188df1b",
+      "3fb1eab2d270aec92cd792f8679b87784e5b69f962b7c310d278a98149099697",
+      "43bc92c41d4b0b570ae7edd1786a9772967134e017cdaa00e45953d72d0a7f1b",
+      "b32ad43b422238d6c19e61ee73ca3e6bef8b7993469d60e54641f5923c0c8f43",
+      "d43c6539e268fede8533fe1ade56fa8e88f97a11b87224475a1e6510db69d044",
+      "5d6bb6339099163ca8df3f82eb6e44f338920a6f794345a092883414371c01b4",
+      "c5e052932d6f1ae9505044ae7d261142d613e0a31cd99ecbb7f15771e0e1aae7",
+      "87ea6491efb87cae6229c29e9cfb30080fdb54de678f623f15386d4ebe6428fb",
+      "af704d984b2d1887f5bbc2763c47b4f86e164dc4e72e45c2a77a3b96f4a65909",
+      "00b4cf06bd2f70b98b936c0a96873bb952327f750098245e0e7565bccbf5ce10",
+      "b8fa9adfa683f65d133aa3aa55a2205346cc133f7d7b21043bae0eb09718a149",
+      "44350ffc5b29b4e1cab6a7d4a1c0f7632d0c3d8094b2f9d9a6e2295d173b2717",
+      "ab75ec1dc930698b28cee11b90ed3c190b8bd95bcdaca4d4304a5c0bf2dae231",
+      "d269d9ce4c8d4400d8081b62ae6e939338083ce6e6a8c4eaeb6d20af08b77a17",
+      "397c846899fa44a4fdbe10f76852242c01c6020f362b9fbf7125aeadabb602c8",
+      "4bef5f8467a3e161ff3dff6f0d2ead0c9f7294d1b5aa51a3f00b0c8f6a9d58e9",
+      "7e61aa46f59771b94096f004c0a2f536fa6f4c5ec0a63441a3a5f453a85fa52c",
+      "8c9fa6ae9ba2fcaaa1b116aa60fcafb474e8d884144228f78d71f8ee48c162f5",
+      "92214b012d19c8d2d2cbd9c23a9aafe6d51295ce6cca73e8ba5510ee321ac485",
+      "d69bf576f376b03daedd0ae80894c977d6f2590905e861a4374bb53c6f60edd9",
+      "5c1ff2889660436dce79852c5a532407e59286d4a6dd4a8cf37399886de96af2",
+      "3b49d97a9374d1fb62e02317c5244cabd79bb9105fdd0dfd2f83682f53d2a80f",
+      "fedfe98cc0d365a0cb934bee4c4e421ef7ff40c53e922e9cdb9ecb4625ec81e4",
+      "4ef9ae60d0e76e1b0c9baa8d3eb66644bab544eb0482adfebfed41850459c4a7",
+      "d55b0b88ec722d6627399a714b8af3077b9dcabb32191f2672b150e9b8e17524",
+      "9ca2208bef3df916baf6156b219775d893486bb34920ffd5b09664833804bfd3",
+      "7c8f2fb6d5b8ba6d3c73f928c9151eb21a753a2c6dfee8a1f2020ad5231adf39",
+      "3f17715aae72e2212f1830c48869bd2c893bb0d2c20a38d0715c1998d3c01acb",
+      "600fb89c10a2985065743622d97a37f3133d1cb7d68880cd2eb83c6ba37a0bde",
+      "66e49944683bb4ab69bd07a87933e41d7205190ff6fa465aeabbca5ba1bf68f9",
+      "73602b569bd5bede55889452e01334c41c21e94b6f8847f1ce7f88924cbcc597",
+      "2b800d9b588a23579cf2e87849915bc947ae2ecc326b81b29b90c249badd609b",
+      "c94ca2825f0e40523447f86ede3d27ff40443cb4bdf185148c6199513f6269cf",
+      "47722e111dd6096751bfb10197b2ca34c9c4598a662387b927e20f6cc5a6d89e",
+      "0ad761fccdb43782d6dc41c96753817a7a60bacb7aa7f27b31903bcad6f03dfd",
+      "67c147fc535bf63e394ee5d6316f85291f510020dc55c0ed5562a4a29b815756",
+      "a47f08463daad586615870cbfc5179d0609228e2ebb1363aa5efd3706ed0d9f1",
+      "69adc0ca59e7cfcab00169f79f8be94b30f8316eea3391f0ad327b316d573c77",
+      "65519bd011803132677143c1b35ace038ab722be22d4d61b25954bedc5245c3f",
+      "84ff1601f631c80ff5bd7fbf874d97a288070baa7a58235c3aba87c8430ba5f8",
+      "02dd150218642a45d066154945c257848588410d9aabf9d35285b63fc7f1db9d",
+      "f41fcb97e49892d704e99208247e0bec9b7f20fe83941f4d57b0b42451db3f34",
+      "c8bd2cf94598d9103f91acda28c623eb095b94a015f9794c0c1130aa734226b8",
+      "364f9554de929426e86f99115c2b5c006a610b2f3ae59f1eed1c2fe1f132e9d1",
+      "f8f3ec137bcff3d991d56c30c823b59922b6c190a4f577039dade55173b42e5a",
+      "6d1b9073913cb625912bef1b8e4d5e0067dfd162721d974853727294ef65dbe4",
+      "8a1568d943bd93f636a1f952ccfbf2c4acb78fe897718201241cc4f4bbb041cd",
+      "c0b221ff29ef7e189f89ab6d0bce81b298332c94801b8c27a16054830eedd631",
+      "20591505f5f6c35252bcad66207c97d4292cd34fc09979dedfee8dfca7fc6454",
+      "4e1316ea27885c3455b0faafc6ccf2510d9eec2f6223a798a80ceef7f8e91bdf",
+      "a6c177a709707bd2ee081719e336e5228412fbed68aaa45f7958030ccce9108d",
+      "799a6a248020766de6eef9e2e6de4faec6762025324ece124cd590630e5a76ca",
+      "2981cbd630219de41aafc3af81eedd84ee41a9cf6a3d38bd884b85f6e8b3ce0b",
+      "146ddd4016a9cc135259375218b122e4b48e5a5b70eb44a4e002873953c936d4",
+      "ff00f3d4f8f5453d3d9043d0c1e9320ab4db5a41e07013053fdea8e04891a6ab",
+      "617dc190fab9a22668156fdcb80f1dc9cd8a62fbd8d001237f0f5bdeff461bf3",
+      "1284379c6248716650ed1e41773f3be027c4bbd8c5b7d8e6ed01bb6453b238b5",
+      "b943df2c1ad3b593222b7b1e03894edf4006d489ed3ca56371b695b07db78bfc",
+      "6048b9f7fee2fde65c7fbb7257cb35b96061b67f0a20d59d5e423022f0b73458",
+      "a8a2d1a86d7d71af046b50fa106d1dec013f3e423174f06cce32ddc9b43d7638",
+      "4971a91361caa8ab44399c1716675e59bb3db810d828e69fc28e1a4ecb358af4",
+      "a766035cbf7f92ac65b822e99db1611532f5918eb8d62e083fc459dff8f7959b",
+      "67f51231a8f7e3eaaee3072f59d8167219d6ca71fed9402d298b1970bcb28f09",
+      "d204f4ffba157febcce6e686eb6e243a6f4760c1d2065b1a6d18b9b838789599",
+      "5e64478f6c403b5ba00ad5ed1f8d91ea6724e7fb67f08e4053e5016e900ac3e5",
+      "2f30b703b2aed36e93bc1e3c16b6f0ab325c9a227005af1bd7d827ee6083b52d",
+      "4444cb7bd6234e88b46cffafbd90fa7e3a3808cca421fd844adeb4ddcf250c54",
+      "5b8cb79a9d9a0b2125c625f79ddee34176dbe64e79f2a6bd4318a89cebb9453d",
+      "2a81efe3899dae57e45847da81fd11784145bcf1da5bcc791e8c27f149a3f109",
+      "2a8690c8e3847469ea6789dc0ae2bcaa5323243741fc0f88458464f1c5c0919c",
+      "0708d114f5606fc1be5c0b90d9ed04d2bea9f8f1e70de00b61580b9fb49b3f08",
+      "4506f4615f73b2c6684c0dd4e9e324fd2f49c34123d21625fab2340087e9f3a7",
+      "b3c00056e7eea42862f8aabf0ac009e17514078c19628405366bcd1a6c381ce1",
+      "59d145cf6cfd97013557eaddfad6f834d9e5cb226af4fabde818045a272b2db4",
+      "c6773c3829d2751bfb4718f844a1e52f8e3ccccb772723d563faad35e52c40be",
+      "3d8baa2f9e09db280c69a90eb9482600ef99160d99eacb7d267dcf85baa62a17",
+      "ba55e938f1ce42363b69e3ad06fdb43af4ed2261e428fbeeee239b31339d9986",
+      "7f2bd952cb32b2b9954857d5fad8ee57f745c89958cec3b5888350a0dcb68223",
+      "43129467f541c61c9868a6bb2377fae509bcc60319fdb06ceddc504d6314624e",
+      "64e506f91a91fa671650df4f1e1a2f9d6e0d5280d46646ded004e8a71e13a59c",
+      "663ff9c1a83689c86a5631ec776e89a9c9fb46ab3acee5f16bf34058ca774860",
+      "aaf96bdfd6e7b8041d36d04e9d8ef04f4efa74150a23deae542378d552cc5042",
+      "8b606bd30be4550165a8e07fd6a276098dd68f0273020f6ba0e243966d9e83b9",
+      "e9dc713538e2ce2505fb394ad95dadb4dcea98335232061c49594827eff5c5f5",
+      "0b9a64816819625b65043de3967506e3f0859c50a517fcc91b3bd9cf3a851e52",
+      "55504a15cf8898f64fd7bc61ca862922fe6a5deb7c688925345bea62d377e073",
+      "62cfad8afa951f819903b6fea87dc0d43ed4c38cf2dad6c809381183140d2261",
+      "26029650d43ca66bfb56566721790aae9b026ed0ac660f43baa834dffef0cead",
+      "efc67e24f0fecd756c6ef7864aebc7391302e8b37bcfc1d4a6deaa842ad34add",
+      "d37f6c96d9ed3a50e84e2837b27085d3a0080ad0d0cd98f410dda350e58122bb",
+      "62f202d4ae7e3e8db35c98f036763be0ecc6d668358f179c21f7b89a35af051f",
+      "9a8eed6b91610bae3b9561a38caee3501b994a966bf2da3fc5987c9c2ab55072",
+      "0c85a97a7dbe16b4fd77ac0a9650585a63283717edceb9b20afc66af7c3b3cf7",
+      "96392c23b3ee83a37885a56a154e8a955ca1085b4a52d9287ab4f36e2a0f6e0b",
+      "3191c4588558979469f812108fb90f27320909d7f03f47e92eacd3a6693c1b61",
+      "22167d42ea50cbeea0bdda91eda407256bd39298c76fe6c296af44c4ff806060",
+      "a95617192ce10788cc1ee95ff03cef4798a755e66046c2a17cc99fd1a930f024",
+      "912ac316a1a83bd80c315095026e1790d1a7967f06732ed16aa8090e89cc1323",
+      "0acb0bc607e48bf1706ba55d9206525a2de065bee328fde3a803b8cc8a346ad3",
+      "f12dac15edb46a1f90390e78156383ba4e9d45e00db0e4534bffd261b4b18cd4",
+      "bc24c4102e819c265e1de761f5d0e7284b456a643490046f09620ed90314e340",
+      "4530a9cccc538a492242d2de9f214648b62e17d39d6c6ab60e18f016c08d759f",
+      "879275e2977c79a997695ba1aa2e8ed3faed39a83e72a56823d344f7607cbe4d",
+      "aabbf859b652b68adf0ac46f72948f5b5897dfaca0c758060aacd300fa5ddcbd",
+      "e743513620b00b122900307ab9d30b759a6b48bbc1e6ffb6cb480d471cb87bdf",
+      "107cfb2f8aef3ae2ae441485d0fb50ebb64709c390e201102840cc5049db9d1c",
+      "d3c63630692b793a0d804096bf2192310207f385cc504c08fd5d89f2be175d01",
+      "fc2534c7789e130da5219bd2c18913dff222f9ec7fb2d2eaca3bb0141b276b00",
+      "be3d69346aa9bf9ceeb0addee47f7ce910153d65b0ed17f7a1996d5bb8b53e62",
+      "48f50599f5afba2e4d2d11d3512c21de9ea6e0e1855b60b60cb49281d8a7006a",
+      "105628762a1cc7433bb972ef532e2fd0deba3d04c378133843b65f154537370f",
+      "464d88bb6e77699cc82fdb75087f0a2f9e78de168990c15fa1e3bd4f471c076b",
+      "7369354ba7c93295aeff801478fb912b636a40a3e7b4e213d43a1d04715091a3",
+      "e0b97f9cb033f763b554958457ea51907b67d3b63111b3cac1bf3cec3f937154",
+      "951d0ef75f3712bbb135e9457f182acb6df49ee1be9a55476923ec1299bec0f7",
+      "ce8741647d67c8e5be793c728c6dd4968e611769c451c45cb8eb7e671090a486",
+      "84f15fabf9d9fbdce8ab524e3900769ac998b6bd70efd7250f80309e30e4c0b7",
+      "2e8fe0fe41b6040772d1348673e4a0ffd324ad86d1fcb983aff18eb16d8f1539",
+      "311ab6a9538768a50b041503ec528aaf6fff93937d3e0f9ff40ba3c689ed31b0",
+      "8c33b335128e1a90c0eb2af30739e9400b83acbf7d163dad8b11abc963876e28",
+      "34a82d61f54ecbd97ea57f578ee89ceb09aad605e41439c1d29202285995fc57",
+      "2e1807ad45d588ba6e98e0146f3b305e2c927c9e5a28aa8ef05150c44b42c49b",
+      "3cc0afe1305821dabf9eaf6685971cb501c350b1b7ae6438bfee5c0bfbdde5de",
+      "c4d2a304cc3fb9338f997efb2a0cbfc8066b3b2bbff749fc4078136c6fd54666",
+      "f0c1bb4b393511c129943be8ae184f39a83983fcf9719a48f37df2166de50c57",
+      "b7bae24d8978006d6366a19ef5318236703991c0bb21ed6295787c4e05792120",
+      "bac709fa37a78d8cef56f6a8bf8ebaa8b02e15ad04cbe9e58c8876ba3a55a0e2",
+      "8c2cce77f8944c64ca528ed23cefda1fa71c180d2bd07627c0b50e9afb1d46e2",
+      "8f5c4faab0ae72648e575174c6e45b01646846b457fd39c1c4c35387981f257d",
+      "b177e554f2d2c317a219a858fed144b3c9463c0d81d39b650230c362025dad3e",
+      "9e6c930585f46284021d205efd4f951785f2446a2e1da0716a4b2d072c4d3ed4",
+      "0d11a15334d69ec1b026f938140b2152b82266f00ccc85bf35c1bfd3bbbb1203",
+      "314efd4b20ef741d1c3a0738514135e9e8a95a7caa0b9e3853296239cf589a51",
+      "58f7bd1ede377d25d462a50a6b8dda9e1a8f5f060e8b29011bee2628ffdc0fd1",
+      "a184aef47d7d5974ab58f612b991c0b96de1b22d56aca9033b7a8d6252f32910",
+      "3bf6db2273b94c24621bab7c45ff55b99c0593f3b3020232819a7031b274a3e2",
+      "9bcf09d8baca01faf42c7e1c2003644fc2571357fe56e3f8046467b5a69cfb90",
+      "09d5352ca7798192788fca7664f284f4004215238b85f5480c7d1ad36c20a27e",
+      "1c4e00cac4640dde544b2c63b41b057dbe9f5aa36fb8c096ccf99c428d03aeba",
+      "9825d269e8d95b7d3d66ca0897d9bb9ca48ea6addfb318b77d65e251d241aa79",
+      "698887bd5ac557ff8c53521493f3888d15f3e115066e4981885de1d8fbc9040a",
+      "fb2a5cd4016092fd06a4397a392ba429336a0546b1d4cd8217977b59029d68ee",
+      "587490d6d903a489b6252b59aa8cde2011ffd633c7b4241c1758bf2d7e1b5422",
+      "ac9444df0959e1b328cf982981c1776fa9a368c027a4d866336009c164970516",
+      "293ff57e437069406565fe7d5c992242a10ae13052979945f55905b750491c31",
+      "1ebb0b4db83c327ed592309a9f1a03f5f015b0cd816c3d9f75688b78e4e42cbc",
+      "c6ac42cf9501f79900bab5aef49a53302aaf5c85f74322179db25aeb3fc15b97",
+      "de01335215a8dd8247c3b77050712b27ac1e01bc060a15eb5a302b24da92a809",
+      "8f1d36e76d60f5e29e14988190b35cb1a7a1284b736b7cce82ae4481821c5eec",
+      "bee0c575ccd43a7cc8fb37448eb6ed516b19334003c8b37cf8faf28c3650d077",
+      "0c317368a0190a8cbcdb1ec39f42b299c59fcaf4bd90960b3753ac8fa224ebfa",
+      "a8290e1532f8c6078805fb7c1fa48594df471829b1071f8602317ea8bc9bbca9",
+      "ed9c2fe554f7810932c6d38d95b300bf9286f0e67aa8a035786c87a30c28e29a",
+      "7fe639a2f61eacac9ede133208cfd006160744cf58208abbbb9410121257dd3c",
+      "20540c9bddba92bfb694253c51c953c0504d6e28f05e970cfdef600604625189",
+      "3c9ca6276d67a1ad6fa91d7b759b2be24cfe8998b051d86a4dd1f1a725a21682",
+      "39333cf802b645d9b2bef59aee40ce9264d8859a4200535d1744228778ff3c53",
+      "e295264c84ded9f14f0b74623c396fc6458f0756b28ed0bdbc4703e2dd2fe6b6",
+      "6a681e1a151ec95a206f827fdf85ba9d13de9bec326dfd15123a3a38daefacae",
+      "837aa80761bbc5619bc99109a0e52f9ebe277fe3d0e974258018f7b8d4ebbf50",
+      "3da607ed13ae0e996b865493206c9155014d06c29f4649cc74d40f0478aeabea",
+      "0d42839a49be6d12c9a2eb0b3aec39b61ec64a92fca81dbf83f8911281c0e71f",
+      "e5c9815a0d4d180b9cb84f69007987d87cf4b23f905ebaa6109524bcc9252afd",
+      "504e21eb7900cd01e64d305749bc206b13982d2cd59afd3c5eb628c9fc368346",
+      "3089f1f56b802a7a56e00adc476ea2b348726473a41b6dc583115459415868d7",
+      "f83f103ae6616df40a23e57ec0a8cc8e11115abda5ccdf7018d3b6a5e700c93b",
+      "b56a6ad3adae0a13fae9c6ebb900478cb8a41f7c3a493b5805b98ba074d45946",
+      "8e26877bcb7b385708427d9110a1c8b54e995aa23fdfa6ca2bf80e42c10fb2b3",
+      "71e96b647bbe293c57600418af941c054915b86e6ee20ffd46931b601d66cb68",
+      "8c99272795ebc1dae932df2818d45744bf24a842d8c42adadee94b14ddcfa807",
+      "3dcf388ce3645ceeba6725f4f4e89816c46fde5420f966d3082fd87538ddc3dc",
+      "449a5b00206bec225bee0989fbb5b4b9fb6cd3fde49fae8d6aeabb40e29da824",
+      "0c93ffcaab958615b9baa50d1dbe121562a511c8decc88c86843e0b2c81e6c6f",
+      "1e7b3ca9b938dffd384e244622a2824cd6615c986fd46b598584ad4d683c26b7",
+      "7b82264471d2ccbc802261c12520d263733379132af5a1d386b139b79a701e40",
+      "45c721657b7108255ecfac96eb5b3070ccc0e433b27ce62548ddb0066ecdb813",
+      "ef2f4edca7784f1d16e647667348505b39e09aa51a9c9138eac28347615a6a1f",
+      "8190f8963a6e2d3400bd490a006153e821ce9d6c8fba2795073e38469dd5ddd8",
+      "bcb31dfdebe59e2285cb4d62514e28461568513c427c63036476b0ef91fe3af3",
+      "9f1d36cbca67e617f1086b122e8b3ff679f584cdb99a5484a5971d1f157790c7",
+      "f1769e7b589e81931f545ee0ec6ac8293ed53f62e13adad255136ae0f55ff342",
+      "36e77938cc6220e425ceca17ff29b6cc2deec81ceed3cb446abd77c4cf655a8b",
+      "bf92582065c13415f9721fb3928befef1d23a2e5cf8d844edb6ee12839ea0ed0",
+      "c05caaa6d04e26c46ff74479e9b240c03a7072aa6b7a069e72e62045b35fe0ad",
+      "ae56a78df9958bb7f550edf422189a43336e5b80b1e1fb3fb82bcb380f60f209",
+      "c8fc176a697726e61f69165c20e70d657f179a48067da48ed7ecf17031721ef0",
+      "8435cffb799f9a0f76f33b1ad5a96b14d5f946d0a5684292a8be9b75afb6e2c2",
+      "6557bf6d13b0aad46e61f7f8d463aad13a53218bef4f1a8b95928996a0a1a646",
+      "a86d657a64ce513251fdd0be617c8f6e0fbd401a312430bc618a1a57f0f74e39",
+      "d8265ccddebfa4f522fc0aad9b62d912cf351102a452847013b1091ba44b40bd",
+      "87bbc5d87159fe970d3ec1bcf0c87c3ec1e1bc2babcbd94a37bd96d3444f20b0",
+      "ac11ff25e50a767d7935fbc2206264cea9726c2497e3d9c874d7f8408658b540",
+      "0e667887bb501aee11370ff4fd17e86d106fd00c2048bcc339f585e6e41ca6da",
+      "c39b261dade4f8d69465ed070fed6112d5e9b1635cf83de81efa0360e4f00e99",
+      "458e3cc158a845652754f1599ac37619252405be160f29656b1acbd4005a6f80",
+      "dc4b087cbef0846461cddbb4b56402684990726b130d042dac8faeb5deb664f8",
+      "ae9e1e7223fb78155f4e1df9fed30585204c7f747907d34f4c6179157000337c",
+      "6ffd89dd92cf10ee29de4a70f113c866bc1d936ca13319939db713fb855a33da",
+      "622e7cbe2332eb5ff038665e07368ba47a6a41381cf5afe9781cb96d397a135d",
+      "e50e6d317fbfb5a1baf473b7b5f7c902b8d671d37a60a695e615f64f166584a0",
+      "4e119006e43127543b3329d36fd1672366abccb4e156aaa11dc36776c63bf79b",
+      "1589c7a35c3a008fd1e58aa7c48d1d9e8f1dc8c3c21299ec6fa5d7bb03cca802",
+      "4b8f18bc3f86721caefb89cb950f32f28600380bcbebbd018da13711814fd9cd",
+      "3fe039c87ac3949d3dc8d2933e891648b496768069d2b5fe3ba3975b28c7125e",
+      "89fab9064d2f7025d5f83af72af1dc602e49763d7b8d8262ec1f4058aa530a43",
+      "7a71e0e53f7bb36d8e50a1f291b20167a733504a75f8929f071b12e1d0cf153b",
+      "de462397724272d67fccfe2c5cc09e4060e18638915d915427770c43a9bb566c",
+      "6f3ee9403cca5f24c5bc11188e90c24dfb0f6dc1469173842e3dea0c555ec059",
+      "f7c82a4fe5a36bf365a753ce56c6e00e137d1800acbb070465ab34270b239925",
+      "3a197bbea1e27d15ea0661a04e097f0ea3c36540d9d5c2788ca3412995074b9c",
+      "b0ac82499b682bd0f44ba471028249a6857ea5e37c96e5cdf5b82c9fcde6229a",
+      "9df3208ff24f73bf509db6d1500d2248461a9345e4924997e0cb6142129a4a16",
+      "d93a2230c6243f330d3fecbc8dc0d7fa45f6adb697afda9141f73deb434ab677"
+    ]
+  },
+  "quality_acceptance": {
+    "status": "NOT_EVALUATED",
+    "reason": "requires_valid_real_run_and_owner_registration"
+  },
+  "configuration": {
+    "budgets": [
+      900,
+      3000
+    ],
+    "facts": [
+      "merchant",
+      "ticket",
+      "service",
+      "owner",
+      "database",
+      "queue",
+      "rollback",
+      "runbook",
+      "cluster",
+      "bucket",
+      "region",
+      "canary",
+      "dashboard",
+      "certificate",
+      "feature",
+      "cache",
+      "trace",
+      "replica",
+      "schema",
+      "retries",
+      "timeout",
+      "region_backup",
+      "policy",
+      "namespace",
+      "endpoint",
+      "checksum",
+      "shard",
+      "batch",
+      "approval",
+      "handoff",
+      "archive"
+    ],
+    "freeze": {
+      "fixture_hashes": {
+        "ground_truth": "c319c47c0548ced89dc68deba183c3028c35aad2aabd756db8b3bbdfe4c064e6",
+        "pin_retention": "febe00b1b71016fd679a3d99a2bccdb901ff9b956f0933d1003578c06faf5f3b",
+        "protocol": "789585023df970bcfea2723b5b7994a1251f0aa512f6ee5820b8ad7353eb571c",
+        "scenario": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54",
+        "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196"
+      },
+      "runtime": {
+        "code_hash": "efeaa9f2459e067ac21f93a960ec0cc537c0d266e42c25a98aa67e1ae81da6a6",
+        "dependencies": {
+          "certifi": "2026.7.22",
+          "charset-normalizer": "3.5.1",
+          "idna": "3.19",
+          "numpy": "2.5.3",
+          "rank-bm25": "0.2.2",
+          "regex": "2026.9.3",
+          "requests": "2.34.2",
+          "tiktoken": "0.14.0",
+          "urllib3": "2.7.0"
+        },
+        "package_version": "0.7.2",
+        "python": "3.12.13"
+      },
+      "schema_version": 1
+    },
+    "models": [
+      "openai/gpt-oss-120b",
+      "openai/gpt-oss-20b"
+    ],
+    "protocol": {
+      "approval": "owner_approved",
+      "bm25_variant": "BM25Plus-delta1",
+      "budget": {
+        "model_capacity": 131072,
+        "retrieval_reserve": 280,
+        "summary_reserve": 80
+      },
+      "budgets": [
+        900,
+        3000
+      ],
+      "cap": {
+        "head_tokens": 22,
+        "max_tokens": 35,
+        "tail_tokens": 8
+      },
+      "corpus_limits": {
+        "facts": 31,
+        "turns": 100
+      },
+      "generation": {
+        "max_completion_tokens": 256,
+        "reasoning_effort": "low",
+        "temperature": 0
+      },
+      "grading": {
+        "abstentions": [
+          "UNKNOWN"
+        ],
+        "answer_mode": "exact-alias-or-json-answer",
+        "normalization": "nfkc-casefold-whitespace-v1",
+        "presence_mode": "identifier-boundary-v1"
+      },
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ],
+      "notes": "Model IDs and capacity are PRD defaults, not live-provider availability claims. Approval and spending authorization are required before inference.",
+      "primary_pins": "empty",
+      "protocol_id": "incident-evaluation-v1",
+      "retrieval": {
+        "b": 0.75,
+        "chunk_characters": 360,
+        "k1": 1.5,
+        "minimum_score": 0,
+        "overlap_characters": 80,
+        "top_k": 4
+      },
+      "scenario_id": "incident-100-v1",
+      "schema_version": 1,
+      "summary_coverage": "frozen-content-bound-to-omitted-history",
+      "targets": {
+        "correct": 27,
+        "fit": 31,
+        "input_budget": 900,
+        "max_truncated": 0,
+        "median_input_reduction": 0.9,
+        "retained": 28,
+        "variant": "A5"
+      },
+      "tokenizer": {
+        "adapter_overhead_tokens": 0,
+        "calibration_factor": 1.07,
+        "encoding_name": "o200k_harmony"
+      },
+      "variants": [
+        {
+          "cap": false,
+          "id": "A0",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": false
+        },
+        {
+          "cap": false,
+          "id": "A1",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A2",
+          "pins": false,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A3",
+          "pins": true,
+          "retrieve": false,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A4",
+          "pins": true,
+          "retrieve": true,
+          "summarize": false,
+          "window": true
+        },
+        {
+          "cap": true,
+          "id": "A5",
+          "pins": true,
+          "retrieve": true,
+          "summarize": true,
+          "window": true
+        }
+      ],
+      "zone_boundaries": [
+        33,
+        66,
+        100
+      ]
+    },
+    "schema_version": 1,
+    "variants": [
+      "A0",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "provider_profile": {
+    "adapter": "groq-chat-v1",
+    "clients": {
+      "openai/gpt-oss-120b": {
+        "generation": {
+          "max_completion_tokens": 256,
+          "model": "openai/gpt-oss-120b",
+          "reasoning_effort": "low",
+          "temperature": 0,
+          "tool_choice": "none"
+        },
+        "ledger_path": "/Users/nandyyy/Project/Context Engineering/output/private/c06-live-account.sqlite",
+        "prices": {
+          "cached_input_per_million_microusd": 0,
+          "input_per_million_microusd": 0,
+          "output_per_million_microusd": 0,
+          "version": "owner-confirmed-free-2026-09-13"
+        },
+        "quota": {
+          "account_id": "groq-personal-context-engine-v1",
+          "billing_mode": "free_tier",
+          "daily_budget_microusd": 0,
+          "rpd": 1000,
+          "rpm": 30,
+          "tpd": 200000,
+          "tpm": 8000
+        },
+        "replay": {
+          "enabled": false,
+          "ttl_seconds": 3600
+        },
+        "retry": {
+          "attempt_timeout": 20.0,
+          "max_attempts": 3,
+          "max_backoff": 10.0,
+          "total_timeout": 45.0
+        },
+        "transport": "groq-live-httpx-0.28.1-v1"
+      },
+      "openai/gpt-oss-20b": {
+        "generation": {
+          "max_completion_tokens": 256,
+          "model": "openai/gpt-oss-20b",
+          "reasoning_effort": "low",
+          "temperature": 0,
+          "tool_choice": "none"
+        },
+        "ledger_path": "/Users/nandyyy/Project/Context Engineering/output/private/c06-live-account.sqlite",
+        "prices": {
+          "cached_input_per_million_microusd": 0,
+          "input_per_million_microusd": 0,
+          "output_per_million_microusd": 0,
+          "version": "owner-confirmed-free-2026-09-13"
+        },
+        "quota": {
+          "account_id": "groq-personal-context-engine-v1",
+          "billing_mode": "free_tier",
+          "daily_budget_microusd": 0,
+          "rpd": 1000,
+          "rpm": 30,
+          "tpd": 200000,
+          "tpm": 8000
+        },
+        "replay": {
+          "enabled": false,
+          "ttl_seconds": 3600
+        },
+        "retry": {
+          "attempt_timeout": 20.0,
+          "max_attempts": 3,
+          "max_backoff": 10.0,
+          "total_timeout": 45.0
+        },
+        "transport": "groq-live-httpx-0.28.1-v1"
+      }
+    },
+    "dependencies": {
+      "anyio": "4.15.1",
+      "h11": "0.16.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "typing-extensions": "4.16.0"
+    },
+    "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+    "max_run_cost_microusd": 0,
+    "mode": "live",
+    "security_scope": "synthetic-benchmark-v1",
+    "snapshot_revision": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54"
+  },
+  "groups": [
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A0",
+      "planned": 31,
+      "measured": 31,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 31,
+        "denominator": 31,
+        "rate": 1.0,
+        "wilson95": [
+          0.889744604539564,
+          1.0
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 31,
+      "pending": 0,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 16607,
+      "median_estimated_input_reduction": 0.0,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A1",
+      "planned": 31,
+      "measured": 14,
+      "fit_all_planned": {
+        "count": 14,
+        "denominator": 31,
+        "rate": 0.45161290322580644,
+        "wilson95": [
+          0.2916173598052001,
+          0.6222783236264549
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 14,
+        "rate": 0.0,
+        "wilson95": [
+          1.3877787807814457e-17,
+          0.2153108027376358
+        ]
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 13,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 18,
+      "abstentions": 6,
+      "provider_usage_unknown": 13,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": 796.0,
+      "median_estimated_input_reduction": 0.9520655184872937,
+      "observed_attempt_usage": {
+        "input_tokens": 10054,
+        "output_tokens": 581,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 441,
+        "cached_details_unknown": 13,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 13,
+        "attempts": 13,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "completed": 10
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "completed": 3
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A2",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A3",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A4",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 900,
+      "variant": "A5",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A0",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A1",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A2",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A3",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A4",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "budget": 3000,
+      "variant": "A5",
+      "planned": 31,
+      "measured": 0,
+      "fit_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "literal_fact_present_measured": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "retained_fitting_all_planned": {
+        "count": 0,
+        "denominator": 31,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.11025539546043596
+        ]
+      },
+      "answer_correct_all_planned": {
+        "count": null,
+        "denominator": 31,
+        "rate": null,
+        "wilson95": null
+      },
+      "answer_correct_completed": {
+        "count": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "errors": 0,
+      "truncated": 0,
+      "non_fit": 0,
+      "pending": 31,
+      "abstentions": 0,
+      "provider_usage_unknown": 0,
+      "test_responses": 0,
+      "cost": null,
+      "new_cost_microusd": 0,
+      "cost_complete": false,
+      "unknown_cost_outcomes": 0,
+      "replays": 0,
+      "median_estimated_input_tokens": null,
+      "median_estimated_input_reduction": null,
+      "observed_attempt_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cached_input_tokens_known": 0,
+        "reasoning_tokens_known": 0,
+        "cached_details_unknown": 0,
+        "reasoning_details_unknown": 0,
+        "attempts_with_usage": 0,
+        "attempts": 0,
+        "unknown_usage_attempts": 0
+      },
+      "zones": {
+        "early": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "middle": {
+          "retained": {
+            "count": 0,
+            "denominator": 11,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2588329669680317
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 11,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        },
+        "late": {
+          "retained": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2775327998628892
+            ]
+          },
+          "answer_correct": {
+            "count": null,
+            "denominator": 10,
+            "rate": null,
+            "wilson95": null
+          },
+          "completed": 0
+        }
+      }
+    }
+  ],
+  "report_inference_calls": 0,
+  "warning": "Owner-confirmed free-tier pricing; zero configured charges are not a billing attestation or paid-plan savings measurement; replay is not an independent answer",
+  "selected_model": "openai/gpt-oss-20b",
+  "projection_note": "Model-specific scorecard; parent manifest retained"
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-09-21",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "source_sha256": "805ea4a95245b1dc55cdaa19a8033c5028ddcb37b621a5f4333107faa1b95581",
+  "baseline_sha256": "f745d36d27c2ad432d603966f31a8d08ab77a4729fadaed7865c9f1005c4d1e7",
+  "admission_source_sha256": "51ffa0be7a647868db8b2667574a5b313e3bc6cf7bbd12abfbde2efb94e540fe",
+  "admission_plan_sha256": "54f4d7bf252d43b27818cddfa3d374dea43db10a9fdeccd87a55391a14aa2525",
+  "previous_plan_sha256": "6fddb6b48c584dc66d77e7c7c80fa3f0a4e6c67b337043f71a24410b4ed7ddad",
+  "previous_source_sha256": "d8eb817c899cedca86f74a0edaa0f16b65c5985a9e21b89264c46673fab03553",
+  "status_sha256": "ea25a90d25277fdc2d0f40251c5ca9cd571397285771dc23ee272c020a1e35e2",
+  "reviewed": {
+    "105628762a1cc7433bb972ef532e2fd0deba3d04c378133843b65f154537370f": "df9f1fc095f44983845fc071db89ea44",
+    "aabbf859b652b68adf0ac46f72948f5b5897dfaca0c758060aacd300fa5ddcbd": "5ae2f0761efd45f88f17fb05c32ab083",
+    "a184aef47d7d5974ab58f612b991c0b96de1b22d56aca9033b7a8d6252f32910": "198a8e07588b4131ae38e8df252bde55",
+    "698887bd5ac557ff8c53521493f3888d15f3e115066e4981885de1d8fbc9040a": "83c389580f584b469def6de837fa2f06",
+    "fb2a5cd4016092fd06a4397a392ba429336a0546b1d4cd8217977b59029d68ee": "b36dea4564e74c7fb88d68a1e722db47"
+  },
+  "first_batch": 179,
+  "review": "Within owner request to complete remaining tests, fifth A3/3000/20b region_backup rejection reviewed at178. Exactly one HTTP400,confirmed rejected receipt,zero tokens/cost,no active/uncertain usage. All prior672 terminal records unchanged. Root cause unknown; preserve failure,no retry/diagnostic.",
+  "scope": "Protect all673 baseline terminal entries and five exact rejected outcomes. Continue untouched cases only. Any new failure still halts for explicit evidence review. Original experiment,account,quota,prices and admissions preserved;no automatic waiver.",
+  "provenance": "Recovery/status sidecars bind007,predecessor006 and unchanged admission004. All prior source/plans remain immutable;006 preserves005 chain. Case/admission events bind004;legacy admission sidecars bind001 quota projection only."
+}

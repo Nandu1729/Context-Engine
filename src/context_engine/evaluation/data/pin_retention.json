@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "fixture_id": "separate-pin-retention-v1",
+  "question": "Which durable database is selected?",
+  "key": "database",
+  "value": "PostgreSQL",
+  "origin": "synthetic-application"
+}

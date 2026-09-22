@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-09-20",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "source_sha256": "4c1c91b4016964948c3e6c80c3aa95a8579b0bf4a8b9c57af98c9cadeb2de4df",
+  "baseline_sha256": "8edcf74413ff46c2c7aa6e578820fbad7209dddcfbb89fcaaa19eb4a2d6a9a38",
+  "reviewed_probe": "aabbf859b652b68adf0ac46f72948f5b5897dfaca0c758060aacd300fa5ddcbd",
+  "reviewed_attempt": "5ae2f0761efd45f88f17fb05c32ab083",
+  "first_batch": 139,
+  "owner_direction": "Continue after reported provider rejection; original organization and Free-tier scope unchanged",
+  "engineering_review": "Known rejected/non-uncertain receipt; no evidence of authentication, permission, model-unavailable or 429 response. Exact status/body unavailable, root cause unknown. Continue untouched cases without retrying or changing failed case.",
+  "limits": "One logical case per batch; any new failure, active/uncertain usage, drift or quota block halts. Original HTTP retry configuration unchanged.",
+  "observation": "Record only HTTP integer status and timestamp; no bodies, headers, credentials or request content. Hook does not change payload or response handling.",
+  "preserve": "All636 baseline terminal entries,including rejection; full usage and request count; original frozen engine/profile/experiment; cache amendment001 and source; same account/ledger/ceilings/prices.",
+  "provenance_limit": "Recovery controller and metadata hook are external operational changes, not covered by original engine freeze. Read new snapshots with both amendments and their per-batch sidecars. Completion does not erase the failed case or guarantee acceptance."
+}

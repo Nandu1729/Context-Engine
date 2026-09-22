@@ -1,0 +1,426 @@
+{
+  "status": "authenticated",
+  "http_status": 200,
+  "models": [
+    {
+      "name": "models/antigravity-preview-05-2026",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/antigravity-preview-09-2026",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/deep-research-max-preview-04-2026",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/deep-research-preview-04-2026",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/deep-research-pro-preview-12-2025",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-2.5-computer-use-preview-10-2025",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-2.5-flash",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-2.5-flash-image",
+      "inputTokenLimit": 32768,
+      "outputTokenLimit": 32768,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-2.5-flash-lite",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-2.5-flash-preview-tts",
+      "inputTokenLimit": 8192,
+      "outputTokenLimit": 16384,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-2.5-pro",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-2.5-pro-preview-tts",
+      "inputTokenLimit": 8192,
+      "outputTokenLimit": 16384,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3-flash-preview",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3-pro-image",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 32768,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3-pro-image-preview",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 32768,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-flash-image",
+      "inputTokenLimit": 65536,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-flash-image-preview",
+      "inputTokenLimit": 65536,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-flash-lite",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-flash-lite-image",
+      "inputTokenLimit": 65536,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-flash-lite-preview",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-flash-tts-preview",
+      "inputTokenLimit": 8192,
+      "outputTokenLimit": 16384,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-pro-preview",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.1-pro-preview-customtools",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.5-flash",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.5-flash-lite",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.5-transcribe",
+      "inputTokenLimit": 98304,
+      "outputTokenLimit": 32768,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.6-flash",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.7-flash",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-3.8-flash",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-flash-latest",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-flash-lite-latest",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-omni-1.1-flash",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-omni-flash-preview",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-pro-latest",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemini-robotics-er-2-preview",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "createCachedContent",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemma-4-26b-a4b-it",
+      "inputTokenLimit": 262144,
+      "outputTokenLimit": 32768,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/gemma-4-31b-it",
+      "inputTokenLimit": 262144,
+      "outputTokenLimit": 32768,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/lyria-3-clip-preview",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/lyria-3-pro-preview",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/lyria-3.5",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "methods": [
+        "countTokens",
+        "generateContent"
+      ]
+    },
+    {
+      "name": "models/nano-banana-pro-preview",
+      "inputTokenLimit": 131072,
+      "outputTokenLimit": 32768,
+      "methods": [
+        "batchGenerateContent",
+        "countTokens",
+        "generateContent"
+      ]
+    }
+  ],
+  "more_pages": false,
+  "schema_version": 1,
+  "checked_at": "2026-09-14T09:45:54.211814+00:00",
+  "network_requests": 1,
+  "inference_calls": 0,
+  "billing_tier": "unverified",
+  "account_quotas": "unverified",
+  "warning": "Discovery does not verify free quota, inference access or benchmark quality."
+}

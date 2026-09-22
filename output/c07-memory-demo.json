@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "synthetic": true,
+  "inference_calls": 0,
+  "schema_version": 1,
+  "ingested_turns": 12,
+  "remaining_turns_after_restore": 11,
+  "estimated_request_tokens": 588,
+  "checks": {
+    "restart_preserves_originals": true,
+    "interrupted_index_resumes": true,
+    "unchanged_chunks_reused": true,
+    "original_fact_retrieved": true,
+    "pin_revision_applied": true,
+    "deleted_turn_not_restored": true,
+    "derived_pin_not_restored": true,
+    "replay_not_restored": true,
+    "deleted_fact_absent_from_context": true
+  },
+  "content_included": false
+}

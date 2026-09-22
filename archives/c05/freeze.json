@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "fixture_hashes": {
+    "scenario": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54",
+    "ground_truth": "c319c47c0548ced89dc68deba183c3028c35aad2aabd756db8b3bbdfe4c064e6",
+    "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196",
+    "protocol": "ff811ea7ba2806c6447272e0397b9d83ab22901ab771c8d04bda3995d2f15200",
+    "pin_retention": "febe00b1b71016fd679a3d99a2bccdb901ff9b956f0933d1003578c06faf5f3b"
+  },
+  "runtime": {
+    "package_version": "0.5.0",
+    "python": "3.12.13",
+    "dependencies": {
+      "tiktoken": "0.14.0",
+      "rank-bm25": "0.2.2",
+      "numpy": "2.5.3",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "idna": "3.19",
+      "urllib3": "2.7.0"
+    },
+    "code_hash": "a0f300d157d13296dcd92ebb7aee2ac51e5dd799f01f4c1ac3374ec29658e036"
+  }
+}

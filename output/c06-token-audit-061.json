@@ -1,0 +1,204 @@
+{
+  "source_snapshot": "output/c06-live-batch-061.json",
+  "snapshot_digest": "e620587c555a0c80b638d74d469471f2b220959205e1e81fe3ca9f15cacf92e6",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "inference_calls": 0,
+  "method": "Read input_tokens from each completed successful receipt; compare with that record estimated_tokens and input_allowance. No imputation or tuning.",
+  "warning": "Descriptive frozen-fixture audit only; not a provider accounting cause, universal bound or calibration acceptance.",
+  "groups": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 3000,
+      "variant": "A1",
+      "completed": 31,
+      "above_estimate": 0,
+      "above_allowance": 0,
+      "max_actual_to_estimate": 0.9203629032258065
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A1",
+      "completed": 31,
+      "above_estimate": 0,
+      "above_allowance": 0,
+      "max_actual_to_estimate": 0.9722921914357683
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A2",
+      "completed": 31,
+      "above_estimate": 4,
+      "above_allowance": 4,
+      "max_actual_to_estimate": 1.7804323094425483
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 3000,
+      "variant": "A2",
+      "completed": 31,
+      "above_estimate": 0,
+      "above_allowance": 0,
+      "max_actual_to_estimate": 0.8565217391304348
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 3000,
+      "variant": "A3",
+      "completed": 19,
+      "above_estimate": 0,
+      "above_allowance": 0,
+      "max_actual_to_estimate": 0.8565217391304348
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A4",
+      "completed": 31,
+      "above_estimate": 0,
+      "above_allowance": 0,
+      "max_actual_to_estimate": 0.9369369369369369
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "completed": 31,
+      "above_estimate": 8,
+      "above_allowance": 8,
+      "max_actual_to_estimate": 1.7813211845102506
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A5",
+      "completed": 31,
+      "above_estimate": 0,
+      "above_allowance": 0,
+      "max_actual_to_estimate": 0.9422776911076443
+    }
+  ],
+  "overruns": [
+    {
+      "probe_id": "0eed1e92d2bee0b9aa738bd02f643b89a56796307befd3784a611dc2f87359eb",
+      "fact_id": "region",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 879,
+      "provider_input_tokens": 1565,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "1c11c3f35a2ad897d8ead6802a2aa344de933ccd08107ba196c7937a7b73e107",
+      "fact_id": "checksum",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 879,
+      "provider_input_tokens": 1565,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "23ea8782c9773b4438caa2a861774bf7af14529ebeb8160ac11a4b1e23ff63ac",
+      "fact_id": "timeout",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 878,
+      "provider_input_tokens": 1052,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "2e9c506bbd1fef9546b5f76c80b9576aa2fcfbf3fe74530b4f9208fdab4c1e1b",
+      "fact_id": "database",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 878,
+      "provider_input_tokens": 1052,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "31bd800025ccd60b7f811f91df96e67cdb6f2bf8c33d443d3f2b65123743cfb8",
+      "fact_id": "certificate",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A2",
+      "estimated_input_tokens": 877,
+      "provider_input_tokens": 1307,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "3be049d847429773d59f3d7fd65c473d32b517eececdb46a73cb9bb2f84f9d9b",
+      "fact_id": "retries",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 878,
+      "provider_input_tokens": 1564,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "417bfca3ac88c3ff1835f014da31e355bc64dd72934784dbbbed9736a3ce0319",
+      "fact_id": "cluster",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 878,
+      "provider_input_tokens": 1052,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "44faf48a3a7908644abebd9acd26e4789860828a53522c4079a9e485c7fe3d68",
+      "fact_id": "trace",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 880,
+      "provider_input_tokens": 1054,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "657ebb2fe9a7af9f922b750a0a0940b3b3f599bfd7a02ad0d07ce41b68d3f1c7",
+      "fact_id": "shard",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A2",
+      "estimated_input_tokens": 880,
+      "provider_input_tokens": 1566,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "7a700bca95e0193539dd5133c98a14ae8298c7f257e91809d585ec25edc59f30",
+      "fact_id": "archive",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A2",
+      "estimated_input_tokens": 879,
+      "provider_input_tokens": 1053,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "8768f406ebd61a1e82a1142c1a02f1d72ca8ee293cbe06b2bf7795ee193de4ef",
+      "fact_id": "region_backup",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A3",
+      "estimated_input_tokens": 880,
+      "provider_input_tokens": 1566,
+      "input_allowance": 900
+    },
+    {
+      "probe_id": "efa2b54bc8a78ef31e6269dc2f69879c44c4506a371c4508dc1f786cea4d9d4f",
+      "fact_id": "canary",
+      "model": "openai/gpt-oss-120b",
+      "budget": 900,
+      "variant": "A2",
+      "estimated_input_tokens": 879,
+      "provider_input_tokens": 1565,
+      "input_allowance": 900
+    }
+  ]
+}

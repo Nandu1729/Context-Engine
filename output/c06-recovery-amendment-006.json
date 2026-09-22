@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-09-21",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "source_sha256": "d8eb817c899cedca86f74a0edaa0f16b65c5985a9e21b89264c46673fab03553",
+  "baseline_sha256": "26a62685cc1e2e68fcb508bb9339d7c955a5d99f52385f00373324b9cdf0bf04",
+  "admission_source_sha256": "51ffa0be7a647868db8b2667574a5b313e3bc6cf7bbd12abfbde2efb94e540fe",
+  "admission_plan_sha256": "54f4d7bf252d43b27818cddfa3d374dea43db10a9fdeccd87a55391a14aa2525",
+  "previous_plan_sha256": "7af7c27986a7278cd6d2e4ba5f899c30a8d84a65968ccda284f6ae8d5b6e5349",
+  "previous_source_sha256": "081ac38c852fe328c7612a76bbd3ca39082118e72ae83a4e968ccb9abc7ceb5d",
+  "status_sha256": "3ad089c7078629c2cd904d06175a786a11d5af3c2313a80a949e21e0d6172fbc",
+  "reviewed": {
+    "105628762a1cc7433bb972ef532e2fd0deba3d04c378133843b65f154537370f": "df9f1fc095f44983845fc071db89ea44",
+    "aabbf859b652b68adf0ac46f72948f5b5897dfaca0c758060aacd300fa5ddcbd": "5ae2f0761efd45f88f17fb05c32ab083",
+    "a184aef47d7d5974ab58f612b991c0b96de1b22d56aca9033b7a8d6252f32910": "198a8e07588b4131ae38e8df252bde55",
+    "698887bd5ac557ff8c53521493f3888d15f3e115066e4981885de1d8fbc9040a": "83c389580f584b469def6de837fa2f06"
+  },
+  "first_batch": 178,
+  "review": "Owner requests completing all tests. Fourth error timeout-fact/A3/3000/20b has exact HTTP400 evidence and confirmed rejected receipt,zero tokens/cost,no uncertainty. Preserve failed outcome; underlying cause unknown. No retry or diagnostic.",
+  "scope": "Preserve all672 baseline terminal entries. Continue untouched cases only,one per batch. Any new failure stops for evidence review; uncertainty,drift,quota holds remain. No automatic error waiver,grading or generation change,account switch,paid spending or core rewrite.",
+  "provenance": "Recovery/status sidecars bind006;it binds predecessor005 and unchanged admission004. Case/admission events remain004;legacy admission sidecars describe001 quota projection only. External revisions are outside original core freeze."
+}

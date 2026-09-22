@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "scenario_id": "incident-100-v1",
+  "facts": [
+    {
+      "fact_id": "merchant",
+      "expected": "merchant-aurora",
+      "aliases": [],
+      "source_turn_id": "t5",
+      "source_message_id": "m5",
+      "question": "Which merchant was involved?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "ticket",
+      "expected": "INC-4826",
+      "aliases": [],
+      "source_turn_id": "t8",
+      "source_message_id": "m8",
+      "question": "What was the incident ticket identifier?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "service",
+      "expected": "payment-router",
+      "aliases": [],
+      "source_turn_id": "t11",
+      "source_message_id": "m11",
+      "question": "Which service handled payment routing?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "owner",
+      "expected": "team-kestrel",
+      "aliases": [],
+      "source_turn_id": "t14",
+      "source_message_id": "m14",
+      "question": "Which team owned the remediation?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "database",
+      "expected": "PostgreSQL",
+      "aliases": [],
+      "source_turn_id": "t17",
+      "source_message_id": "m17",
+      "question": "Which database stored the transactions?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "queue",
+      "expected": "settlement-events",
+      "aliases": [],
+      "source_turn_id": "t20",
+      "source_message_id": "m20",
+      "question": "Which queue carried settlement messages?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "rollback",
+      "expected": "release-amber",
+      "aliases": [],
+      "source_turn_id": "t23",
+      "source_message_id": "m23",
+      "question": "Which release was the rollback target?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "runbook",
+      "expected": "RB-642",
+      "aliases": [],
+      "source_turn_id": "t26",
+      "source_message_id": "m26",
+      "question": "Which runbook guided the response?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "cluster",
+      "expected": "cluster-cobalt",
+      "aliases": [],
+      "source_turn_id": "t29",
+      "source_message_id": "m29",
+      "question": "Which cluster hosted the workload?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "bucket",
+      "expected": "audit-vault-731",
+      "aliases": [],
+      "source_turn_id": "t32",
+      "source_message_id": "m32",
+      "question": "Which bucket held the audit exports?",
+      "zone": "early"
+    },
+    {
+      "fact_id": "region",
+      "expected": "eu-north-2",
+      "aliases": [],
+      "source_turn_id": "t34",
+      "source_message_id": "m34",
+      "question": "Which region hosted the affected deployment?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "canary",
+      "expected": "canary-lotus",
+      "aliases": [],
+      "source_turn_id": "t37",
+      "source_message_id": "m37",
+      "question": "Which canary detected the regression?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "dashboard",
+      "expected": "latency-compass",
+      "aliases": [],
+      "source_turn_id": "t40",
+      "source_message_id": "m40",
+      "question": "Which dashboard tracked the latency?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "certificate",
+      "expected": "cert-marigold",
+      "aliases": [],
+      "source_turn_id": "t43",
+      "source_message_id": "m43",
+      "question": "Which certificate required replacement?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "feature",
+      "expected": "flag-river",
+      "aliases": [],
+      "source_turn_id": "t46",
+      "source_message_id": "m46",
+      "question": "Which feature flag was disabled?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "cache",
+      "expected": "redis-slate",
+      "aliases": [],
+      "source_turn_id": "t49",
+      "source_message_id": "m49",
+      "question": "Which cache instance was invalidated?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "trace",
+      "expected": "trace-8f2c",
+      "aliases": [],
+      "source_turn_id": "t52",
+      "source_message_id": "m52",
+      "question": "What trace identifier linked the failing requests?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "replica",
+      "expected": "replica-willow",
+      "aliases": [],
+      "source_turn_id": "t55",
+      "source_message_id": "m55",
+      "question": "Which replica served stale reads?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "schema",
+      "expected": "schema-violet",
+      "aliases": [],
+      "source_turn_id": "t58",
+      "source_message_id": "m58",
+      "question": "Which schema version introduced the mismatch?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "retries",
+      "expected": "seven",
+      "aliases": [
+        "7"
+      ],
+      "source_turn_id": "t61",
+      "source_message_id": "m61",
+      "question": "How many retries were configured?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "timeout",
+      "expected": "timeout-420ms",
+      "aliases": [],
+      "source_turn_id": "t64",
+      "source_message_id": "m64",
+      "question": "What timeout setting was applied?",
+      "zone": "middle"
+    },
+    {
+      "fact_id": "region_backup",
+      "expected": "ap-south-3",
+      "aliases": [],
+      "source_turn_id": "t67",
+      "source_message_id": "m67",
+      "question": "Which region was reserved for failover?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "policy",
+      "expected": "policy-cedar",
+      "aliases": [],
+      "source_turn_id": "t70",
+      "source_message_id": "m70",
+      "question": "Which access policy was revised?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "namespace",
+      "expected": "payments-indigo",
+      "aliases": [],
+      "source_turn_id": "t73",
+      "source_message_id": "m73",
+      "question": "Which namespace contained the workers?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "endpoint",
+      "expected": "gateway-orchid",
+      "aliases": [],
+      "source_turn_id": "t76",
+      "source_message_id": "m76",
+      "question": "Which endpoint received the redirected traffic?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "checksum",
+      "expected": "sha256-91ac",
+      "aliases": [],
+      "source_turn_id": "t79",
+      "source_message_id": "m79",
+      "question": "Which checksum verified the recovered archive?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "shard",
+      "expected": "shard-19",
+      "aliases": [],
+      "source_turn_id": "t82",
+      "source_message_id": "m82",
+      "question": "Which partition ended up carrying the blame?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "batch",
+      "expected": "batch-6721",
+      "aliases": [],
+      "source_turn_id": "t85",
+      "source_message_id": "m85",
+      "question": "Which batch was replayed after recovery?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "approval",
+      "expected": "approval-juniper",
+      "aliases": [],
+      "source_turn_id": "t90",
+      "source_message_id": "m90",
+      "question": "Which approval authorized the restart?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "handoff",
+      "expected": "handoff-sparrow",
+      "aliases": [],
+      "source_turn_id": "t95",
+      "source_message_id": "m95",
+      "question": "Which handoff reference closed the investigation?",
+      "zone": "late"
+    },
+    {
+      "fact_id": "archive",
+      "expected": "archive-pine",
+      "aliases": [],
+      "source_turn_id": "t99",
+      "source_message_id": "m99",
+      "question": "Which archive stored the final evidence?",
+      "zone": "late"
+    }
+  ]
+}

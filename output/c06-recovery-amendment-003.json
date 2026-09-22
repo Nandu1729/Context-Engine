@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-09-20",
+  "execution_id": "dd8c88217a8a2b3d2ba4635b9a126f5cdb4776ee283047425603ce8a0b30de77",
+  "source_sha256": "ce56861122fa0f09f5f83a62085a5aa659e6a5e8a75417488f0babb753f1a7c3",
+  "parent_source_sha256": "4c1c91b4016964948c3e6c80c3aa95a8579b0bf4a8b9c57af98c9cadeb2de4df",
+  "baseline_sha256": "71ff569b7b10c8864959b694c043e400526f823993c2a0e1a0f9e10c01c0a91f",
+  "diagnostic_sha256": "5b57a0ffb75eb6a131fb0210d9ca4f69ea735a12629ab7b1e3c3460d79141a14",
+  "reviewed": {
+    "105628762a1cc7433bb972ef532e2fd0deba3d04c378133843b65f154537370f": "df9f1fc095f44983845fc071db89ea44",
+    "aabbf859b652b68adf0ac46f72948f5b5897dfaca0c758060aacd300fa5ddcbd": "5ae2f0761efd45f88f17fb05c32ab083"
+  },
+  "first_batch": 145,
+  "owner_direction": "Continue after second-rejection handoff; original organization and Free-tier scope unchanged",
+  "review": "Both errors are confirmed rejected,zero charged,non-uncertain. Second status is HTTP400; a separately metered identical-payload diagnostic succeeded HTTP200. Cause remains unknown. Preserve both failures and all642 baseline entries; continue untouched cases only.",
+  "limits": "Reuse immutable recovery002 one-case batches,lock,status-only observation and stop on ANY NEW failure. No retry of failed cases or diagnostic. Cache amendment001,account,ledger,ceilings,prices,engine/profile and scientific protocol unchanged.",
+  "provenance": "Wrapper temporarily supplies reviewed baseline/set and amendment003 identity to immutable recovery002. Sidecars bind wrapper source and amendment003; amendment003 binds parent source and diagnostic evidence. External operational overrides are not covered by original engine freeze."
+}

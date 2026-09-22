@@ -1,0 +1,355 @@
+{
+  "diagnostics": {
+    "input_allowance": 900,
+    "estimate": {
+      "estimated_tokens": 637,
+      "serialized_tokens": 595,
+      "message_content_tokens": 506,
+      "tool_schema_tokens": 0,
+      "serialization_delta_tokens": 89,
+      "adapter_overhead_tokens": 0,
+      "calibration_padding_tokens": 42,
+      "calibration_factor": 1.07,
+      "tokenizer_name": "o200k_harmony",
+      "tokenizer_version": "0.14.0",
+      "serializer_name": "canonical-chat-json-v1",
+      "request_fingerprint": "6310df092af23e0c586d8fad16300fe5695e52c18ba861d7fb9b2bf237e09432",
+      "provider_accounting_verified": false
+    },
+    "remaining_tokens": 263,
+    "base_request_tokens": 12,
+    "blocks": [
+      {
+        "kind": "system",
+        "content_tokens": 7,
+        "input_delta_tokens": 14,
+        "sources": [],
+        "included": true
+      },
+      {
+        "kind": "pinned",
+        "content_tokens": 11,
+        "input_delta_tokens": 27,
+        "sources": [],
+        "included": true
+      },
+      {
+        "kind": "summary",
+        "content_tokens": 9,
+        "input_delta_tokens": 21,
+        "sources": [
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t1",
+            "message_id": "m1",
+            "revision": 1,
+            "start": 0,
+            "end": 2337,
+            "message_hash": "98a7c1fd2d83e40fc7e157407ac21ff27d1fc83bece91f2b0184d33b70caa257"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t2",
+            "message_id": "m2",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "7f70dec15f6ceeb1f8c720de78c8800dcff49c44924dfcfd1009b342def5b5b5"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t3",
+            "message_id": "m3",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "b6d97878a0203765ba73e39d92f437f135ed185d0a2bab1e2eccc3dfbdf95f23"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t4",
+            "message_id": "m4",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "bdde36be298128e3197c4bfd6357371440b5f296ad6c702d7b41e886db2bcd96"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t5",
+            "message_id": "m5",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "6aeec13476dab49bd422ec596947dcbf40f83b0c302987be8b17d83ebc597448"
+          }
+        ],
+        "included": true
+      },
+      {
+        "kind": "window",
+        "content_tokens": 367,
+        "input_delta_tokens": 449,
+        "sources": [
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t6",
+            "message_id": "m6",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "b9e46c1c103f5f1a091addc1f59cf60fb7fa3f6a258acbfc8f409302c7e04e33"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t7",
+            "message_id": "m7",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "c183728dcb4bea5d719ffbd7cdfc19f97a73157e3fc6210fd8f057e772347856"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t8",
+            "message_id": "m8",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "2cefe4a576d49d77e83a7e75bbf6691c32c9f0cd3aab1eac09a8625d5f8dceaf"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t9",
+            "message_id": "m9",
+            "revision": 1,
+            "start": 0,
+            "end": 1017,
+            "message_hash": "6c6378ef72cb228e13e57bc4eb0c9fa998cef0ab744f316e6736dfe459e9d1c9"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t10",
+            "message_id": "m10",
+            "revision": 1,
+            "start": 0,
+            "end": 1018,
+            "message_hash": "6f98b8d6ad65792c15433851e69d8a87bfd90f9b6e3955d892589962e525a9cb"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t11",
+            "message_id": "m11",
+            "revision": 1,
+            "start": 0,
+            "end": 1018,
+            "message_hash": "3eb8bf7eba1d6ce5777154d36f000a27b947e895748cfd7a91579897e833ed53"
+          },
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t12",
+            "message_id": "m12",
+            "revision": 1,
+            "start": 0,
+            "end": 1018,
+            "message_hash": "571fc814ecda7f7d270b326da0a4f6dd1c274c1291aa547100aca5f6564a3eee"
+          }
+        ],
+        "included": true
+      },
+      {
+        "kind": "retrieved",
+        "content_tokens": 85,
+        "input_delta_tokens": 107,
+        "sources": [
+          {
+            "scope": {
+              "tenant_id": "demo",
+              "session_id": "incident"
+            },
+            "turn_id": "t1",
+            "message_id": "m1",
+            "revision": 1,
+            "start": 840,
+            "end": 1200,
+            "message_hash": "98a7c1fd2d83e40fc7e157407ac21ff27d1fc83bece91f2b0184d33b70caa257"
+          }
+        ],
+        "included": true
+      },
+      {
+        "kind": "question",
+        "content_tokens": 6,
+        "input_delta_tokens": 7,
+        "sources": [],
+        "included": true
+      }
+    ],
+    "planned_window_turn_ids": [
+      "t6",
+      "t7",
+      "t8",
+      "t9",
+      "t10",
+      "t11",
+      "t12"
+    ],
+    "kept_turn_ids": [
+      "t6",
+      "t7",
+      "t8",
+      "t9",
+      "t10",
+      "t11",
+      "t12"
+    ],
+    "omitted_turn_ids": [
+      "t1",
+      "t2",
+      "t3",
+      "t4",
+      "t5"
+    ],
+    "retrieved_turn_ids": [
+      "t1"
+    ],
+    "retrieved_chunk_ids": [
+      "1277017a9c0dfaa5838076f2aeb3a36e3dda0231ded5306f0ec43f37aef268fb"
+    ],
+    "summary_used": true,
+    "layer_diagnostics": [
+      {
+        "layer": "CAP",
+        "reason_code": "messages_capped",
+        "changed_turn_ids": [
+          "t1",
+          "t2",
+          "t3",
+          "t4",
+          "t5",
+          "t6",
+          "t7",
+          "t8",
+          "t9",
+          "t10",
+          "t11",
+          "t12"
+        ],
+        "input_text_tokens": 2199,
+        "output_text_tokens": 420
+      },
+      {
+        "layer": "PIN",
+        "reason_code": "required_context_reserved",
+        "changed_turn_ids": [],
+        "input_text_tokens": 0,
+        "output_text_tokens": 18
+      },
+      {
+        "layer": "RETRIEVE",
+        "reason_code": "evidence_retrieved",
+        "changed_turn_ids": [
+          "t1"
+        ],
+        "input_text_tokens": 0,
+        "output_text_tokens": 85
+      },
+      {
+        "layer": "WINDOW",
+        "reason_code": "recent_suffix_selected",
+        "changed_turn_ids": [
+          "t6",
+          "t7",
+          "t8",
+          "t9",
+          "t10",
+          "t11",
+          "t12"
+        ],
+        "input_text_tokens": 0,
+        "output_text_tokens": 367
+      },
+      {
+        "layer": "SUMMARIZE",
+        "reason_code": "summary_reused",
+        "changed_turn_ids": [],
+        "input_text_tokens": 0,
+        "output_text_tokens": 9
+      }
+    ],
+    "drops": [],
+    "history_fingerprint": "ef4e65b91366608646615301707bdf962bf5f94bdbffe5bc1ce5aa5d593f020a",
+    "input_fingerprint": "f7e258e1a2dd0b0d35f45b707556068b98aa4de80ab31a5a06c7b8d9476e5140",
+    "config_fingerprint": "65279fbca6b82031eb4379b194c9d5c6f9bc32f9363f6cf15226bfb6fa84c37c",
+    "evaluated_at": "2026-09-07T00:00:00+00:00",
+    "package_version": "0.3.0"
+  },
+  "content_included": true,
+  "request": {
+    "messages": [
+      {
+        "role": "system",
+        "content": "Use the supplied evidence to answer."
+      },
+      {
+        "role": "user",
+        "content": "[PINNED DATA]\n[{\"key\":\"environment\",\"value\":\"production\"}]"
+      },
+      {
+        "role": "user",
+        "content": "[SUMMARY DATA]\nEarlier discussion concerned an incident and routine telemetry."
+      },
+      {
+        "role": "user",
+        "content": "[WINDOW DATA]\n[{\"messages\":[{\"content\":\"Recent update 6: routine checks continue. routine checks continue. routine checks continue. \\n[... 141 tokens elided ...]\\n checks continue. routine checks continue. \",\"role\":\"user\"}],\"turn\":\"t6\"},{\"messages\":[{\"content\":\"Recent update 7: routine checks continue. routine checks continue. routine checks continue. \\n[... 141 tokens elided ...]\\n checks continue. routine checks continue. \",\"role\":\"user\"}],\"turn\":\"t7\"},{\"messages\":[{\"content\":\"Recent update 8: routine checks continue. routine checks continue. routine checks continue. \\n[... 141 tokens elided ...]\\n checks continue. routine checks continue. \",\"role\":\"user\"}],\"turn\":\"t8\"},{\"messages\":[{\"content\":\"Recent update 9: routine checks continue. routine checks continue. routine checks continue. \\n[... 141 tokens elided ...]\\n checks continue. routine checks continue. \",\"role\":\"user\"}],\"turn\":\"t9\"},{\"messages\":[{\"content\":\"Recent update 10: routine checks continue. routine checks continue. routine checks continue. \\n[... 141 tokens elided ...]\\n checks continue. routine checks continue. \",\"role\":\"user\"}],\"turn\":\"t10\"},{\"messages\":[{\"content\":\"Recent update 11: routine checks continue. routine checks continue. routine checks continue. \\n[... 141 tokens elided ...]\\n checks continue. routine checks continue. \",\"role\":\"user\"}],\"turn\":\"t11\"},{\"messages\":[{\"content\":\"Recent update 12: routine checks continue. routine checks continue. routine checks continue. \\n[... 141 tokens elided ...]\\n checks continue. routine checks continue. \",\"role\":\"user\"}],\"turn\":\"t12\"}]"
+      },
+      {
+        "role": "user",
+        "content": "[RETRIEVED DATA]\n[{\"end\":1200,\"message\":\"m1\",\"start\":840,\"text\":\". routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. routine telemetry. The partition carrying the blame was shard-19. routine\",\"turn\":\"t1\"}]"
+      },
+      {
+        "role": "user",
+        "content": "Which partition carried the blame?"
+      }
+    ]
+  },
+  "mode": "offline_inspection",
+  "synthetic_input": true,
+  "inference_calls": 0
+}
