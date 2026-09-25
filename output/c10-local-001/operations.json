@@ -1,0 +1,94 @@
+{
+  "caveats": [
+    "Single local process,not sustained service load or an approved SLO.",
+    "Existing index reuse measured;no before/after code optimization.",
+    "No provider,summary-generation or production cost savings measured.",
+    "Latest same-host deletion authority,not offsite disaster recovery.",
+    "No cross-version migration or deployment rollback proven."
+  ],
+  "checks": {
+    "all_turns_indexed": true,
+    "deleted_marker_absent": true,
+    "deleted_turn_absent": true,
+    "index_rebuilt": true,
+    "old_replay_invalidated": true,
+    "repeat_restore_preserves_history": true,
+    "restore_epoch_rotated": true,
+    "stable_assembly": true,
+    "surviving_history_preserved": true,
+    "synthetic_cache_hit": true,
+    "unchanged_index_reused": true
+  },
+  "content_included": false,
+  "host": {
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "release": "25.6.0",
+    "system": "Darwin"
+  },
+  "index_work": {
+    "cold_processed": 100,
+    "restored_processed": 99,
+    "unchanged_processed": 0
+  },
+  "inference_calls": 0,
+  "milliseconds": {
+    "assembly_p50": 27.309332974255085,
+    "assembly_p95": 27.86095900228247,
+    "assembly_samples": [
+      27.505916950758547,
+      27.99216698622331,
+      27.86095900228247,
+      27.533375017810613,
+      27.427374967373908,
+      27.59512496413663,
+      27.52783300820738,
+      27.288915996905416,
+      27.26745803374797,
+      27.229833009187132,
+      27.169084001798183,
+      27.299208042677492,
+      27.468750020489097,
+      27.40262501174584,
+      27.233375003561378,
+      27.309332974255085,
+      27.338917017914355,
+      27.24500000476837,
+      27.206250000745058,
+      27.14895800454542
+    ],
+    "backup": 0.9432919905520976,
+    "index_cold": 17.264791997149587,
+    "index_unchanged": 3.347249992657453,
+    "restore_reindex_assemble": 49.19870803132653,
+    "second_restore_rehearsal": 49.01695798616856,
+    "warmup": 125.63854199834168
+  },
+  "production_qualified": false,
+  "runner_sha256": "ad5226a0e0aef99d7ae32f2b39531aa47f696341510f16c2425bf00d2d96c7b8",
+  "runtime": {
+    "code_hash": "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc",
+    "dependencies": {
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "idna": "3.19",
+      "numpy": "2.5.3",
+      "rank-bm25": "0.2.2",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "tiktoken": "0.14.0",
+      "urllib3": "2.7.0"
+    },
+    "package_version": "0.9.2",
+    "python": "3.12.13"
+  },
+  "status": "LOCAL_SYNTHETIC_PASS",
+  "storage_bytes": 1167360,
+  "workload": {
+    "concurrency": 1,
+    "input_cap": 900,
+    "samples": 20,
+    "summary_generation": false,
+    "turns": 100
+  }
+}

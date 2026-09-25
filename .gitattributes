@@ -1,0 +1,11 @@
+# Preserve byte-stable experiment/source hashes across future checkouts.
+# No renormalization of existing history is performed by this change.
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.lock text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.png binary
+*.whl binary

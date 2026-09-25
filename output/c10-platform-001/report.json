@@ -1,0 +1,50 @@
+{
+  "caveat": "Local probes only;full suites and required evidence on all target OSes still needed.",
+  "inference_calls": 0,
+  "loopback_only": true,
+  "platform": {
+    "machine": "arm64",
+    "release": "25.6.0",
+    "system": "Darwin"
+  },
+  "probes": {
+    "assembly_worker": {
+      "milliseconds": 375.8593340171501,
+      "passed": true
+    },
+    "authenticated_loopback": {
+      "milliseconds": 432.7164579881355,
+      "passed": true
+    },
+    "memory_recovery": {
+      "milliseconds": 172.87745897192508,
+      "passed": true
+    },
+    "subprocess_termination": {
+      "milliseconds": 11.648165993392467,
+      "passed": true
+    }
+  },
+  "qualification_complete": false,
+  "research_runner_capabilities": {
+    "directory_fsync_available": true,
+    "fcntl_module_available": true
+  },
+  "runtime": {
+    "code_hash": "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc",
+    "dependencies": {
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "idna": "3.19",
+      "numpy": "2.5.3",
+      "rank-bm25": "0.2.2",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "tiktoken": "0.14.0",
+      "urllib3": "2.7.0"
+    },
+    "package_version": "0.9.2",
+    "python": "3.12.13"
+  },
+  "status": "LOCAL_PROBES_PASS"
+}

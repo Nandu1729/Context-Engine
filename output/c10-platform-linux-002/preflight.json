@@ -1,0 +1,51 @@
+{
+  "caveat": "Local probes only;full suites/evidence on all target OSes still needed.",
+  "inference_calls": 0,
+  "loopback_only": true,
+  "platform": {
+    "machine": "aarch64",
+    "release": "6.12.76-linuxkit",
+    "system": "Linux"
+  },
+  "probes": {
+    "assembly_worker": {
+      "milliseconds": 618.265249999979,
+      "passed": true
+    },
+    "authenticated_loopback": {
+      "milliseconds": 846.4044999999771,
+      "passed": true
+    },
+    "memory_recovery": {
+      "milliseconds": 5830.167295000024,
+      "passed": true
+    },
+    "subprocess_termination": {
+      "milliseconds": 3.9634579999869857,
+      "passed": true
+    }
+  },
+  "qualification_complete": false,
+  "research_runner_capabilities": {
+    "directory_fsync_available": true,
+    "fcntl_module_available": true
+  },
+  "runner_sha256": "925abe7af99de26bdc7799f39cfdde064fe33858a071edbd7b7ad984e24fbe2b",
+  "runtime": {
+    "code_hash": "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc",
+    "dependencies": {
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "idna": "3.19",
+      "numpy": "2.5.3",
+      "rank-bm25": "0.2.2",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "tiktoken": "0.14.0",
+      "urllib3": "2.7.0"
+    },
+    "package_version": "0.9.2",
+    "python": "3.12.13"
+  },
+  "status": "LOCAL_PROBES_PASS"
+}
