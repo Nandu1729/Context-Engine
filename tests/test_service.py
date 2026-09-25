@@ -552,17 +552,19 @@ def test_duplicate_authorization_headers_rejected(setup):
 def test_assembly_race_rejected(setup, monkeypatch):
     populated(setup)
     client, memory, _, _ = setup
-    original = memory.assemble
+    workers = client.app.state.assembly_workers
+    original = workers.run
 
-    def changed(*args, **kwargs):
+    async def changed(*args, **kwargs):
         from context_engine.models import Pin
 
         memory.put_pin(
             Pin(Scope("alpha", "one"), "race", "changed", "synthetic"), expected_revision=1
         )
-        return original(*args, **kwargs)
+        return await original(*args, **kwargs)
 
-    monkeypatch.setattr(memory, "assemble", changed)
+    # The process boundary now owns assembly; mutate before its revision check.
+    monkeypatch.setattr(workers, "run", changed)
     result = client.post(
         BASE + "/context",
         headers=headers(),

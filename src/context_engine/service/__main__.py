@@ -8,14 +8,15 @@ import uvicorn
 from ..memory import MemoryStore
 from ..memory.codec import decode
 from ..providers.credentials import private_bytes
-from .app import create_app
+from .app import ServiceLimits, create_app
 from .auth import Authenticator, Principal
 from .control import ControlStore
 
 
 def configured_app(path):
     config = decode(private_bytes(Path(path), 65536).decode("utf-8"), maximum=65536)
-    if set(config) != {"memory_path", "control_path", "system", "auth", "quota"}:
+    required = {"memory_path", "control_path", "system", "auth", "quota"}
+    if not required <= set(config) <= required | {"limits"}:
         raise ValueError("Invalid service configuration fields")
     if any(not Path(config[k]).is_absolute() for k in ("memory_path", "control_path")):
         raise ValueError("Service database paths must be absolute")
@@ -37,6 +38,7 @@ def configured_app(path):
         control=control,
         auth=auth,
         system=config["system"],
+        limits=ServiceLimits(**config.get("limits", {})),
     )
 
 

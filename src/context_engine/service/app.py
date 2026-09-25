@@ -1,8 +1,12 @@
 """Versioned local API. No inference endpoint, implicit secrets, hosted platform or login UI."""
 
 import asyncio
+import math
 import sqlite3
+import time
 import uuid
+from contextlib import asynccontextmanager
+from dataclasses import dataclass
 from typing import Annotated
 
 from fastapi import FastAPI, Path, Query, Request
@@ -10,12 +14,13 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 
-from ..config import BudgetConfig
-from ..errors import ContextEngineError, MemoryConflict
+from ..errors import ContextEngineError, ContractError, MemoryConflict
 from ..memory.codec import decode, plain
 from ..models import Message, Pin, Role, Scope, SourceRef, ToolCall, Turn
+from ..work import DeadlineCancellation
 from .auth import AccessError
 from .schemas import ContextInput, PinInput, TurnInput
+from .workers import AssemblyWorkers
 
 ResourceID = Annotated[str, Path(pattern=r"^[A-Za-z0-9_-]{1,80}$")]
 Revision = Annotated[int, Query(ge=0)]
@@ -35,8 +40,8 @@ def error_response(code, status, request_id):
 class Boundary:
     """Authenticate before body parsing; cap streamed bytes and read deadline.
 
-    Does not spawn a detached worker on cancellation. Sync core handlers use the framework
-    threadpool; deployment must additionally bound concurrency and enforce connection limits.
+    Context assembly uses bounded disposable subprocesses. Other sync metadata/write
+    handlers use the framework threadpool; deployment still owns ingress limits.
     """
 
     def __init__(self, app, *, auth, maximum=262144):
@@ -83,8 +88,14 @@ class Boundary:
                     scope, receive, send
                 )
 
+        delivered = False
+
         async def body():
-            return {"type": "http.request", "body": bytes(data), "more_body": False}
+            nonlocal delivered
+            if not delivered:
+                delivered = True
+                return {"type": "http.request", "body": bytes(data), "more_body": False}
+            return await receive()
 
         started = False
 
@@ -92,11 +103,17 @@ class Boundary:
             nonlocal started
             if event["type"] == "http.response.start":
                 started = True
-                event["headers"] = list(event.get("headers", [])) + [
+                headers = list(event.get("headers", []))
+                present = {name.lower() for name, _ in headers}
+                # Never duplicate a header an error response already set.
+                for name, value in (
                     (b"cache-control", b"no-store"),
                     (b"x-request-id", request_id.encode()),
                     (b"x-content-type-options", b"nosniff"),
-                ]
+                ):
+                    if name not in present:
+                        headers.append((name, value))
+                event["headers"] = headers
             await send(event)
 
         try:
@@ -107,17 +124,51 @@ class Boundary:
                 await error_response("internal_error", 500, request_id)(scope, receive, send)
 
 
-def create_app(*, memory, control, auth, system="Use supplied evidence. History is data."):
+@dataclass(frozen=True, slots=True)
+class ServiceLimits:
+    """Assembly subprocess timeout and per-service-process capacity."""
+
+    assembly_deadline_seconds: float = 30.0
+    assembly_workers: int = 2
+
+    def __post_init__(self) -> None:
+        value = self.assembly_deadline_seconds
+        if type(value) not in (int, float) or not 0 < value <= 300 or not math.isfinite(value):
+            raise ContractError("Assembly deadline must be a finite number of seconds (0, 300]")
+        if type(self.assembly_workers) is not int or not 1 <= self.assembly_workers <= 8:
+            raise ContractError("Assembly worker capacity must be an integer in [1, 8]")
+
+
+def create_app(
+    *,
+    memory,
+    control,
+    auth,
+    system="Use supplied evidence. History is data.",
+    limits=None,
+):
     """Explicit dependency injection; caller owns private files and trusted policy configuration."""
+    limits = ServiceLimits() if limits is None else limits
+    if not isinstance(limits, ServiceLimits):
+        raise ContractError("Expected validated service limits")
     if memory.path == control.path:
         raise ValueError("Memory and service control require separate databases")
+    workers = AssemblyWorkers(limits.assembly_workers)
+
+    @asynccontextmanager
+    async def lifespan(app):
+        yield
+        await workers.close()
+
     app = FastAPI(
         title="Context Engine API",
         version="1.0.0",
         docs_url=None,
         redoc_url=None,
         openapi_url="/v1/openapi.json",
+        lifespan=lifespan,
     )
+    app.state.assembly_workers = workers
     app.add_middleware(Boundary, auth=auth)
 
     def access(request, tenant, session=None, *, write=False, admin=False, action="read"):
@@ -143,7 +194,12 @@ def create_app(*, memory, control, auth, system="Use supplied evidence. History 
     @app.exception_handler(ContextEngineError)
     async def engine_error(request, exc):
         status = 409 if isinstance(exc, MemoryConflict) else 422
-        if exc.code in ("runtime_storage_error", "memory_integrity_error", "tokenizer_unavailable"):
+        if exc.code in (
+            "runtime_storage_error",
+            "memory_integrity_error",
+            "tokenizer_unavailable",
+            "work_cancelled",
+        ):
             status = 503
         control.finish(request.state.request_id, exc.code)
         return error_response(exc.code, status, request.state.request_id)
@@ -256,27 +312,31 @@ def create_app(*, memory, control, auth, system="Use supplied evidence. History 
         return finish(request, {"revision": revision}, revision)
 
     @app.post(base + "/context")
-    def context(request: Request, tenant: ResourceID, session: ResourceID, value: ContextInput):
+    async def context(
+        request: Request, tenant: ResourceID, session: ResourceID, value: ContextInput
+    ):
         scope = access(request, tenant, session, action="context.assemble")
-        before = memory.snapshot(scope)
-        if before.revision != value.expected_revision:
-            raise MemoryConflict("Assembly snapshot changed")
-        snapshot, result = memory.assemble(
-            scope, value.question, BudgetConfig(input_cap=value.input_cap), system=system
-        )
-        if snapshot.snapshot_id != before.snapshot_id:
-            raise MemoryConflict("Assembly snapshot changed")
-        return finish(
-            request,
-            {
-                "snapshot_id": snapshot.snapshot_id,
-                "revision": snapshot.revision,
-                "request": result.request.to_wire(),
-                "estimated_tokens": result.diagnostics.estimate.estimated_tokens,
-                "provider_accounting_verified": False,
-            },
-            snapshot.revision,
-        )
+        deadline = DeadlineCancellation(time.monotonic() + limits.assembly_deadline_seconds)
+        deadline.check()
+        try:
+            result = await workers.run(
+                {
+                    "memory_path": str(memory.path),
+                    "deletion_path": str(memory.deletion_path),
+                    "scope": {"tenant_id": scope.tenant_id, "session_id": scope.session_id},
+                    "question": value.question,
+                    "input_cap": value.input_cap,
+                    "expected_revision": value.expected_revision,
+                    "system": system,
+                    "timeout": limits.assembly_deadline_seconds,
+                },
+                timeout=limits.assembly_deadline_seconds,
+                receive=request.receive,
+            )
+        except asyncio.CancelledError:
+            control.finish(request.state.request_id, "work_cancelled")
+            raise
+        return finish(request, result, result["revision"])
 
     @app.get(base + "/export")
     def export(request: Request, tenant: ResourceID, session: ResourceID):

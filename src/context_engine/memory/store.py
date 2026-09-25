@@ -17,6 +17,7 @@ from ..layers.retrieve import ChunkIndex, chunk_turns
 from ..layers.summarize import FrozenSummaryPolicy, SummarySnapshot
 from ..models import ChatRequest, KeyedPins, Pin, Scope, Turn, aware_time, integer_value, text_value
 from ..pipeline import assemble_context
+from ..work import raise_if_cancelled, validate_cancellation
 from .codec import decode, digest, encode, plain, unpack
 
 MAX_TURNS, MAX_BYTES, MAX_CHUNKS = 10000, 8_000_000, 100000
@@ -486,9 +487,11 @@ class MemoryStore:
                 ),
             )
 
-    def index_batch(self, snapshot, config=None, *, batch_size=32):
+    def index_batch(self, snapshot, config=None, *, batch_size=32, cancellation=None):
         config = RetrievalConfig() if config is None else config
         integer_value("batch_size", batch_size, minimum=1)
+        validate_cancellation(cancellation)
+        raise_if_cancelled(cancellation)
         if batch_size > 256 or not isinstance(config, RetrievalConfig):
             raise MemoryIntegrityError("Invalid bounded indexing configuration")
         profile = digest(config)
@@ -507,6 +510,7 @@ class MemoryStore:
             pending = [t for t in current.history if completed.get(t.turn_id) != t.content_hash]
             changed = pending[:batch_size]
             for turn in changed:
+                raise_if_cancelled(cancellation)
                 maximum = sum(
                     (len(m.content) + config.chunk_characters - config.overlap_characters - 1)
                     // (config.chunk_characters - config.overlap_characters)
@@ -517,7 +521,12 @@ class MemoryStore:
                 ).fetchone()[0]
                 if count + maximum > MAX_CHUNKS:
                     raise MemoryIntegrityError("Persistent chunk index exceeds bound")
-                chunks = chunk_turns((turn,), config)
+                # Preserve the exact 0.8.0 call form when no token is supplied.
+                chunks = (
+                    chunk_turns((turn,), config)
+                    if cancellation is None
+                    else chunk_turns((turn,), config, cancellation=cancellation)
+                )
                 db.execute("DELETE FROM chunks WHERE scope=? AND turn_id=?", (scope, turn.turn_id))
                 db.executemany(
                     "INSERT INTO chunks VALUES(?,?,?,?,?)",
@@ -535,6 +544,7 @@ class MemoryStore:
                         digest(sorted((c.chunk_id, digest(c)) for c in chunks)),
                     ),
                 )
+            raise_if_cancelled(cancellation)
             return {
                 "status": "READY" if len(pending) <= batch_size else "BUILDING",
                 "processed": len(changed),
@@ -622,11 +632,26 @@ class MemoryStore:
                 raise MemoryIntegrityError("Replay payload is corrupt")
             return value
 
-    def assemble(self, scope, question, budget, *, system, retrieval_config=None, **options):
+    def assemble(
+        self,
+        scope,
+        question,
+        budget,
+        *,
+        system,
+        retrieval_config=None,
+        cancellation=None,
+        **options,
+    ):
         retrieval_config = RetrievalConfig() if retrieval_config is None else retrieval_config
+        validate_cancellation(cancellation)
+        raise_if_cancelled(cancellation)
         snapshot = self.snapshot(scope)
-        while self.index_batch(snapshot, retrieval_config)["status"] != "READY":
-            pass
+        while (
+            self.index_batch(snapshot, retrieval_config, cancellation=cancellation)["status"]
+            != "READY"
+        ):
+            raise_if_cancelled(cancellation)
         result = assemble_context(
             snapshot.history,
             question,
@@ -637,9 +662,11 @@ class MemoryStore:
             retrieval_config=retrieval_config,
             chunk_index=self.chunk_index(snapshot, retrieval_config),
             summary_policy=FrozenSummaryPolicy(snapshot.summary) if snapshot.summary else None,
+            cancellation=cancellation,
             **options,
         )
         self.assert_current(snapshot)
+        raise_if_cancelled(cancellation)
         return snapshot, result
 
     def deletion_watermark(self):
