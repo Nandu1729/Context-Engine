@@ -87,8 +87,11 @@ class RetrievalConfig:
     minimum_score: float = 0.0
     k1: float = 1.5
     b: float = 0.75
+    recover_capped_window: bool = False
 
     def __post_init__(self) -> None:
+        if type(self.recover_capped_window) is not bool:
+            raise ConfigurationError("WINDOW recovery must be an explicit boolean")
         nonnegative_integer("chunk_characters", self.chunk_characters, minimum=1)
         nonnegative_integer("overlap_characters", self.overlap_characters)
         nonnegative_integer("top_k", self.top_k, minimum=1)

@@ -16,6 +16,7 @@ from ..models import (
     canonical_json,
 )
 from ..tokens import TokenCounter
+from ..work import raise_if_cancelled
 
 ORDER = tuple(BlockKind)
 OPTIONAL = (BlockKind.SUMMARY, BlockKind.WINDOW, BlockKind.RETRIEVED)
@@ -144,6 +145,7 @@ def plan_window(context: ContextCarrier, counter: TokenCounter) -> ContextCarrie
     require_prepared(context, counter)
     selected: tuple[str, ...] = ()
     for turn in reversed(context.working_turns):
+        raise_if_cancelled(context.cancellation)
         candidate = (turn.turn_id,) + selected
         if (
             incremental_cost(context, window_block(context, candidate, counter), counter)

@@ -85,3 +85,7 @@ class MemoryConflict(ContextEngineError):
 
 class MemoryIntegrityError(ContextEngineError):
     code = "memory_integrity_error"
+
+
+class WorkCancelled(ContextEngineError):
+    code = "work_cancelled"

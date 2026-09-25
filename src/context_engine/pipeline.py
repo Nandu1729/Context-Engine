@@ -11,7 +11,7 @@ from .context import ContextCarrier, LayerDiagnostic
 from .errors import ContractError, LayerStateError, RequiredContextTooLarge
 from .layers import CapLayer, PinLayer, RetrieveLayer, SummaryLayer, WindowLayer
 from .layers.common import ORDER, history_digest, render_request, require_prepared, window_block
-from .layers.retrieve import evidence_block
+from .layers.retrieve import evidence_block, represented_in_window, window_messages
 from .layers.summarize import SummaryPolicy
 from .models import (
     BlockKind,
@@ -28,6 +28,7 @@ from .models import (
     freeze_sequence,
 )
 from .tokens import TiktokenCounter, TokenCounter, TokenEstimate
+from .work import Cancellation, raise_if_cancelled, validate_cancellation
 
 
 @dataclass(frozen=True, slots=True)
@@ -146,7 +147,13 @@ def _replace_block(
     )
 
 
-def _finalize(context: ContextCarrier, counter: TokenCounter, budget: BudgetConfig):
+def _finalize(
+    context: ContextCarrier,
+    counter: TokenCounter,
+    budget: BudgetConfig,
+    *,
+    recover_capped_window: bool = False,
+):
     """Bounded, deterministic optional removal; required payload stays byte-identical."""
     require_prepared(context, counter)
     if context.plan.input_allowance != budget.input_allowance or not context.window_planned:
@@ -155,10 +162,15 @@ def _finalize(context: ContextCarrier, counter: TokenCounter, budget: BudgetConf
     ids = context.plan.window_turn_ids
     chunks = context.retrieved_chunks
     turns = {turn.turn_id: turn for turn in context.original_turns}
+    visible = window_messages(context)
     for chunk in chunks:
-        if chunk.source.turn_id not in turns or chunk.source.turn_id in ids:
+        if chunk.source.turn_id not in turns:
             raise LayerStateError("Retrieved source conflicts with the history/window plan")
         chunk.validate_source(turns[chunk.source.turn_id])
+        if chunk.source.turn_id in ids and (
+            not recover_capped_window or represented_in_window(chunk, visible)
+        ):
+            raise LayerStateError("Retrieved source duplicates or violates the WINDOW policy")
     # Content/provenance must describe the same selected chunks and recent turns.
     for kind, expected in (
         (BlockKind.RETRIEVED, evidence_block(chunks, counter)),
@@ -174,6 +186,7 @@ def _finalize(context: ContextCarrier, counter: TokenCounter, budget: BudgetConf
     drops: list[Drop] = []
     # One initial count, one summary removal, one per window turn, one per chunk.
     for _ in range(2 + len(ids) + len(chunks)):
+        raise_if_cancelled(context.cancellation)
         request = render_request(blocks, context.question, context.required_request.tools)
         estimate = counter.count_request(request)
         if estimate.estimated_tokens <= budget.input_allowance:
@@ -275,6 +288,7 @@ def assemble_context(
     tools: tuple[ToolDefinition, ...] | list[ToolDefinition] = (),
     options: AssemblyOptions | None = None,
     chunk_index=None,
+    cancellation: Cancellation | None = None,
 ) -> AssembledContext:
     """Assemble authorized history into an estimated-token-safe request, or raise a typed error.
 
@@ -282,6 +296,8 @@ def assemble_context(
     the caller's responsibility. Supply `at` for reproducible pin/summary expiry.
     Every call, including calls after tools, should use this boundary.
     """
+    validate_cancellation(cancellation)
+    raise_if_cancelled(cancellation)
     if not isinstance(pinned_facts, KeyedPins) or not isinstance(budget, BudgetConfig):
         raise ContractError("Expected KeyedPins and BudgetConfig")
     options = AssemblyOptions() if options is None else options
@@ -312,7 +328,9 @@ def assemble_context(
         while identifier in used:
             identifier += ":next"
         question = Message(identifier, Role.USER, question)
-    context = ContextCarrier(pinned_facts.scope, history, history, pinned_facts, question)
+    context = ContextCarrier(
+        pinned_facts.scope, history, history, pinned_facts, question, cancellation=cancellation
+    )
     counter = TiktokenCounter() if token_counter is None else token_counter
     if options.cap:
         context = CapLayer(counter, cap_config).apply(context)
@@ -324,8 +342,12 @@ def assemble_context(
         WindowLayer(counter),
         SummaryLayer(counter, summary_policy if options.summarize else None, at),
     ):
+        raise_if_cancelled(cancellation)
         context = layer.apply(context)
-    request, blocks, estimate, kept, chunks, drops = _finalize(context, counter, budget)
+    raise_if_cancelled(cancellation)
+    request, blocks, estimate, kept, chunks, drops = _finalize(
+        context, counter, budget, recover_capped_window=retrieval_config.recover_capped_window
+    )
     base, accounting = _block_accounting(blocks, question, tuple(tools), counter, estimate)
     config_data = {
         "budget": asdict(budget),
@@ -357,4 +379,5 @@ def assemble_context(
         hashlib.sha256(canonical_json(config_data).encode()).hexdigest(),
         at,
     )
+    raise_if_cancelled(cancellation)
     return AssembledContext(request, blocks, diagnostics)

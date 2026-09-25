@@ -1,4 +1,4 @@
-"""BM25+ over original text chunks, excluding the shared planned recent window."""
+"""BM25+ over originals; optional recovery of missing chunks in capped WINDOW turns."""
 
 import hashlib
 import re
@@ -12,6 +12,7 @@ from ..context import ContextCarrier, LayerDiagnostic
 from ..errors import MemoryIntegrityError
 from ..models import BlockKind, Chunk, ContextBlock, SourceRef, Turn, canonical_json
 from ..tokens import TokenCounter
+from ..work import Cancellation, raise_if_cancelled, validate_cancellation
 from .common import fits_block, history_digest, plan_window, set_block
 
 
@@ -46,14 +47,21 @@ def lexical_tokens(text: str) -> list[str]:
     return re.findall(r"\w+(?:[-.]\w+)*", normalized)
 
 
-def chunk_turns(turns: tuple[Turn, ...], config: RetrievalConfig) -> tuple[Chunk, ...]:
+def chunk_turns(
+    turns: tuple[Turn, ...], config: RetrievalConfig, *, cancellation: Cancellation | None = None
+) -> tuple[Chunk, ...]:
+    validate_cancellation(cancellation)
+    raise_if_cancelled(cancellation)
     chunks = []
     version = f"characters-v1:{config.chunk_characters}:{config.overlap_characters}"
     stride = config.chunk_characters - config.overlap_characters
     for turn in turns:
+        raise_if_cancelled(cancellation)
         for message in turn.messages:
+            raise_if_cancelled(cancellation)
             message_hash = message.content_hash
             for start in range(0, len(message.content), stride):
+                raise_if_cancelled(cancellation)
                 end = min(len(message.content), start + config.chunk_characters)
                 content = message.content[start:end]
                 if content.strip():
@@ -110,6 +118,21 @@ def overlaps(left: Chunk, right: Chunk) -> bool:
     ) and max(a.start, b.start) < min(a.end, b.end)
 
 
+def window_messages(context: ContextCarrier) -> dict[tuple[str, str], str]:
+    """Actual working content, not full-original provenance ranges on WINDOW blocks."""
+    return {
+        (turn.turn_id, message.message_id): message.content
+        for turn in context.working_turns
+        if turn.turn_id in context.plan.window_turn_ids
+        for message in turn.messages
+    }
+
+
+def represented_in_window(chunk: Chunk, visible: dict[tuple[str, str], str]) -> bool:
+    text = visible.get((chunk.source.turn_id, chunk.source.message_id))
+    return text is not None and chunk.content in text
+
+
 @dataclass(frozen=True)
 class RetrieveLayer:
     counter: TokenCounter
@@ -122,8 +145,15 @@ class RetrieveLayer:
                 raise MemoryIntegrityError("Expected a validated chunk index")
             self.chunk_index.validate(context.original_turns, self.config)
         planned = plan_window(context, self.counter)
+        visible = window_messages(planned)
         old = tuple(
-            t for t in planned.original_turns if t.turn_id not in planned.plan.window_turn_ids
+            t
+            for t in planned.original_turns
+            if t.turn_id not in planned.plan.window_turn_ids
+            or (
+                self.config.recover_capped_window
+                and any(m.content != visible[(t.turn_id, m.message_id)] for m in t.messages)
+            )
         )
         query = sorted(set(lexical_tokens(planned.question.content)))
         selected: tuple[Chunk, ...] = ()
@@ -136,12 +166,23 @@ class RetrieveLayer:
             reason = "zero_reserve"
         else:
             if self.chunk_index is None:
-                chunks = chunk_turns(old, self.config)
+                # Preserve the exact 0.8.0 call form when no token is supplied.
+                chunks = (
+                    chunk_turns(old, self.config)
+                    if context.cancellation is None
+                    else chunk_turns(old, self.config, cancellation=context.cancellation)
+                )
             else:
                 ids = {t.turn_id for t in old}
                 chunks = tuple(c for c in self.chunk_index.chunks if c.source.turn_id in ids)
-            searchable = [(c, lexical_tokens(c.content)) for c in chunks]
-            searchable = [(c, terms) for c, terms in searchable if terms]
+            searchable = []
+            for chunk in chunks:
+                raise_if_cancelled(context.cancellation)
+                if represented_in_window(chunk, visible):
+                    continue
+                terms = lexical_tokens(chunk.content)
+                if terms:
+                    searchable.append((chunk, terms))
             if searchable:
                 # BM25+ has positive IDF for one-document/small corpora. Its delta
                 # also scores nonmatches: explicitly require lexical intersection.
@@ -152,15 +193,18 @@ class RetrieveLayer:
                     delta=1.0,
                 )
                 scores = ranker.get_scores(query)
+                raise_if_cancelled(context.cancellation)
                 ranked = [
                     (float(score), c)
                     for (c, terms), score in zip(searchable, scores, strict=True)
                     if set(query).intersection(terms) and score > self.config.minimum_score
                 ]
                 ranked.sort(key=lambda item: (-item[0], item[1].chunk_id))
+                raise_if_cancelled(context.cancellation)
                 if ranked:
                     reason = "evidence_over_budget"
                 for _, chunk in ranked:
+                    raise_if_cancelled(context.cancellation)
                     if any(overlaps(chunk, existing) for existing in selected):
                         continue
                     candidate = selected + (chunk,)

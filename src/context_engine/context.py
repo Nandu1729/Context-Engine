@@ -18,6 +18,7 @@ from .models import (
     integer_value,
     text_value,
 )
+from .work import Cancellation, validate_cancellation
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,6 +53,7 @@ class ContextCarrier:
     prepared_fingerprint: str | None = None
     window_planned: bool = False
     retrieved_chunks: tuple[Chunk, ...] = ()
+    cancellation: Cancellation | None = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.scope, Scope):
@@ -105,6 +107,7 @@ class ContextCarrier:
             raise ContractError("Planned window contains unknown turns")
         if any(not set(item.changed_turn_ids).issubset(original_ids) for item in diagnostics):
             raise ContractError("Layer diagnostic references unknown turns")
+        validate_cancellation(self.cancellation)
 
 
 class Layer(Protocol):
