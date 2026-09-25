@@ -1,0 +1,25 @@
+{
+  "files": {
+    "docs/C09_QUALIFICATION_PROTOCOL.md": "ef7350715ae9d618faf1090b9037694b598cd84da95ace8b8c9ee7f0919d48ea",
+    "experiments/c09-qualification-002/cases.json": "8f82e83c8cf2dacdd21f647fddda876c195b9aa54343b92a9456588799a0fc62",
+    "scripts/c09_qualification.py": "349bff1335599084e8fcd9bc0a05f2e49e1979a4d34b6e97d7d4c0b57d17e588"
+  },
+  "id": "c09-qualification-002-r1",
+  "runtime": {
+    "code_hash": "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc",
+    "dependencies": {
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "idna": "3.19",
+      "numpy": "2.5.3",
+      "rank-bm25": "0.2.2",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "tiktoken": "0.14.0",
+      "urllib3": "2.7.0"
+    },
+    "package_version": "0.9.2",
+    "python": "3.12.13"
+  },
+  "status": "REVIEW_PENDING"
+}

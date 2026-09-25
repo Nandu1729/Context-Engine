@@ -1,26 +1,26 @@
 {
-  "schema_version": 1,
   "fixture_hashes": {
-    "scenario": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54",
     "ground_truth": "c319c47c0548ced89dc68deba183c3028c35aad2aabd756db8b3bbdfe4c064e6",
-    "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196",
+    "pin_retention": "febe00b1b71016fd679a3d99a2bccdb901ff9b956f0933d1003578c06faf5f3b",
     "protocol": "789585023df970bcfea2723b5b7994a1251f0aa512f6ee5820b8ad7353eb571c",
-    "pin_retention": "febe00b1b71016fd679a3d99a2bccdb901ff9b956f0933d1003578c06faf5f3b"
+    "scenario": "19f3bc62987b9b2253eed316e903c4f860b445b441d9151573588bce283bae54",
+    "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196"
   },
   "runtime": {
-    "package_version": "0.8.0",
-    "python": "3.12.13",
+    "code_hash": "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc",
     "dependencies": {
-      "tiktoken": "0.14.0",
-      "rank-bm25": "0.2.2",
-      "numpy": "2.5.3",
-      "regex": "2026.9.3",
-      "requests": "2.34.2",
       "certifi": "2026.7.22",
       "charset-normalizer": "3.5.1",
       "idna": "3.19",
+      "numpy": "2.5.3",
+      "rank-bm25": "0.2.2",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "tiktoken": "0.14.0",
       "urllib3": "2.7.0"
     },
-    "code_hash": "1712dd4b08cf80cba1408dde2d8afae45920905a5362da067b79d17607763806"
-  }
+    "package_version": "0.9.2",
+    "python": "3.12.13"
+  },
+  "schema_version": 1
 }

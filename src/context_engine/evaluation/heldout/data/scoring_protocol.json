@@ -1,0 +1,12 @@
+{
+  "id": "heldout-scoring-v1",
+  "base_protocol": "heldout-v1",
+  "provenance": "TEST_ONLY",
+  "normalization": "Unicode NFKC, casefold, collapse whitespace; exact answer match; no punctuation stripping",
+  "forbidden_match": "normalized literal with Unicode word boundaries, not numeric substrings",
+  "retention": "supported answer literal must occur in a rendered fragment from its truth-designated source message; contradictions require both original source statements; no-answer is not applicable",
+  "denominator": "all planned slots; missing, error and required-non-fit are never correct",
+  "grouping": ["split", "variant", "budget", "category"],
+  "claims": "synthetic scorer verification only; live model quality, usage and calibration NOT_EVALUATED",
+  "live_import": "rejected; requires separately approved execution identity and provider receipts"
+}

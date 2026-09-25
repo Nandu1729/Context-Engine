@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import os
 import sys
 from copy import deepcopy
 from pathlib import Path
@@ -215,15 +216,54 @@ def test_default_no_dispatch_and_runtime_patch_restored(monkeypatch):
     assert r.main(["--batch", "unused"]) == 1
 
 
-def test_provenance_and_evidence_bound(tmp_path, monkeypatch):
+@pytest.mark.parametrize("defect", ["plan", "image", "missing_image"])
+def test_provenance_and_evidence_bound(tmp_path, monkeypatch, defect):
+    from context_engine.evaluation import protocol
+
+    monkeypatch.setattr(protocol, "code_hash", lambda: r.case.cache.ARCHIVED_HASH)
+    # Unit guard coverage must not require copying private owner screenshots to CI.
+    # Keep the real verifier/previous chain;only this isolated evidence fixture changes.
+    proof = tmp_path / "proof.png"
+    proof.write_bytes(b"synthetic-test-only-evidence-not-an-account-record")
+    digest = r.previous.digest
+    evidence = json.loads(r.EVIDENCE.read_text())
+    evidence["image_sha256"] = {"unit-proof.png": digest(proof)}
+    evidence_path = tmp_path / "evidence.json"
+    evidence_path.write_text(json.dumps(evidence))
+    plan = json.loads(r.PLAN.read_text())
+    plan["evidence_sha256"] = digest(evidence_path)
+    path = tmp_path / "plan.json"
+    path.write_text(json.dumps(plan))
+    expected_image = r.ROOT / "output/private/c06-reconciliation-009-evidence/unit-proof.png"
+    monkeypatch.setattr(
+        r.previous,
+        "digest",
+        lambda source: digest(proof if Path(source) == expected_image else source),
+    )
+    monkeypatch.setattr(r, "EVIDENCE", evidence_path)
+    monkeypatch.setattr(r, "PLAN", path)
+    r.verify()
+    if defect == "plan":
+        plan["evidence_sha256"] = "0" * 64
+        path.write_text(json.dumps(plan))
+        with pytest.raises(ValueError, match="provenance"):
+            r.verify()
+    elif defect == "image":
+        proof.write_bytes(b"changed")
+        with pytest.raises(ValueError, match="Evidence image changed"):
+            r.verify()
+    else:
+        proof.unlink()
+        with pytest.raises(FileNotFoundError):
+            r.verify()
+
+
+@pytest.mark.skipif(
+    os.environ.get("CONTEXT_ENGINE_PRIVATE_AUDIT") != "1",
+    reason="Explicit local audit requires original private owner screenshots",
+)
+def test_original_private_accounting_evidence_audit(monkeypatch):
     from context_engine.evaluation import protocol
 
     monkeypatch.setattr(protocol, "code_hash", lambda: r.case.cache.ARCHIVED_HASH)
     r.verify()
-    plan = json.loads(r.PLAN.read_text())
-    plan["evidence_sha256"] = "0" * 64
-    path = tmp_path / "plan.json"
-    path.write_text(json.dumps(plan))
-    monkeypatch.setattr(r, "PLAN", path)
-    with pytest.raises(ValueError, match="provenance"):
-        r.verify()

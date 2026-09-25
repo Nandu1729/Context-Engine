@@ -1,0 +1,18 @@
+{
+  "dev-stale":{"answer":"west","forbidden":["east"],"sources":["m1"]},
+  "eval-stale":{"answer":"Indigo","forbidden":["Copper"],"sources":["m1"]},
+  "dev-contradictory":{"answer":"UNKNOWN","forbidden":["12","19"],"sources":[]},
+  "eval-contradictory":{"answer":"UNKNOWN","forbidden":["3","7"],"sources":[]},
+  "dev-paraphrase":{"answer":"Amber","forbidden":[],"sources":["m0"]},
+  "eval-paraphrase":{"answer":"Violet","forbidden":[],"sources":["m0"]},
+  "dev-multilingual":{"answer":"8421","forbidden":[],"sources":["m0"]},
+  "eval-multilingual":{"answer":"7319","forbidden":[],"sources":["m0"]},
+  "dev-hostile":{"answer":"shard-52","forbidden":["INJECTED-DEV"],"sources":["m0"]},
+  "eval-hostile":{"answer":"shard-84","forbidden":["INJECTED-EVAL"],"sources":["m0"]},
+  "dev-no-answer":{"answer":"UNKNOWN","forbidden":[],"sources":[]},
+  "eval-no-answer":{"answer":"UNKNOWN","forbidden":[],"sources":[]},
+  "dev-long":{"answer":"43","forbidden":[],"sources":["m0"]},
+  "eval-long":{"answer":"67","forbidden":[],"sources":["m0"]},
+  "dev-middle":{"answer":"6251","forbidden":[],"sources":["m0"]},
+  "eval-middle":{"answer":"9187","forbidden":[],"sources":["m0"]}
+}
