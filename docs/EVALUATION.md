@@ -1,6 +1,6 @@
 # Evaluation protocol proposal
 
-Status: C04 implemented this protocol; numeric targets were explicitly owner-approved on 2026-09-13 (D047) before live inference. See [pre-registration](PREREGISTRATION.md), [implemented harness](BENCHMARK.md) and [historical report](C04_REPORT.md). Partial live results are now recorded in [C06 progress](C06_REPORT.md); qualification remains incomplete. Owner changes require a new frozen identity; never rewrite criteria to fit observed scores.
+Status: C04 implemented this protocol; numeric targets were explicitly owner-approved on 2026-09-13 (D047) before live inference. See [pre-registration](PREREGISTRATION.md), [implemented harness](BENCHMARK.md) and [historical report](C04_REPORT.md). Final live snapshot249 is VALID/primary quality PASS with744 recorded dispositions;seven errors and calibration/retention limitations are retained in [C06 report](C06_REPORT.md). This is fixture-specific evidence,not production qualification or owner acceptance. Owner changes require a new frozen identity;never rewrite criteria to fit observed scores.
 
 ## Fixed experiment
 

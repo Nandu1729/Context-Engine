@@ -45,7 +45,7 @@ Execution: CAP → PIN → RETRIEVE → WINDOW → SUMMARIZE.
 
 Messages: SYSTEM → PINNED → SUMMARY → WINDOW → RETRIEVED → QUESTION.
 
-PIN reserves the entire mandatory request and optional allocations. RETRIEVE and WINDOW share the same capped, contiguous-suffix membership plan. Retrieval reads only uncapped originals outside that plan. Each optional admission includes full framing and the planned WINDOW. A caller-supplied summary must match the exact omitted history; there is no hidden summarization inference.
+PIN reserves the entire mandatory request and optional allocations. RETRIEVE and WINDOW share the same capped, contiguous-suffix membership plan. By default retrieval reads only uncapped originals outside that plan. Optional0.9.2 `RetrievalConfig(recover_capped_window=True)` can recover missing original chunks from changed WINDOW messages;retrieved and kept turn IDs may then overlap,while fully represented chunks remain excluded. Each optional admission includes full framing and the planned WINDOW. A caller-supplied summary must match the exact omitted history;there is no hidden summarization inference.
 
 Final admission validates selected evidence against original source ranges, checks WINDOW/evidence content against the plan, and recounts the complete serialized request including tool schemas. Defensive overflow removal is deterministic:
 
@@ -88,3 +88,13 @@ Unknown/missing fields, duplicate JSON keys, nonfinite constants, malformed UTF-
 ## Evidence
 
 Tests: `tests/test_pipeline.py` and `tests/test_inspection.py`, alongside earlier checkpoint suites. Saved demonstration: `output/c03-inspection.json` (explicit content export of synthetic data only). It recovers `shard-19` from old turn `t1` with a 637/900 local estimate and zero inference calls. The owner's concise handoff is [C03 report](C03_REPORT.md). The 100-turn benchmark and answer scoring are C04/C06 work, not this demonstration.
+## Cooperative cancellation (0.9.0)
+
+`assemble_context(..., cancellation=token)` optionally accepts a trusted object
+with callable `check()` that raises `WorkCancelled` to stop. Import
+`DeadlineCancellation` from `context_engine.work` for a monotonic deadline;
+`MemoryStore.assemble` and `index_batch` accept the same optional token. DefaultNone
+keeps ordinary assembly behavior. Cancellation leaves original history intact and
+rolls back the current index batch, not earlier completed batches. Checks surround
+stages and bounded loops; no guarantee of preempting a tokenizer/database call.
+This is not a hard CPU deadline or a provider-request cancellation API.

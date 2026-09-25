@@ -1,42 +1,88 @@
 # Current state
 
-Updated: 2026-09-22
+Updated: 2026-09-25
 
 ## Objective
 
-Build the PRD's enterprise-capable context engine with measured quality/cost, persistent project memory and owner-controlled checkpoints.
+Build the PRD's enterprise-capable context engine with measured quality/cost,
+persistent project memory and owner-controlled checkpoints.
 
 ## Verified facts
 
-- Workspace: `/Users/nandyyy/Project/Context Engineering`. All73 PRD sections reviewed; sourceSHA256 `1abb616cbd347aa8fea8064feb93af45727060acdb3e6a91708f4ee4ae39b43c` unchanged.
-- C00–C05: brain, contracts, five layers, assembly, frozen benchmark and provider/replay/quota adapter. C07: SQLite originals/pins/summaries, revision/idempotency, resumable chunks, retention and deletion-aware restore.
-- C08 package 0.8.0 adds optional authenticated `/v1` service, pinned RS256 external-identity verification, scoped expiring service credentials, roles, quotas/audit, HTTP client and two integration paths. No hosted SaaS, inference endpoint or production qualification.
-- Full suite September22:752 tests pass in94.81s,including22 accounting-recovery tests;two existing service warnings. Core/dependencies unchanged.
-- C06 preserved: 0.7.2 wheel/freeze/protocol/locked dependencies in `archives/c06-live/`; isolated installed `output/private/c06-frozen-env`. Zero-call resume produces identical snapshot004 and same execution identity. Never resume through evolving 0.8.0 source.
-- Validated C06 snapshot223:718 terminal,587 answers,124 non-fits,six confirmed rejections,one uncertain timeout,26 unrun. Every120b case,both900 groups and20b A1–A4 complete. A4/3000/20b19/31 correct;A5 four correct responses then database timeout. Primary A5/900 remains29/31 correct,95.18% estimated reduction,zero truncation;acceptance NOT_EVALUATED.
-- Snapshot223 account subtotal982,616 tokens;D072 now reconciles additional2,547 externally observed tokens,$0 configured. Original receipt remains unknown and answer missing.009 continuation active;inspect current runner/ledger before action,no failed-case retry.
-- Report223 validates INTERRUPTED/NOT_EVALUATED;socket-disabled copy byte-identical,both figures inspected. Both core freezes match. All672 baseline177 entries preserved;46 recovery/status and case/admission event pairs audited. No new overruns/replay;partial156 preserved.
-- Frozen A5 retention remains 29/31 at 900, 19/31 at 3,000; CAP/WINDOW exclusion limitation recorded as S11. No post-hoc algorithm, threshold or generation tuning.
-- Gemini diagnostic001: A1 UNKNOWN,A5 correct;1,424 generation tokens,offline-identical replay. Separate evidence,not C06 qualification. See `docs/GEMINI_REPORT.md`.
+- Workspace: `/Users/nandyyy/Project/Context Engineering`. All73 PRD sections mapped;
+  sourceSHA256 `1abb616cbd347aa8fea8064feb93af45727060acdb3e6a91708f4ee4ae39b43c` unchanged.
+- C00–C08 READY, not owner-accepted. Five-layer core, provider/replay/quota,
+  SQLite durable memory/deletion-aware restore, authenticated local `/v1` service.
+- C09:bounded disposable workers,default2/max8,no queue;timeout/disconnect/cancellation
+  kill/reap.19 process tests cover races,flood,credential isolation,SQLite recovery.
+  SDK cancellation remains cooperative.
+- Package0.9.2(D078):default-off `recover_capped_window` recovers missing original
+  chunks from changed WINDOW messages;source/finalizer/deletion/budget checks remain.
+  Optional AnswerContract validates exact JSON text/ASCII identifiers/integers,
+  not truth.57 new regressions;live002 compliance measured,quality target FAIL.
+- heldout-v1/scoring-v1:16 synthetic cases/eight categories/two splits. Original003
+  TEST_ONLY preparation/scoring remains unchanged;not provider evidence.
+- C09 live001 complete:32responses,8strict matches,target FAIL;28,553tokens/$0configured.
+  Historical receipts/account/source integrity and offline replay verified;
+  details in C09_LIVE_REPORT. No regrading or replayed inference.
+- Sourcefreeze `298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc`.
+  Earlier wheels/freezes preserved;historical checks in C09_REPORT.
+- C06 complete at snapshot249:744 terminal,613 responses,124 non-fits,six rejections,
+  one missing-answer timeout. VALID,five frozen gates PASS,primary29/31 correct,
+ 95.18%estimated reduction. Archived0.7.2 is the only historical runtime.
+- D072 timeout accounting settled;failed answer unchanged. No C06 work remains.
+- Gemini diagnostic001 remains separate evidence,not C06 or C09 qualification.
 
 ## Working decisions
 
-- Owner controls scope/acceptance. Every checkpoint handoff needs a short saved report: work, tests, limitations and next step.
-- D050 authorizes C08 offline while C06 remains unfinished. Return to C06 before C09 real-world quality, C11 measured costs or C12 release; no background inference.
-- D063: owner confirms original organization. Explicit external cache-aware admission amendment excludes only receipt-confirmed cached input; ceilings,$0 prices,usage rows and frozen experiment unchanged. See `docs/C06_QUOTA_AMENDMENT.md`; original freeze does not cover this operational override. No account switch/reset.
-- Service tenant/roles/session allowlists come from server bindings, not caller claims. Core remains independent of service/provider packages. No .env load or real key used by C08.
-- Uncertain dispatch/usage halts; never reset or blindly resend. Restore requires current deletion authority/watermark. Local deletion cannot revoke exports/provider copies.
+- D075 ends Kimi handoff;this assistant implements/reviews alone. D078 permits
+  scoped offline repairs after live001. No subagents or external developer assignment.
+- Owner controls acceptance. Save short reports with work,tests,limitations,next
+  action. Do not self-approve full checkpoint or release.
+- Preserve C06/Gemini archives/snapshots/amendments001–009,`.env`,private runtime.
+  Shared ledger append-only;all past inference budgets exhausted.
+- Core independent of service/provider/evaluation. Authorization precedes worker
+  dispatch;original history and required payloads protected. Workers use UTC clock
+  against configured stores;no caller-selected executable or inherited API keys.
+- SDK remains cooperative;OS process containment is not a sandbox,RSS limit,global
+  concurrency bound or strict whole-request latency guarantee.
 
-## Current checkpoint
+## Current checkpoint / next action
 
-C00–C05/C07/C08 READY for review. C06 accounting recovery underway; C09–C12 PLANNED. No owner acceptance inferred. C08 handoff: `docs/C08_REPORT.md`.
+C09 ACTIVE:qualification live002 PRIMARY14/16,CONTROL11/16,target FAIL.
+D084 structured smoke2valid JSON/1correct;conflict facts/instructions retained.
+D085 generic evidence-policy candidate unqualified;32offline assemblies retain prior
+evidence. Details:C09_CONFLICT_ANALYSIS_REPORT. Historical failures unchanged.
+Account707attempts/1,113,450tokens,zero holds;D088 used16calls/6,956tokens.
+D080/D082/D084/D088 exhausted;no new inference,regrading or default adoption.
 
-## Exact next action
-
-D072 settlement complete,one audited2,547-token reconciliation;no journal rewrite.009 live controller active:224 succeeded,719terminal/25unrun,225 started.752 tests pass. Do not start competing runner;inspect latest progress. Preserve223/missing answer/receipt;claim override uses external cost only for this exact receipt,not grading. No cache credit/reset/retry. Details in `docs/C06_QUOTA_AMENDMENT.md`;no C09 start. Final report pending.
+D086 owner requests whole-project completion quickly. Advance independent offline
+C10/C11/C12 preparation without waiving acceptance dependencies. C10 ACTIVE:
+synthetic100turn/20sample drill11checks PASS,deletion-safe restore/reindex49.20ms,
+warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recovery.
+Manual3-platform CI prepared,not remotely executed;Windows fcntl risk remains.
+Offline wheel/sdist built,installed core-only memory demo9checks PASS;source unchanged.
+C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
+production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot
+scope/data/targets/operating owner and explicit acceptance. See C10/C11/C12_REPORT.
+Local inventory45dependencies/2artifacts is not license/CVE/SBOM approval.
+D089 Linux1117PASS/1private-fixtureFAIL;local fix25PASS,not Linux-retested.
+Mac/Linux preflight4groupsPASS;see C10_PLATFORM_REPORT. No inference.
+Owner Mac run1119PASS/1brain-capFAIL/1private-auditSKIP;shortened memory for test headroom.
+D088 policy003 live16/16:BASELINE5/8,CANDIDATE5/8,target FAIL;one improvement/one
+regression. Candidate not adopted.5runner tests/replay/no-call resume PASS;
+691prior rows unchanged. See C09_POLICY_LIVE_REPORT. Stop prompt-only experiments.
+Next:independent authority/fixture review and offline C10 work;pilot choices pending.
+No further calls,deployment or customer data authorized;remote platform checks external.
+Manual-first:give setup/Docker/CI/test commands;reserve Codex for code/review.
+No running process,C06 rerun,new account,claim reset or automatic acceptance.
 
 ## Open risks
 
-- C06 matrix/calibration incomplete. Twelve A2/A3/900 receipts exceed estimated allowance (maximum actual/estimate 1.781321); none in primary A5. S12 proposes separate calibration, not frozen-run tuning. Project quotas may be lower.
-- C08 IdP provisioning/TLS, automatic key refresh, distributed storage, production CPU/cancellation, audit retention/tamper protection and load/recovery gates remain ahead. Local tests are not enterprise certification.
-- Read these files to resume;drift remains possible.
+- Live smoke strict quality FAIL;independent qualification pending. Synthetic
+  evaluation is author-visible;no real-world accuracy or universal injection claim.
+- S11: frozen retention29/31 at900→19/31 at3000;S12:12 historical input overruns,
+  max actual/estimate1.781321. Seven errors retained;no universal quality/budget claim.
+- OS scheduling/reaping,global limits,load/cross-platform,production IdP/TLS/audit
+  still unqualified. Killed current transaction recovers;earlier index batches remain.
+- Resume by reading disk memory;drift remains possible.

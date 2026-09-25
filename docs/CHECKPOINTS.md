@@ -10,13 +10,13 @@ Status: PLANNED → ACTIVE → READY → ACCEPTED. READY requires recorded evide
 | C03 | One-call assembly and offline inspector | C02 | READY |
 | C04 | Frozen benchmark corpus and validity harness | C03 | READY |
 | C05 | Groq adapter, replay cache and usage ledger | C03 | READY |
-| C06 | Complete V1 benchmark, demo and reports | C04, C05 | BLOCKED |
+| C06 | Complete V1 benchmark, demo and reports | C04, C05 | READY |
 | C07 | Durable runtime memory and index lifecycle | C03, C05; C06 live deferred by owner | READY |
 | C08 | Authenticated self-hosted API and integrations | C07 | READY |
-| C09 | Security and held-out quality qualification | C08 | PLANNED |
-| C10 | Operational readiness and recovery | C09 | PLANNED |
-| C11 | Measured cost and retrieval improvements | C10 | PLANNED |
-| C12 | Enterprise pilot acceptance and release | C11 | PLANNED |
+| C09 | Security and held-out quality qualification | C08 | ACTIVE |
+| C10 | Operational readiness and recovery | C09 acceptance;offline preparation allowed D086 | ACTIVE |
+| C11 | Measured cost and retrieval improvements | C10 acceptance;offline profiling allowed D086 | ACTIVE |
+| C12 | Enterprise pilot acceptance and release | C09–C11,owner deployment/pilot choices | BLOCKED |
 
 Effort is deliberately not presented as a delivery date before the first implementation and dependency checks. C04 and C05 are independent after C03; other ordering can be revised with evidence. Revisions must preserve PRD traceability.
 
@@ -81,6 +81,8 @@ Owner demonstration: identical requests replay; changed question or generation c
 Evidence (2026-09-08): [short C05 report](C05_REPORT.md), [provider contracts](PROVIDER.md), `tests/test_providers.py`, `tests/test_provider_commands.py` and `output/c05-provider-demo.json`. Package 0.5.0: 323 tests pass, including 90 C05 cases. Atomic shared-local quota reservations, unknown-usage holds/reconciliation, safe retries/cancellation, opt-in replay, malformed/corrupt response handling and explicit live-command gating verified offline. Two simulated calls, one zero-new-cost replay and quota-blocked generation change; zero real inference calls/spend. Lint/format/lock/build and clean installed-wheel checks pass. C04 artifacts preserved; new code freeze uses unchanged protocol/targets. Implementation READY; live smoke/calibration and owner acceptance pending.
 
 ## C06 — V1 release proof
+
+Final evidence (2026-09-22,D072–D073):**744/744 dispositions**,613 successful live responses,124 non-fits,six preserved rejections and one missing-answer timeout;zero pending. Owner log resolves timeout usage through audited accounting-only amendment009,not answer substitution. Final26 calls allHTTP200. Snapshot249/report249 VALID,all five frozen gates PASS,primary quality PASS (29/31 correct,95.18% estimated input reduction,zero truncation).752 local tests pass;network-disabled reports byte-identical,both figures inspected. All718 baseline223 records unchanged,zero active/uncertain ledger holds,no runner. **READY for owner review with limitations**,not owner-accepted or enterprise/release-certified:12 historical provider-input overruns,S11 retention regression and seven failed responses remain visible. [Final C06 report](C06_REPORT.md) carries reconciled usage and limitations. Older progress below is historical.
 
 Build: benchmark and model-swap CLI, scorecard, raw-count statistics, leaderboard, two figures and flagship live demo; reproducible result manifests and no-call report regeneration.
 
@@ -148,7 +150,47 @@ C06 reminder (D050–D051): owner explicitly permitted C08 offline after partial
 
 ## C09 — Security and real-world evaluation
 
-Reminder gate: before starting C09's real-world quality qualification, remind the owner and return to the deferred C06 live validation. D037 permits offline C07/C08 progress, not permanent removal of C06 or acceptance of missing live results.
+D088:[16-call policy diagnostic](C09_POLICY_LIVE_REPORT.md) complete,target FAIL:
+5/8each arm. Candidate not adopted;all source evidence retained,one regression.
+Budget exhausted;broader C09 still ACTIVE,no acceptance or new calls inferred.
+
+D087:[policy003 preparation](C09_POLICY_QUALIFICATION_REPORT.md) complete offline;
+29targeted tests PASS,32conditions/16unique payloads. Narrow16-call diagnostic
+amendment proposed,not authorized;broader quality/acceptance gates unchanged.
+
+D085:[offline conflict analysis](C09_CONFLICT_ANALYSIS_REPORT.md) rules out missing
+context for the smoke failure;opt-in policy candidate added,32development
+assemblies retain prior evidence. No model-quality claim or new API calls.
+
+D084:[structured smoke](C09_STRUCTURED_SMOKE_REPORT.md) complete:2valid JSON,
+1correct,1conflict-handling failure.35focused tests PASS. C09 remains ACTIVE;
+no further calls authorized,next offline analysis. Old qualification unchanged.
+
+D083:[strict structured-answer integration](C09_STRUCTURED_ANSWER_REPORT.md)
+implemented offline as opt-in repository example.117 checks PASS,zero API calls;
+includes response-schema budget accounting. Live acceptance/quality still pending.
+
+D082:[two-call response diagnosis](C09_RESPONSE_DIAGNOSTIC_REPORT.md) complete.
+Raw provider empty content reproduced once;other call valid. Parser exonerated
+for this path,internal provider/model cause unresolved. C09 ACTIVE;no more API calls.
+
+D081 offline continuation:[empty-answer diagnosis](C09_EMPTY_ANSWER_REPORT.md)
+adds an opt-in caller boundary,105 targeted tests PASS,no new calls or engine changes.
+Protocol stop-success and application validity are now explicitly separated;
+upstream blank-answer cause/quality qualification remain OPEN.
+
+Latest D080(2026-09-23):[qualification live002](C09_QUALIFICATION_LIVE_REPORT.md)
+completes32/32 requests. PRIMARY7/8 at each budget,CONTROL5/8 and6/8;strict target
+FAIL. Five empty answers retained;zero provider errors/truncations/input-cap
+overruns/uncertain usage. C09 ACTIVE,next offline diagnosis,no calls authorized.
+
+Offline preparation(2026-09-23,D079):[qualification002-r1](C09_QUALIFICATION_REPORT.md)
+freezes32 fresh author-visible paired slots and strict answer integration on0.9.2.
+Recovery literal retention7/7 versus default6/7 at both budgets;model quality remains
+NOT_EVALUATED. Owner review/new live budget/independent qualification still pending.
+No additional API calls,default-policy adoption,C10 start or owner acceptance.
+
+Reminder gate: the deferred C06 matrix is now complete (snapshot249). Review its final evidence and S11/S12/error limitations before C09;do not treat primary fixture PASS as held-out quality or owner release acceptance. D037 did not waive evidence requirements.
 
 Build: threat model, boundary tests, abuse controls and held-out corpus covering stale/contradictory facts, paraphrases, multilingual text, hostile tool output, no-answer cases and very large histories.
 
@@ -156,7 +198,29 @@ Acceptance: cross-tenant retrieval/cache/export/delete all denied; malicious ret
 
 Owner demonstration: red-team fixtures and quality breakdown on unseen scenarios. Evidence: threat model, negative tests, data-handling review and held-out scorecard. No claim of universal injection prevention.
 
+Progress (2026-09-22,D075): [C09 report](C09_REPORT.md), [threat model](C09_THREAT_MODEL.md), [separate protocol](C09_EVALUATION_PROTOCOL.md). Repaired partial implementation,857 tests pass including105 C09 cases,0.9.0 build/lock/freeze verified,64 synthetic offline slots prepared with zero network/provider calls and identical replay. ACTIVE: hard CPU/disconnect containment, response/retention scoring and independent live quality/calibration remain unresolved. No owner acceptance or automatic deferral to C10. Former Kimi handoff superseded.
+
+Continuation (2026-09-23,D076): package0.9.1 closes local assembly timeout/disconnect containment with bounded disposable workers; adds frozen literal-retention and TEST_ONLY response scoring.891 tests PASS,including139 C09 cases;offline/installed builds and HTTP demo PASS.003 preparation/scorer reports reproduce with sockets disabled. Earlier D075 local gaps are addressed;C09 stays ACTIVE pending owner-approved independent live-quality/calibration evidence and exact receipt-provenance execution protocol. No API calls or owner acceptance inferred. See [current report](C09_REPORT.md).
+
+Latest C09 evidence(2026-09-23,D077): [live001](C09_LIVE_REPORT.md) completed32/32
+responses without API errors,uncertainty,forbidden answers or input-cap overruns.
+Strict quality2/8 per condition FAIL;913 local tests pass. C09 stays ACTIVE for
+answer-contract/identifier and retention work plus independent qualification.
+No automatic C10 start or further live calls;the32-call budget is consumed.
+
+Offline continuation(2026-09-23,D078):[repair001](C09_REPAIR_REPORT.md) adds0.9.2
+default-off WINDOW missing-chunk recovery and optional exact-answer JSON validation.
+970 tests PASS,build/installed service demo PASS,no new API calls. Live001 remains
+unchanged/reproducible through its archived0.9.1 environment. C09 stays ACTIVE for
+fresh quality qualification;default-policy adoption and owner acceptance pending.
+
 ## C10 — Operations and recovery
+
+D086 local baseline:[C10 report](C10_REPORT.md),[operations runbook](OPERATIONS.md).
+11synthetic recovery/profile checks PASS,build/installed memory demo PASS,manual
+cross-platform CI prepared but not remotely executed. D089 [platform report](C10_PLATFORM_REPORT.md):
+Mac/Linux probes PASS;Linux1117PASS/1private-fixtureFAIL;local repair verified,
+Linux revalidation pending. Manual-first owner execution preference. Acceptance gates unchanged.
 
 Build: cross-platform CI, release build, migrations, backup/restore, rollback, metrics, alerts, load profile and operational runbooks; dependency/license review and artifact provenance.
 
@@ -165,6 +229,9 @@ Acceptance: required tests pass on macOS/Linux/Windows; sustained load on declar
 Owner demonstration: restore into an isolated environment, verify history/context integrity, simulate provider outage and recover. Evidence: CI results, load report, restore timing, runbooks, SBOM and rollback transcript.
 
 ## C11 — Cost-driven evolution
+
+D086 offline profile:[C11 report](C11_REPORT.md). Existing index reuse measured;
+no new optimization or production-cost/quality claim. Acceptance remains pending.
 
 Reminder gate: measured model-cost optimization requires the deferred C06 live baseline; do not substitute synthetic prices/UNKNOWN answers. Return to the owner if C06 is still incomplete.
 
@@ -175,6 +242,10 @@ Acceptance: compare to locked V1 and held-out baselines with paired workload run
 Owner demonstration: before/after quality, latency and total cost per useful answer with provenance. Evidence: versioned experiment manifests, results and decision entries.
 
 ## C12 — Enterprise release
+
+D086:[release blockers and procedure](C12_REPORT.md). BLOCKED on failed quality,
+unqualified operations/cost,pilot inputs and explicit owner acceptance. Local
+preparation does not authorize deployment or waive earlier gates.
 
 Reminder gate: C06 live qualification must be resolved before release acceptance. D037 changes development order only; it does not waive release evidence.
 

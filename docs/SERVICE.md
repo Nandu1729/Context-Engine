@@ -84,7 +84,7 @@ Resource operations write an audit intent before touching memory, then record ou
 
 Memory and audit databases have separate commits: a crash or failed completion write can leave `started` after a successful mutation. Never treat that as proof the mutation failed. Recover through memory revision/idempotency receipts; no distributed exactly-once claim. Audit is locally restricted, not tamper-proof against the host administrator. Access logs are off in the supplied launcher; external gateways must also avoid bodies/authorization headers.
 
-Assembly validates the expected revision and actual snapshot identity before returning. Authorization and snapshot checks are point-in-time: already exported data cannot be recalled, and a concurrent later edit does not retroactively invalidate a response. Synchronous assembly is finite under memory bounds but has no hard preemptive CPU deadline; C09/C10 must qualify cancellation, concurrency and larger workloads. Do not claim production noisy-neighbor, SLO or recovery guarantees from this local demo.
+Assembly validates the expected revision and actual snapshot identity before returning. Authorization and snapshot checks are point-in-time: already exported data cannot be recalled, and a concurrent later edit does not retroactively invalidate a response. Since0.9.1 service assembly uses disposable processes with parent timeout/disconnect termination; direct SDK calls remain cooperative. Global quotas, cross-platform and larger workloads still require qualification. Do not claim production noisy-neighbor, SLO or recovery guarantees from this local demo.
 
 ## Two integration paths
 
@@ -94,6 +94,25 @@ Groq adapter: `await service.integrations.complete_with_groq(..., client=explici
 
 ## C06 reminder and preserved environment
 
-Owner D050 permits C08 offline now; C06 is unfinished, not waived. Before C09 real-world quality work, C11 measured cost work or C12 release, return to C06. `archives/c06-live/` preserves the 0.7.2 wheel, protocol/freeze and hash-locked dependencies; `output/private/c06-frozen-env` is its isolated installed environment. The original matrix journal/ledger are untouched by service storage. Its zero-call resume check preserves the same execution identity; next live batch uses the command in C06_REPORT.md, not `uv run` against current 0.8.0.
+D073 supersedes the historical D050 deferral: C06 is complete at snapshot249. Review its preserved limitations before C09/C11/C12; do not start another C06 batch. `archives/c06-live/` preserves the0.7.2 wheel/protocol/freeze and hash-locked dependencies; `output/private/c06-frozen-env` is its historical installed environment. Service storage and C09 work must not alter that matrix, journal or ledger. New C09 preparation uses its own versioned identity, not the historical runtime. See C06_REPORT and C09_REPORT for current evidence.
 
 Sources informing implementation: [PyJWT verification API](https://pyjwt.readthedocs.io/en/latest/api.html) for fixed algorithm, issuer/audience and required-claim verification; [FastAPI security documentation](https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/) for application-owned authorization. The role policy, pinned-key lifecycle and local quotas described above are project decisions verified by local tests, not vendor security guarantees.
+## C09 process-backed assembly deadline (0.9.1)
+
+`create_app(..., limits=ServiceLimits(assembly_deadline_seconds=30, assembly_workers=2))` accepts a
+finite deadline greater than0 and at most300 seconds. The private launcher config
+may include `"limits": {"assembly_deadline_seconds": 30, "assembly_workers": 2}`;
+omitting it uses30 seconds and2 workers. Capacity is1–8 per service process.
+The server owns this setting; callers cannot supply a deadline in the request body.
+Authorization precedes launch. Snapshot/index/assembly/revision checking execute in
+a fresh subprocess against the configured local store, using UTC clock semantics;
+parent timeouts and ASGI disconnect/task cancellation kill/reap it. No indefinite
+worker queue: saturated capacity returns503 `assembly_busy`; cancellation returns503
+`work_cancelled` with an audit outcome and no prompt content. Shutdown also reaps
+late-starting workers. Stdout2MB/stdin256KiB caps and stripped environment protect
+the IPC boundary. Stored originals survive; interrupted SQLite transactions recover
+on reopen, but previously committed index batches may remain. Worker reaping/OS
+scheduling is not a strict response-latency SLO. Other sync endpoints and direct SDK
+calls do not gain process isolation. Local process counts multiply with service
+instances; global admission/load qualification remains future work. See the
+[threat model](C09_THREAT_MODEL.md) for remaining live-quality/operational gates.

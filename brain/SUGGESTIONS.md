@@ -26,3 +26,33 @@ Stage: proposed from C06 live receipts; owner adoption pending. No frozen runtim
 - Experiment: preserve this baseline; independently freeze a provider/accounting audit and held-out multilingual/tool-schema sample. Compare saved wire requests, provider usage/cache detail and estimates; publish over-budget counts and paired retention/accuracy. Predeclare acceptable risk and owner-approved call budget before execution. Do not silently tune C06 or resend completed probes.
 
 Review rule: inspect regressions and workload feedback first; refresh external sources when relevant; write one experiment with an acceptance threshold; compare cost and quality; retain, revise, or reject with evidence. This runs during project work, not through an implied background agent.
+
+## S13 — Separate machine-answer conformance from semantic and retention quality
+
+Stage:D088 policy003 diagnostic completes16calls:5/8correct each arm,one improvement
+and one regression. Candidate not adopted;stop this prompt-only experiment.
+See [live report](../docs/C09_POLICY_LIVE_REPORT.md). No further calls authorized;
+semantic reliability and calibration remain open,no default adoption/gate waiver.
+
+D085 adds an offline opt-in evidence-policy candidate after confirming both
+conflicting facts were present.32development assemblies preserve prior retention;
+later D088 quality target FAIL. See [analysis](../docs/C09_CONFLICT_ANALYSIS_REPORT.md).
+
+- Evidence:strict8/32 matches;12 outputs contain the expected literal with extra
+  wording,3 change ASCII identifier hyphens to U+2011,9 abstain with missing evidence.
+  Current scores remain unchanged. This diagnoses failure types,not post-hoc regrading.
+- Benefit:machine consumers receive exact identifiers;measure formatting,unsupported
+  claims and source retention independently instead of conflating them.
+- Cost/risk:response schema/parser integration and new cases;normalization may
+  corrupt meaningful identifiers. Do not indiscriminately strip prose or map Unicode.
+- Experiment:predeclare a provider-independent answer-field contract and strict
+  conformance checks,plus source-chunk retention comparison(S11). Freeze fresh
+  independent scenarios and explicit primary-versus-control targets before measuring.
+  No auto-relaxation of WINDOW's already-failed90% target. New live calls need a new
+  bounded approval;offline design/regressions can proceed without more quota.
+
+S11 implementation note(D078):0.9.2 adds explicit SDK opt-in for missing original
+chunks within CAP-shortened WINDOW messages. Default PRD exclusion is unchanged;
+development recovery/source/deletion/budget tests pass. This is mitigation,not
+independent quality proof or approval to change the default. Fresh qualification
+and owner adoption remain pending;C06/live001 results are not rerun or regraded.

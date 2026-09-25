@@ -101,20 +101,20 @@ IDs below are stable and correspond to the source checklist in order. Evidence i
 | V1-11 | Replay cache | C05 | C05 scoped keys, TTL, corruption rejection and zero-new-cost replay; tests/test_providers.py |
 | V1-12 | Daily ledger | C05 | C05 atomic quota reservations, usage/cached pricing, uncertainty/reconciliation and concurrency tests |
 | V1-13 | Single probe | C03, C05 | Live A5/900/120b answers shard-19 correctly; output/c06-live-smoke.json and validated smoke report; not full benchmark acceptance |
-| V1-14 | 100-turn scenario | C04, C06 | C04 frozen 100-turn corpus verified; C06 live benchmark pending |
+| V1-14 | 100-turn scenario | C04, C06 | C04 frozen corpus verified; C06 snapshot249 completes744 live dispositions on this scenario,not held-out quality |
 | V1-15 | 31 gradable facts | C04 | C04 unique source/alias/zone/plant checks and deterministic grading |
-| V1-16 | Six benchmark configurations run | C06 | Full744-slot matrix exercised offline; live120b matrix and both900-token groups complete. Remaining20b/3000 variants incomplete; saved provider rejections remain failures. Current counts/evidence in C06_REPORT.md |
-| V1-17 | Independent fact presence / answer correctness | C04 | All four combinations tested; primary live A5 has 29/31 retained and 29/31 correct, reported separately; full matrix pending |
+| V1-16 | Six benchmark configurations run | C06 | Snapshot249:all744 dispositions across A0–A5/two models/two budgets;613 responses,124 non-fits,seven preserved errors. C06_REPORT.md |
+| V1-17 | Independent fact presence / answer correctness | C04 | All four combinations tested; final primary A5 has29/31 retained and29/31 correct,separately reported.20b/A5/3000 retains19/31 but answers18/31 with one missing answer |
 | V1-18 | Pre-registered criterion | C04 | Targets frozen before context measurements; explicit owner approval 2026-09-13, D047, before live inference; PREREGISTRATION.md |
 | V1-19 | Five validity gates execute | C04 | C04 corruption/partial/truncation/drift cases tested; output/c04-benchmark-check.json |
 | V1-20 | Frozen-summary leakage gate | C04 | C04 identifier/Unicode alias leak rejection before inference |
-| V1-21 | Model swap | C06 | Both frozen Groq models now have live results under one execution identity; every120b case and both900-token groups complete by snapshot131. Remaining20b/3000 matrix pending; model availability is not full qualification |
+| V1-21 | Model swap | C06 | Both frozen Groq models fully disposed under one identity in249;immutable reports retain model-specific results/errors. No cross-provider substitution |
 | V1-22 | Statistics | C06 | C06 raw counts, explicit denominators, zone retention, known/unknown usage/cost; tests/test_execution.py |
-| V1-23 | Scorecard | C06 | Historical TEST_ONLY scorecard preserved; latest validated live scorecard/immutable report linked in C06_REPORT.md. Partial live evidence remains INTERRUPTED / NOT_EVALUATED,with failures visible |
+| V1-23 | Scorecard | C06 | Final report249 VALID/five gates PASS/primary quality PASS;seven errors and unknown original receipt remain visible,with external accounting supplement in C06_REPORT.md. Not enterprise qualification |
 | V1-24 | Leaderboard | C06 | Generated output/c06-report/leaderboard.md, invalid/pending outcomes preserved |
 | V1-25 | Two figures without new API calls | C06 | Context/cost and zone PNG generation; locked-environment network-disabled reproducibility tests |
-| V1-26 | CLI full run | C06 | Full offline matrix verified; live resume preserves terminal entries and pauses on quota/uncertainty/new errors. Reviewed operational amendments outside archived engine are explicit; C06_REPORT.md gives latest snapshot. Full live matrix pending |
-| V1-27 | Reproducible results | C06 | Frozen source/profile, checked receipts, immutable snapshots and offline-identical reports; batch132 onward additionally requires the complete disclosed operational amendment chain, source hashes, sidecars and ledger events (C06_QUOTA_AMENDMENT.md). Latest evidence in C06_REPORT.md; live release proof pending |
+| V1-26 | CLI full run | C06 | Live runner exits0 at249,all744 terminal/zero pending. Resume preserves prior outcomes;amendment009 reconciles one timeout's accounting without rewriting its failure. No further calls required |
+| V1-27 | Reproducible results | C06 | Both core freezes intact;final249 reports byte-identical with sockets disabled,figures inspected. Requires disclosed operational amendments001–009/source hashes/sidecars/events and external reconciliation evidence. C06_REPORT.md;hard-budget calibration/production gates still unqualified |
 
 ## Enterprise extension accountability
 
@@ -122,7 +122,7 @@ IDs below are stable and correspond to the source checklist in order. Evidence i
 |---|---|---|
 | Runtime persistence, memory revision, retention and deletion | C07 | MEMORY, C07_REPORT; tests/test_memory.py: persistence, conflict, index resume, invalidation, export and deletion-safe restore; production recovery remains C10 |
 | Identity, tenancy, API and SDK compatibility | C08 | SERVICE, C08_REPORT; tests/test_service.py and synthetic loopback evidence; production IdP/TLS/load remain unqualified |
-| Threat model, negative isolation tests, held-out quality | C09 | ENTERPRISE, EVALUATION |
+| Threat model, negative isolation tests, held-out quality | C09 | C09_REPORT, C09_THREAT_MODEL, C09_EVALUATION_PROTOCOL;139 C09 tests including process containment and TEST_ONLY scoring; ACTIVE: local engineering verified, independent live quality/calibration pending approval |
 | Recovery, observability, load, release artifacts | C10 | ENTERPRISE |
 | Measured optimization and controlled evolution | C11 | SUGGESTIONS |
 | Customer pilot, operating ownership and release acceptance | C12 | ENTERPRISE, CHECKPOINTS |

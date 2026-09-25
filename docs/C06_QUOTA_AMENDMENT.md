@@ -272,3 +272,10 @@ Use only archived Python for009. Default read-only;`--reconcile` is separate fro
 `--allow-live`,which continues untouched cases only. Never rerun a consumed settlement
 intent. Preserve223 and all eight predecessors. Final report must show the original
 missing usage receipt plus the external2,547-token accounting supplement separately.
+
+Final outcome224–249:26HTTP200 responses,744 terminal/zero pending;runner exits0.
+All718 baseline223 records and original timeout receipt unchanged.26 recovery/status
+pairs bind009;case/admission event pairs bind004. All core freezes remain valid.
+Report249 VALID/primary PASS,offline-identical;752 local tests pass. No active/uncertain
+ledger holds remain. C06 final report includes external usage separately;seven errors
+remain failed outcomes. Read-only009 now returns complete;no further dispatch needed.

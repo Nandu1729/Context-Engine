@@ -1,4 +1,13 @@
-# Owner review — initial foundation
+# Owner review — current release decisions
+
+Updated2026-09-24:the initial foundation notes below are historical. C00–C08 are
+READY for owner review,C09 quality remains open,C10/C11 offline preparation has
+advanced,and C12 is blocked. See [release gate register](C12_REPORT.md).
+Needed:release scope and deployment/data location,representative pilot workload,
+operating owner/targets/observation period,and checkpoint acceptance. Further model
+calls require a separate bounded approval;“finish quickly” does not waive failures.
+
+## Initial foundation (historical)
 
 The PRD describes two products that must advance together: a five-stage context assembly library and a reproducible harness proving retention, model utilization, validity, and cost. All 73 sections and 27 V1 acceptance items are routed in REQUIREMENTS. C00–C04 implementation is ready for review, including the frozen corpus and five validity gates. See the [short C04 report](C04_REPORT.md) and [proposed targets awaiting approval](PREREGISTRATION.md). C05 provider integration is next; no model accuracy or enterprise production readiness is claimed.
 

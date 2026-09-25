@@ -28,6 +28,13 @@ Historical messages are quoted JSON inside a user-data WINDOW block. This retain
 
 ## RETRIEVE
 
+0.9.2 optional extension:`RetrievalConfig(recover_capped_window=True)` also searches
+original chunks missing from changed messages within WINDOW. Fully represented
+chunks in the same source message are excluded;partial boundary chunks can overlap
+visible text. Source validation,reserves and final accounting remain unchanged.
+DefaultFalse preserves the original contract below. SDK opt-in only;not a new
+service request field or environment setting. See [repair design](C09_REPAIR_DESIGN.md).
+
 `RetrieveLayer(counter, RetrievalConfig(...))` indexes original message text only from turns outside the planned WINDOW. It does not search tool-call argument metadata. Chunking uses Unicode code-point ranges: 360 characters with 80-character overlap by default. IDs incorporate scope, source IDs, revision, content hash, range and chunker version. Provenance is retained outside the prompt; short turn/message/range references accompany evidence in the prompt.
 
 Baseline variant: rank-bm25 0.2.2 `BM25Plus`, k1=1.5, b=0.75, delta=1.0. BM25+ provides useful scores for tiny corpora; because its delta can also give nonmatches positive scores, candidates must have lexical overlap with the query. Normalization is NFKC + casefold + Unicode word/identifier tokenization. This is lexical retrieval, not semantic search or a comprehensive multilingual tokenizer.
