@@ -8,7 +8,7 @@ import pytest
 
 from context_engine.answers import AnswerContract
 from context_engine.config import BudgetConfig, RetrievalConfig
-from context_engine.errors import ContractError, RequiredContextTooLarge
+from context_engine.errors import BenchmarkError, ContractError, RequiredContextTooLarge
 from context_engine.models import KeyedPins, Message, Role, Scope, Turn
 from context_engine.pipeline import AssemblyOptions, assemble_context
 from context_engine.tokens import TiktokenCounter
@@ -76,7 +76,7 @@ def test_format_validation_does_not_claim_semantic_correctness():
         assert CONTRACT.parse('{"answer":"' + value + '"}') == value
 
 
-def test_author_visible_development_matrix_retention_does_not_regress():
+def test_author_visible_development_matrix_retention_does_not_regress(candidate_harness):
     # Existing cases are development evidence, not new held-out quality scores.
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
@@ -84,7 +84,13 @@ def test_author_visible_development_matrix_retention_does_not_regress():
     )
     q = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(q)
-    cases, truth, _ = q.load()  # Verifies immutable fixture/runtime hashes.
+    original_manifest = q.DIRECTORY / "manifest.json"
+    original_bytes = original_manifest.read_bytes()
+    with pytest.raises(BenchmarkError, match="freeze"):
+        q.load()  # Historical 0.9.2 evidence must reject the current runtime.
+    candidate_harness(q)  # Disposable TEST_ONLY copy with real candidate identity.
+    assert q.DIRECTORY / "manifest.json" != original_manifest
+    cases, truth, _ = q.load()  # Resource and runtime guards still execute.
     at = datetime(2026, 9, 23, tzinfo=UTC)
     for case in cases:
         contract = AnswerContract(case["kind"])
@@ -108,3 +114,4 @@ def test_author_visible_development_matrix_retention_does_not_regress():
                 assert q.retained(case, truth[case["id"]], result) == q.retained(
                     case, truth[case["id"]], before
                 )
+    assert original_manifest.read_bytes() == original_bytes

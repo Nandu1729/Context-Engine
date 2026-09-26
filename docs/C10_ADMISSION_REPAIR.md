@@ -65,7 +65,15 @@ freeze/drift checks PASS1.45s;scoped lint/diff checks PASS. Offline0.9.3 wheel b
 PASS. Separate53candidate qualification/harness tests also passed;intermediate
 fixture corrections and exact command results are retained in the project journal.
 
-Owner:commit/push all changes including the preserved wheel and run a NEW
-**Windows diagnostic**. The storage probe now includes the repair regressions.
-Windows confirmation and other existing Windows failures remain pending. No full
+Windows confirmation (owner-supplied run36238746737 on1a444f8):all14 storage/race
+checks PASS5.48s. The subsequent portable diagnostic stopped at81PASS/1FAIL14.00s:
+the evidence-policy retention test had missed the candidate-manifest transition.
+It now uses the same disposable TEST_ONLY fixture,requires the original manifest
+to reject new code,and verifies its bytes remain unchanged. Retention/budget
+assertions are unchanged. No product code,freeze or Windows exclusion changed.
+
+Follow-up local command:`.venv/bin/python -m pytest -q tests/test_c09_evidence_policy.py
+tests/test_runtime_transition.py tests/test_c09_policy_qualification.py --tb=short`:
+32PASS2.02s;scoped ruff/diff PASS. Owner:commit/push this test correction and run a
+NEW **Windows diagnostic**. Full Windows qualification remains pending. No full
 local-suite rerun,API calls,remote dispatch,deployment or checkpoint acceptance.

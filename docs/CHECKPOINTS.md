@@ -225,7 +225,9 @@ NOT TESTED reporting;full suite remains required on Linux/macOS. New Windows run
 Manual-first owner execution preference. Other acceptance gates unchanged.
 
 D093 [admission repair](C10_ADMISSION_REPAIR.md):0.9.3 service counter/schema2,
-explicit quota-preserving migration,baseline0.9.2 preserved;new Windows check pending.
+explicit quota-preserving migration,baseline0.9.2 preserved;14Windows repair checks
+PASS on1a444f8. Next diagnostic failure was an omitted candidate-manifest test
+fixture,now corrected;32focused local checks PASS. Full platform gate still pending.
 
 Build: cross-platform CI, release build, migrations, backup/restore, rollback, metrics, alerts, load profile and operational runbooks; dependency/license review and artifact provenance.
 
