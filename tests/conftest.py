@@ -1,0 +1,43 @@
+"""D090: explicit Windows boundary for frozen POSIX research runners only."""
+
+import sys
+
+# Exact modules, not wildcards: new tests are never automatically excluded.
+# Their frozen runner imports require fcntl; Linux/macOS still collect all of them.
+POSIX_RUNNER_MODULES = (
+    "test_c06_cached_quota.py",
+    "test_c06_complete.py",
+    "test_c06_recovery.py",
+    "test_c06_recovery_003.py",
+    "test_c06_recovery_004.py",
+    "test_c06_recovery_005.py",
+    "test_c06_recovery_006.py",
+    "test_c06_recovery_007.py",
+    "test_c06_recovery_008.py",
+    "test_c06_recovery_009.py",
+    "test_c06_rejection_diagnostic.py",
+    "test_c09_live.py",
+    "test_c09_policy_live.py",
+    "test_c09_qualification_live.py",
+    "test_c09_response_diagnostic.py",
+    "test_c09_structured_smoke.py",
+    "test_gemini_comparison.py",
+)
+
+
+def excluded_modules(platform):
+    return list(POSIX_RUNNER_MODULES) if platform == "win32" else []
+
+
+collect_ignore = excluded_modules(sys.platform)
+
+
+def pytest_terminal_summary(terminalreporter):
+    if collect_ignore:
+        terminalreporter.section("Windows scope: frozen POSIX runners NOT TESTED")
+        terminalreporter.write_line(
+            "17 modules excluded before import (fcntl unavailable); "
+            "these are NOT passes. Linux/macOS run the complete suite."
+        )
+        for name in collect_ignore:
+            terminalreporter.write_line(f"  NOT TESTED: {name}")

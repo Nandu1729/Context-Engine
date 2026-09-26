@@ -71,9 +71,41 @@ Manual CI now executes the platform preflight before the full suite and uses
 checkouts;binary artifacts remain binary. No renormalization or history rewrite.
 Verified git attributes and unchanged0.9.2 core source hash locally.
 
+## D090 — owner-approved platform scope (2026-09-26)
+
+Owner screenshots of GitHub run36219698403 show Ubuntu PASS9m28s,macOS PASS8m25s,
+Windows FAIL1m12s. Windows setup,brain checks and platform preflight passed;
+pytest stopped at collection with17 errors,so operations/build did not execute.
+Screenshots,not downloaded full logs or independently verified commit provenance,
+are the evidence available here. No remote test-count claim.
+
+Local inspection confirms the displayed traceback reaches the unconditional
+`fcntl` import in frozen c06_complete.py. Historical C06/C09/Gemini runners depend
+on POSIX locking. Owner explicitly approved this scope amendment after explanation:
+
+- Linux/macOS retain the complete test suite.
+- Windows excludes exactly17 named historical-runner modules before import,via
+  `tests/conftest.py`. Every excluded filename appears as NOT TESTED in the terminal
+  summary,even with quiet output. These are exclusions,not passing or executed tests.
+- No wildcard exclusions,no automatic exclusions of future tests,no simulated
+  locking. Engine,service,memory,provider and portable evaluation tests remain required.
+- Workflow job/step labels expose the differing scopes. Frozen scripts,core source,
+  safety guards and historical evidence are unchanged.
+
+Verification:7new scope tests PASS0.28s,scoped lint PASS;local full collection
+1128tests in0.46s without import errors. Scope tests exercise actual tiny subprocess
+pytest collections,proving the Windows selection prints all exclusions and the
+non-Windows selection still attempts the historical import. This does not emulate
+Windows runtime or establish Windows product correctness. No full local rerun.
+
+Next manual action:commit/push these reviewed changes,then start a NEW workflow
+run on that commit. Re-running the old failed job uses old code and cannot verify
+this repair. Share the new Windows test summary/errors;do not add further exclusions
+merely to turn CI green. No commit,push or remote dispatch performed by the assistant.
+
 ## Remaining gates
 
-Windows is untested and historical live runners still require POSIX `fcntl` and
-directory fsync. A local container is not remote CI,production hosting,Windows
-support,sustained-load evidence or disaster recovery. C10 remains ACTIVE;C09's
-failed quality gate and C12's pilot/owner acceptance blockers are unchanged.
+Windows portable-suite verification remains pending;historical live runners are
+explicitly unsupported there (POSIX locking/directory fsync). Cross-platform CI is
+not production hosting,sustained-load evidence or disaster recovery. C10 remains
+ACTIVE;C09's failed quality gate and C12's pilot/owner acceptance blockers remain.

@@ -218,9 +218,11 @@ fresh quality qualification;default-policy adoption and owner acceptance pending
 
 D086 local baseline:[C10 report](C10_REPORT.md),[operations runbook](OPERATIONS.md).
 11synthetic recovery/profile checks PASS,build/installed memory demo PASS,manual
-cross-platform CI prepared but not remotely executed. D089 [platform report](C10_PLATFORM_REPORT.md):
-Mac/Linux probes PASS;Linux1117PASS/1private-fixtureFAIL;local repair verified,
-Linux revalidation pending. Manual-first owner execution preference. Acceptance gates unchanged.
+cross-platform CI prepared. D089/D090 [platform report](C10_PLATFORM_REPORT.md):
+owner screenshots show remote Ubuntu/macOS PASS;Windows preflight PASS,17POSIX
+collection errors. D090 approves exact17historical-module Windows exclusion with
+NOT TESTED reporting;full suite remains required on Linux/macOS. New Windows run pending.
+Manual-first owner execution preference. Other acceptance gates unchanged.
 
 Build: cross-platform CI, release build, migrations, backup/restore, rollback, metrics, alerts, load profile and operational runbooks; dependency/license review and artifact provenance.
 

@@ -1,6 +1,6 @@
 # Current state
 
-Updated: 2026-09-25
+Updated: 2026-09-26
 
 ## Objective
 
@@ -60,15 +60,15 @@ D086 owner requests whole-project completion quickly. Advance independent offlin
 C10/C11/C12 preparation without waiving acceptance dependencies. C10 ACTIVE:
 synthetic100turn/20sample drill11checks PASS,deletion-safe restore/reindex49.20ms,
 warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recovery.
-Manual3-platform CI prepared,not remotely executed;Windows fcntl risk remains.
+D090 owner CI screenshots:Ubuntu/macOS PASS;Windows17POSIX-import errors.
+Approved exact17-module Windows exclusion;Linux/Mac retain all.7scope tests PASS.
+Next:owner pushes changes and starts NEW workflow;Windows remains unqualified.
 Offline wheel/sdist built,installed core-only memory demo9checks PASS;source unchanged.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot
 scope/data/targets/operating owner and explicit acceptance. See C10/C11/C12_REPORT.
 Local inventory45dependencies/2artifacts is not license/CVE/SBOM approval.
-D089 Linux1117PASS/1private-fixtureFAIL;local fix25PASS,not Linux-retested.
-Mac/Linux preflight4groupsPASS;see C10_PLATFORM_REPORT. No inference.
-Owner Mac run1119PASS/1brain-capFAIL/1private-auditSKIP;shortened memory for test headroom.
+D089 local history and D090 CI evidence:see C10_PLATFORM_REPORT. No inference.
 D088 policy003 live16/16:BASELINE5/8,CANDIDATE5/8,target FAIL;one improvement/one
 regression. Candidate not adopted.5runner tests/replay/no-call resume PASS;
 691prior rows unchanged. See C09_POLICY_LIVE_REPORT. Stop prompt-only experiments.

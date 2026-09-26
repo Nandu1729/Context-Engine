@@ -9,7 +9,7 @@ or publication. Built artifacts are local and their hashes are inventoried.
 | Gate | Actual state | Required before acceptance |
 |---|---|---|
 | C09 quality | Qualification PRIMARY14/16;policy003 diagnostic5/8each arm,target FAIL | Fresh reviewed evidence passing the unchanged target,or an explicit scope amendment |
-| C10 operations | Local recovery/profile and Mac/Linux probes PASS;Linux suite1117PASS/1fixtureFAIL,local repair pending Linux recheck;remote CI not run | Cross-platform results,declared load,operating targets,monitoring,real restore/rollback qualification |
+| C10 operations | Owner CI screenshots:Ubuntu/macOS PASS;Windows preflight PASS but17POSIX import errors. Approved explicit scope split;new Windows run pending | Windows portable-suite results,declared load,operating targets,monitoring,real restore/rollback qualification |
 | C11 cost | Existing index reuse profiled locally | Paired representative workload with accepted quality and total cost accounting |
 | Supply chain | Local metadata/artifact inventory only | Vulnerability/license review,release license choice,SBOM/provenance policy |
 | Pilot | No real workload or observation period supplied | Authorized data,environment,targets,operating owner,measured pilot |

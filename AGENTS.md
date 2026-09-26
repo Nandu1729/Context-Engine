@@ -81,6 +81,11 @@ pending. Separate claims/receipts and baseline-preserving ledger accounting only
 D088 exhausted:16/16 complete,5/8correct each arm,target FAIL,candidate not adopted.
 Preserve policy-live003;no further inference or automatic prompt experiments.
 
+D090 owner approves an explicit CI platform split: Linux/macOS retain all tests;
+Windows excludes only the17 frozen POSIX-runner modules listed in tests/conftest.py,
+with visible NOT TESTED reporting. Never broaden exclusions automatically or label
+them passes. Core/service tests remain required;historical scripts stay unchanged.
+
 - Preserve original history; CAP changes only working representations.
 - Never silently evict system instructions, required pins, or the current question. Return a structured budget error when they cannot fit.
 - Count the complete serialized request, including framing and tool schemas. Estimated token safety is not an exact provider guarantee.

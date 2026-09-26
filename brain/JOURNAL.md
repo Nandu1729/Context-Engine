@@ -109,3 +109,8 @@ Brain53 indexed docs,880/900 hot words;PRD hash/mappings/checkpoints unchanged.
 
 - Owner supplied macOS full-suite result:1119passed,1failed,1private-audit skip,2warnings267.26s. Brain stale-index test appends3words to898-word memory,exceeding900. Shortened INDEX prose without removing routes or changing the cap/test;kept headroom. No full-suite rerun or inference.
 - Verification:brain check PASS851/900words;all8brain tests PASS0.73s. Full suite not rerun;owner evidence plus targeted repair verification only.
+
+## 2026-09-26 — D090 explicit Windows test boundary
+
+- Owner screenshots of run36219698403 show Ubuntu/macOS PASS,Windows17import errors after preflight PASS. Inspected frozen fcntl dependency;owner approved transparent platform split. Exact17-module collect_ignore only on Windows,all names printed NOT TESTED;Linux/macOS unchanged. No frozen scripts/core/credentials touched.
+- 7new scope regressions PASS0.28s,lint PASS;1128tests collect locally0.46s. Tiny nested pytest runs verify import exclusion/reporting vs complete non-Windows collection;not Windows runtime validation. CI labels/docs updated. Next owner commit/push and NEW manual run;no full rerun or external mutation.

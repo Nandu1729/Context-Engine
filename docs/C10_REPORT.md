@@ -30,6 +30,11 @@ PASS;Linux full suite1,117PASS/1private-evidence-fixtureFAIL. Portable test repa
 passes25local checks including original private audit;Linux rerun still pending.
 Owner now prefers manual setup/CI/long-test execution;no new inference.
 
+D090 owner screenshots show remote Ubuntu/macOS jobs PASS,Windows preflight PASS
+but17historical-runner collection errors. Approved explicit Windows-only boundary
+excludes those17modules with NOT TESTED reporting;Linux/macOS retain the full suite.
+7scope tests PASS;1128local tests collect. New Windows run pending;see platform report.
+
 Not complete:remote three-platform results,Windows POSIX-runner portability,
 sustained service load,approved hardware/targets,offsite recovery/current deletion
 authority,real deployment rollback,migration to future schemas,monitoring/alerts,
