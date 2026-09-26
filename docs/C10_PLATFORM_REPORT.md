@@ -1,9 +1,28 @@
 # C10 platform verification — D089
 
-Latest:D093 owner approved and implemented the [versioned admission repair](C10_ADMISSION_REPAIR.md).
-Package0.9.3/schema2 replaces timestamp uniqueness;explicit migration and regression
-checks added. Original0.9.2 historical runtime preserved. Next NEW Windows diagnostic
-must validate the repair;prior failures/history below remain unchanged.
+Latest (2026-09-26):Windows6e36ff6 confirms14admission checks PASS5.19s and the
+previous evidence-policy fixture repair PASS. Portable diagnostic now stops at
+134PASS/1FAIL48.42s in `test_candidate_payloads_match_baseline_but_runtime_identity_differs`.
+Only four multilingual rows differ:569→576tokens and request hash
+`4f8a732a535391bd3248b2da90fe5fea355f8e60af28bb621a251bfd11169868`→
+`32c047e992b248b4d4ef8f59593d9b52de4d9823fba1b8ac4888b57d587a7996`.
+Local explicit CP1252 decoding reproduces that exact Windows result;UTF-8 reproduces
+the saved baseline. Frozen `c09_qualification.py` uses default-encoding `read_text()`.
+Byte hashes still match because decoding,not fixture bytes,changed.
+
+Both manual CI jobs now set `PYTHONUTF8=1` at startup. The archived0.9.2 test child
+uses `-X utf8` because its sanitized environment intentionally strips Python settings;
+it asserts UTF-8 mode and still reproduces the entire original plan exactly offline.
+No frozen script,manifest,baseline,production code or equality assertion changed;
+the17Windows exclusions are unchanged. For manual PowerShell runs,set
+`$env:PYTHONUTF8 = '1'` before the Python/uv commands below.
+
+Focused verification:UTF-8-mode failing-node/runtime-transition/platform-scope/
+evidence-policy tests31PASS2.55s;scoped ruff and diff checks PASS. This is local macOS
+verification,not full Windows qualification. Next:owner commit/push and NEW Windows
+diagnostic run;no remote dispatch or inference performed. D093
+[versioned admission repair](C10_ADMISSION_REPAIR.md) and historical failures below
+remain preserved.
 
 2026-09-25. Added `scripts/platform_check.py`:real deletion-safe memory recovery,
 two isolated assembly jobs compared with SDK output,reaped workers/reusable capacity,

@@ -45,6 +45,7 @@ def test_preserved_wheel_accepts_original_manifests_offline(tmp_path):
     program = """
 import asyncio, json, runpy, socket, ssl, sys
 from pathlib import Path
+assert sys.flags.utf8_mode == 1
 sys.path.insert(0, sys.argv[1])
 def deny(*args, **kwargs):
     raise AssertionError('No network in historical runtime validation')
@@ -77,7 +78,9 @@ print(json.dumps({'hash': code_hash(), 'version': runtime_identity()['package_ve
     }
     env = {key: value for key, value in os.environ.items() if key.upper() in allowed}
     result = subprocess.run(
-        [sys.executable, "-c", program, str(WHEEL), str(ROOT)],
+        # The sanitized environment deliberately does not inherit PYTHONUTF8.
+        # Preserve historical default UTF-8 reads even on Windows CP1252 hosts.
+        [sys.executable, "-X", "utf8", "-c", program, str(WHEEL), str(ROOT)],
         cwd=tmp_path,
         env=env,
         capture_output=True,

@@ -64,8 +64,9 @@ warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recove
 D090 split committed934aa52:Ubuntu/macOS PASS;Windows executes but fails/times out.
 Exact17-module exclusions unchanged. D093 fixes confirmed timestamp collision.
 134focused checks/build PASS;old preparation reproduces under archived0.9.2 offline.
-Windows1a444f8:14repair tests PASS;next failure was an omitted candidate-test fixture.
-Fixture repaired,32focused tests PASS. Next:owner push/NEW Windows diagnostic.
+Windows6e36ff6:14repair tests PASS;portable134PASS then multilingual decoding mismatch.
+Exact CP1252 reproduction;CI/archived-child UTF-8 enabled,31focused tests PASS.
+Next:owner push/NEW Windows diagnostic;frozen evidence/assertions unchanged.
 Prior0.9.2 wheel/sdist/memory-demo evidence remains historical,not0.9.3 qualification.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot

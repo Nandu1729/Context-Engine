@@ -143,3 +143,7 @@ Brain53 indexed docs,880/900 hot words;PRD hash/mappings/checkpoints unchanged.
 - Owner-supplied run36238746737 log binds1a444f8:14repair/race tests PASS5.48s;portable diagnostic stops at81PASS/1FAIL14.00s. Evidence-policy retention test still loaded historical0.9.2 manifest on0.9.3;not another admission failure.
 - Reused disposable candidate_harness in that test;first assert original rejects new runtime,then execute unchanged retention/budget assertions and verify original manifest bytes unchanged. No production/frozen changes or additional skips.
 - `.venv/bin/python -m pytest -q tests/test_c09_evidence_policy.py tests/test_runtime_transition.py tests/test_c09_policy_qualification.py --tb=short`:32PASS2.02s;scoped ruff/diff PASS. Full Windows qualification still pending;owner commit/push and NEW diagnostic. No live calls or remote dispatch.
+
+## 2026-09-26 — Windows multilingual decoding reproduced
+
+- Owner6e36ff6 log:14repair PASS5.19s;portable134PASS/1FAIL48.42s. Only multilingual rows drift569→576tokens;explicit CP1252 decode reproduces exact32c047e9 hash vs UTF-8 baseline4f8a732a. CI jobs set PYTHONUTF8=1;sanitized archived-wheel child uses/asserts -X utf8. No frozen/product changes or weaker assertions/skips. Focused qualification-node/runtime/platform/evidence-policy31PASS2.55s;ruff/diff PASS. Next owner commit/push/NEW Windows diagnostic;full platform qualification pending,no inference/dispatch.
