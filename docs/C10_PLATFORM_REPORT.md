@@ -105,6 +105,26 @@ merely to turn CI green. No commit,push or remote dispatch performed by the assi
 
 ## Remaining gates
 
+D091 update (2026-09-26):owner run36222231008 uses934aa52. Windows portable suite
+now executes,shows failures/errors,reaches100% progress,and exceeds30-minute job
+limit. Cause of failures/delayed exit is unknown;100% is not success. Raw-log link
+returns BlobNotFound. Supplied logs_98093417183.zip contains Ubuntu/macOS logs only;
+they bind934aa52 and confirm successful jobs,not Windows correctness.
+
+Owner approved a separate manual `windows-diagnostic.yml` workflow named
+**Windows diagnostic (first failure, no deployment)**. It runs only Windows with
+`pytest -vv -x --tb=short --capture=tee-sys`,unbuffered output,7-minute test step and
+10-minute job cap. Prints test names/stops at first failure;does not increase the
+old timeout,change product code,add exclusions or run inference. If cleanup itself
+hangs,the last printed test narrows diagnosis;this does not guarantee a full trace.
+The existing qualification workflow remains unchanged. Diagnostic success alone
+would not establish full-suite qualification.
+
+Next:owner commits/pushes the new workflow and memory/report changes,then selects
+**Actions → Windows diagnostic (first failure, no deployment) → Run workflow**.
+Share the first failing test/traceback or last named test if it times out. No need
+to rerun Linux/macOS. Assistant has not committed,pushed or dispatched anything.
+
 Windows portable-suite verification remains pending;historical live runners are
 explicitly unsupported there (POSIX locking/directory fsync). Cross-platform CI is
 not production hosting,sustained-load evidence or disaster recovery. C10 remains

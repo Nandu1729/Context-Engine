@@ -1,0 +1,28 @@
+name: Windows diagnostic (first failure, no deployment)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    name: Windows portable tests — stop at first failure
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: "0.11.16"
+          python-version: "3.12.13"
+          enable-cache: false
+      - run: uv sync --locked --all-extras
+      - name: Diagnose first failure (not full qualification)
+        timeout-minutes: 7
+        env:
+          PYTHONUNBUFFERED: "1"
+        # D090's exact POSIX exclusions remain; no new skips or live API calls.
+        # Verbose names identify the last test even if teardown hangs.
+        # tee-sys retains assertion output while showing Python output live.
+        run: uv run python -m pytest -vv -x --tb=short --capture=tee-sys

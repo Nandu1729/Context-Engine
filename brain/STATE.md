@@ -60,9 +60,9 @@ D086 owner requests whole-project completion quickly. Advance independent offlin
 C10/C11/C12 preparation without waiving acceptance dependencies. C10 ACTIVE:
 synthetic100turn/20sample drill11checks PASS,deletion-safe restore/reindex49.20ms,
 warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recovery.
-D090 owner CI screenshots:Ubuntu/macOS PASS;Windows17POSIX-import errors.
-Approved exact17-module Windows exclusion;Linux/Mac retain all.7scope tests PASS.
-Next:owner pushes changes and starts NEW workflow;Windows remains unqualified.
+D090 split committed934aa52:Ubuntu/macOS PASS;Windows executes but fails/times out.
+Approved exact17-module exclusions unchanged. Windows raw log unavailable.
+D091 next:owner pushes/runs Windows diagnostic workflow;first failure only,not qualification.
 Offline wheel/sdist built,installed core-only memory demo9checks PASS;source unchanged.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot

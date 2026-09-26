@@ -114,3 +114,9 @@ Brain53 indexed docs,880/900 hot words;PRD hash/mappings/checkpoints unchanged.
 
 - Owner screenshots of run36219698403 show Ubuntu/macOS PASS,Windows17import errors after preflight PASS. Inspected frozen fcntl dependency;owner approved transparent platform split. Exact17-module collect_ignore only on Windows,all names printed NOT TESTED;Linux/macOS unchanged. No frozen scripts/core/credentials touched.
 - 7new scope regressions PASS0.28s,lint PASS;1128tests collect locally0.46s. Tiny nested pytest runs verify import exclusion/reporting vs complete non-Windows collection;not Windows runtime validation. CI labels/docs updated. Next owner commit/push and NEW manual run;no full rerun or external mutation.
+
+## 2026-09-26 — D091 bounded Windows diagnostic preparation
+
+- Owner's934aa52 CI run passes Ubuntu/macOS;Windows now executes tests but displays failures/errors and times out. ZIP contains no Windows log;raw link BlobNotFound. Failure/hang cause unknown. Do not infer success from100% progress or merely extend timeout.
+- Owner approves dedicated manual Windows-only first-failure workflow:verbose names,tee output,unbuffered,7minute test/10minute job caps. Same17exclusions;no code/frozen changes,new dependencies,inference or automatic CI dispatch. Next owner push/new diagnostic run.
+- Validation:YAML parses,manual trigger/Windows-only runner confirmed;8brain tests PASS0.79s,brain check862/900words. No Windows execution claim.
