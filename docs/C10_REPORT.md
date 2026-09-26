@@ -1,5 +1,11 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-26,D093:[admission repair](C10_ADMISSION_REPAIR.md) advances to0.9.3.
+Confirmed same-timestamp primary-key collisions repaired with schema2 row IDs;
+existing control DBs require explicit transactional migration. Historical0.9.2
+wheel/freeze preserved;old preparation reproduces offline. Windows confirmation
+pending;older measurements below apply to their recorded runtime only.
+
 2026-09-24,D086. Owner requested completing the whole project quickly;independent
 offline operations work advances without waiving C09 quality or release gates.
 

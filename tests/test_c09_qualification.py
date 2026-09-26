@@ -23,6 +23,11 @@ qualification = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(qualification)
 
 
+@pytest.fixture(scope="module", autouse=True)
+def candidate_runtime(candidate_harness):
+    candidate_harness(qualification)
+
+
 @pytest.fixture(autouse=True)
 def no_network(monkeypatch):
     def denied(*args, **kwargs):
@@ -159,6 +164,11 @@ def test_freeze_drift_rejected(tmp_path, monkeypatch, target):
         destination = tmp_path / name
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / name, destination)
+    # Start from the valid candidate manifest so each mutation is the cause of rejection.
+    shutil.copy2(
+        qualification.DIRECTORY / "manifest.json",
+        tmp_path / "experiments/c09-qualification-002/manifest.json",
+    )
     monkeypatch.setattr(qualification, "ROOT", tmp_path)
     monkeypatch.setattr(qualification, "DIRECTORY", tmp_path / "experiments/c09-qualification-002")
     if target == "runtime":
@@ -214,9 +224,13 @@ def test_empty_optional_blocks_are_absent_evidence():
     assert qualification.retained(scenarios[0], truth[scenarios[0]["id"]], result) is False
 
 
-def test_checked_in_preparation_reproduces(plan):
+def test_candidate_payloads_match_baseline_but_runtime_identity_differs(plan):
     saved = json.loads((ROOT / "output/c09-qualification-002/preparation.json").read_text())
-    assert saved == plan
+    assert saved["manifest_hash"] != plan["manifest_hash"]
+    # Exact historical full-plan reproduction is checked under the archived wheel.
+    assert {k: v for k, v in saved.items() if k != "manifest_hash"} == {
+        k: v for k, v in plan.items() if k != "manifest_hash"
+    }
 
 
 def test_preflight_revision_preserved():

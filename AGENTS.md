@@ -86,6 +86,11 @@ Windows excludes only the17 frozen POSIX-runner modules listed in tests/conftest
 with visible NOT TESTED reporting. Never broaden exclusions automatically or label
 them passes. Core/service tests remain required;historical scripts stay unchanged.
 
+D093 owner approves versioned admission repair0.9.3 and explicit control schema1→2
+migration. Preserve0.9.2 wheel/freeze in archives/c10-admission-093 and all historical
+experiments. Candidate unit manifests are temporary TEST_ONLY copies,not historical
+re-freezes;old manifests must reject new code. No real DB migration/live authority.
+
 - Preserve original history; CAP changes only working representations.
 - Never silently evict system instructions, required pins, or the current question. Return a structured budget error when they cannot fit.
 - Count the complete serialized request, including framing and tool schemas. Estimated token safety is not an exact provider guarantee.

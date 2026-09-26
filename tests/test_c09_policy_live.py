@@ -18,6 +18,11 @@ module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
 
+@pytest.fixture(scope="module", autouse=True)
+def candidate_runtime(candidate_harness):
+    candidate_harness(module.q)
+
+
 def test_alternating_unique_payloads_and_bounded_configuration(monkeypatch):
     monkeypatch.setattr(module.live, "configuration", lambda: None)
     identity = module.identity()

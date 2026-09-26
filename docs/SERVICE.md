@@ -80,6 +80,10 @@ Errors contain only `{"error":{"code":"...","request_id":"..."}}`; validation in
 
 Service control is a separate private SQLite database with shared-worker transactional request admission (default 60 requests per rolling minute per authenticated tenant) and cumulative session slots (default 100 per tenant). Reserve a session slot before memory creation; failed/deleted slots remain reserved, preventing create/delete bypass. Operator migration is needed to change policy or reclaim capacity. Existing core bounds plus finite session slots bound active originals; audit, tombstones, revisions/ingestion receipts and control records still need disk monitoring/retention planning in C10. Per-request ingress/connection limits must also be enforced by the deployment gateway; authenticated route quotas are not global DDoS protection.
 
+Since0.9.3,control schema2 uses distinct admission row IDs,not unique timestamps.
+Existing schema1 requires explicit `migrate_v1=True` after stopping service/backing
+up;normal startup will not silently migrate it. See [repair and migration](C10_ADMISSION_REPAIR.md).
+
 Resource operations write an audit intent before touching memory, then record outcome and revision afterward. Audit holds request ID, timestamp, action, hashed actor/tenant/session and controlled outcome; no messages, pins, question, answer or bearer credential. Pre-authentication/JSON-validation failures have sanitized responses but are not persisted as per-resource actor events. Audit queries require tenant-wide admin access. Hashing identifiers does not make guessable IDs anonymous.
 
 Memory and audit databases have separate commits: a crash or failed completion write can leave `started` after a successful mutation. Never treat that as proof the mutation failed. Recover through memory revision/idempotency receipts; no distributed exactly-once claim. Audit is locally restricted, not tamper-proof against the host administrator. Access logs are off in the supplied launcher; external gateways must also avoid bodies/authorization headers.

@@ -1,5 +1,10 @@
 # C10 platform verification — D089
 
+Latest:D093 owner approved and implemented the [versioned admission repair](C10_ADMISSION_REPAIR.md).
+Package0.9.3/schema2 replaces timestamp uniqueness;explicit migration and regression
+checks added. Original0.9.2 historical runtime preserved. Next NEW Windows diagnostic
+must validate the repair;prior failures/history below remain unchanged.
+
 2026-09-25. Added `scripts/platform_check.py`:real deletion-safe memory recovery,
 two isolated assembly jobs compared with SDK output,reaped workers/reusable capacity,
 subprocess kill/reap,and authenticated loopback HTTP. Results expose POSIX research
@@ -104,6 +109,27 @@ this repair. Share the new Windows test summary/errors;do not add further exclus
 merely to turn CI green. No commit,push or remote dispatch performed by the assistant.
 
 ## Remaining gates
+
+Latest finding (2026-09-26):logs_98114467083.zip/run36230402597 on4b03d54 shows
+3concurrency failures/1observer PASS in4.39s. Every captured storage error is INSERT
+code1555 (SQLITE_CONSTRAINT_PRIMARYKEY),with service_unavailable/503 responses.
+ControlStore admissions use PRIMARY KEY(tenant,at);timestamps are not unique request
+identifiers. A local isolated fixed-clock reproduction sends two distinct request
+IDs at123456.0:the first succeeds,the second produces the same1555,and only one
+audit is retained. This confirms the collision defect without Windows or inference;
+the prior lock-timeout hypothesis is not the cause of these observed failures.
+
+Recommended repair:separate admission row identity from its timestamp,retain atomic
+quota counting/audit behavior,and test same-timestamp admissions and exact quota
+boundaries. A schema transition must preserve existing admission/audit/session/policy
+records and require explicit operator migration. Do not use INSERT OR IGNORE (would
+undercount),drop quota history,increase timeout or relax the200/409/429 assertions.
+
+Implementation pending owner direction because this changes the frozen0.9.2 runtime
+and service-control schema. Preserve the old runtime/evidence and give the repair a
+new version;do not refreeze past experiments against changed code. No source/schema
+changes or real database migrations made during this diagnosis. No further Windows
+diagnostic rerun needed for this known defect;other Windows failures remain unresolved.
 
 D092 update (2026-09-26):logs_98100003759.zip includes the actual Windows diagnostic
 from run36224788664/commit417c611. It collected862tests and stopped after58PASS/1FAIL

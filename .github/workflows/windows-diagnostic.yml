@@ -24,7 +24,7 @@ jobs:
           PYTHONUNBUFFERED: "1"
         # Run the known failure first and expose all three related race results.
         # No retries or extra exclusions; stop the job if this probe fails.
-        run: uv run python -m pytest -vv --tb=short --capture=tee-sys tests/test_c09_bounds.py -k "concurrent or pin_race or storage_diagnostics"
+        run: uv run python -m pytest -vv --tb=short --capture=tee-sys tests/test_control_admissions.py tests/test_c09_bounds.py -k "admission or concurrent or pin_race or storage_diagnostics"
       - name: Diagnose first failure (not full qualification)
         timeout-minutes: 7
         env:

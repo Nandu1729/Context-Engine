@@ -224,6 +224,9 @@ collection errors. D090 approves exact17historical-module Windows exclusion with
 NOT TESTED reporting;full suite remains required on Linux/macOS. New Windows run pending.
 Manual-first owner execution preference. Other acceptance gates unchanged.
 
+D093 [admission repair](C10_ADMISSION_REPAIR.md):0.9.3 service counter/schema2,
+explicit quota-preserving migration,baseline0.9.2 preserved;new Windows check pending.
+
 Build: cross-platform CI, release build, migrations, backup/restore, rollback, metrics, alerts, load profile and operational runbooks; dependency/license review and artifact provenance.
 
 Acceptance: required tests pass on macOS/Linux/Windows; sustained load on declared hardware meets approved targets; crash/retry and index-rebuild drills pass; timed restore meets agreed RPO/RTO; deletion tombstones reapplied on restore; rollback of failed deployment proven. No production SLO claim from a single local benchmark.

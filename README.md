@@ -2,7 +2,7 @@
 
 A reusable context engine and evaluation harness for long-running agents, with an enterprise delivery roadmap.
 
-**Current delivery (2026-09-24):** package0.9.2 is a local development candidate,not an enterprise-qualified release. C09 quality remains open;C10/C11 offline operations/profiling have advanced;C12 is blocked on qualification and owner pilot decisions. The full pre-increment suite passed1,087tests;10new operations/inventory tests passed separately. See [release blockers](docs/C12_REPORT.md),[operations evidence](docs/C10_REPORT.md),[cost baseline](docs/C11_REPORT.md) and [C09 report](docs/C09_REPORT.md). C06 is complete at snapshot249 with retention/calibration limitations;all historical experiments remain preserved,not regraded. The authenticated local API is available via the [service guide](docs/SERVICE.md). No deployment or release acceptance is implied.
+**Current delivery (2026-09-26):** package0.9.3 is a local development candidate,not an enterprise-qualified release. It repairs same-timestamp service admission collisions with an explicit control-database migration;see [repair evidence](docs/C10_ADMISSION_REPAIR.md). Windows confirmation remains pending. C09 quality remains open;C10/C11 offline operations/profiling have advanced;C12 is blocked on qualification and owner pilot decisions. See [release blockers](docs/C12_REPORT.md),[operations evidence](docs/C10_REPORT.md),[cost baseline](docs/C11_REPORT.md) and [C09 report](docs/C09_REPORT.md). C06 is complete at snapshot249 with retention/calibration limitations;all historical experiments remain preserved,not regraded. The authenticated local API is available via the [service guide](docs/SERVICE.md). No deployment or release acceptance is implied.
 
 ## Run the core
 

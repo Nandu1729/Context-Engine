@@ -15,15 +15,19 @@ def opaque(value):
 
 
 class ControlStore:
-    def __init__(self, path, *, rpm=60, max_sessions=100):
+    def __init__(self, path, *, rpm=60, max_sessions=100, migrate_v1=False):
+        if type(migrate_v1) is not bool:
+            raise ValueError("Migration requires an explicit boolean")
         if any(type(v) is not int or not 1 <= v <= 10000 for v in (rpm, max_sessions)):
             raise ValueError("Invalid service quotas")
         self.path = private_file(path, create=True)
         self.rpm, self.max_sessions = rpm, max_sessions
         with self.transaction() as db:
             version = db.execute("PRAGMA user_version").fetchone()[0]
-            if version not in (0, 1):
+            if version not in (0, 1, 2):
                 raise ValueError("Unsupported service control schema")
+            if version == 1 and not migrate_v1:
+                raise ValueError("Control schema v1 requires explicit migrate_v1=True after backup")
             db.execute("CREATE TABLE IF NOT EXISTS policy (value TEXT NOT NULL)")
             policy = json.dumps([rpm, max_sessions])
             old = db.execute("SELECT value FROM policy").fetchone()
@@ -31,10 +35,21 @@ class ControlStore:
                 raise ValueError("Service quota policy changed; reviewed migration required")
             if not old:
                 db.execute("INSERT INTO policy VALUES(?)", (policy,))
+            if version == 1:
+                # Reviewed, opt-in, single-transaction migration. Preserve every
+                # timestamp/tenant, including expired rows (pruning stays in begin).
+                db.execute(
+                    "CREATE TABLE admissions_v2 "
+                    "(id INTEGER PRIMARY KEY, tenant TEXT NOT NULL, at REAL NOT NULL)"
+                )
+                db.execute("INSERT INTO admissions_v2(tenant,at) SELECT tenant,at FROM admissions")
+                db.execute("DROP TABLE admissions")
+                db.execute("ALTER TABLE admissions_v2 RENAME TO admissions")
             db.execute(
                 "CREATE TABLE IF NOT EXISTS admissions "
-                "(tenant TEXT, at REAL, PRIMARY KEY(tenant,at))"
+                "(id INTEGER PRIMARY KEY, tenant TEXT NOT NULL, at REAL NOT NULL)"
             )
+            db.execute("CREATE INDEX IF NOT EXISTS admissions_tenant_at ON admissions(tenant,at)")
             db.execute(
                 "CREATE TABLE IF NOT EXISTS sessions "
                 "(tenant TEXT, session TEXT, PRIMARY KEY(tenant,session))"
@@ -45,7 +60,7 @@ class ControlStore:
                 "tenant TEXT, actor TEXT, session TEXT, action TEXT, "
                 "outcome TEXT, revision INTEGER)"
             )
-            db.execute("PRAGMA user_version=1")
+            db.execute("PRAGMA user_version=2")
 
     @contextmanager
     def transaction(self):
@@ -70,7 +85,7 @@ class ControlStore:
             count = db.execute("SELECT count(*) FROM admissions WHERE tenant=?", (tenant,))
             denied = count.fetchone()[0] >= self.rpm
             if not denied:
-                db.execute("INSERT INTO admissions VALUES(?,?)", (tenant, now))
+                db.execute("INSERT INTO admissions(tenant,at) VALUES(?,?)", (tenant, now))
             db.execute(
                 "INSERT INTO audit VALUES(NULL,?,?,?,?,?,?,?,NULL)",
                 (

@@ -16,6 +16,11 @@ diagnostic = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(diagnostic)
 
 
+@pytest.fixture(scope="module", autouse=True)
+def candidate_runtime(candidate_harness):
+    candidate_harness(diagnostic.parent.qualification)
+
+
 @pytest.mark.parametrize("content", ["", " ", '{"answer":"node-3"}'])
 def test_shape_excludes_content_reasoning_and_arbitrary_fields(content):
     raw = json.dumps(

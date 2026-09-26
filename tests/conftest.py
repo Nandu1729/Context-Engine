@@ -1,6 +1,34 @@
 """D090: explicit Windows boundary for frozen POSIX research runners only."""
 
+import json
+import shutil
 import sys
+
+import pytest
+
+from context_engine.evaluation.protocol import runtime_identity
+
+
+@pytest.fixture(scope="module")
+def candidate_harness(tmp_path_factory):
+    """Fresh TEST_ONLY manifests for unit tests, never rewrite historical freezes.
+
+    Runtime identity remains real; all resource/runtime guards still execute.
+    Historical replay is checked separately using the preserved 0.9.2 wheel.
+    """
+    with pytest.MonkeyPatch.context() as patch:
+
+        def prepare(module):
+            directory = tmp_path_factory.mktemp("candidate-harness") / module.DIRECTORY.name
+            shutil.copytree(module.DIRECTORY, directory)
+            manifest_path = directory / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["runtime"] = runtime_identity()
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            patch.setattr(module, "DIRECTORY", directory)
+
+        yield prepare
+
 
 # Exact modules, not wildcards: new tests are never automatically excluded.
 # Their frozen runner imports require fcntl; Linux/macOS still collect all of them.

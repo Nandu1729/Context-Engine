@@ -22,6 +22,13 @@ spec = importlib.util.spec_from_file_location(
 )
 live = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(live)
+
+
+@pytest.fixture(scope="module", autouse=True)
+def candidate_runtime(candidate_harness):
+    candidate_harness(qualification)
+
+
 qualification = live.qualification
 live = live.live
 

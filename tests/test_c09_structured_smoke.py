@@ -14,6 +14,11 @@ smoke = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(smoke)
 
 
+@pytest.fixture(scope="module", autouse=True)
+def candidate_runtime(candidate_harness):
+    candidate_harness(smoke.qualification)
+
+
 def test_identity_and_schema_accounting(monkeypatch):
     monkeypatch.setattr(smoke.live, "configuration", lambda: None)
     identity = smoke.identity()
@@ -21,7 +26,8 @@ def test_identity_and_schema_accounting(monkeypatch):
     assert identity["retries"]["max_attempts"] == 1
     rows = identity["preparation"]["rows"]
     assert [(r["case"], r["variant"], r["budget"]) for r in rows] == [
-        ("q2-long", "PRIMARY", 900), ("q2-conflict", "CONTROL", 900)
+        ("q2-long", "PRIMARY", 900),
+        ("q2-conflict", "CONTROL", 900),
     ]
     for row in rows:
         request, _, _ = smoke.reconstruct(row)
@@ -29,9 +35,9 @@ def test_identity_and_schema_accounting(monkeypatch):
         assert row["estimated_tokens"] <= 900
 
 
-@pytest.mark.parametrize("answers", [
-    ('{"answer":"snap-782"}', '{"answer":"UNKNOWN"}'), ("", "bad JSON")
-])
+@pytest.mark.parametrize(
+    "answers", [('{"answer":"snap-782"}', '{"answer":"UNKNOWN"}'), ("", "bad JSON")]
+)
 def test_two_calls_bound_receipts_and_no_resend(tmp_path, monkeypatch, answers):
     live = smoke.live
     monkeypatch.setattr(live, "configuration", lambda: None)
@@ -57,18 +63,32 @@ def test_two_calls_bound_receipts_and_no_resend(tmp_path, monkeypatch, answers):
             assert "contract" not in payload
             content = answers[self.calls]
             self.calls += 1
-            raw = json.dumps({
-                "id": f"test-{self.calls}", "object": "chat.completion", "model": live.MODEL,
-                "choices": [{"index": 0, "finish_reason": "stop", "message": {
-                    "role": "assistant", "content": content}}],
-                "usage": {"prompt_tokens": 40, "completion_tokens": 47, "total_tokens": 87},
-            }).encode()
+            raw = json.dumps(
+                {
+                    "id": f"test-{self.calls}",
+                    "object": "chat.completion",
+                    "model": live.MODEL,
+                    "choices": [
+                        {
+                            "index": 0,
+                            "finish_reason": "stop",
+                            "message": {"role": "assistant", "content": content},
+                        }
+                    ],
+                    "usage": {"prompt_tokens": 40, "completion_tokens": 47, "total_tokens": 87},
+                }
+            ).encode()
             return smoke.diagnostic.observed_parse(raw, live.MODEL)
 
     transport = Fake()
     client = live.ProviderClient(
-        store=store, quota=live.POLICY, prices=live.PRICES, api_key="offline-only",
-        generation=live.GENERATION, retries=live.RETRIES, transport=transport,
+        store=store,
+        quota=live.POLICY,
+        prices=live.PRICES,
+        api_key="offline-only",
+        generation=live.GENERATION,
+        retries=live.RETRIES,
+        transport=transport,
     )
     assert asyncio.run(live.dispatch(manifest, client)) == "finished"
     assert asyncio.run(live.dispatch(manifest, client)) == "finished"

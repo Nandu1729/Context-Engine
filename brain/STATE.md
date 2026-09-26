@@ -16,7 +16,8 @@ persistent project memory and owner-controlled checkpoints.
 - C09:bounded disposable workers,default2/max8,no queue;timeout/disconnect/cancellation
   kill/reap.19 process tests cover races,flood,credential isolation,SQLite recovery.
   SDK cancellation remains cooperative.
-- Package0.9.2(D078):default-off `recover_capped_window` recovers missing original
+- Package0.9.3(D093):service admission row IDs/schema2;explicit v1 migration.
+  D078 default-off `recover_capped_window` recovers missing original
   chunks from changed WINDOW messages;source/finalizer/deletion/budget checks remain.
   Optional AnswerContract validates exact JSON text/ASCII identifiers/integers,
   not truth.57 new regressions;live002 compliance measured,quality target FAIL.
@@ -25,8 +26,8 @@ persistent project memory and owner-controlled checkpoints.
 - C09 live001 complete:32responses,8strict matches,target FAIL;28,553tokens/$0configured.
   Historical receipts/account/source integrity and offline replay verified;
   details in C09_LIVE_REPORT. No regrading or replayed inference.
-- Sourcefreeze `298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc`.
-  Earlier wheels/freezes preserved;historical checks in C09_REPORT.
+- Sourcefreeze `b0bfb7283087edfb8d1e7c4d63f82687197202ce4682af14c397626dcbccdf7b`.
+  Real0.9.2 wheel/freeze preserved in archives/c10-admission-093;older archives unchanged.
 - C06 complete at snapshot249:744 terminal,613 responses,124 non-fits,six rejections,
   one missing-answer timeout. VALID,five frozen gates PASS,primary29/31 correct,
  95.18%estimated reduction. Archived0.7.2 is the only historical runtime.
@@ -61,10 +62,10 @@ C10/C11/C12 preparation without waiving acceptance dependencies. C10 ACTIVE:
 synthetic100turn/20sample drill11checks PASS,deletion-safe restore/reindex49.20ms,
 warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recovery.
 D090 split committed934aa52:Ubuntu/macOS PASS;Windows executes but fails/times out.
-Exact17-module exclusions unchanged. D092 Windows log:58PASS/1write-raceFAIL,unexpected503.
-Cause unconfirmed;4local diagnostic/race checks PASS. Core unchanged.
-Next:owner pushes/runs refined Windows diagnostic;safe storage codes identify cause.
-Offline wheel/sdist built,installed core-only memory demo9checks PASS;source unchanged.
+Exact17-module exclusions unchanged. D093 fixes confirmed timestamp collision.
+134focused checks/build PASS;old preparation reproduces under archived0.9.2 offline.
+Next:owner push/NEW Windows diagnostic. Existing DB migration requires backup/opt-in.
+Prior0.9.2 wheel/sdist/memory-demo evidence remains historical,not0.9.3 qualification.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot
 scope/data/targets/operating owner and explicit acceptance. See C10/C11/C12_REPORT.

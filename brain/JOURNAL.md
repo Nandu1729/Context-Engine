@@ -125,3 +125,15 @@ Brain53 indexed docs,880/900 hot words;PRD hash/mappings/checkpoints unchanged.
 
 - Read actual Windows ZIP98100003759:862collected,58PASS/1FAIL16.07s on417c611;concurrent write test sees503 alongside200/409. Original full-run delayed exit not explained. Local3race tests PASS0.40s;no evidence to justify a guessed core fix.
 - Added safe test-only SQL stage/numeric error observation and allowlisted HTTP error codes,unchanged correctness assertions. Real two-connection lock regression proves SQLITE_BUSY still raises.4checksPASS0.41s,lintPASS. Refined manual Windows workflow probes these first;no new exclusions,core/frozen changes or inference. Await owner push/new run for actual Windows exception evidence.
+
+## 2026-09-26 — confirmed admission timestamp collision
+
+- ZIP98114467083 on4b03d54:3race failures/1PASS4.39s,INSERT1555 with service_unavailable. Local fixed-clock two-distinct-request reproduction yields identical SQLITE_CONSTRAINT_PRIMARYKEY,one audit instead of two. Root cause:ControlStore PRIMARY KEY(tenant,at) mistakes timestamp for unique identity;not observed lock contention.
+- No new tests/production changes or migrations. Recommend versioned service schema repair with explicit history-preserving migration and fixed-clock/quota regressions;frozen0.9.2 benchmarks must remain separately reproducible. Await owner direction for this schema/runtime change;no further diagnostic rerun needed for this defect.
+
+## 2026-09-26 — D093 versioned admission repair
+
+- Owner approves best versioned repair. Preserved actual0.9.2wheel/freeze,then advanced0.9.3 and control schema2 with integer IDs/nonunique timestamps. Explicit v1 migration only;atomic history-preserving copy,unchanged quota policy,rollback on failure. No existing owner DB accessed/migrated.
+- 14repair/race regressions PASS0.46s. Five harness modules use disposable candidate manifests with real identity,not weakened guards or rewritten experiments. Transitional fixture mistakes fixed;55qualification/harness tests PASS in85.04s run (one separate baseline subprocess failed then repaired cache/socket setup). Corrected historical-wheel test PASS0.78s,network denied,old preparation exactly reproduced;new runtime rejects old manifests.
+- Saved C10_ADMISSION_REPAIR and updated Windows diagnostic to test fixed-clock/migration regressions first. Core sourceb0bfb7283087edfb8d1e7c4d63f82687197202ce4682af14c397626dcbccdf7b;dependencies unchanged. No full suite,live calls,commit/push or CI dispatch. Windows confirmation/other failures pending.
+- Final `.venv/bin/python -m pytest -q tests/test_control_admissions.py tests/test_runtime_transition.py tests/test_service.py tests/test_c09_bounds.py tests/test_brain.py tests/test_platform_scope.py --tb=short`:134PASS/2warnings4.05s. Two targeted evaluation freeze/drift checks PASS1.45s;ruff/diff PASS. `uv build --wheel --offline --no-sources --out-dir output/private/c10-admission-build-093` PASS;no sdist/full-suite rebuild.
