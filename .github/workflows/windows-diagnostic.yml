@@ -18,6 +18,13 @@ jobs:
           python-version: "3.12.13"
           enable-cache: false
       - run: uv sync --locked --all-extras
+      - name: Storage concurrency probe (unchanged correctness assertions)
+        timeout-minutes: 2
+        env:
+          PYTHONUNBUFFERED: "1"
+        # Run the known failure first and expose all three related race results.
+        # No retries or extra exclusions; stop the job if this probe fails.
+        run: uv run python -m pytest -vv --tb=short --capture=tee-sys tests/test_c09_bounds.py -k "concurrent or pin_race or storage_diagnostics"
       - name: Diagnose first failure (not full qualification)
         timeout-minutes: 7
         env:

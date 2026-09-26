@@ -105,6 +105,28 @@ merely to turn CI green. No commit,push or remote dispatch performed by the assi
 
 ## Remaining gates
 
+D092 update (2026-09-26):logs_98100003759.zip includes the actual Windows diagnostic
+from run36224788664/commit417c611. It collected862tests and stopped after58PASS/1FAIL
+in16.07s. `test_concurrent_writes_are_serialised_by_revision` observed200,409,503;
+one successful write assertion passed,but503 violates the test's required200/409
+outcomes. This identifies the failing test,not its underlying exception. The log
+records statuses only;storage contention is a hypothesis,not a confirmed root cause.
+It also does not establish why the earlier full run failed to exit.
+
+Local targeted baseline:all3concurrency tests PASS0.40s. Added test-only connection
+observation recording static SQL stage and numeric SQLite code,plus allowlisted API
+error codes in assertion diagnostics. No exception text,SQL arguments,credentials,
+paths or response bodies logged. Exceptions still propagate;timeouts,locking,
+expected status sets,thread counts and frozen core remain unchanged. A deterministic
+two-connection lock test verifies SQLITE_BUSY remains a failure and metadata capture.
+All4focused checks PASS0.41s;lint PASS. This is diagnostic instrumentation,not a fix
+claim or weakened assertion. No new exclusions or product changes.
+
+Updated Windows diagnostic runs these4checks first (2-minute step cap). Only if they
+pass does the existing first-failure suite run. Owner should commit/push and launch
+a NEW Windows diagnostic,then share the log. No full local suite,API calls,automatic
+remote run or assumption that other Windows failures are resolved.
+
 D091 update (2026-09-26):owner run36222231008 uses934aa52. Windows portable suite
 now executes,shows failures/errors,reaches100% progress,and exceeds30-minute job
 limit. Cause of failures/delayed exit is unknown;100% is not success. Raw-log link

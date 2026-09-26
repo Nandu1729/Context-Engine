@@ -3,6 +3,7 @@
 import asyncio
 import hashlib
 import json
+import sqlite3
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
@@ -534,58 +535,130 @@ def test_turn_exceeding_persistent_payload_limit_is_rejected(tmp_path):
 # --- concurrency and races -------------------------------------------------
 
 
-def test_concurrent_writes_are_serialised_by_revision(service):
+@pytest.fixture
+def storage_diagnostics(monkeypatch):
+    """Test-only error codes/stages, never SQL parameters, paths or exception text."""
+    events = []
+    connect = sqlite3.connect
+
+    class ObservedConnection(sqlite3.Connection):
+        def execute(self, sql, parameters=()):
+            try:
+                return super().execute(sql, parameters)
+            except sqlite3.Error as exc:
+                # Only static transaction stages are retained, never arbitrary SQL.
+                stage = sql.split()[0].upper() if isinstance(sql, str) and sql else "other"
+                if stage not in {"BEGIN", "COMMIT", "PRAGMA", "ATTACH", "INSERT", "UPDATE"}:
+                    stage = "other"
+                events.append(
+                    {"stage": stage, "sqlite_code": getattr(exc, "sqlite_errorcode", None)}
+                )
+                raise
+
+        def commit(self):
+            try:
+                return super().commit()
+            except sqlite3.Error as exc:
+                events.append(
+                    {"stage": "commit", "sqlite_code": getattr(exc, "sqlite_errorcode", None)}
+                )
+                raise
+
+    def observed_connect(*args, **kwargs):
+        kwargs.setdefault("factory", ObservedConnection)
+        return connect(*args, **kwargs)
+
+    monkeypatch.setattr(sqlite3, "connect", observed_connect)
+    return events
+
+
+def response_status(response):
+    # API codes are allowlisted, rather than dumping a response body on failure.
+    codes = {
+        "runtime_storage_error",
+        "service_unavailable",
+        "memory_integrity_error",
+        "memory_revision_conflict",
+        "quota_exhausted",
+        "internal_error",
+    }
+    code = response.json().get("error", {}).get("code")
+    return response.status_code, code if code in codes else None
+
+
+def test_storage_diagnostics_preserve_failure_and_hide_payload(tmp_path, storage_diagnostics):
+    path = tmp_path / "private-sentinel.sqlite"
+    with sqlite3.connect(path, timeout=0, isolation_level=None) as first:
+        with sqlite3.connect(path, timeout=0, isolation_level=None) as second:
+            first.execute("BEGIN IMMEDIATE")
+            try:
+                with pytest.raises(sqlite3.OperationalError):
+                    second.execute("BEGIN IMMEDIATE")
+            finally:
+                first.rollback()
+    first.close()
+    second.close()
+    assert storage_diagnostics == [{"stage": "BEGIN", "sqlite_code": sqlite3.SQLITE_BUSY}]
+
+
+def test_concurrent_writes_are_serialised_by_revision(service, storage_diagnostics):
     client, _, _ = service
     client.put(BASE, headers=headers())
 
     def write(index):
-        return client.post(
-            BASE + "/turns",
-            headers=headers(),
-            json={
-                "id": f"t{index}",
-                "operation_id": f"op{index}",
-                "expected_revision": 0,
-                "timestamp": AT.isoformat(),
-                "messages": [{"id": f"m{index}", "role": "user", "content": "value"}],
-            },
-        ).status_code
+        return response_status(
+            client.post(
+                BASE + "/turns",
+                headers=headers(),
+                json={
+                    "id": f"t{index}",
+                    "operation_id": f"op{index}",
+                    "expected_revision": 0,
+                    "timestamp": AT.isoformat(),
+                    "messages": [{"id": f"m{index}", "role": "user", "content": "value"}],
+                },
+            )
+        )
 
     with ThreadPoolExecutor(max_workers=6) as pool:
-        statuses = list(pool.map(write, range(6)))
-    assert statuses.count(200) == 1
-    assert set(statuses) <= {200, 409}
+        results = list(pool.map(write, range(6)))
+    statuses = [status for status, _ in results]
+    assert statuses.count(200) == 1, (results, storage_diagnostics)
+    assert set(statuses) <= {200, 409}, (results, storage_diagnostics)
 
 
-def test_concurrent_reads_succeed_and_quota_race_returns_429(service):
+def test_concurrent_reads_succeed_and_quota_race_returns_429(service, storage_diagnostics):
     client, _, control = service
     populated(service)
 
     def read(_):
         # Metadata reads test quota concurrency independently of the new worker cap.
         # Assembly overload/reaping is covered by test_c09_workers.
-        return client.get(BASE, headers=headers()).status_code
+        return response_status(client.get(BASE, headers=headers()))
 
     with ThreadPoolExecutor(max_workers=8) as pool:
-        assert list(pool.map(read, range(8))) == [200] * 8
+        results = list(pool.map(read, range(8)))
+        assert [status for status, _ in results] == [200] * 8, (results, storage_diagnostics)
     control.rpm = 1
     with ThreadPoolExecutor(max_workers=4) as pool:
-        statuses = list(pool.map(read, range(4)))
-    assert statuses.count(429) >= 1
-    assert set(statuses) <= {200, 429}
+        results = list(pool.map(read, range(4)))
+    statuses = [status for status, _ in results]
+    assert statuses.count(429) >= 1, (results, storage_diagnostics)
+    assert set(statuses) <= {200, 429}, (results, storage_diagnostics)
 
 
-def test_pin_race_is_resolved_by_optimistic_revision(service):
+def test_pin_race_is_resolved_by_optimistic_revision(service, storage_diagnostics):
     client, memory, _ = service
     client.put(BASE, headers=headers())
     body = {"value": "shard-9", "expected_revision": 0, "effective_at": AT.isoformat()}
 
     def put(_):
-        return client.put(BASE + "/pins/partition", headers=headers(), json=body).status_code
+        return response_status(client.put(BASE + "/pins/partition", headers=headers(), json=body))
 
     with ThreadPoolExecutor(max_workers=4) as pool:
-        statuses = list(pool.map(put, range(4)))
-    assert statuses.count(200) == 1
-    assert set(statuses) <= {200, 409}
+        results = list(pool.map(put, range(4)))
+    statuses = [status for status, _ in results]
+    assert statuses.count(200) == 1, (results, storage_diagnostics)
+    assert set(statuses) <= {200, 409}, (results, storage_diagnostics)
     snapshot = memory.snapshot(Scope("bounds-tenant", "bounds-session"))
     assert snapshot.pins.pins[0].value == "shard-9"

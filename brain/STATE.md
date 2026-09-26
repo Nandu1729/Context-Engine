@@ -61,8 +61,9 @@ C10/C11/C12 preparation without waiving acceptance dependencies. C10 ACTIVE:
 synthetic100turn/20sample drill11checks PASS,deletion-safe restore/reindex49.20ms,
 warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recovery.
 D090 split committed934aa52:Ubuntu/macOS PASS;Windows executes but fails/times out.
-Approved exact17-module exclusions unchanged. Windows raw log unavailable.
-D091 next:owner pushes/runs Windows diagnostic workflow;first failure only,not qualification.
+Exact17-module exclusions unchanged. D092 Windows log:58PASS/1write-raceFAIL,unexpected503.
+Cause unconfirmed;4local diagnostic/race checks PASS. Core unchanged.
+Next:owner pushes/runs refined Windows diagnostic;safe storage codes identify cause.
 Offline wheel/sdist built,installed core-only memory demo9checks PASS;source unchanged.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot

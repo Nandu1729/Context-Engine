@@ -120,3 +120,8 @@ Brain53 indexed docs,880/900 hot words;PRD hash/mappings/checkpoints unchanged.
 - Owner's934aa52 CI run passes Ubuntu/macOS;Windows now executes tests but displays failures/errors and times out. ZIP contains no Windows log;raw link BlobNotFound. Failure/hang cause unknown. Do not infer success from100% progress or merely extend timeout.
 - Owner approves dedicated manual Windows-only first-failure workflow:verbose names,tee output,unbuffered,7minute test/10minute job caps. Same17exclusions;no code/frozen changes,new dependencies,inference or automatic CI dispatch. Next owner push/new diagnostic run.
 - Validation:YAML parses,manual trigger/Windows-only runner confirmed;8brain tests PASS0.79s,brain check862/900words. No Windows execution claim.
+
+## 2026-09-26 — D092 first Windows failure identified
+
+- Read actual Windows ZIP98100003759:862collected,58PASS/1FAIL16.07s on417c611;concurrent write test sees503 alongside200/409. Original full-run delayed exit not explained. Local3race tests PASS0.40s;no evidence to justify a guessed core fix.
+- Added safe test-only SQL stage/numeric error observation and allowlisted HTTP error codes,unchanged correctness assertions. Real two-connection lock regression proves SQLITE_BUSY still raises.4checksPASS0.41s,lintPASS. Refined manual Windows workflow probes these first;no new exclusions,core/frozen changes or inference. Await owner push/new run for actual Windows exception evidence.
