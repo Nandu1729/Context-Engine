@@ -1,5 +1,11 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-27:[diagnostic update](C10_PLATFORM_REPORT.md):owner Windows ACL/storage
+probes PASS;main suite times out after58% without an assertion failure in the
+supplied excerpt. Next test's million-character name replaced with a short ID,
+unchanged oversized input/assertions.26local tests PASS0.11s;Windows confirmation
+pending. No broader qualification or SQLite ACL resolution claimed.
+
 2026-09-26,D094:[credential ACL repair](C10_CREDENTIALS_REPORT.md) advances to0.9.4.
 Native Windows credential/config checks implemented;0.9.3 wheel/freeze preserved.
 186focused local tests PASS;10native Windows checks await owner-run CI.

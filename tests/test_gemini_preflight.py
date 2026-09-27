@@ -115,7 +115,12 @@ def test_no_redirect_retry_or_error_body_disclosure(status):
     assert len(requests) == 1 and KEY not in json.dumps(result)
 
 
-@pytest.mark.parametrize("body", [b"not json", b"[]", b"{}", b"x" * 1_000_001])
+@pytest.mark.parametrize(
+    "body",
+    [b"not json", b"[]", b"{}", b"x" * 1_000_001],
+    # Verbose CI prints node IDs: never embed the million-byte response in a name.
+    ids=["malformed-json", "array", "missing-models", "oversized"],
+)
 def test_invalid_or_oversized_response_is_rejected(body):
     transport = httpx.MockTransport(lambda request: httpx.Response(200, content=body))
     with pytest.raises(preflight.PreflightError):

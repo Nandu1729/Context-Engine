@@ -1,11 +1,10 @@
 # Current state
 
-Updated: 2026-09-26
+Updated: 2026-09-27
 
 ## Objective
 
-Build the PRD's enterprise-capable context engine with measured quality/cost,
-persistent project memory and owner-controlled checkpoints.
+Build the PRD's context engine with measured quality/cost and owner-controlled checkpoints.
 
 ## Verified facts
 
@@ -64,9 +63,10 @@ warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recove
 D090 split committed934aa52:Ubuntu/macOS PASS;Windows executes but fails/times out.
 Exact17-module exclusions unchanged. D093 fixes confirmed timestamp collision.
 134focused checks/build PASS;old preparation reproduces under archived0.9.2 offline.
-Windows42148a6:UTF-8 PASS,501PASS then credential-permission failure.
-D094 ACL repair:186local PASS,10native-Windows untested;see C10_CREDENTIALS_REPORT.
-Next:owner push/NEW diagnostic;SQLite ACL gap remains,no additional exclusions.
+Windows owner screenshot:ACL/storage probes PASS;916-item suite times out58%.
+Gemini test had1,000,081-character ID;short names retain inputs/assertions.
+26local PASS0.11s;see C10_PLATFORM_REPORT. Owner push/NEW diagnostic;
+Windows confirmation pending;SQLite ACL gap/exclusions unchanged.
 Earlier build/demo evidence remains historical,not0.9.4 qualification.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot

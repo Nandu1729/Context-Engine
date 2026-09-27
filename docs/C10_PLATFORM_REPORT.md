@@ -1,5 +1,25 @@
 # C10 platform verification — D089
 
+## 2026-09-27 — diagnostic log-volume repair
+
+Owner screenshot of run36289927733 shows credential ACL and storage concurrency
+probes passing,then a10minute job timeout,not an assertion failure. The supplied
+916-item log passes the previous credential and multilingual failures and ends
+after Gemini response case`{}`. No completed-suite result or independently checked
+run/commit binding is available from this excerpt.
+
+The next case has a1,000,081-character pytest node ID:the default parameter name
+embeds its entire1,000,001-byte response. Local collection confirms that size;
+the four mocked response cases pass quietly in0.09s. Verbose output is therefore
+the leading timeout suspect,not a proven Windows stack-level diagnosis.
+
+Added four descriptive parameter IDs in`tests/test_gemini_preflight.py`;the input
+sizes,rejection assertions and production/frozen code are unchanged. No increased
+timeouts,new exclusions or network calls. Exact verbose diagnostic flags now pass
+all26module tests locally in0.11s;ruff/format checks PASS. Owner must commit/push
+and start a NEW Windows diagnostic to confirm. Full platform qualification and
+the separate SQLite ACL gap remain open.
+
 Latest D094:[Windows credential ACL repair](C10_CREDENTIALS_REPORT.md). Owner42148a6
 run confirms UTF-8 fix,then501PASS/credential-permissionFAIL. Package0.9.4 now
 enforces Windows credential/config ACLs;186local PASS,10native tests pending.
