@@ -75,3 +75,9 @@ preserves the archived entries verbatim.
 
 - ZIP98310168056,checkout77faaaa5d11370533508faf96e7ec99aa223fa70:credential71PASS2.66s,storage14PASS4.05s,main628PASS/1FAIL296.05s. Gemini oversized case PASS;no timeout. First failure at os.open on Windows-invalid`backup ?#.sqlite`,before copy/restore.
 - Added portable`backup %#.sqlite` test case on all platforms;original question-mark case retained on POSIX,all assertions unchanged.11focused backup/restore PASS0.20s,ruff/format PASS. No production/frozen changes,new exclusions,inference or CI dispatch. Owner commit/push/NEW Windows diagnostic;SQLite ACL/full qualification remain open.
+
+## 2026-09-27 — D095 Windows SQLite ACL enforcement
+
+- ZIP98315475586/98353896744 repeat77f2de7 public-SQLite failure:636PASS,341.10s/291.71s,no timeout. Owner explicitly approves best real enforcement. Preserved actual0.9.4 wheel/freeze before0.9.5;older archives and frozen experiments untouched.
+- Shared native owner/DACL checks,private new-object security,inheritable immediate directory validation,existing journal/WAL/SHM/super-journal checks,per-transaction revalidation and Windows temp_store=MEMORY. Memory/deletion/backup/runtime/control paths covered;existing ACLs never rewritten. Trusted ancestors/user/admins remain a limit,not a sandbox or race-proof VFS. Synthetic Windows fixtures use real ACLs;existing rejection assertions retained,no extra historical exclusions.
+- Final scoped523PASS/44native-Windows untested/2warnings13.37s;ruff/diff/build PASS. Prior wheels validate;0.9.2 still reproduces original plan. Dedicated SQLite ACL probe added before full Windows diagnostic. Owner commit/push/NEW diagnostic remains required;no native-Windows/full qualification claim,operator DB changes,inference or dispatch. See C10_STORAGE_ACL_REPORT.

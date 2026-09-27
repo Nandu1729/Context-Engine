@@ -1,5 +1,15 @@
 # C10 platform verification — D089
 
+## 2026-09-27 — D095 SQLite security repair
+
+ZIP98315475586 on77f2de76492897cc8384213e74ae999673c4c690:636PASS/1FAIL341.10s;
+ZIP98353896744 on the same commit:636PASS/1FAIL291.71s. Both pass backup filename
+coverage and stop at the public SQLite permission assertion,without timeouts.
+Owner approves[versioned SQLite ACL repair](C10_STORAGE_ACL_REPORT.md):0.9.5 adds
+native database/directory/sidecar enforcement,retains real rejection assertions
+and archives actual0.9.4.523focused local PASS;44native Windows checks await CI.
+No new Windows exclusions;dedicated storage ACL probe added before full diagnostic.
+
 ## 2026-09-27 — Windows backup filename fixture
 
 ZIP98310168056 binds checkout to77faaaa5d11370533508faf96e7ec99aa223fa70.

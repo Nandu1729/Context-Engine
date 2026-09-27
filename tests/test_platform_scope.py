@@ -39,6 +39,9 @@ def test_collection_boundary_and_visible_report(tmp_path, windows):
         "excluded_modules(sys.platform)", f"excluded_modules({'win32' if windows else 'linux'!r})"
     )
     (tmp_path / "conftest.py").write_text(source, encoding="utf-8")
+    (tmp_path / "private_files.py").write_text(
+        (TESTS / "private_files.py").read_text(encoding="utf-8"), encoding="utf-8"
+    )
     (tmp_path / "test_c06_complete.py").write_text(
         'raise RuntimeError("POSIX_IMPORT_SENTINEL")\n', encoding="utf-8"
     )

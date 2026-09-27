@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
+from .._sqlite import connect
 from ..config import RetrievalConfig
 from ..errors import MemoryConflict, MemoryIntegrityError, StorageError
 from ..layers.common import history_digest
@@ -24,6 +25,10 @@ MAX_TURNS, MAX_BYTES, MAX_CHUNKS = 10000, 8_000_000, 100000
 
 
 def private_file(path, *, create=False, exclusive=False):
+    if os.name == "nt":
+        from .._windows_storage import private_file as windows_private_file
+
+        return windows_private_file(path, create=create, exclusive=exclusive)
     try:
         path = Path(path).absolute()
         if create:
@@ -138,7 +143,7 @@ class MemoryStore:
         try:
             private_file(self.path)
             private_file(self.deletion_path)
-            db = sqlite3.connect(self.path, timeout=0.5, isolation_level=None)
+            db = connect(self.path, timeout=0.5, isolation_level=None)
             db.row_factory = sqlite3.Row
             db.execute("ATTACH DATABASE ? AS deletions", (str(self.deletion_path),))
             for schema in ("main", "deletions"):
@@ -681,6 +686,7 @@ class MemoryStore:
 
     @staticmethod
     def _copy(source, destination):
+        source = private_file(source)
         destination = private_file(destination, create=True, exclusive=True)
         start = time.monotonic()
 
@@ -689,10 +695,8 @@ class MemoryStore:
                 raise StorageError("Backup deadline exceeded; partial destination is not usable")
 
         try:
-            with closing(
-                sqlite3.connect(Path(source).absolute().as_uri() + "?mode=ro", uri=True)
-            ) as src:
-                with closing(sqlite3.connect(destination)) as dst:
+            with closing(connect(Path(source).absolute().as_uri() + "?mode=ro", uri=True)) as src:
+                with closing(connect(destination)) as dst:
                     src.backup(dst, pages=128, progress=progress, sleep=0.01)
         except sqlite3.Error:
             raise StorageError("Cannot copy validated memory database") from None
@@ -709,7 +713,7 @@ class MemoryStore:
         private_file(deletion_path)
         try:
             with closing(
-                sqlite3.connect(Path(backup).absolute().as_uri() + "?mode=ro", uri=True)
+                connect(Path(backup).absolute().as_uri() + "?mode=ro", uri=True)
             ) as source:
                 if source.execute("PRAGMA user_version").fetchone()[0] != 1:
                     raise MemoryIntegrityError("Unsupported backup schema")
@@ -718,7 +722,7 @@ class MemoryStore:
                     raise MemoryIntegrityError("Invalid backup metadata")
                 lineage, applied = records[0]
             with closing(
-                sqlite3.connect(Path(deletion_path).absolute().as_uri() + "?mode=ro", uri=True)
+                connect(Path(deletion_path).absolute().as_uri() + "?mode=ro", uri=True)
             ) as authority:
                 known = authority.execute("SELECT lineage FROM authority").fetchall()
                 maximum, count = authority.execute(

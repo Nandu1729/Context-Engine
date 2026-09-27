@@ -10,6 +10,7 @@ from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+from .._sqlite import connect
 from ..errors import CacheError, ContractError, ProviderError, QuotaError, StorageError
 from ..models import canonical_json, integer_value
 from .contracts import (
@@ -39,16 +40,21 @@ class RuntimeStore:
             self.path = Path(path).absolute()
             if self.path.is_symlink():
                 raise StorageError("Runtime database cannot be a symlink")
-            self.path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-            descriptor = os.open(
-                self.path, os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0), 0o600
-            )
-            try:
-                info = os.fstat(descriptor)
-                if not stat.S_ISREG(info.st_mode) or (os.name == "posix" and info.st_mode & 0o077):
-                    raise StorageError("Runtime database must be a private regular file")
-            finally:
-                os.close(descriptor)
+            if os.name == "nt":
+                from .._windows_storage import private_file
+
+                private_file(self.path, create=True)
+            else:
+                self.path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+                descriptor = os.open(
+                    self.path, os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0), 0o600
+                )
+                try:
+                    info = os.fstat(descriptor)
+                    if not stat.S_ISREG(info.st_mode) or info.st_mode & 0o077:
+                        raise StorageError("Runtime database must be a private regular file")
+                finally:
+                    os.close(descriptor)
             with self.transaction() as db:
                 version = db.execute("PRAGMA user_version").fetchone()[0]
                 if version not in (0, 1):
@@ -89,7 +95,11 @@ class RuntimeStore:
     def transaction(self):
         db = None
         try:
-            db = sqlite3.connect(self.path, timeout=0.2, isolation_level=None)
+            if os.name == "nt":
+                from .._windows_storage import private_file
+
+                private_file(self.path)
+            db = connect(self.path, timeout=0.2, isolation_level=None)
             db.row_factory = sqlite3.Row
             db.execute("PRAGMA foreign_keys=ON")
             db.execute("BEGIN IMMEDIATE")

@@ -9,6 +9,7 @@ from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
 import pytest
+from private_files import set_private_permissions
 from test_providers import FakeTransport, client
 
 from context_engine.config import BudgetConfig, RetrievalConfig
@@ -387,7 +388,7 @@ def test_existing_store_detects_rolled_back_authority(memory):
 def test_private_schema_and_journal_boundaries(memory, tmp_path, problem):
     path = memory.path
     if problem == "public":
-        path.chmod(0o644)
+        set_private_permissions(path, public=True)
     elif problem == "symlink":
         path = tmp_path / "link.sqlite"
         path.symlink_to(memory.path)

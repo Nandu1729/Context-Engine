@@ -5,8 +5,21 @@ import shutil
 import sys
 
 import pytest
+from private_files import set_private_permissions
 
 from context_engine.evaluation.protocol import runtime_identity
+
+
+@pytest.fixture(scope="session")
+def tmp_path_factory(tmp_path_factory):
+    """Synthetic Windows storage gets a private, inheritable directory ACL.
+
+    Only this session's pytest-owned directory is changed; never operator paths.
+    Negative tests explicitly grant broad access after setup.
+    """
+    if sys.platform == "win32":
+        set_private_permissions(tmp_path_factory.getbasetemp())
+    return tmp_path_factory
 
 
 @pytest.fixture(scope="module")

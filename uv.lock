@@ -278,7 +278,7 @@ wheels = [
 
 [[package]]
 name = "context-engineering-core"
-version = "0.9.4"
+version = "0.9.5"
 source = { editable = "." }
 dependencies = [
     { name = "pywin32", marker = "sys_platform == 'win32'" },

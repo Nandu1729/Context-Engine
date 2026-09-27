@@ -1,5 +1,11 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-27,D095:[Windows SQLite ACL repair](C10_STORAGE_ACL_REPORT.md),version0.9.5.
+Memory/deletion/runtime/control databases and sidecars now require private native
+ACLs and safe directory inheritance. Existing permissions are never rewritten;
+actual0.9.4 preserved.523focused local PASS,44native tests unverified on macOS;
+offline build PASS. Owner NEW Windows diagnostic required;C10 remains ACTIVE.
+
 2026-09-27,Windows77faaaa:[platform report](C10_PLATFORM_REPORT.md):credential
 probe71PASS,storage14PASS,main628PASS/1FAIL296.05s,no timeout. New failure is a
 Windows-invalid`?` in a backup test filename. Portable URI-sensitive fixture now

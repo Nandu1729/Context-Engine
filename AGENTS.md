@@ -96,6 +96,11 @@ Version0.9.4 preserves actual0.9.3 wheel/freeze in archives/c10-credentials-094;
 historical experiments remain unchanged. Native Windows verification and separate
 SQLite ACL enforcement remain pending;no real operator ACL edits or new live authority.
 
+D095 owner approves versioned Windows SQLite ACL repair0.9.5. Preserve actual0.9.4
+wheel/freeze in archives/c10-storage-095. Require private DB/sidecar ACLs and private
+inheritable immediate directories;never rewrite existing operator ACLs. Native
+Windows/full qualification remains pending;no new exclusions or live authority.
+
 - Preserve original history; CAP changes only working representations.
 - Never silently evict system instructions, required pins, or the current question. Return a structured budget error when they cannot fit.
 - Count the complete serialized request, including framing and tool schemas. Estimated token safety is not an exact provider guarantee.

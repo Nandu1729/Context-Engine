@@ -6,6 +6,7 @@ import sqlite3
 import time
 from contextlib import contextmanager
 
+from .._sqlite import connect
 from ..memory.store import private_file
 from .auth import AccessError
 
@@ -65,7 +66,7 @@ class ControlStore:
     @contextmanager
     def transaction(self):
         private_file(self.path)
-        db = sqlite3.connect(self.path, timeout=1, isolation_level=None)
+        db = connect(self.path, timeout=1, isolation_level=None)
         db.row_factory = sqlite3.Row
         try:
             db.execute("PRAGMA synchronous=FULL")

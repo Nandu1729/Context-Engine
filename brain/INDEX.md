@@ -21,7 +21,7 @@ Start here and in [STATE](STATE.md); load deeper documents by topic. Disk is aut
 | Authenticated API / integrations / C06 reminder | [Service guide](../docs/SERVICE.md), [C08 report](../docs/C08_REPORT.md) |
 | Validity / proposed success targets | [Evaluation plan](../docs/EVALUATION.md), [owner pre-registration](../docs/PREREGISTRATION.md) |
 | Security / operations / enterprise gates | [Enterprise scope](../docs/ENTERPRISE.md) |
-| Current release blockers / operational evidence | [C12](../docs/C12_REPORT.md), [C10](../docs/C10_REPORT.md), [credential ACLs](../docs/C10_CREDENTIALS_REPORT.md), [C11](../docs/C11_REPORT.md), [runbook](../docs/OPERATIONS.md) |
+| Current release blockers / operational evidence | [C12](../docs/C12_REPORT.md), [C10](../docs/C10_REPORT.md), [SQLite ACLs](../docs/C10_STORAGE_ACL_REPORT.md), [credentials](../docs/C10_CREDENTIALS_REPORT.md), [C11](../docs/C11_REPORT.md), [runbook](../docs/OPERATIONS.md) |
 | Improvement proposals | [Suggestions](SUGGESTIONS.md) |
 | Why a past change happened | [Journal](JOURNAL.md), [C00–C08 archive](archive/JOURNAL_2026-09-07_to_C08.md), [C06 completion archive](archive/JOURNAL_C06_COMPLETION_2026-09-22.md), [C09 archive](archive/JOURNAL_C09_2026-09-22_to_24.md) |
 | Time-sensitive external facts | [Sources](../docs/SOURCES.md) |

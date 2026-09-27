@@ -619,13 +619,15 @@ def test_reconcile_double_charge_corrupt_ledger_and_unrelated_database(store, tm
 
 
 def test_private_files_symlinks_and_estimate_overrun(store, counter, tmp_path):
+    from private_files import set_private_permissions
+
     if os.name == "posix":
         assert store.path.stat().st_mode & 0o777 == 0o600
-        broad = tmp_path / "broad.sqlite"
-        broad.touch(mode=0o644)
-        os.chmod(broad, 0o644)
-        with pytest.raises(StorageError, match="private"):
-            RuntimeStore(broad)
+    broad = tmp_path / "broad.sqlite"
+    broad.touch(mode=0o600)
+    set_private_permissions(broad, public=True)
+    with pytest.raises(StorageError, match="private"):
+        RuntimeStore(broad)
     link = tmp_path / "link.sqlite"
     link.symlink_to(store.path)
     with pytest.raises(StorageError, match="symlink"):

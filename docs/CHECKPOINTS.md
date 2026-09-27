@@ -216,6 +216,11 @@ fresh quality qualification;default-policy adoption and owner acceptance pending
 
 ## C10 — Operations and recovery
 
+D095 [SQLite ACL repair](C10_STORAGE_ACL_REPORT.md):owner-approved0.9.5 enforces
+Windows database/directory/sidecar permissions,with0.9.4 preserved.523focused
+local PASS,44native-Windows untested;build PASS. Fresh Windows diagnostic and full
+qualification pending. No acceptance,additional exclusions or operator ACL edits.
+
 D086 local baseline:[C10 report](C10_REPORT.md),[operations runbook](OPERATIONS.md).
 11synthetic recovery/profile checks PASS,build/installed memory demo PASS,manual
 cross-platform CI prepared. D089/D090 [platform report](C10_PLATFORM_REPORT.md):

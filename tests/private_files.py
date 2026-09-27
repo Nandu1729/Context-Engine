@@ -5,7 +5,7 @@ import os
 
 def set_private_permissions(path, *, public=False):
     if os.name != "nt":
-        path.chmod(0o644 if public else 0o600)
+        path.chmod((0o755 if public else 0o700) if path.is_dir() else (0o644 if public else 0o600))
         return
     import ntsecuritycon
     import win32api
@@ -23,7 +23,12 @@ def set_private_permissions(path, *, public=False):
         security.ConvertStringSidToSid("S-1-5-18"),
         security.ConvertStringSidToSid("S-1-5-32-544"),
     ):
-        acl.AddAccessAllowedAce(security.ACL_REVISION, ntsecuritycon.FILE_ALL_ACCESS, sid)
+        acl.AddAccessAllowedAceEx(
+            security.ACL_REVISION,
+            0x01 | 0x02 if path.is_dir() else 0,
+            ntsecuritycon.FILE_ALL_ACCESS,
+            sid,
+        )
     if public:
         acl.AddAccessAllowedAce(
             security.ACL_REVISION,

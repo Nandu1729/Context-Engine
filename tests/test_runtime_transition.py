@@ -22,7 +22,7 @@ BASELINE_HASH = "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfd
 def test_current_runtime_matches_new_freeze_not_baseline():
     assert load_freeze()["runtime"]["code_hash"] == code_hash()
     assert code_hash() != BASELINE_HASH
-    assert load_freeze()["runtime"]["package_version"] == "0.9.4"
+    assert load_freeze()["runtime"]["package_version"] == "0.9.5"
     assert (
         json.loads((ARCHIVE / "baseline-freeze.json").read_text())["runtime"]["code_hash"]
         == BASELINE_HASH
@@ -38,12 +38,25 @@ def test_old_qualification_rejects_new_runtime_without_modified_guards():
         policy["prepare"]()
 
 
-def test_preserved_093_wheel_and_freeze_match(tmp_path):
-    archive = ROOT / "archives/c10-credentials-094"
-    wheel = archive / "context_engineering_core-0.9.3-py3-none-any.whl"
-    assert hashlib.sha256(wheel.read_bytes()).hexdigest() == (
-        "2ce93721c77b378dec1b776dfa8d33b0866ffa5ca51fbf8f44b33c2d6b582eaf"
-    )
+@pytest.mark.parametrize(
+    "directory,version,wheel_hash",
+    [
+        (
+            "c10-credentials-094",
+            "0.9.3",
+            "2ce93721c77b378dec1b776dfa8d33b0866ffa5ca51fbf8f44b33c2d6b582eaf",
+        ),
+        (
+            "c10-storage-095",
+            "0.9.4",
+            "034b57c33847925edb13ecfe7207c80de2a643c574eafbb02d5cd311e1d975d1",
+        ),
+    ],
+)
+def test_preserved_prior_wheel_and_freeze_match(tmp_path, directory, version, wheel_hash):
+    archive = ROOT / "archives" / directory
+    wheel = archive / f"context_engineering_core-{version}-py3-none-any.whl"
+    assert hashlib.sha256(wheel.read_bytes()).hexdigest() == wheel_hash
     baseline = json.loads((archive / "baseline-freeze.json").read_text(encoding="utf-8"))
     program = """
 import json, sys
