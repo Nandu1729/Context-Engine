@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "context-engineering-core"
-version = "0.9.3"
+version = "0.9.4"
 description = "Provider-independent context layers, source contracts, and token budget accounting"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["tiktoken>=0.14,<0.15", "rank-bm25>=0.2.2,<0.3"]
+dependencies = ["tiktoken>=0.14,<0.15", "rank-bm25>=0.2.2,<0.3", "pywin32==311; sys_platform == 'win32'"]
 
 [project.optional-dependencies]
 provider = ["httpx>=0.28,<0.29"]

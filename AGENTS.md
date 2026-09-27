@@ -91,6 +91,11 @@ migration. Preserve0.9.2 wheel/freeze in archives/c10-admission-093 and all hist
 experiments. Candidate unit manifests are temporary TEST_ONLY copies,not historical
 re-freezes;old manifests must reject new code. No real DB migration/live authority.
 
+D094 owner chooses real Windows credential/config ACL enforcement over exclusions.
+Version0.9.4 preserves actual0.9.3 wheel/freeze in archives/c10-credentials-094;
+historical experiments remain unchanged. Native Windows verification and separate
+SQLite ACL enforcement remain pending;no real operator ACL edits or new live authority.
+
 - Preserve original history; CAP changes only working representations.
 - Never silently evict system instructions, required pins, or the current question. Return a structured budget error when they cannot fit.
 - Count the complete serialized request, including framing and tool schemas. Estimated token safety is not an exact provider guarantee.

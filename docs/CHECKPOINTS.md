@@ -232,6 +232,12 @@ mismatch:local CP1252 decoding reproduces exact hash/token drift. CI and archive
 test child now use UTF-8;31focused local checks PASS. Frozen evidence/assertions
 unchanged;owner NEW Windows diagnostic and full platform gate still pending.
 
+D094 [credential ACL report](C10_CREDENTIALS_REPORT.md):Windows42148a6 confirms
+UTF-8 fix,then501PASS/credential-permissionFAIL. Version0.9.4 enforces native ACLs
+for credential/config reads;0.9.3 archived,existing assertions retained.
+186local PASS,10native Windows tests untested. Separate SQLite ACL gap and full
+Windows verification remain open;no new existing-test exclusions or acceptance.
+
 Build: cross-platform CI, release build, migrations, backup/restore, rollback, metrics, alerts, load profile and operational runbooks; dependency/license review and artifact provenance.
 
 Acceptance: required tests pass on macOS/Linux/Windows; sustained load on declared hardware meets approved targets; crash/retry and index-rebuild drills pass; timed restore meets agreed RPO/RTO; deletion tombstones reapplied on restore; rollback of failed deployment proven. No production SLO claim from a single local benchmark.

@@ -6,6 +6,7 @@ from dataclasses import asdict, replace
 from types import SimpleNamespace
 
 import pytest
+from private_files import set_private_permissions
 from test_providers import REQUEST, call, client
 
 from context_engine.errors import BenchmarkError, ContractError, QuotaError
@@ -169,7 +170,7 @@ def key_file(tmp_path, monkeypatch):
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
     path = tmp_path / ".env"
     path.write_text("# synthetic only\nGROQ_API_KEY=PRIVATE_TEST_KEY\n")
-    path.chmod(0o600)
+    set_private_permissions(path)
     return path
 
 
@@ -219,7 +220,7 @@ def test_key_file_accepts_plain_or_quoted_key(key_file, value):
 def test_private_file_boundaries(key_file, problem):
     path = key_file
     if problem == "public":
-        path.chmod(0o644)
+        set_private_permissions(path, public=True)
     elif problem == "symlink":
         path = key_file.parent / "link"
         path.symlink_to(key_file)
@@ -277,7 +278,7 @@ def test_live_cli_preflight_before_any_store_or_dispatch(key_file, monkeypatch, 
         config["quota"]["billing_mode"] = "metered"
     path = key_file.parent / "config.json"
     path.write_text(json.dumps(config))
-    path.chmod(0o644 if problem == "public_config" else 0o600)
+    set_private_permissions(path, public=problem == "public_config")
     args = SimpleNamespace(
         command="benchmark-run",
         model=[model],

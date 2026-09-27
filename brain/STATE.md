@@ -16,7 +16,7 @@ persistent project memory and owner-controlled checkpoints.
 - C09:bounded disposable workers,default2/max8,no queue;timeout/disconnect/cancellation
   kill/reap.19 process tests cover races,flood,credential isolation,SQLite recovery.
   SDK cancellation remains cooperative.
-- Package0.9.3(D093):service admission row IDs/schema2;explicit v1 migration.
+- Package0.9.4(D094):Windows credential ACL checks;D093 admission schema2 retained.
   D078 default-off `recover_capped_window` recovers missing original
   chunks from changed WINDOW messages;source/finalizer/deletion/budget checks remain.
   Optional AnswerContract validates exact JSON text/ASCII identifiers/integers,
@@ -26,8 +26,8 @@ persistent project memory and owner-controlled checkpoints.
 - C09 live001 complete:32responses,8strict matches,target FAIL;28,553tokens/$0configured.
   Historical receipts/account/source integrity and offline replay verified;
   details in C09_LIVE_REPORT. No regrading or replayed inference.
-- Sourcefreeze `b0bfb7283087edfb8d1e7c4d63f82687197202ce4682af14c397626dcbccdf7b`.
-  Real0.9.2 wheel/freeze preserved in archives/c10-admission-093;older archives unchanged.
+- Sourcefreeze `650c8f6d60c538a08e096f32c870e75c103f1dc39265588263df06a3ca210716`.
+  Real0.9.2/0.9.3 wheels/freezes archived;older evidence unchanged.
 - C06 complete at snapshot249:744 terminal,613 responses,124 non-fits,six rejections,
   one missing-answer timeout. VALID,five frozen gates PASS,primary29/31 correct,
  95.18%estimated reduction. Archived0.7.2 is the only historical runtime.
@@ -64,10 +64,10 @@ warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recove
 D090 split committed934aa52:Ubuntu/macOS PASS;Windows executes but fails/times out.
 Exact17-module exclusions unchanged. D093 fixes confirmed timestamp collision.
 134focused checks/build PASS;old preparation reproduces under archived0.9.2 offline.
-Windows6e36ff6:14repair tests PASS;portable134PASS then multilingual decoding mismatch.
-Exact CP1252 reproduction;CI/archived-child UTF-8 enabled,31focused tests PASS.
-Next:owner push/NEW Windows diagnostic;frozen evidence/assertions unchanged.
-Prior0.9.2 wheel/sdist/memory-demo evidence remains historical,not0.9.3 qualification.
+Windows42148a6:UTF-8 PASS,501PASS then credential-permission failure.
+D094 ACL repair:186local PASS,10native-Windows untested;see C10_CREDENTIALS_REPORT.
+Next:owner push/NEW diagnostic;SQLite ACL gap remains,no additional exclusions.
+Earlier build/demo evidence remains historical,not0.9.4 qualification.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot
 scope/data/targets/operating owner and explicit acceptance. See C10/C11/C12_REPORT.

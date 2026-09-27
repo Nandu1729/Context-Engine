@@ -8,6 +8,10 @@ from ..errors import ContractError
 
 
 def private_bytes(path, maximum):
+    if os.name == "nt":
+        from .windows_credentials import private_bytes as windows_private_bytes
+
+        return windows_private_bytes(path, maximum)
     descriptor = None
     try:
         descriptor = os.open(

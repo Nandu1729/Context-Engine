@@ -1,5 +1,11 @@
 # C10 platform verification — D089
 
+Latest D094:[Windows credential ACL repair](C10_CREDENTIALS_REPORT.md). Owner42148a6
+run confirms UTF-8 fix,then501PASS/credential-permissionFAIL. Package0.9.4 now
+enforces Windows credential/config ACLs;186local PASS,10native tests pending.
+Owner NEW diagnostic required;separate SQLite ACL gap remains. Prior evidence below
+is historical,not a claim that platform qualification is complete.
+
 Latest (2026-09-26):Windows6e36ff6 confirms14admission checks PASS5.19s and the
 previous evidence-policy fixture repair PASS. Portable diagnostic now stops at
 134PASS/1FAIL48.42s in `test_candidate_payloads_match_baseline_but_runtime_identity_differs`.

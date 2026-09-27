@@ -1,5 +1,10 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-26,D094:[credential ACL repair](C10_CREDENTIALS_REPORT.md) advances to0.9.4.
+Native Windows credential/config checks implemented;0.9.3 wheel/freeze preserved.
+186focused local tests PASS;10native Windows checks await owner-run CI.
+Separate SQLite ACL enforcement and full platform qualification remain open.
+
 2026-09-26,D093:[admission repair](C10_ADMISSION_REPAIR.md) advances to0.9.3.
 Confirmed same-timestamp primary-key collisions repaired with schema2 row IDs;
 existing control DBs require explicit transactional migration. Historical0.9.2

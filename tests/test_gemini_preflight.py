@@ -7,6 +7,7 @@ from pathlib import Path
 
 import httpx
 import pytest
+from private_files import set_private_permissions
 
 spec = importlib.util.spec_from_file_location(
     "gemini_preflight", Path(__file__).resolve().parents[1] / "scripts/gemini_preflight.py"
@@ -20,7 +21,7 @@ KEY = "AUTH.synthetic_key"
 def key_file(tmp_path):
     path = tmp_path / ".env.gemini"
     path.write_text(f"# Synthetic test fixture\nGEMINI_API_KEY={KEY}\n")
-    path.chmod(0o600)
+    set_private_permissions(path)
     return path
 
 
@@ -68,10 +69,10 @@ def test_quotes_are_data_not_shell_execution(key_file):
 
 
 def test_private_regular_bounded_file(key_file, tmp_path):
-    key_file.chmod(0o644)
+    set_private_permissions(key_file, public=True)
     with pytest.raises(preflight.PreflightError):
         preflight.load_key(key_file)
-    key_file.chmod(0o600)
+    set_private_permissions(key_file)
     link = tmp_path / "alias"
     link.symlink_to(key_file)
     with pytest.raises(preflight.PreflightError):

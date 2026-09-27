@@ -21,11 +21,16 @@ jobs:
           python-version: "3.12.13"
           enable-cache: false
       - run: uv sync --locked --all-extras
+      - name: Credential ACL and file-boundary probe (real Windows permissions)
+        timeout-minutes: 2
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: uv run python -m pytest -vv --tb=short --capture=tee-sys tests/test_windows_credentials.py tests/test_free_tier.py tests/test_gemini_preflight.py tests/test_service.py -k "credential or acl or key_file or private_file_boundaries or live_cli_preflight or private_regular_bounded_file or private_config_loader"
       - name: Storage concurrency probe (unchanged correctness assertions)
         timeout-minutes: 2
         env:
           PYTHONUNBUFFERED: "1"
-        # Run the known failure first and expose all three related race results.
+        # Recheck the admission repair and expose all three related race results.
         # No retries or extra exclusions; stop the job if this probe fails.
         run: uv run python -m pytest -vv --tb=short --capture=tee-sys tests/test_control_admissions.py tests/test_c09_bounds.py -k "admission or concurrent or pin_race or storage_diagnostics"
       - name: Diagnose first failure (not full qualification)

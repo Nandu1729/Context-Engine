@@ -22,7 +22,7 @@ BASELINE_HASH = "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfd
 def test_current_runtime_matches_new_freeze_not_baseline():
     assert load_freeze()["runtime"]["code_hash"] == code_hash()
     assert code_hash() != BASELINE_HASH
-    assert load_freeze()["runtime"]["package_version"] == "0.9.3"
+    assert load_freeze()["runtime"]["package_version"] == "0.9.4"
     assert (
         json.loads((ARCHIVE / "baseline-freeze.json").read_text())["runtime"]["code_hash"]
         == BASELINE_HASH
@@ -36,6 +36,38 @@ def test_old_qualification_rejects_new_runtime_without_modified_guards():
     policy = runpy.run_path(str(ROOT / "scripts/c09_policy_qualification.py"))
     with pytest.raises(ValueError, match="Frozen"):
         policy["prepare"]()
+
+
+def test_preserved_093_wheel_and_freeze_match(tmp_path):
+    archive = ROOT / "archives/c10-credentials-094"
+    wheel = archive / "context_engineering_core-0.9.3-py3-none-any.whl"
+    assert hashlib.sha256(wheel.read_bytes()).hexdigest() == (
+        "2ce93721c77b378dec1b776dfa8d33b0866ffa5ca51fbf8f44b33c2d6b582eaf"
+    )
+    baseline = json.loads((archive / "baseline-freeze.json").read_text(encoding="utf-8"))
+    program = """
+import json, sys
+sys.path.insert(0, sys.argv[1])
+from context_engine.evaluation.protocol import code_hash, load_freeze
+freeze = load_freeze()
+assert freeze['runtime']['code_hash'] == code_hash()
+print(json.dumps(freeze))
+"""
+    result = subprocess.run(
+        [sys.executable, "-I", "-X", "utf8", "-c", program, str(wheel)],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        env={
+            key: value
+            for key, value in os.environ.items()
+            if key.upper() in {"PATH", "SYSTEMROOT", "WINDIR"}
+        },
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert json.loads(result.stdout) == baseline
+    assert baseline["runtime"]["code_hash"] != code_hash()
 
 
 def test_preserved_wheel_accepts_original_manifests_offline(tmp_path):

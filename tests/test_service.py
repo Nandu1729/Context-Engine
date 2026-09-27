@@ -585,6 +585,8 @@ def test_loopback_demo():
 
 
 def test_private_config_loader_and_alias_rejection(tmp_path):
+    from private_files import set_private_permissions
+
     from context_engine.service.__main__ import configured_app
 
     cfg = {
@@ -596,7 +598,7 @@ def test_private_config_loader_and_alias_rejection(tmp_path):
     }
     path = tmp_path / "config.json"
     path.write_text(json.dumps(cfg))
-    path.chmod(0o600)
+    set_private_permissions(path)
     with TestClient(configured_app(path)) as client:
         assert client.get(BASE).status_code == 401
     cfg["control_path"] = cfg["memory_path"]
