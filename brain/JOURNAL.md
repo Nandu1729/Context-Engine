@@ -70,3 +70,8 @@ preserves the archived entries verbatim.
 
 - Owner screenshot run36289927733:ACL/storage probes PASS,10minute job timeout. Pasted916-item output ends58% after Gemini response`{}`;no assertion failure/final summary. Next case's collected node ID is1,000,081characters. Four mocked cases pass quietly0.09s;verbose output is leading suspect,not proven Windows hang diagnosis.
 - Added short descriptive IDs only;1,000,001-byte input/assertions remain.26module tests PASS0.11s with exact verbose flags;ruff/format PASS. No production/frozen changes,timeout increases,skips,inference or remote dispatch. Owner commit/push/NEW diagnostic;SQLite ACL/full qualification remain open. See C10_PLATFORM_REPORT.
+
+## 2026-09-27 — Windows backup filename fixture
+
+- ZIP98310168056,checkout77faaaa5d11370533508faf96e7ec99aa223fa70:credential71PASS2.66s,storage14PASS4.05s,main628PASS/1FAIL296.05s. Gemini oversized case PASS;no timeout. First failure at os.open on Windows-invalid`backup ?#.sqlite`,before copy/restore.
+- Added portable`backup %#.sqlite` test case on all platforms;original question-mark case retained on POSIX,all assertions unchanged.11focused backup/restore PASS0.20s,ruff/format PASS. No production/frozen changes,new exclusions,inference or CI dispatch. Owner commit/push/NEW Windows diagnostic;SQLite ACL/full qualification remain open.

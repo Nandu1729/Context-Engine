@@ -1,5 +1,11 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-27,Windows77faaaa:[platform report](C10_PLATFORM_REPORT.md):credential
+probe71PASS,storage14PASS,main628PASS/1FAIL296.05s,no timeout. New failure is a
+Windows-invalid`?` in a backup test filename. Portable URI-sensitive fixture now
+runs everywhere;original POSIX case retained.11local backup/restore checks PASS;
+owner NEW Windows run pending. SQLite ACL gap/full qualification remain open.
+
 2026-09-27:[diagnostic update](C10_PLATFORM_REPORT.md):owner Windows ACL/storage
 probes PASS;main suite times out after58% without an assertion failure in the
 supplied excerpt. Next test's million-character name replaced with a short ID,

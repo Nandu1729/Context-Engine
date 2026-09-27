@@ -1,6 +1,7 @@
 """C07 synthetic persistence, isolation, lifecycle and recovery qualification."""
 
 import asyncio
+import os
 import sqlite3
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
@@ -309,10 +310,15 @@ def test_old_backup_restore_never_revives_deleted_data(memory, tmp_path, kind):
         restored.assert_current(old)
 
 
-def test_restore_rotates_epoch_and_preserves_originals(memory, tmp_path):
+@pytest.mark.parametrize(
+    "filename",
+    # All platforms exercise URI-sensitive names; '?' is legal only on POSIX.
+    ["backup %#.sqlite"] + (["backup ?#.sqlite"] if os.name == "posix" else []),
+)
+def test_restore_rotates_epoch_and_preserves_originals(memory, tmp_path, filename):
     put(memory)
     old = derived(memory)
-    backup = memory.backup(tmp_path / "backup ?#.sqlite")
+    backup = memory.backup(tmp_path / filename)
     restored = MemoryStore.restore(
         backup,
         tmp_path / "restored.sqlite",

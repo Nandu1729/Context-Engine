@@ -1,5 +1,24 @@
 # C10 platform verification — D089
 
+## 2026-09-27 — Windows backup filename fixture
+
+ZIP98310168056 binds checkout to77faaaa5d11370533508faf96e7ec99aa223fa70.
+Credential probe71PASS2.66s;storage probe14PASS4.05s. Main suite628PASS/1FAIL,
+296.05s,exit1 without timeout. All four short-name Gemini response cases PASS,
+including oversized. This run clears the previous stopping point,not full qualification.
+
+First failure:`test_restore_rotates_epoch_and_preserves_originals` cannot create
+`backup ?#.sqlite`:Windows forbids`?` in filenames. Failure occurs at`os.open`,
+before SQLite copying or restore assertions. Test now exercises`backup %#.sqlite`
+on every platform and retains the original question-mark case on POSIX. Spaces,
+percent signs and fragments still exercise URI escaping;all original restoration,
+epoch,history,pin,summary and cache assertions remain. No production/frozen change,
+timeout increase or additional module exclusion.
+
+Focused local backup/restore checks11PASS0.20s;ruff/format PASS. Next:owner
+commit/push and NEW Windows diagnostic. Separate SQLite ACL enforcement remains
+open and was not the cause of this filename failure.
+
 ## 2026-09-27 — diagnostic log-volume repair
 
 Owner screenshot of run36289927733 shows credential ACL and storage concurrency
