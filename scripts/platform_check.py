@@ -25,7 +25,7 @@ from context_engine.service.workers import AssemblyWorkers
 async def worker_probe():
     """Real isolated assembly,process cleanup and repeat capacity use."""
     with TemporaryDirectory(prefix="context-platform-worker-") as directory:
-        root = Path(directory)
+        root = Path(directory) / "storage"
         memory = MemoryStore(root / "memory.sqlite")
         scope = Scope("platform-synthetic", "one")
         memory.create_scope(scope)

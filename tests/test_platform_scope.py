@@ -5,6 +5,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -12,6 +13,67 @@ TESTS = Path(__file__).parent
 spec = importlib.util.spec_from_file_location("platform_scope", TESTS / "conftest.py")
 scope = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(scope)
+
+
+@pytest.mark.parametrize("platform", ["win32", "linux"])
+def test_temp_factory_permissions_cover_each_new_directory_and_restore(
+    monkeypatch, tmp_path, platform
+):
+    events = []
+
+    def original(basename, numbered=True):
+        path = tmp_path / (basename + ("0" if numbered else ""))
+        path.mkdir()
+        events.append(("created", path))
+        return path
+
+    factory = SimpleNamespace(getbasetemp=lambda: tmp_path, mktemp=original)
+    monkeypatch.setattr(scope, "sys", SimpleNamespace(platform=platform))
+    monkeypatch.setattr(
+        scope, "set_private_permissions", lambda path: events.append(("secured", path))
+    )
+    fixture = scope.tmp_path_factory.__wrapped__(factory)
+    assert next(fixture) is factory
+    first = factory.mktemp("numbered")
+    second = factory.mktemp("exact", numbered=False)
+    expected = [("created", first), ("created", second)]
+    if platform == "win32":
+        expected = [
+            ("secured", tmp_path),
+            ("created", first),
+            ("secured", first),
+            ("created", second),
+            ("secured", second),
+        ]
+    assert events == expected
+    # Deliberate negative-test ACL changes are never repaired on a later lookup.
+    factory.getbasetemp()
+    assert events == expected
+    fixture.close()
+    assert factory.mktemp is original
+
+
+def test_temp_factory_permission_failure_is_not_suppressed(monkeypatch, tmp_path):
+    def original(basename, numbered=True):
+        path = tmp_path / basename
+        path.mkdir()
+        return path
+
+    def secure(path):
+        if path != tmp_path:
+            raise OSError("synthetic ACL setup failure")
+
+    factory = SimpleNamespace(getbasetemp=lambda: tmp_path, mktemp=original)
+    monkeypatch.setattr(scope, "sys", SimpleNamespace(platform="win32"))
+    monkeypatch.setattr(scope, "set_private_permissions", secure)
+    fixture = scope.tmp_path_factory.__wrapped__(factory)
+    next(fixture)
+    try:
+        with pytest.raises(OSError, match="ACL setup failure"):
+            factory.mktemp("blocked")
+    finally:
+        fixture.close()
+    assert factory.mktemp is original
 
 
 @pytest.mark.parametrize("platform", ["darwin", "linux", "freebsd", "unknown"])

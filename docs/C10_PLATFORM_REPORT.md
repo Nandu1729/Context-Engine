@@ -1,5 +1,13 @@
 # C10 platform verification — D089
 
+## 2026-09-28 — Temporary-directory ACL compatibility
+
+ZIP98359821827,75b78ec:credential70PASS/1FAIL2.74s on ControlStore startup.
+Concurrency/SQLite/main suite did not run. See[diagnosis and0.9.6 repair](C10_STORAGE_ACL_REPORT.md).
+Pytest directories are provisioned individually;offline demos/probes let storage
+create new private children.532focused local PASS,47native tests pending;
+allowlist/exclusions unchanged. Owner NEW Windows diagnostic required.
+
 ## 2026-09-27 — D095 SQLite security repair
 
 ZIP98315475586 on77f2de76492897cc8384213e74ae999673c4c690:636PASS/1FAIL341.10s;

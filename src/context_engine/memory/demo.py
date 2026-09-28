@@ -15,7 +15,8 @@ def memory_demo():
     at = datetime(2026, 9, 8, tzinfo=UTC)
     scope = Scope("synthetic-demo", "incident")
     with TemporaryDirectory(prefix="context-memory-demo-") as directory:
-        root = Path(directory)
+        # Let the store create its private directory, not tempfile's Windows ACL.
+        root = Path(directory) / "storage"
         memory = MemoryStore(root / "memory.sqlite", clock=lambda: at)
         memory.create_scope(scope)
         for i in range(12):

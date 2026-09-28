@@ -56,6 +56,7 @@ class BrainIntegrityTests(unittest.TestCase):
                 "output/c09-policy-live-003/report.json",
                 "archives/c09-qualification-002-preflight/README.md",
                 "archives/c10-storage-095/README.md",
+                "archives/c10-tempdirs-096/README.md",
                 "output/c06-live-batch-004.json",
                 "output/c06-live-progress-report/leaderboard.md",
                 "output/c06-live-report-021/leaderboard.md",

@@ -216,6 +216,11 @@ fresh quality qualification;default-policy adoption and owner acceptance pending
 
 ## C10 — Operations and recovery
 
+2026-09-28:[0.9.6 temp-directory repair](C10_STORAGE_ACL_REPORT.md):Windows75b78ec
+credential70PASS/1FAIL,remaining steps not run. Correct pytest child ACL setup and
+demo/probe storage provisioning;532local PASS,47native tests pending.0.9.5 archived;
+no policy relaxation,operator permission changes or qualification claim.
+
 D095 [SQLite ACL repair](C10_STORAGE_ACL_REPORT.md):owner-approved0.9.5 enforces
 Windows database/directory/sidecar permissions,with0.9.4 preserved.523focused
 local PASS,44native-Windows untested;build PASS. Fresh Windows diagnostic and full

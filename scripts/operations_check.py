@@ -31,7 +31,7 @@ def drill(*, turns=100, samples=20):
     at = datetime.now(UTC)
     scope = Scope("synthetic-operations", "recovery")
     with TemporaryDirectory(prefix="context-operations-") as directory:
-        root = Path(directory)
+        root = Path(directory) / "storage"
         store = MemoryStore(root / "memory.sqlite", clock=lambda: at)
         store.create_scope(scope)
         for i in range(turns):

@@ -145,6 +145,31 @@ def test_storage_handle_is_closed_on_rejection(links, invalid):
 
 
 @native
+@pytest.mark.parametrize("numbered", [True, False])
+def test_native_pytest_directory_acl(tmp_path, tmp_path_factory, numbered):
+    boundary = windows.WindowsStorage()
+    boundary.directory(tmp_path, create=False)
+    directory = tmp_path_factory.mktemp("native-acl", numbered=numbered)
+    boundary.directory(directory, create=False)
+    MemoryStore(directory / "memory.sqlite")
+
+
+@native
+def test_native_store_creates_private_child_under_tempfile_acl(tmp_path):
+    # Match tempfile/pytest's protected OWNER RIGHTS ACL on the pinned Python.
+    parent = tmp_path / "tempfile-style"
+    parent.mkdir(mode=0o700)
+    with pytest.raises(StorageError):
+        windows.private_file(parent / "rejected.sqlite", create=True)
+    assert not (parent / "rejected.sqlite").exists()
+    store = MemoryStore(parent / "storage" / "memory.sqlite")
+    windows.private_file(store.path)
+    # Provisioning a new child must not rewrite the existing parent's ACL.
+    with pytest.raises(StorageError):
+        windows.private_file(parent / "still-rejected.sqlite", create=True)
+
+
+@native
 @pytest.mark.parametrize("factory", [MemoryStore, RuntimeStore, ControlStore])
 def test_native_new_store_and_reopen_private_acl(tmp_path, factory):
     path = tmp_path / "new" / "nested" / "数据 %#.sqlite"

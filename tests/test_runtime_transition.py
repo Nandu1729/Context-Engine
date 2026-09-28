@@ -22,7 +22,7 @@ BASELINE_HASH = "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfd
 def test_current_runtime_matches_new_freeze_not_baseline():
     assert load_freeze()["runtime"]["code_hash"] == code_hash()
     assert code_hash() != BASELINE_HASH
-    assert load_freeze()["runtime"]["package_version"] == "0.9.5"
+    assert load_freeze()["runtime"]["package_version"] == "0.9.6"
     assert (
         json.loads((ARCHIVE / "baseline-freeze.json").read_text())["runtime"]["code_hash"]
         == BASELINE_HASH
@@ -50,6 +50,11 @@ def test_old_qualification_rejects_new_runtime_without_modified_guards():
             "c10-storage-095",
             "0.9.4",
             "034b57c33847925edb13ecfe7207c80de2a643c574eafbb02d5cd311e1d975d1",
+        ),
+        (
+            "c10-tempdirs-096",
+            "0.9.5",
+            "f9103807db9317ff15f9f191a02b513b55b49decd2b3bd8bd83d0c1fc616a9e0",
         ),
     ],
 )

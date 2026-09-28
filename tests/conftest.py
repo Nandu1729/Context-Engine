@@ -17,9 +17,20 @@ def tmp_path_factory(tmp_path_factory):
     Only this session's pytest-owned directory is changed; never operator paths.
     Negative tests explicitly grant broad access after setup.
     """
-    if sys.platform == "win32":
-        set_private_permissions(tmp_path_factory.getbasetemp())
-    return tmp_path_factory
+    with pytest.MonkeyPatch.context() as patch:
+        if sys.platform == "win32":
+            set_private_permissions(tmp_path_factory.getbasetemp())
+            original = tmp_path_factory.mktemp
+
+            def mktemp(basename, numbered=True):
+                # Python's Windows mkdir(0700) installs a protected OWNER RIGHTS
+                # ACL, replacing inheritance from our configured base directory.
+                path = original(basename, numbered=numbered)
+                set_private_permissions(path)
+                return path
+
+            patch.setattr(tmp_path_factory, "mktemp", mktemp)
+        yield tmp_path_factory
 
 
 @pytest.fixture(scope="module")

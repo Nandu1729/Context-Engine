@@ -1,6 +1,6 @@
 # Current state
 
-Updated: 2026-09-27
+Updated: 2026-09-28
 
 ## Objective
 
@@ -15,7 +15,7 @@ Build the PRD's context engine with measured quality/cost and owner-controlled c
 - C09:bounded disposable workers,default2/max8,no queue;timeout/disconnect/cancellation
   kill/reap.19 process tests cover races,flood,credential isolation,SQLite recovery.
   SDK cancellation remains cooperative.
-- Package0.9.5(D095):Windows SQLite/credential ACL checks;admission schema2 retained.
+- Package0.9.6:Windows SQLite/credential ACL checks;admission schema2 retained.
   D078 default-off `recover_capped_window` recovers missing original
   chunks from changed WINDOW messages;source/finalizer/deletion/budget checks remain.
   Optional AnswerContract validates exact JSON text/ASCII identifiers/integers,
@@ -25,8 +25,8 @@ Build the PRD's context engine with measured quality/cost and owner-controlled c
 - C09 live001 complete:32responses,8strict matches,target FAIL;28,553tokens/$0configured.
   Historical receipts/account/source integrity and offline replay verified;
   details in C09_LIVE_REPORT. No regrading or replayed inference.
-- Sourcefreeze `a5698d38b3f42443cbe5817d366d258484c245734240c534e8b0afe767756502`.
-  Real0.9.2/0.9.3/0.9.4 wheels/freezes archived;older evidence unchanged.
+- Sourcefreeze `304253f7109add9df916592881d2ff4929da28bb13fea51fe020d1262e8196f2`.
+  Real0.9.2/0.9.3/0.9.4/0.9.5 wheels/freezes archived;older evidence unchanged.
 - C06 complete at snapshot249:744 terminal,613 responses,124 non-fits,six rejections,
   one missing-answer timeout. VALID,five frozen gates PASS,primary29/31 correct,
  95.18%estimated reduction. Archived0.7.2 is the only historical runtime.
@@ -65,9 +65,10 @@ Exact17-module exclusions unchanged. D093 fixes confirmed timestamp collision.
 134focused checks/build PASS;old preparation reproduces under archived0.9.2 offline.
 Windows77f2de7:636PASS/SQLite-permissionFAIL291.71s;prior fixes PASS,no timeout.
 D095:private database/directory/sidecar enforcement,existing ACLs never rewritten.
-523local PASS/44native-Windows untested;build PASS. See C10_STORAGE_ACL_REPORT.
-Owner push/NEW diagnostic;native ACL/full qualification pending,exclusions unchanged.
-Earlier build/demo evidence remains historical,not0.9.5 qualification.
+Windows75b78ec:credential70PASS/1FAIL;later probes/suite not run.
+0.9.6 repairs pytest child ACLs and demo/probe private-child provisioning.
+532local PASS/47native-Windows untested;8brain/build PASS. See C10_STORAGE_ACL_REPORT.
+Owner push/NEW diagnostic;native/full qualification pending,policy/exclusions unchanged.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot
 scope/data/targets/operating owner and explicit acceptance. See C10/C11/C12_REPORT.

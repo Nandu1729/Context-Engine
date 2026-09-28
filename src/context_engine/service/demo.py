@@ -27,7 +27,8 @@ from .control import ControlStore
 
 def run_demo():
     with TemporaryDirectory(prefix="context-c08-demo-") as directory:
-        root = Path(directory)
+        # Let the store create its private directory, not tempfile's Windows ACL.
+        root = Path(directory) / "storage"
         tokens = {name: "ce_" + secrets.token_urlsafe(32) for name in ("alpha", "beta")}
         auth = Authenticator(
             service_credentials={

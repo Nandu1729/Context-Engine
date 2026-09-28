@@ -5,6 +5,44 @@ Owner approves real Windows SQLite security after repeated77f2de7 failures in
 `test_private_schema_and_journal_boundaries[public]`. ZIP98353896744 records
 636PASS/1FAIL291.71s;the backup filename and verbose-output fixes pass.
 
+## 2026-09-28 — Temporary-directory compatibility repair (0.9.6)
+
+ZIP98359821827 binds checkout to75b78ec7b481274b5f33fa153bbc99e6c63e090f.
+Credential probe70PASS/1FAIL,114deselected,2warnings,2.74s. The service config
+test fails constructing ControlStore with the redacted storage error. Concurrency,
+SQLite ACL and main-suite steps never ran;this is not another timeout.
+
+Source inspection found a definite setup mismatch:pytest.mktemp creates each
+directory with mode0700. On the pinned CPython3.12.13,that installs a protected
+ACL containing OWNER RIGHTS,overriding inheritance from our configured base.
+That special SID is outside the storage boundary's explicit-user allowlist.
+See [CPython's mkdir implementation](https://github.com/python/cpython/blob/v3.12.13/Modules/posixmodule.c#L5024-L5034).
+This explains the observed rejection,but the redacted CI log alone does not
+identify its exact native substage;confirmation requires a new Windows run.
+
+- The test fixture now configures every newly created pytest directory,including
+  numbered and unnumbered factory calls. Setup failures propagate;the wrapper
+  is restored at teardown. Negative-test ACL changes are not repaired afterward.
+- Offline memory/provider/service demos and operational/worker probes now put
+  SQLite files in a new storage child. The store creates that child with its
+  existing native descriptor;the enclosing tempfile directory is never rewritten.
+- Production security checks,allowlist,exclusions and assertion strength unchanged.
+  No blanket acceptance of OWNER RIGHTS or operator permission changes.
+- Added three portable fixture regressions and three native directory regressions.
+  Native tests cover actual pytest ACLs and creation below a mode0700 parent,
+  including continued rejection of storage directly in that unchanged parent.
+- Focused local verification:532PASS,47native-Windows NOT TESTED,2warnings,13.53s.
+  Existing demo/recovery/security/worker tests are included. Native confirmation
+  and full qualification remain pending.
+- Eight brain integrity tests PASS0.71s;scoped ruff/diff checks and offline wheel
+  build PASS. Isolated built-wheel version/freeze/lazy-import checks PASS.
+  Brain index/check PASS895/900words.
+
+Actual0.9.5 wheel/freeze preserved in[prior-runtime archive](../archives/c10-tempdirs-096/README.md),
+with isolated hash/freeze regression. Package0.9.6 advances only the current
+development freeze;historical experiments and older wheels remain untouched.
+Next:owner commit/push and start a NEW Windows diagnostic on0.9.6.
+
 ## Boundary implemented
 
 - Memory databases,deletion ledgers,backup/restore paths,provider accounting/replay

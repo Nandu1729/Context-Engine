@@ -1,5 +1,11 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-28:[temp-directory compatibility repair](C10_STORAGE_ACL_REPORT.md),0.9.6.
+Windows75b78ec stops at credential70PASS/1FAIL on storage startup;later steps did
+not run. Pytest child-directory ACL setup corrected;offline demos/probes create
+new private storage children,without rewriting existing permissions.532local
+PASS,47native Windows tests pending;actual0.9.5 preserved. Owner NEW diagnostic.
+
 2026-09-27,D095:[Windows SQLite ACL repair](C10_STORAGE_ACL_REPORT.md),version0.9.5.
 Memory/deletion/runtime/control databases and sidecars now require private native
 ACLs and safe directory inheritance. Existing permissions are never rewritten;

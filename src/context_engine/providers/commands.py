@@ -83,7 +83,8 @@ async def _demo(directory: Path) -> dict:
 
 def provider_demo() -> dict:
     with TemporaryDirectory(prefix="context-provider-demo-") as directory:
-        return asyncio.run(_demo(Path(directory)))
+        # Let the store create its private directory, not tempfile's Windows ACL.
+        return asyncio.run(_demo(Path(directory) / "storage"))
 
 
 def provider_probe(args) -> dict:
