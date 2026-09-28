@@ -1,12 +1,18 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-28:complete Windows portable suite PASS on7a8ecb5,run36382286882.
+ZIP98509138631:976PASS/2warnings394.22s;credential71/concurrency14/SQLite62 probes
+also PASS. Windows repair verified;17frozen POSIX modules remain explicitly
+excluded. See[recorded success](C10_PLATFORM_REPORT.md). Full release/operational
+acceptance remains separate;no further first-failure diagnostic needed.
+
 2026-09-28:[consolidated Windows-change review](C10_PLATFORM_REPORT.md):complete
 macOS suite1195PASS/48SKIP/2warnings269.81s;47skips are Windows-only,one is the
 private screenshot audit. Changed-code lint,lock,build,isolated-wheel demos,
 four platform probes and11operational checks PASS. No further product fix found.
 Windows workflow now runs the complete portable suite without fail-fast,15minute
-suite/25minute job. Native ACL probes already PASS;full Windows completion and
-cross-platform qualification still require new owner-run CI.0.9.6 unchanged.
+suite/25minute job. Native ACL probes and full Windows suite now PASS;
+cross-platform qualification still requires owner-run CI.0.9.6 unchanged.
 
 2026-09-28:[Windows c6b82fc results](C10_PLATFORM_REPORT.md):credential71PASS,
 concurrency14PASS,SQLite ACL62PASS. Main suite records849passes before its7minute

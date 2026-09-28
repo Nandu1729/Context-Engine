@@ -1,5 +1,10 @@
 # C10 — Windows SQLite ACL repair, D095
 
+Verified2026-09-28:Windows7a8ecb5 complete portable suite976PASS,SQLite probe62PASS,
+credential71PASS,concurrency14PASS. See[C10 platform evidence](C10_PLATFORM_REPORT.md).
+Native/portable verification is no longer pending;earlier notes below preserve
+the implementation history. Broader production qualification remains separate.
+
 2026-09-27. Package0.9.5 is a development candidate,not a qualified release.
 Owner approves real Windows SQLite security after repeated77f2de7 failures in
 `test_private_schema_and_journal_boundaries[public]`. ZIP98353896744 records

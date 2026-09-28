@@ -216,10 +216,15 @@ fresh quality qualification;default-policy adoption and owner acceptance pending
 
 ## C10 — Operations and recovery
 
+Windows portable verification PASS:7a8ecb5,976tests/2warnings394.22s;credential,
+concurrency and SQLite probes also pass. Windows repair complete for this scope;
+17frozen POSIX modules remain NOT TESTED. [Evidence](C10_PLATFORM_REPORT.md).
+Broader qualification/operational acceptance remains open.
+
 Final change review:[evidence](C10_PLATFORM_REPORT.md). Complete macOS suite
 1195PASS/48SKIP269.81s;build/lint/lock/packaged demos/platform/operations PASS.
-Windows main suite now collects all failures with a15minute limit;new Windows
-completion and three-platform qualification remain pending,not owner acceptance.
+Windows main suite now collects all failures with a15minute limit and has passed.
+Three-platform qualification remains pending,not owner acceptance.
 
 Windows c6b82fc (ZIP98501161699):credential71PASS,concurrency14PASS,SQLite62PASS.
 Main suite849 PASS lines before7minute timeout,no assertion failure. Diagnostic

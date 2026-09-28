@@ -1,5 +1,38 @@
 # C10 platform verification — D089
 
+## Next action — manual three-platform qualification
+
+The Windows repair is complete. Run the existing **Offline qualification (manual,
+no deployment)** workflow (`qualification.yml`) on `main` after committing/pushing
+the verification documentation. In GitHub: **Actions → Offline qualification
+(manual, no deployment) → Run workflow → main → Run workflow**.
+
+This runs Linux/macOS full suites and the Windows portable suite, brain integrity,
+real local platform probes, synthetic operations checks, and package builds.
+All three jobs must succeed on the same commit. Preserve the run URL, commit SHA,
+and downloaded logs for review of test totals/skips, probe results and builds.
+Do not rerun the separate Windows diagnostic or change historical test exclusions.
+
+No CI dispatch was performed in this handoff. This workflow does not authorize
+live inference or deployment. Passing it closes the cross-platform verification
+step, not the remaining quality, representative cost, pilot or owner-acceptance
+gates in [C12](C12_REPORT.md).
+
+## 2026-09-28 — Complete Windows portable suite PASS
+
+Owner screenshot run36382286882 (#12) shows Success,total7m57s. Supplied
+ZIP98509138631 binds checkout to7a8ecb50141164c1863c6379a03de24fe08bd171.
+Final main-suite summary:976PASS,0failures,2dependency warnings,394.22s (6m34s).
+Credential probe71PASS2.91s,concurrency14PASS5.52s,SQLite ACL/journal62PASS4.84s.
+The probe counts overlap the main suite;they are not additional unique tests.
+
+The Windows portability/diagnostic repair is verified complete for this run.
+No further repair or repeat diagnostic is required on this evidence. The exact
+17frozen POSIX research modules remain visibly NOT TESTED on Windows,not passes.
+The separate manual Linux/macOS/Windows qualification workflow and remaining
+operational/quality/owner release gates are distinct;this success is not deployment
+or whole-project acceptance. Earlier incomplete-run notes below are historical.
+
 ## 2026-09-28 — Consolidated change review and complete local run
 
 Owner requests review of all Windows changes and finalization. Reviewed the

@@ -99,3 +99,13 @@ preserves the archived entries verbatim.
 - Reviewed0.9.2→0.9.6 admission/migration,credential/storage ACLs,temp directories,connection policy,fixtures,freeze preservation and CI. Full macOS suite1195PASS/48SKIP/2warnings269.81s,no fail-fast. Skips:47Windows-native and one explicit private-screenshot audit;native checks separately pass in owner c6b82fc probes. No new product defect identified;runtime/freeze unchanged.
 - Changed-code ruff,lock,YAML/budget checks PASS. Offline sdist/wheel build PASS;isolated wheel memory/provider/service demos PASS. Four platform probes and11operational checks PASS,zero inference. Historical experiments/scripts/output unchanged. Evidence in C10_PLATFORM_REPORT;private synthetic review artifacts retained.
 - Windows workflow renamed complete portable verification,removes -x,retains15minute suite/25minute job and slow-test report. No extra exclusions,weaker assertions,retries or security-policy changes. Owner commit/push/NEW Windows run,then manual full matrix remains required;no remote dispatch,release acceptance or deployment.
+
+## 2026-09-28 — Complete Windows portable verification PASS
+
+Next-step handoff: inspected the existing manual qualification workflow for all
+three platforms. Recorded exact UI steps/evidence requirements in C10_PLATFORM_REPORT
+and cleared stale current Windows-pending wording. No runtime/workflow changes,
+remote dispatch or repeated long local tests;quality/pilot/acceptance gates remain.
+
+- Owner screenshot run36382286882/#12 Success7m57s;ZIP98509138631 checkout7a8ecb50141164c1863c6379a03de24fe08bd171. Main976PASS/2warnings394.22s;credential71PASS2.91s,concurrency14PASS5.52s,SQLite62PASS4.84s. Probe counts overlap main suite,not extra unique passes.
+- Windows portability repair verified complete on this run;exact17POSIX modules remain visibly NOT TESTED. No further product changes/repeated diagnostic needed. Updated evidence/current state;broader manual qualification and owner operational/quality/release gates remain separate. No remote dispatch,inference or deployment.
