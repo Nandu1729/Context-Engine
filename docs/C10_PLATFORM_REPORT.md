@@ -1,5 +1,79 @@
 # C10 platform verification — D089
 
+## 2026-09-28 — Consolidated change review and complete local run
+
+Owner requests review of all Windows changes and finalization. Reviewed the
+0.9.2→0.9.6 admission/schema migration,credential and SQLite ACL boundaries,
+connection policy,temporary-directory provisioning,UTF-8/filename/log fixtures,
+candidate versus historical runtime guards,dependency lock and both CI workflows.
+No additional application-code defect was identified by this review or local run.
+Production source/runtime freeze remains0.9.6;historical scripts,experiment data
+and output evidence have no diff against the pre-repair baseline.
+
+Complete local command (no fail-fast,all collected modules):
+`uv run --locked --offline python -m pytest -q --tb=short --durations=25 --durations-min=1`.
+Result:1195PASS,48SKIP,2dependency warnings,269.81s on macOS/Python3.12.13.
+The skips are47native-Windows tests and one explicit private-owner-screenshot
+audit. Windows-only tests have separate passing evidence in c6b82fc's probes;
+macOS skips are not counted as passes. Historical runner tests use synthetic
+transports,not new provider calls. No Windows completion claim from a macOS run.
+
+Additional checks:
+
+- All changed Python files since the admission repair pass ruff;locked dependency
+  resolution passes without updates. Workflow YAML/budget/read-only permission
+  checks pass;the full-suite command has neither `-x` nor a max-failure limit.
+- Four real local platform probes PASS:assembly worker reuse,reaping,memory
+  recovery and authenticated loopback service.11synthetic operational checks
+  PASS with100turns/20samples and zero inference calls,not a production SLO.
+- Source distribution and wheel built offline. Isolated rebuilt-wheel imports
+  verify version/source freeze and run memory/provider/service demos:all PASS.
+  Wheel SHA256:`a581f752ada9d47b5905d82a3a8f31b274995c93fc539a6c814c911d116042c2`.
+  Local artifacts:`output/private/c10-final-review-build-096/`;synthetic probe
+  reports:`output/private/c10-final-review-096-{platform,operations}.json`.
+
+Final CI change:the existing `windows-diagnostic.yml` now appears as **Windows
+verification (complete portable suite, no deployment)**. Its main suite reports
+all failures instead of stopping at the first,with15minutes inside a25minute job
+and25slowest-test reporting. Three focused security/concurrency probes remain
+required;all assertions and exact17historical POSIX exclusions are unchanged.
+No extra dependencies,security bypasses,automatic retries or package version bump.
+
+Local review is complete. Owner must commit/push the workflow/doc changes and
+start a NEW Windows verification on that commit,then the manual three-platform
+qualification workflow. The latest Windows evidence still ends after849passes
+at the old7minute timeout;the interrupted/unrun remainder is not verified.
+No remote dispatch,deployment,operator ACL edits or release acceptance performed.
+
+## 2026-09-28 — Native ACL probes pass; diagnostic step budget exhausted
+
+ZIP98501161699 binds checkout to c6b82fc02bc183983e424fa43975398648fce661 (0.9.6).
+Credential probe71PASS2.74s,concurrency14PASS5.39s,SQLite ACL/journal62PASS4.49s.
+This confirms the new native storage tests and repaired temporary-directory setup
+on this Windows runner;it does not establish full platform qualification.
+
+Main suite collected976 tests and emitted849 PASSED results,no FAILED results,
+before the runner explicitly timed out the step after7minutes. Progress continued
+through `test_api_sdk_equivalence_pins_export_delete` at04:56:35.715;interruption
+arrived at04:56:36.338 while setting up `test_validation_redacts_input[changes0]`.
+The later pytest stash KeyError occurs during interrupted teardown,not an observed
+application assertion failure. The interrupted/unrun tests are NOT passes.
+
+The diagnostic now allows15minutes for the suite and25minutes for the whole job
+(including setup,three2minute probe limits and cleanup). It retains fail-fast,
+all security checks,the exact17POSIX exclusions and manual-only dispatch. Adds
+the25slowest-test summary with a1second threshold;no retries,parallelization,
+weakened durability or package/runtime changes. The separate qualification
+workflow already has a30minute job budget and is unchanged.
+
+Local verification:workflow YAML parses and budget/probe invariants PASS;
+18brain/platform-scope tests PASS1.04s with the new duration flags. Brain
+index/check PASS895/900words;diff whitespace check PASS. No full local rerun.
+
+Next:owner commit/push and start a NEW Windows diagnostic. Require the final
+summary;then run the manual cross-platform qualification workflow if it passes.
+
+
 ## 2026-09-28 — Temporary-directory ACL compatibility
 
 ZIP98359821827,75b78ec:credential70PASS/1FAIL2.74s on ControlStore startup.

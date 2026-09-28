@@ -60,15 +60,15 @@ D086 owner requests whole-project completion quickly. Advance independent offlin
 C10/C11/C12 preparation without waiving acceptance dependencies. C10 ACTIVE:
 synthetic100turn/20sample drill11checks PASS,deletion-safe restore/reindex49.20ms,
 warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recovery.
-D090 split committed934aa52:Ubuntu/macOS PASS;Windows executes but fails/times out.
+D090 split committed934aa52:historical Ubuntu/macOS PASS;Windows qualification pending.
 Exact17-module exclusions unchanged. D093 fixes confirmed timestamp collision.
-134focused checks/build PASS;old preparation reproduces under archived0.9.2 offline.
-Windows77f2de7:636PASS/SQLite-permissionFAIL291.71s;prior fixes PASS,no timeout.
+Historical preparation reproduces under archived0.9.2 offline;old evidence unchanged.
 D095:private database/directory/sidecar enforcement,existing ACLs never rewritten.
-Windows75b78ec:credential70PASS/1FAIL;later probes/suite not run.
 0.9.6 repairs pytest child ACLs and demo/probe private-child provisioning.
-532local PASS/47native-Windows untested;8brain/build PASS. See C10_STORAGE_ACL_REPORT.
-Owner push/NEW diagnostic;native/full qualification pending,policy/exclusions unchanged.
+Windowsc6b82fc:credential71/concurrency14/SQLite62 PASS;main849passes then7min timeout.
+Full local review:1195PASS/48SKIP269.81s;lint/lock/build/demos/operational probes PASS.
+Windows workflow complete-suite,no fail-fast,15min/job25;policy/exclusions unchanged.
+Owner push/NEW Windows verification,then three-platform qualification;see C10_PLATFORM_REPORT.
 C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
 production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot
 scope/data/targets/operating owner and explicit acceptance. See C10/C11/C12_REPORT.

@@ -216,6 +216,15 @@ fresh quality qualification;default-policy adoption and owner acceptance pending
 
 ## C10 — Operations and recovery
 
+Final change review:[evidence](C10_PLATFORM_REPORT.md). Complete macOS suite
+1195PASS/48SKIP269.81s;build/lint/lock/packaged demos/platform/operations PASS.
+Windows main suite now collects all failures with a15minute limit;new Windows
+completion and three-platform qualification remain pending,not owner acceptance.
+
+Windows c6b82fc (ZIP98501161699):credential71PASS,concurrency14PASS,SQLite62PASS.
+Main suite849 PASS lines before7minute timeout,no assertion failure. Diagnostic
+time budget15minutes/job25;full qualification pending. See[C10 platform report](C10_PLATFORM_REPORT.md).
+
 2026-09-28:[0.9.6 temp-directory repair](C10_STORAGE_ACL_REPORT.md):Windows75b78ec
 credential70PASS/1FAIL,remaining steps not run. Correct pytest child ACL setup and
 demo/probe storage provisioning;532local PASS,47native tests pending.0.9.5 archived;

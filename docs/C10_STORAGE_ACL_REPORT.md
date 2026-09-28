@@ -7,6 +7,12 @@ Owner approves real Windows SQLite security after repeated77f2de7 failures in
 
 ## 2026-09-28 — Temporary-directory compatibility repair (0.9.6)
 
+Follow-up ZIP98501161699 on c6b82fc:credential71PASS,concurrency14PASS,SQLite62PASS
+on Windows. Native directory/sidecar checks now confirmed on that runner. Main
+suite849 PASS lines before its7minute timeout;remaining tests unqualified.
+See[diagnostic budget evidence](C10_PLATFORM_REPORT.md). Earlier local-only
+counts below describe the implementation session,not the latest Windows result.
+
 ZIP98359821827 binds checkout to75b78ec7b481274b5f33fa153bbc99e6c63e090f.
 Credential probe70PASS/1FAIL,114deselected,2warnings,2.74s. The service config
 test fails constructing ControlStore with the redacted storage error. Concurrency,

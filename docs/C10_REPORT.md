@@ -1,5 +1,18 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-09-28:[consolidated Windows-change review](C10_PLATFORM_REPORT.md):complete
+macOS suite1195PASS/48SKIP/2warnings269.81s;47skips are Windows-only,one is the
+private screenshot audit. Changed-code lint,lock,build,isolated-wheel demos,
+four platform probes and11operational checks PASS. No further product fix found.
+Windows workflow now runs the complete portable suite without fail-fast,15minute
+suite/25minute job. Native ACL probes already PASS;full Windows completion and
+cross-platform qualification still require new owner-run CI.0.9.6 unchanged.
+
+2026-09-28:[Windows c6b82fc results](C10_PLATFORM_REPORT.md):credential71PASS,
+concurrency14PASS,SQLite ACL62PASS. Main suite records849passes before its7minute
+step timeout,without an assertion failure. Diagnostic budget now15minutes within
+a25minute job,plus slow-test reporting. Owner NEW run required;not qualification.
+
 2026-09-28:[temp-directory compatibility repair](C10_STORAGE_ACL_REPORT.md),0.9.6.
 Windows75b78ec stops at credential70PASS/1FAIL on storage startup;later steps did
 not run. Pytest child-directory ACL setup corrected;offline demos/probes create

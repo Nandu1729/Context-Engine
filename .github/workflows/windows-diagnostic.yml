@@ -1,13 +1,14 @@
-name: Windows diagnostic (first failure, no deployment)
+name: Windows verification (complete portable suite, no deployment)
 on:
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   diagnose:
-    name: Windows portable tests — stop at first failure
+    name: Windows portable tests — complete suite
     runs-on: windows-latest
-    timeout-minutes: 10
+    # Allow setup, three bounded probes, the suite and cleanup to finish.
+    timeout-minutes: 25
     env:
       # Frozen UTF-8 fixtures use Python's default text encoding.
       PYTHONUTF8: "1"
@@ -38,11 +39,13 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
         run: uv run python -m pytest -vv --tb=short --capture=tee-sys tests/test_windows_storage.py tests/test_memory.py::test_private_schema_and_journal_boundaries tests/test_memory.py::test_restore_rotates_epoch_and_preserves_originals tests/test_providers.py::test_private_files_symlinks_and_estimate_overrun
-      - name: Diagnose first failure (not full qualification)
-        timeout-minutes: 7
+      - name: Complete portable suite (report all failures)
+        # c6b82fc: 849 tests passed with continued progress before the old 7m cap.
+        # Keep a finite limit and report slow tests before considering tuning.
+        timeout-minutes: 15
         env:
           PYTHONUNBUFFERED: "1"
         # D090's exact POSIX exclusions remain; no new skips or live API calls.
         # Verbose names identify the last test even if teardown hangs.
         # tee-sys retains assertion output while showing Python output live.
-        run: uv run python -m pytest -vv -x --tb=short --capture=tee-sys
+        run: uv run python -m pytest -vv --tb=short --capture=tee-sys --durations=25 --durations-min=1
