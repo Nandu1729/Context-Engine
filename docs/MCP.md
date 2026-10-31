@@ -30,7 +30,13 @@ content. Protocol versions negotiated: 2025-11-25 (default), 2025-06-18,
 
 Prototype limits: stdio only (no HTTP transport or auth), text messages only, no
 tool-call turns, no streaming, no resources/prompts. Tested offline in
-`tests/test_mcp_server.py` (in-process and a real stdio subprocess). Verification
-with a real MCP client (for example Claude Desktop/Code or MCP Inspector) is
-PENDING: it requires adding the server to a client configuration, which is the
-owner's choice.
+`tests/test_mcp_server.py` (in-process and a real stdio subprocess).
+
+Real-client check (2026-10-31): the owner registered it in Claude Code with
+`claude mcp add context-engine -- <venv>/bin/context-engine-mcp --data-dir ~/context-memory`;
+`claude mcp get` reports Connected. A stdio round trip with that installed binary
+(throwaway data directory) listed all four tools, stored a message and pin, and
+`get_context` returned both (148/900 estimated tokens). In-chat tool use by the model
+is not yet observed. Note: a server launched from the repository `.venv` runs the
+editable development code; for stable use install a released wheel in its own
+environment.

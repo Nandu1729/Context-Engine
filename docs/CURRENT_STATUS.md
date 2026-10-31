@@ -20,7 +20,7 @@ service; not an enterprise-qualified release. Owner decisions: D109 in
 | Bounded live strategy-accuracy runner (no retries, free tier, amendment-bound skips) | `scripts/strategy_accuracy_live.py`; `tests/test_strategy_accuracy_live.py` (9, offline) |
 | Provider/framework adapters: OpenAI, Anthropic, LangChain (optional), OpenAI-history import | `context_engine.adapters`; `tests/test_adapters.py` (11); real langchain-core 1.7.3 checked in a scratch venv |
 | Inception (Mercury) provider | `tests/test_inception.py` (16, offline); live smoke D111: 1 call, mercury-3, 715/45 tokens, correct, free tier |
-| MCP server prototype over `MemoryStore` (stdio) | `context-engine-mcp`; `tests/test_mcp_server.py` (10, incl. real subprocess); real-client check PENDING |
+| MCP server prototype over `MemoryStore` (stdio) | `context-engine-mcp`; `tests/test_mcp_server.py` (10); Claude Code reports Connected; installed-binary round trip PASS |
 | All-layers latency 247 → 95 ms (900) and 481 → 208 ms (3000), identical output | token-count cache; `tests/test_token_cache.py`; [BENCHMARK_REPORT](BENCHMARK_REPORT.md) |
 
 ## Test results
@@ -54,7 +54,7 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 |---|---|
 | PyPI upload | TestPyPI done; real PyPI needs owner go-ahead |
 | Live accuracy at 3000 tokens / paid models | Not approved |
-| MCP check with a real client | Owner adds the server to a client config |
+| MCP in-chat use by a model | Owner restarts Claude Code and tries the tools |
 | 3000-token latency under 100 ms | Not reached (208 ms); remaining cost is admission-time counting |
 | Real-world evaluation data | None; single synthetic scenario |
 | Production operations (load, SLOs, TLS, IdP, rate limits) | Later stages |
