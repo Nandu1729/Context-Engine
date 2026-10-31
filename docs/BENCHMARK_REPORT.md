@@ -60,6 +60,31 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Reworded-question stress test (0.13.0, offline, 2026-10-31)
+
+The frozen questions reuse their evidence sentence's words ("Which merchant was
+involved?" vs "The merchant involved was merchant-aurora."), which favors BM25.
+`strategy-eval --questions paraphrased` asks 31 reworded questions that share no
+content word, and no 4-letter start of a 5+ letter word, with the evidence sentence
+or answer (rule enforced in code; questions written by the engine author, not
+independently reviewed). Scoring is unchanged. Saved evidence:
+`output/strategy-eval-0130-paraphrased.json`.
+
+| Strategy | 900 original | 900 reworded | 3000 original | 3000 reworded | Turn recall (reworded, 900/3000) |
+|---|---|---|---|---|---|
+| recent_window | 1/31 | 1/31 | 4/31 | 4/31 | — |
+| summary_window | 1/31 | 1/31 | 3/31 | 3/31 | — |
+| retrieval_window | 31/31 | **6/31** | 31/31 | **7/31** | 0.16 / 0.13 |
+| combined (defaults) | 31/31 | **3/31** | 31/31 | **3/31** | 0.10 / 0.10 |
+| combined_no_recover | 29/31 | 4/31 | 19/31 | 3/31 | 0.13 / 0.10 |
+
+**What this shows.** Lexical retrieval finds the source turn for only 10–16% of
+reworded questions; the facts still kept are mostly in recent turns. The headline
+31/31 depends on word overlap between question and evidence. This is a deliberately
+harsh worst case (zero shared words); real questions usually share some words, so
+real-world retention lies between these results. It is the evidence for semantic or
+hybrid retrieval (T6). Live answer accuracy on reworded questions was not run.
+
 ## Assembly latency (0.12.1, measured 2026-10-31)
 
 All layers (`combined`, including the extractive-summary second pass) on the

@@ -1,6 +1,6 @@
 # Current status — 2026-10-31
 
-Package **0.12.1**, released on **PyPI** (`pip install context-engineering-core`); 0.12.0 also on PyPI/TestPyPI. Code in PR #1 (`feat/developer-launch`). Developer SDK and self-hosted local
+Package **0.13.0** (local, unreleased); **0.12.1** released on **PyPI** (`pip install context-engineering-core`); 0.12.0 also on PyPI/TestPyPI. Code in PR #1 (`feat/developer-launch`). Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
 
@@ -57,6 +57,7 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 | PyPI upload | TestPyPI done; real PyPI needs owner go-ahead |
 | Live accuracy at 3000 tokens / paid models | Not approved |
 | MCP in-chat use by a model | Owner restarts Claude Code and tries the tools |
+| Reworded questions | Offline stress test (0.13.0): default retention 3/31, retrieval-only 6–7/31. Semantic retrieval (T6) needs owner approval |
 | Real-world evaluation data | None; single synthetic scenario |
 | Production operations (load, SLOs, TLS, IdP, rate limits) | Later stages |
 

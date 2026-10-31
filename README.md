@@ -9,7 +9,7 @@ that fits the budget. Those messages keep the recent turns, the facts you pinned
 and the older evidence that matches the question. It never calls a model by
 itself, so you send the messages to any provider you like.
 
-> **Status: alpha (0.12.0).** Good for developers to try locally. It is not yet
+> **Status: alpha (0.13.0).** Good for developers to try locally. It is not yet
 > proven on real-world data, and there is no hosted service. See
 > [What is not proven yet](#what-is-not-proven-yet).
 
@@ -118,11 +118,15 @@ These are enforced in code and covered by about 1,400 tests:
 - **Answer quality.** Tests measure whether the needed facts *reach* the model's
   context, not whether the model then answers correctly. On the built-in
   benchmark, the default settings keep 31 of 31 planted facts at 900 and 3000
-  tokens. But that benchmark is one synthetic conversation written alongside
-  the engine.
-- **Real-world data.** There are no results yet on real user conversations or
-  on questions phrased differently from the source text. Retrieval is
-  keyword-based (BM25), so heavily reworded questions may miss evidence.
+  tokens, and a live model run answered 31 of 31 correctly at 900 tokens. But
+  that benchmark is one synthetic conversation written alongside the engine.
+- **Reworded questions.** Retrieval is keyword-based (BM25). When we reword the
+  31 benchmark questions so they share no words with the stored facts, the
+  default settings keep only 3 of 31 facts (6–7 of 31 with retrieval alone).
+  The 31/31 result depends on questions reusing the facts' words. Semantic
+  retrieval is the planned fix. Run it yourself:
+  `context-engine strategy-eval --questions paraphrased`.
+- **Real-world data.** There are no results yet on real user conversations.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.
   Providers may count differently. On small requests, provider counts were up
   to 1.78× the local estimate in past tests, so leave headroom or calibrate.

@@ -3,6 +3,20 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.13.0 — 2026-10-31 (unreleased)
+
+### Added
+- Reworded-question stress test: `strategy-eval --questions paraphrased` and
+  `compare_strategies(..., questions="paraphrased")`. 31 questions share no content
+  word (or 4-letter start of a 5+ letter word) with their evidence, enforced by
+  `paraphrase_overlaps`. Result: default retention falls from 31/31 to 3/31 at 900
+  and 3000 tokens (retrieval alone: 6/31 and 7/31). README updated.
+- `assemble_strategy(..., question=...)` to assemble a strategy for any question.
+
+### Unchanged
+- Engine behavior and defaults. 0.12.1 wheel/freeze archived in
+  `archives/c13-paraphrase-0130/`.
+
 ## 0.12.1 — 2026-10-31 (PyPI)
 
 ### Changed (performance only; output identical)

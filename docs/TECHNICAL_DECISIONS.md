@@ -58,12 +58,16 @@ SQLite with WAL is right for the SDK and self-hosted service. PostgreSQL only
 becomes necessary with a hosted multi-tenant API (Phase 4). The storage interface
 is concentrated in `memory/store.py`; port behind the same tests when needed.
 
-## T6 — Defer semantic/hybrid retrieval (proposed)
+## T6 — Add semantic/hybrid retrieval (proposed; evidence now available)
 
-BM25 already retains 31/31 on the frozen corpus when given its allocation. A
-134 MB embedding model adds install size and latency. Add it only after a real-data
-evaluation shows lexical misses (paraphrased questions). C11_SEMANTIC_PREFLIGHT has
-the design.
+BM25 retains 31/31 on the frozen questions but only 6–7/31 (retrieval alone) and
+3/31 (defaults) when the same questions are reworded with no shared words
+(0.13.0 stress test). This is the lexical miss the earlier deferral waited for.
+**Proposal:** an optional `[semantic]` extra with a small local embedding model
+(C11_SEMANTIC_PREFLIGHT selected pinned BGE-small English ONNX), fused with BM25,
+keeping core installs dependency-free. **Costs:** ~130 MB model download, added
+latency per new chunk, a new evaluation of both question sets. **Needs:** owner
+approval for the dependency and model download.
 
 ## T7 — Version bump ritual
 

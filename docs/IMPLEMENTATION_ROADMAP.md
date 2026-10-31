@@ -45,7 +45,8 @@ archives); summary misuse for exact identifiers (documented).
 | 2.1 Five-baseline offline comparison, precision/recall, latency | `evaluation/strategies.py`, `cli.py`, `tests/test_strategies.py` | DONE (19 tests) |
 | 2.2 Saved evidence | `output/strategy-eval-0100.json` | DONE |
 | 2.3 Answer correctness per strategy (bounded live run) | `scripts/strategy_accuracy_live.py` | DONE at 900 tokens: combined 31/31, no_recover 29/31; 3000 not approved |
-| 2.4 Real or realistic multi-scenario corpus (paraphrased questions, multi-session) | `evaluation/data/` new bundle | NEXT; LongMemEval development rows exist offline (D098/D099) |
+| 2.4a Reworded-question stress test | `evaluation/data/paraphrases.json`, `strategies.py` | DONE (0.13.0): 31/31 → 3/31 default |
+| 2.4b Real or realistic multi-scenario corpus (multi-session) | `evaluation/data/` new bundle | NEXT; LongMemEval development rows exist offline (D098/D099) |
 | 2.5 Model-summary quality (fact retention in summary vs leakage) | `strategies.py` + `PromptSummarizer` | BLOCKED with 2.3 |
 
 Acceptance for 2.3: per-strategy accuracy with confidence intervals, pre-registered
@@ -78,5 +79,6 @@ targets, separate retention/accuracy/cost reporting.
 
 2. Owner: try the MCP server in a real client (config in docs/MCP.md).
 3. Owner: review and merge PR #1 (README/PyPI doc links need `main`).
-5. Engineering: paraphrased-question corpus to test lexical-retrieval limits (2.4);
-   profile much longer histories (1,000+ turns).
+5. Owner: approve semantic/hybrid retrieval as an optional extra (T6); the 0.13.0
+   reworded-question test shows default retention 31/31 → 3/31 without shared words.
+6. Engineering: profile much longer histories (1,000+ turns).

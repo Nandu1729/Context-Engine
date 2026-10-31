@@ -18,16 +18,19 @@ used only after assembly, for scoring. Answer correctness needs model inference
 and is reported NOT_EVALUATED here; this measures what context reaches the model.
 """
 
+import re
 import statistics
 import time
 
 from ..config import BudgetConfig, CapConfig, RetrievalConfig, TokenizerConfig
+from ..errors import BenchmarkError
+from ..layers.retrieve import lexical_tokens
 from ..layers.summarize import PrefixSummaryPolicy
 from ..models import BlockKind, ChatRequest, Message, Role
 from ..pipeline import AssemblyOptions, assemble_context
 from ..summaries import ExtractiveSummarizer, update_summary
 from ..tokens import TiktokenCounter
-from .corpus import Bundle, aliases
+from .corpus import Bundle, aliases, read_resource, strict_json
 from .grading import present
 from .harness import evidence_locations
 
@@ -65,7 +68,7 @@ def _percentile(values: list[float], fraction: float) -> float | None:
     return ordered[min(len(ordered) - 1, round(fraction * (len(ordered) - 1)))]
 
 
-def _assemble(job, protocol, counter, fact, allowance, strategy):
+def _assemble(job, protocol, counter, fact, allowance, strategy, question):
     """Assemble one strategy's request; returns (result, summary source tokens)."""
     history = job.arguments["history"]
     budget = _budget(protocol, allowance, strategy)
@@ -81,7 +84,7 @@ def _assemble(job, protocol, counter, fact, allowance, strategy):
         options=options,
     )
     pins = job.arguments["pinned_facts"]
-    result = assemble_context(history, fact["question"], pins, budget, **arguments)
+    result = assemble_context(history, question, pins, budget, **arguments)
     summary_tokens = 0
     if options.summarize:
         reserve = budget.summary_reserve
@@ -104,7 +107,7 @@ def _assemble(job, protocol, counter, fact, allowance, strategy):
             )
             result = assemble_context(
                 history,
-                fact["question"],
+                question,
                 pins,
                 budget,
                 summary_policy=PrefixSummaryPolicy(snapshot),
@@ -113,7 +116,7 @@ def _assemble(job, protocol, counter, fact, allowance, strategy):
     return result, summary_tokens
 
 
-def _probe(bundle, protocol, counter, fact, allowance, strategy) -> dict:
+def _probe(bundle, protocol, counter, fact, allowance, strategy, question) -> dict:
     job = bundle.job(fact["question"])
     history = job.arguments["history"]
     values = aliases(fact)
@@ -122,7 +125,7 @@ def _probe(bundle, protocol, counter, fact, allowance, strategy) -> dict:
             (
                 Message("raw:system", Role.SYSTEM, job.arguments["system"]),
                 *(m for turn in history for m in turn.messages),
-                Message("raw:question", Role.USER, fact["question"]),
+                Message("raw:question", Role.USER, question),
             )
         )
     )
@@ -144,7 +147,7 @@ def _probe(bundle, protocol, counter, fact, allowance, strategy) -> dict:
             "latency_ms": 0.0,
         }
     started = time.perf_counter()
-    result, summary_tokens = _assemble(job, protocol, counter, fact, allowance, strategy)
+    result, summary_tokens = _assemble(job, protocol, counter, fact, allowance, strategy, question)
     latency = (time.perf_counter() - started) * 1000
     source = fact["source_turn_id"]
     chunks = [b for b in result.blocks if b.kind == BlockKind.RETRIEVED and b.content]
@@ -205,7 +208,9 @@ def _aggregate(probes: list[dict]) -> dict:
     }
 
 
-def assemble_strategy(bundle: Bundle, fact: dict, allowance: int, strategy: str):
+def assemble_strategy(
+    bundle: Bundle, fact: dict, allowance: int, strategy: str, *, question: str | None = None
+):
     """The exact request a strategy sends for one frozen fact (for bounded live runs).
 
     `full_history` is not assembled; it either fits raw or is a non-fit.
@@ -215,14 +220,85 @@ def assemble_strategy(bundle: Bundle, fact: dict, allowance: int, strategy: str)
     protocol = bundle.get("protocol")
     counter = TiktokenCounter(TokenizerConfig(**protocol["tokenizer"]))
     job = bundle.job(fact["question"])
-    result, _ = _assemble(job, protocol, counter, fact, allowance, strategy)
+    asked = fact["question"] if question is None else question
+    result, _ = _assemble(job, protocol, counter, fact, allowance, strategy, asked)
     return result, _budget(protocol, allowance, strategy)
 
 
+# Function words allowed in a paraphrase; everything else must differ from the evidence.
+FUNCTION_WORDS = frozenset(
+    "a again and at be before did for got how in is it many of off on once or out set the "
+    "they things this to together up was were what where which with".split()
+)
+
+
+def _words(text: str) -> set[str]:
+    tokens = lexical_tokens(text)
+    parts = {p for t in tokens for p in re.split(r"[-.]", t) if p}
+    return (set(tokens) | parts) - FUNCTION_WORDS
+
+
+def evidence_sentence(bundle: Bundle, fact: dict) -> str:
+    history = bundle.job(fact["question"]).arguments["history"]
+    content = next(
+        m.content for t in history for m in t.messages if m.message_id == fact["source_message_id"]
+    )
+    return next(s for s in re.split(r"(?<=\.)\s+", content) if fact["expected"] in s)
+
+
+def paraphrase_overlaps(bundle: Bundle, questions: dict) -> dict:
+    """Shared words, or shared 4-letter starts of 5+ letter words, per paraphrase."""
+    found = {}
+    for fact in bundle.facts:
+        asked = _words(questions[fact["fact_id"]])
+        evidence = _words(evidence_sentence(bundle, fact))
+        shared = sorted(asked & evidence) + sorted(
+            f"{a}~{e}"
+            for a in asked
+            for e in evidence
+            if a != e and len(a) >= 5 and len(e) >= 5 and a[:4] == e[:4]
+        )
+        if shared:
+            found[fact["fact_id"]] = shared
+    return found
+
+
+def load_paraphrases(bundle: Bundle) -> dict[str, str]:
+    """Validated paraphrased questions for the frozen corpus (no evidence word overlap)."""
+    data = strict_json(read_resource("paraphrases.json"))
+    questions = data.get("questions") if isinstance(data, dict) else None
+    if (
+        data.get("schema_version") != 1
+        or data.get("scenario_id") != bundle.get("protocol")["scenario_id"]
+        or not isinstance(questions, dict)
+        or set(questions) != {f["fact_id"] for f in bundle.facts}
+        or not all(isinstance(q, str) and q.strip() for q in questions.values())
+    ):
+        raise BenchmarkError("Malformed paraphrase question set")
+    if paraphrase_overlaps(bundle, questions):
+        raise BenchmarkError("Paraphrased questions share words with their evidence")
+    return dict(questions)
+
+
 def compare_strategies(
-    bundle: Bundle, budgets: tuple[int, ...] | None = None, *, include_probes: bool = False
+    bundle: Bundle,
+    budgets: tuple[int, ...] | None = None,
+    *,
+    include_probes: bool = False,
+    questions: str = "original",
 ) -> dict:
-    """Run every strategy on every frozen fact at each budget. Deterministic except latency."""
+    """Run every strategy on every frozen fact at each budget. Deterministic except latency.
+
+    `questions="paraphrased"` asks reworded questions that share no content words with
+    the evidence (lexical-retrieval stress test); scoring is unchanged.
+    """
+    if questions not in ("original", "paraphrased"):
+        raise ValueError("questions must be 'original' or 'paraphrased'")
+    asked = (
+        load_paraphrases(bundle)
+        if questions == "paraphrased"
+        else {f["fact_id"]: f["question"] for f in bundle.facts}
+    )
     protocol = bundle.get("protocol")
     budgets = tuple(protocol["budgets"]) if budgets is None else tuple(budgets)
     if not budgets or any(type(b) is not int or b <= 0 for b in budgets):
@@ -232,7 +308,7 @@ def compare_strategies(
     for allowance in budgets:
         for strategy in ORDER:
             probes = [
-                _probe(bundle, protocol, counter, fact, allowance, strategy)
+                _probe(bundle, protocol, counter, fact, allowance, strategy, asked[fact["fact_id"]])
                 for fact in bundle.facts
             ]
             entry = {"budget": allowance, "strategy": strategy, **_aggregate(probes)}
@@ -246,6 +322,7 @@ def compare_strategies(
         "mode": "offline_strategy_comparison",
         "inference_calls": 0,
         "corpus": {"scenario_id": protocol["scenario_id"], "facts": len(bundle.facts)},
+        "question_set": questions,
         "fixture_hashes": bundle.hashes,
         "summary_policy": SUMMARY_POLICY_VERSION,
         "results": results,
@@ -258,4 +335,12 @@ def compare_strategies(
     }
 
 
-__all__ = ["NO_RECOVER", "ORDER", "STRATEGIES", "assemble_strategy", "compare_strategies"]
+__all__ = [
+    "NO_RECOVER",
+    "ORDER",
+    "STRATEGIES",
+    "assemble_strategy",
+    "compare_strategies",
+    "load_paraphrases",
+    "paraphrase_overlaps",
+]

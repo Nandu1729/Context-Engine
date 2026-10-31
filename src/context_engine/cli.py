@@ -81,6 +81,12 @@ def main(argv: list[str] | None = None) -> int:
         "--budget", type=int, action="append", help="Input allowance; repeatable"
     )
     strategies.add_argument("--probes", action="store_true", help="Include per-fact results")
+    strategies.add_argument(
+        "--questions",
+        choices=("original", "paraphrased"),
+        default="original",
+        help="paraphrased: reworded questions with no shared words (lexical stress test)",
+    )
     strategies.add_argument("--data-dir", type=Path)
     strategies.add_argument("--output", type=Path, help="Save JSON to a new file; never overwrite")
     planned = commands.add_parser(
@@ -136,7 +142,9 @@ def main(argv: list[str] | None = None) -> int:
             budgets = None if args.budget is None else tuple(args.budget)
             if budgets is not None and any(b <= 0 for b in budgets):
                 raise ContextEngineError("Budgets must be positive integers")
-            result = compare_strategies(bundle, budgets, include_probes=args.probes)
+            result = compare_strategies(
+                bundle, budgets, include_probes=args.probes, questions=args.questions
+            )
             if args.output is not None:
                 save_inspection(args.output, result)
             print(json.dumps(result, indent=2, ensure_ascii=False))
