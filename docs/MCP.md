@@ -8,12 +8,16 @@ standard library only, no MCP SDK dependency). It never calls a model:
 context-engine-mcp --data-dir ./context-memory --tenant local
 ```
 
-Client configuration (the usual `mcpServers` JSON shape):
+Client configuration (the usual `mcpServers` JSON shape). Use the **absolute path**
+of the installed `context-engine-mcp`: desktop apps start servers with a minimal
+PATH. It is a Python program, not an npm package, so do not use `npx`.
 
 ```json
-{"mcpServers": {"context-engine": {"command": "context-engine-mcp",
+{"mcpServers": {"context-engine": {"command": "/absolute/path/to/.venv/bin/context-engine-mcp",
   "args": ["--data-dir", "/absolute/path/context-memory"]}}}
 ```
+
+Claude Code: `claude mcp add context-engine -- /absolute/path/to/context-engine-mcp --data-dir /absolute/path/context-memory`.
 
 | Tool | Arguments | Result |
 |---|---|---|
