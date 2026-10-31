@@ -1,6 +1,6 @@
 # Current status — 2026-10-31
 
-Package **0.12.0** (unreleased, uncommitted; 0.11.0 is on TestPyPI). Developer SDK and self-hosted local
+Package **0.12.0**, committed on branch `feat/developer-launch` (not pushed); on TestPyPI. Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
 
@@ -43,8 +43,10 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 
 ## Published
 
-- TestPyPI: `context-engineering-core` 0.11.0, hashes match `dist/` (D110). Real
-  PyPI: not yet; needs owner go-ahead.
+- TestPyPI: `context-engineering-core` 0.11.0 (D110) and 0.12.0 (D111; wheel
+  `9b289b16…`, sdist `0c44130b…`), both verified by a fresh install from TestPyPI.
+- Real PyPI: not yet. Needs a `PYPI_TOKEN` in `.env` and a final owner confirmation
+  (a PyPI version can never be re-uploaded).
 
 ## Incomplete / blocked
 
@@ -66,5 +68,6 @@ wheels for 0.4.0–0.10.0 and c06/c08/c09 requirements remain. See the brain jou
 
 ## Uncommitted work
 
-D097–D110 work is uncommitted; nothing has been committed or pushed. Commit only
-after owner approval, on a feature branch, staging explicit paths.
+D097–D111 work is committed on local branch `feat/developer-launch` (d9a1680 and a
+follow-up docs commit). Nothing is pushed; README/PyPI links point to `main`, so they
+work only after the branch is pushed and merged.
