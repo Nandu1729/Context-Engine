@@ -56,9 +56,30 @@ def test_normalization_and_forbidden_boundaries():
     assert normalize("Indigo.") != normalize("Indigo")
 
 
-def test_literal_retention_checks_working_text_not_source_ids(prepared):
-    middle = [r for r in prepared["rows"] if r["case"] == "eval-middle"]
-    assert any("m0" in r["selected_messages"] and r["retained"] is False for r in middle)
+def test_literal_retention_checks_working_text_not_source_ids(prepared, monkeypatch):
+    import functools
+
+    import context_engine.evaluation.heldout as heldout
+    from context_engine.config import RetrievalConfig
+
+    def middle(plan):
+        rows = plan["rows"]
+        return {(r["variant"], r["budget"]): r for r in rows if r["case"] == "eval-middle"}
+
+    # Without WINDOW recovery (pre-0.11.0), CAP keeps m0's ID but drops the literal.
+    monkeypatch.setattr(
+        heldout,
+        "assemble_context",
+        functools.partial(
+            heldout.assemble_context,
+            retrieval_config=RetrievalConfig(recover_capped_window=False),
+        ),
+    )
+    old = middle(prepare(split="evaluation", retention=True))[("CAP_RETRIEVE_WINDOW", 900)]
+    assert "m0" in old["selected_messages"] and old["retained"] is False
+    # The 0.11.0 default restores the capped original as retrieved evidence.
+    new = middle(prepared)[("CAP_RETRIEVE_WINDOW", 900)]
+    assert "m0" in new["selected_messages"] and new["retained"] is True
     assert all(r["retained"] is None for r in prepared["rows"] if r["category"] == "no_answer")
     assert prepared["content_retention"] == "SYNTHETIC_LITERAL_CHECK"
 

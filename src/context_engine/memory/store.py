@@ -12,10 +12,10 @@ from pathlib import Path
 
 from .._sqlite import connect
 from ..config import RetrievalConfig
-from ..errors import MemoryConflict, MemoryIntegrityError, StorageError
+from ..errors import ContractError, MemoryConflict, MemoryIntegrityError, StorageError
 from ..layers.common import history_digest
 from ..layers.retrieve import ChunkIndex, chunk_turns
-from ..layers.summarize import FrozenSummaryPolicy, SummarySnapshot
+from ..layers.summarize import FrozenSummaryPolicy, PrefixSummaryPolicy, SummarySnapshot
 from ..models import ChatRequest, KeyedPins, Pin, Scope, Turn, aware_time, integer_value, text_value
 from ..pipeline import assemble_context
 from ..work import raise_if_cancelled, validate_cancellation
@@ -227,7 +227,16 @@ class MemoryStore:
 
     def _changed(self, db, scope, turn_id=None):
         db.execute("UPDATE scopes SET revision=revision+1 WHERE scope=?", (scope,))
-        db.execute("DELETE FROM summaries WHERE scope=?", (scope,))
+        summary = db.execute("SELECT * FROM summaries WHERE scope=?", (scope,)).fetchone()
+        # A summary survives only appends of turns it does not cover; reads re-verify lineage.
+        if (
+            summary is not None
+            and turn_id is not None
+            and turn_id not in self._read("summary", summary).covered_turn_ids
+        ):
+            summary = None
+        if summary is not None:
+            db.execute("DELETE FROM summaries WHERE scope=?", (scope,))
         db.execute("DELETE FROM replay WHERE scope=?", (scope,))
         if turn_id is not None:
             db.execute("DELETE FROM chunks WHERE scope=? AND turn_id=?", (scope, turn_id))
@@ -646,8 +655,12 @@ class MemoryStore:
         system,
         retrieval_config=None,
         cancellation=None,
+        summary_prefix=False,
         **options,
     ):
+        """Assemble the current snapshot. `summary_prefix=True` opts into rolling reuse."""
+        if type(summary_prefix) is not bool:
+            raise ContractError("summary_prefix must be an explicit boolean")
         retrieval_config = RetrievalConfig() if retrieval_config is None else retrieval_config
         validate_cancellation(cancellation)
         raise_if_cancelled(cancellation)
@@ -666,7 +679,13 @@ class MemoryStore:
             at=snapshot.at,
             retrieval_config=retrieval_config,
             chunk_index=self.chunk_index(snapshot, retrieval_config),
-            summary_policy=FrozenSummaryPolicy(snapshot.summary) if snapshot.summary else None,
+            summary_policy=(
+                None
+                if snapshot.summary is None
+                else (PrefixSummaryPolicy if summary_prefix else FrozenSummaryPolicy)(
+                    snapshot.summary
+                )
+            ),
             cancellation=cancellation,
             **options,
         )

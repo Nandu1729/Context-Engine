@@ -71,3 +71,18 @@ By default the ledger holds accounting metadata, not prompt/answer bodies. Datab
 ## Reproducibility boundary
 
 C04's reference freeze and 0.4.0 wheel are preserved under `archives/c04/`; its original outputs remain unchanged. The current packaged freeze explicitly identifies 0.5.0 source and the same offline corpus/protocol/targets. It does not turn old snapshots into new runs. C06 must record the full provider dependency/configuration profile and connect trusted adapter records to benchmark manifests. No live model result, measured accuracy, provider calibration or actual savings is claimed by C05.
+
+## Inception (Mercury), 0.12.0 — live smoke verified (D111)
+
+`InceptionGenerationConfig` + `InceptionTransport` (`https://api.inceptionlabs.ai/v1/chat/completions`,
+Bearer `INCEPTION_API_KEY`) reuse `ProviderClient`: final token admission, local
+ledger, no automatic retries, redacted errors. Documented constraints (Inception docs,
+read 2026-10-31): models `mercury-3`, `mercury-2.5`, `mercury-2`; temperature 0.5–1;
+`reasoning_effort` instant/low/medium/high; `max_completion_tokens` includes reasoning;
+402 = billing/quota. The owner's account dashboard shows a Free Tier of 100M tokens; the docs list paid
+prices (mercury-3 launch $0.10 / $0.01 cached / $0.35 per 1M). Use
+`billing_mode="metered"` with a `daily_budget_microusd` cap as a safety net.
+Live smoke (D111): 1 call, 715 input / 45 output tokens, correct answer. A Groq generation cannot be paired with the
+Inception transport, or the reverse. `scripts/inception_smoke.py plan` shows the
+single capped call; it refuses to run twice (one attempt per run directory).
+

@@ -1,0 +1,28 @@
+# Embedding bake-off, 2026-10-31T09:33:27Z, macOS arm64, frozen incident-100-v1 corpus, 400 chunks
+# source-turn recall@4 [hits/31, MRR]; size_mb = local cache on disk
+m2v:minishlab/potion-base-8M {"size_mb": 61, "index_ms_per_chunk": 0.09, "original": {"semantic": [31, 1.0], "hybrid": [31, 1.0], "query_ms": 0.03}, "reworded": {"semantic": [24, 0.548], "hybrid": [14, 0.343], "query_ms": 0.02}}
+bm25 {"original": [31, 1.0], "reworded": [5, 0.138]} chunks 400
+m2v:minishlab/potion-retrieval-32M {"size_mb": 260, "index_ms_per_chunk": 0.12, "original": {"semantic": [31, 1.0], "hybrid": [31, 1.0], "query_ms": 0.02}, "reworded": {"semantic": [21, 0.552], "hybrid": [11, 0.3], "query_ms": 0.02}}
+BAAI/bge-small-en-v1.5 {"size_mb": 201, "index_ms_per_chunk": 8.38, "original": {"semantic": [31, 1.0], "hybrid": [31, 1.0], "query_ms": 1.38}, "reworded": {"semantic": [27, 0.688], "hybrid": [16, 0.376], "query_ms": 1.55}}
+snowflake/snowflake-arctic-embed-xs {"size_mb": 273, "index_ms_per_chunk": 2.39, "original": {"semantic": [31, 1.0], "hybrid": [31, 1.0], "query_ms": 0.35}, "reworded": {"semantic": [16, 0.477], "hybrid": [10, 0.333], "query_ms": 0.4}}
+ibm-granite/granite-embedding-small-english-r2 {"size_mb": 784, "index_ms_per_chunk": 5.19, "original": {"semantic": [31, 1.0], "hybrid": [31, 1.0], "query_ms": 0.84}, "reworded": {"semantic": [23, 0.677], "hybrid": [13, 0.373], "query_ms": 1.13}}
+nomic-ai/nomic-embed-text-v1.5-Q {"size_mb": 413, "index_ms_per_chunk": 15.28, "original": {"semantic": [31, 1.0], "hybrid": [31, 1.0], "query_ms": 2.34}, "reworded": {"semantic": [24, 0.621], "hybrid": [17, 0.493], "query_ms": 2.64}}
+# fusion rules (recall@4 / MRR)
+m2v:minishlab/potion-base-8M
+  semantic   original 31/31 mrr 1.00   reworded 24/31 mrr 0.55
+  bm25       original 31/31 mrr 1.00   reworded 5/31 mrr 0.14
+  rrf_1:1    original 31/31 mrr 1.00   reworded 14/31 mrr 0.34
+  rrf_2:1    original 31/31 mrr 1.00   reworded 18/31 mrr 0.46
+  union_2+2  original 31/31 mrr 1.00   reworded 18/31 mrr 0.53
+  union_3+1  original 31/31 mrr 1.00   reworded 21/31 mrr 0.55
+  score_0.7  original 31/31 mrr 1.00   reworded 23/31 mrr 0.59
+  score_0.5  original 31/31 mrr 1.00   reworded 23/31 mrr 0.57
+BAAI/bge-small-en-v1.5
+  semantic   original 31/31 mrr 1.00   reworded 27/31 mrr 0.69
+  bm25       original 31/31 mrr 1.00   reworded 5/31 mrr 0.14
+  rrf_1:1    original 31/31 mrr 1.00   reworded 16/31 mrr 0.38
+  rrf_2:1    original 31/31 mrr 1.00   reworded 20/31 mrr 0.50
+  union_2+2  original 31/31 mrr 1.00   reworded 26/31 mrr 0.69
+  union_3+1  original 31/31 mrr 1.00   reworded 27/31 mrr 0.69
+  score_0.7  original 31/31 mrr 1.00   reworded 27/31 mrr 0.66
+  score_0.5  original 31/31 mrr 1.00   reworded 26/31 mrr 0.61

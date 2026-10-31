@@ -27,6 +27,8 @@ class BrainIntegrityTests(unittest.TestCase):
                 "examples/validated_answer.py",
                 "examples/structured_answers.py",
                 "examples/evidence_answer_policy.py",
+                "scripts/incident_preflight.py",
+                "output/incident-preflight-001/report.json",
                 "output/c03-inspection.json",
                 "output/c04-benchmark-check.json",
                 "output/c04-resume.json",

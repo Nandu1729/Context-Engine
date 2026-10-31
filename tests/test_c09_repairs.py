@@ -223,7 +223,7 @@ def test_recovery_cannot_spend_a_zero_retrieval_reserve():
 
 
 def test_configuration_changes_invalidate_old_cached_index_identity():
-    turns, old = history(), RetrievalConfig()
+    turns, old = history(), RetrievalConfig(recover_capped_window=False)
     index = ChunkIndex(
         history_digest(turns),
         hashlib.sha256(canonical_json(asdict(old)).encode()).hexdigest(),

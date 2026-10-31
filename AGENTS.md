@@ -81,6 +81,35 @@ pending. Separate claims/receipts and baseline-preserving ledger accounting only
 D088 exhausted:16/16 complete,5/8correct each arm,target FAIL,candidate not adopted.
 Preserve policy-live003;no further inference or automatic prompt experiments.
 
+D100 separately approved14LongMemEval development calls,now exhausted14/14:
+12normal/2truncated,unchanged0.9.6,original account/current.env/shared ledger.
+Preserve longmemeval-live-001 and C10_LONGMEMEVAL_LIVE_PROTOCOL;70held-out unexecuted.
+D101:owner reviews private manual-review.md first to reduce assistant usage.
+D102:owner requests assistant recheck;separate assessment completed offline.
+Owner worksheet stays blank;see C10_LONGMEMEVAL_RECHECK_REPORT for diagnosis.
+D103:owner requests all checkpoints today. Completion audit and isolated70condition
+offline retrieval-union experiment complete;prototype NOT adopted,core stays0.9.6.
+See PROJECT_COMPLETION_STATUS and C11_RETRIEVAL_UNION_REPORT. Scope choice pending;
+deadline does not waive quality/operations/owner gates or renew inference authority.
+D104:owner chooses local demo/SDK first;launcher/walkthrough/metadata report ready.
+See LOCAL_QUICKSTART and C10_LOCAL_DEMO_REPORT. Do not repeat the scope question;
+Owner SDK/API demos passed;sample_app.py --longmemeval now connects existing row49
+development input offline. No repeated walkthrough or download;see LOCAL_QUICKSTART.
+Enterprise gates/old budgets stay unchanged.
+No more calls,retries,limit increases,default adoption or inferred acceptance.
+
+D105 supersedes only the new-inference restriction for one approved row49baseline
+Groq20b/256 request,original free-tier/account/.env/shared ledger,no retries/paid use.
+Use C10_SAMPLE_ANSWER_PROTOCOL and separate sample-answer-001;preserve all historical
+claims/receipts/runners. Approval is consumed by one attempt,not one successful answer.
+D105 exhausted:1/1success,827input+88output tokens,reference-consistent main answer.
+See C10_SAMPLE_ANSWER_REPORT;only saved-answer viewing is authorized afterward.
+No rerun under new identity,claim reset or inferred broader quality acceptance.
+
+D106:fixed lexical-diversity candidate evaluated offline and REJECTED after broader
+development regressions. Preserve candidate/protocol/results and core0.9.6;do not
+adopt or retune this identity. See C11_DIVERSITY_REPORT. No new inference authority.
+
 D090 owner approves an explicit CI platform split: Linux/macOS retain all tests;
 Windows excludes only the17 frozen POSIX-runner modules listed in tests/conftest.py,
 with visible NOT TESTED reporting. Never broaden exclusions automatically or label

@@ -1,10 +1,11 @@
 # Current state
 
-Updated: 2026-09-28
+Updated: 2026-10-31
 
 ## Objective
 
-Build the PRD's context engine with measured quality/cost and owner-controlled checkpoints.
+Build the context engine with measured quality/cost and owner checkpoints.
+D108/D109 focus:developer-ready SDK(stage1 launch,stage2 adoption);no SaaS frontend.
 
 ## Verified facts
 
@@ -12,82 +13,48 @@ Build the PRD's context engine with measured quality/cost and owner-controlled c
   sourceSHA256 `1abb616cbd347aa8fea8064feb93af45727060acdb3e6a91708f4ee4ae39b43c` unchanged.
 - C00–C08 READY, not owner-accepted. Five-layer core, provider/replay/quota,
   SQLite durable memory/deletion-aware restore, authenticated local `/v1` service.
-- C09:bounded disposable workers,default2/max8,no queue;timeout/disconnect/cancellation
-  kill/reap.19 process tests cover races,flood,credential isolation,SQLite recovery.
-  SDK cancellation remains cooperative.
-- Package0.9.6:Windows SQLite/credential ACL checks;admission schema2 retained.
-  D078 default-off `recover_capped_window` recovers missing original
-  chunks from changed WINDOW messages;source/finalizer/deletion/budget checks remain.
-  Optional AnswerContract validates exact JSON text/ASCII identifiers/integers,
-  not truth.57 new regressions;live002 compliance measured,quality target FAIL.
-- heldout-v1/scoring-v1:16 synthetic cases/eight categories/two splits. Original003
-  TEST_ONLY preparation/scoring remains unchanged;not provider evidence.
-- C09 live001 complete:32responses,8strict matches,target FAIL;28,553tokens/$0configured.
-  Historical receipts/account/source integrity and offline replay verified;
-  details in C09_LIVE_REPORT. No regrading or replayed inference.
-- Sourcefreeze `304253f7109add9df916592881d2ff4929da28bb13fea51fe020d1262e8196f2`.
-  Real0.9.2/0.9.3/0.9.4/0.9.5 wheels/freezes archived;older evidence unchanged.
-- C06 complete at snapshot249:744 terminal,613 responses,124 non-fits,six rejections,
-  one missing-answer timeout. VALID,five frozen gates PASS,primary29/31 correct,
- 95.18%estimated reduction. Archived0.7.2 is the only historical runtime.
-- D072 timeout accounting settled;failed answer unchanged. No C06 work remains.
-- Gemini diagnostic001 remains separate evidence,not C06 or C09 qualification.
+- Package0.11.0(D109):`recover_capped_window=True` default;Apache-2.0;tested README;
+  0.10.0 rolling summaries/strategy-eval kept. 0.10.0 wheel/freeze in
+  `archives/c11-recover-default-0110`;code hash `1b40824e…4a91`. Lock patched
+  (certifi,urllib3,PyJWT,Pillow;uv audit0);old dep wheels in archives/runtime-deps-pre-0110.
+- strategy-eval(offline,frozen31 facts):combined31/31@900/3000;combined_no_recover
+  29/31,19/31(S11:CAP trims WINDOW facts);retrieval+window31/31. Retention only.
+- C06 complete at snapshot249:primary29/31 correct,95.18%estimated reduction.
+  C09 live qualification FAIL(PRIMARY14/16);all inference budgets exhausted.
+- Earlier evolution:0.9.2 recovery/AnswerContract,0.9.3 admission schema2,0.9.4–0.9.6
+  Windows ACLs. All prior wheels/freezes archived;historical runners reject new code.
 
 ## Working decisions
 
-- D075 ends Kimi handoff;this assistant implements/reviews alone. D078 permits
-  scoped offline repairs after live001. No subagents or external developer assignment.
-- Owner controls acceptance. Save short reports with work,tests,limitations,next
-  action. Do not self-approve full checkpoint or release.
-- Preserve C06/Gemini archives/snapshots/amendments001–009,`.env`,private runtime.
-  Shared ledger append-only;all past inference budgets exhausted.
-- Core independent of service/provider/evaluation. Authorization precedes worker
-  dispatch;original history and required payloads protected. Workers use UTC clock
-  against configured stores;no caller-selected executable or inherited API keys.
-- SDK remains cooperative;OS process containment is not a sandbox,RSS limit,global
-  concurrency bound or strict whole-request latency guarantee.
+- Owner controls acceptance,inference spend,publishing and defaults. T2 accepted(D109);
+  T5 Postgres,T6 semantic proposed. Ask before each TestPyPI/PyPI upload.
+- Preserve C06/C09/C10 archives,`.env`,private runtime;shared ledger append-only.
+- Core independent of service/provider/evaluation;authorization precedes work;
+  summaries/retrieval are data with provenance;no hidden model calls.
 
 ## Current checkpoint / next action
 
-C09 ACTIVE:qualification live002 PRIMARY14/16,CONTROL11/16,target FAIL.
-D084 structured smoke2valid JSON/1correct;conflict facts/instructions retained.
-D085 generic evidence-policy candidate unqualified;32offline assemblies retain prior
-evidence. Details:C09_CONFLICT_ANALYSIS_REPORT. Historical failures unchanged.
-Account707attempts/1,113,450tokens,zero holds;D088 used16calls/6,956tokens.
-D080/D082/D084/D088 exhausted;no new inference,regrading or default adoption.
+Stage1(D109/D110) done;real PyPI upload needs owner go-ahead.
+Full suite1429 PASS/0 FAIL;wheel/sdist clean installs PASS. See docs/CURRENT_STATUS.
+C09 ACTIVE(quality),C10 ACTIVE(operations),C11 ACTIVE,C12 BLOCKED as before.
+Uncommitted work from D097–D108 remains for owner review/commit.
 
-D086 owner requests whole-project completion quickly. Advance independent offline
-C10/C11/C12 preparation without waiving acceptance dependencies. C10 ACTIVE:
-synthetic100turn/20sample drill11checks PASS,deletion-safe restore/reindex49.20ms,
-warm assemblyp95=27.86ms on localDarwin arm64;not service SLO or disaster recovery.
-D090 split:historical Ubuntu/macOS PASS;Windows portable suite now PASS.
-Exact17-module exclusions unchanged. D093 fixes confirmed timestamp collision.
-Historical preparation reproduces under archived0.9.2 offline;old evidence unchanged.
-D095:private database/directory/sidecar enforcement,existing ACLs never rewritten.
-0.9.6 repairs pytest child ACLs and demo/probe private-child provisioning.
-Windows7a8ecb5/run36382286882:976PASS/2warnings394.22s;credential71/concurrency14/SQLite62 PASS.
-Full local review:1195PASS/48SKIP269.81s;lint/lock/build/demos/operational probes PASS.
-Windows workflow complete-suite,no fail-fast,15min/job25;policy/exclusions unchanged.
-Windows repair verified complete;next manual three-platform qualification,see C10_PLATFORM_REPORT.
-C11 ACTIVE:existing index reuse100→0processed measured;no new optimization or
-production savings claim. C12 BLOCKED:quality,operations/cost qualification,pilot
-scope/data/targets/operating owner and explicit acceptance. See C10/C11/C12_REPORT.
-Local inventory45dependencies/2artifacts is not license/CVE/SBOM approval.
-D089 local history and D090 CI evidence:see C10_PLATFORM_REPORT. No inference.
-D088 policy003 live16/16:BASELINE5/8,CANDIDATE5/8,target FAIL;one improvement/one
-regression. Candidate not adopted.5runner tests/replay/no-call resume PASS;
-691prior rows unchanged. See C09_POLICY_LIVE_REPORT. Stop prompt-only experiments.
-Next:owner runs manual Offline qualification on main;review all three jobs/logs.
-No further calls,deployment or customer data authorized;remote platform checks external.
-Manual-first:give setup/Docker/CI/test commands;reserve Codex for code/review.
-No running process,C06 rerun,new account,claim reset or automatic acceptance.
+Live D109/D110 900-token run COMPLETE:combined31/31,retrieval31/31,no_recover29/31,
+summary1/29,window1/31;2 zero-token rejections,$0. TestPyPI0.11.0 verified.
+0.12.0:adapters,Inception(live smoke OK,D111),MCP stdio prototype,count cache
+(247→95ms@900,481→208ms@3000);run7 1479 PASS. 0.12.0 released on PyPI+TestPyPI(D112),hashes match;PR #1 open for owner merge.
+0.12.1 on PyPI(hashes match):latency67ms@900,80ms@3000,identical output;run8 1486 PASS.
+0.13.0:reworded questions drop keyword retention31→3/31. 0.14.0(PyPI,D113):opt-in hybrid
+retrieval(potion-8M+score fusion)3→21/31,originals31/31;run10 1522 PASS. Live D114:
+keyword3/31 vs hybrid18/31 strict(21/31 lenient). 0.15.0(D115,local):hybrid default via
+bundled int8 model,weight0.5,grading-v2;run1550 PASS. Next:merge PR #1,owner publishes0.15.0.
+Desktop MCP fixed;owner MCP client check;then admission counting,paraphrases.
 
 ## Open risks
 
-- Live smoke strict quality FAIL;independent qualification pending. Synthetic
-  evaluation is author-visible;no real-world accuracy or universal injection claim.
-- S11: frozen retention29/31 at900→19/31 at3000;S12:12 historical input overruns,
-  max actual/estimate1.781321. Seven errors retained;no universal quality/budget claim.
-- OS scheduling/reaping,global limits,load/cross-platform,production IdP/TLS/audit
-  still unqualified. Killed current transaction recovers;earlier index batches remain.
+- Synthetic author-visible corpus;no real-world accuracy or injection-resistance claim.
+- Token estimates:12 historical overruns,max actual/estimate1.781321.
+- Extractive summaries add no retention on frozen corpus;model summaries unmeasured.
+- OS scheduling/reaping,global limits,production load/IdP/TLS/audit,per-tenant rate
+  limits unqualified.
 - Resume by reading disk memory;drift remains possible.

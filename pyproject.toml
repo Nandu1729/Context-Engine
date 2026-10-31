@@ -4,19 +4,42 @@ build-backend = "hatchling.build"
 
 [project]
 name = "context-engineering-core"
-version = "0.9.6"
+version = "0.15.0"
 description = "Provider-independent context layers, source contracts, and token budget accounting"
 readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.12"
-dependencies = ["tiktoken>=0.14,<0.15", "rank-bm25>=0.2.2,<0.3", "pywin32==311; sys_platform == 'win32'"]
+keywords = ["llm", "context-window", "token-budget", "retrieval", "summarization", "memory"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = ["tiktoken>=0.14,<0.15", "rank-bm25>=0.2.2,<0.3", "numpy>=1.26", "pywin32==311; sys_platform == 'win32'"]
 
 [project.optional-dependencies]
 provider = ["httpx>=0.28,<0.29"]
+langchain = ["langchain-core>=1.0,<2"]
+semantic = ["model2vec>=0.10,<0.11"]
+fastembed = ["fastembed>=0.9,<0.10"]
 reports = ["matplotlib>=3.11,<3.12"]
 service = ["fastapi>=0.135,<0.136", "uvicorn>=0.41,<0.42", "PyJWT[crypto]>=2.12,<3", "httpx>=0.28,<0.29"]
 
+[project.urls]
+Homepage = "https://github.com/Nandu1729/Context-Engine"
+Repository = "https://github.com/Nandu1729/Context-Engine"
+Issues = "https://github.com/Nandu1729/Context-Engine/issues"
+Changelog = "https://github.com/Nandu1729/Context-Engine/blob/main/CHANGELOG.md"
+
 [project.scripts]
 context-engine = "context_engine.cli:main"
+context-engine-mcp = "context_engine.mcp_server:main"
 
 [dependency-groups]
 dev = ["pytest>=8,<10", "hypothesis>=6,<7", "ruff>=0.11,<1", "httpx>=0.28,<0.29", "matplotlib>=3.11,<3.12", "fastapi>=0.135,<0.136", "uvicorn>=0.41,<0.42", "PyJWT[crypto]>=2.12,<3"]
@@ -24,8 +47,14 @@ dev = ["pytest>=8,<10", "hypothesis>=6,<7", "ruff>=0.11,<1", "httpx>=0.28,<0.29"
 [tool.hatch.build.targets.wheel]
 packages = ["src/context_engine"]
 
+# Ship package source only; historical evidence/archives (>250 MB) stay in the repository.
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/examples", "/README.md", "/CHANGELOG.md", "/LICENSE", "/pyproject.toml"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Tests import the repository-level examples/ and scripts/ packages.
+pythonpath = ["."]
 addopts = "-ra"
 
 [tool.ruff]

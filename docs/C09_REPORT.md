@@ -1,5 +1,11 @@
 # C09 report — qualification preparation and preserved live evidence
 
+2026-09-28:[post-CI quality/authority review](C09_QUALITY_REVIEW_REPORT.md) checks
+saved report hashes and16retained policy outcomes;both arms5/8,one improvement/
+one regression remain unchanged. Prepared independent-review questions and pilot
+intake. No demonstrated semantic fix,architecture adoption or new calls. Next:
+owner workload/source-authority choice and independent reviewer;C09 remains ACTIVE.
+
 Latest D088:[policy003 live diagnostic](C09_POLICY_LIVE_REPORT.md) completes16/16:
 BASELINE5/8,CANDIDATE5/8;one improvement and one regression,target FAIL. Do not
 adopt candidate.6,956tokens/$0configured,691prior rows preserved,offline replay/

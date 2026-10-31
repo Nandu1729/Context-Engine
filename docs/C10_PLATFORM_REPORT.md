@@ -1,22 +1,43 @@
 # C10 platform verification — D089
 
-## Next action — manual three-platform qualification
+## 2026-09-28 — Three-platform offline qualification PASS
 
-The Windows repair is complete. Run the existing **Offline qualification (manual,
-no deployment)** workflow (`qualification.yml`) on `main` after committing/pushing
-the verification documentation. In GitHub: **Actions → Offline qualification
-(manual, no deployment) → Run workflow → main → Run workflow**.
+Owner screenshot identifies [run36411597639](https://github.com/Nandu1729/Context-Engine/actions/runs/36411597639)
+(#3),Success,total11m35s. All three job checkout logs bind to
+`3e3e0e4236b154651abd663eab9c0d23b7fdbc5d`;package0.9.6,Python3.12.13,
+sourcefreeze `304253f7109add9df916592881d2ff4929da28bb13fea51fe020d1262e8196f2`.
 
-This runs Linux/macOS full suites and the Windows portable suite, brain integrity,
-real local platform probes, synthetic operations checks, and package builds.
-All three jobs must succeed on the same commit. Preserve the run URL, commit SHA,
-and downloaded logs for review of test totals/skips, probe results and builds.
-Do not rerun the separate Windows diagnostic or change historical test exclusions.
+| Platform | Main suite | Test duration | Platform probes | Operations | Build |
+|---|---|---|---|---|---|
+| Ubuntu x86_64 | 1195 passed,48 skipped,2 warnings | 581.06s | 4 PASS | 11 PASS | sdist + wheel PASS |
+| macOS arm64 | 1195 passed,48 skipped,2 warnings | 562.79s | 4 PASS | 11 PASS | sdist + wheel PASS |
+| Windows AMD64 | 976 passed,2 warnings | 367.81s | 4 PASS | 11 PASS | sdist + wheel PASS |
 
-No CI dispatch was performed in this handoff. This workflow does not authorize
-live inference or deployment. Passing it closes the cross-platform verification
-step, not the remaining quality, representative cost, pilot or owner-acceptance
-gates in [C12](C12_REPORT.md).
+Zero test failures. Brain integrity checks also pass on every platform. Linux/macOS
+skips are47native-Windows checks and one private-owner-screenshot audit. Windows
+explicitly reports the unchanged17frozen POSIX-runner modules NOT TESTED;exclusions
+are not passes. Two dependency deprecations per suite remain non-fatal. Counts
+across platforms overlap and must not be presented as unique test coverage.
+
+Platform probes cover assembly workers,authenticated loopback,memory recovery and
+subprocess termination. Operations reports say LOCAL_SYNTHETIC_PASS;both probe
+scripts report zero inference calls. Their local-only caveats and
+`qualification_complete:false` field are preserved,not rewritten as release
+acceptance. Combined logs now establish the scoped CI matrix pass,not production
+load/SLO,IdP/TLS,disaster-recovery or model-quality qualification.
+
+Evidence:`/Users/nandyyy/Downloads/logs_98588829889.zip`;the `(1)` and `(2)` ZIPs
+are byte-identical downloads of this same run,not separate runs. All three SHA256:
+`e4a2268a45ab39ed43fcf2865f32db5859d3528834a76708384841bea3ee558a`.
+Archive integrity check passes. Logs confirm successful0.9.6sdist/wheel builds;
+the ZIP contains logs only,not downloadable build artifacts or artifact digests.
+
+Cross-platform verification is complete for this commit and scope;no repeat CI
+or diagnostic is needed. Next:review the outstanding C09 quality gate and owner
+pilot inputs in [C12](C12_REPORT.md). Broader operations,cost,supply-chain and
+explicit acceptance remain open. No code changes,new inference,remote dispatch
+or deployment were performed during evidence review. Older pending notes below
+are historical and superseded for the CI-platform gate only.
 
 ## 2026-09-28 — Complete Windows portable suite PASS
 

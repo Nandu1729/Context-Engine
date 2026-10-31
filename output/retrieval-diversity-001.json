@@ -1,0 +1,229 @@
+{
+  "status": "DIAGNOSTIC_ONLY",
+  "identity": {
+    "version": "lexical-diversity-v1",
+    "script": "a17348ea627b95be2ce60cb37b958a3d26376ff856c1c5fafeec79395bab608b",
+    "protocol": "eeb48dc7ccbbfec7b8ec64a0cc63f0fb13fc621fdbe3b4c3955ea4ed6169c175"
+  },
+  "baseline_report_sha256": "33fd28cd85c2fe9bd631698fe127c0366a6901617a36dea2623fc1a8cd33b414",
+  "runtime": {
+    "package_version": "0.9.6",
+    "python": "3.12.13",
+    "dependencies": {
+      "tiktoken": "0.14.0",
+      "rank-bm25": "0.2.2",
+      "numpy": "2.5.3",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "idna": "3.19",
+      "urllib3": "2.7.0"
+    },
+    "code_hash": "304253f7109add9df916592881d2ff4929da28bb13fea51fe020d1262e8196f2"
+  },
+  "inference_calls": 0,
+  "heldout_used": false,
+  "default_adopted": false,
+  "answer_quality": "NOT_EVALUATED",
+  "rows": [
+    {
+      "case": "single_fact",
+      "budget": 900,
+      "baseline_events": [
+        true
+      ],
+      "candidate_events": [
+        true
+      ],
+      "baseline_tokens": 814,
+      "candidate_tokens": 817,
+      "candidate_request_sha256": "5e66f46cc055d820f22a60c43437fa88b6b9b3fd13d7b6bf46bf6ba79f3e0016",
+      "candidate_config_fingerprint": "8505db19b69d5ca7443b29fb8dfcb8b19d7241465fcd9c313fdd333e876f8364",
+      "lost_retrieved_spans": [
+        {
+          "turn": "t4",
+          "message": "m4",
+          "start": 0,
+          "end": 128
+        }
+      ]
+    },
+    {
+      "case": "single_fact",
+      "budget": 3000,
+      "baseline_events": [
+        true
+      ],
+      "candidate_events": [
+        true
+      ],
+      "baseline_tokens": 2876,
+      "candidate_tokens": 2879,
+      "candidate_request_sha256": "ec593a4b8796007edd97c7d85cd5f17848f6ac64f2a2d1659941366a5bc32868",
+      "candidate_config_fingerprint": "85074b0fcdc3e0991204d25f4b6d7b26e0c6109261761b57a20ee5651b535850",
+      "lost_retrieved_spans": [
+        {
+          "turn": "t4",
+          "message": "m4",
+          "start": 0,
+          "end": 128
+        }
+      ]
+    },
+    {
+      "case": "multiple_events_direct",
+      "budget": 900,
+      "baseline_events": [
+        true,
+        true,
+        true
+      ],
+      "candidate_events": [
+        true,
+        true,
+        true
+      ],
+      "baseline_tokens": 840,
+      "candidate_tokens": 837,
+      "candidate_request_sha256": "dd35bf822b3a39671fd5d7c903b3751d3ba87c1ea82b28a33764e23f5ab05af6",
+      "candidate_config_fingerprint": "8505db19b69d5ca7443b29fb8dfcb8b19d7241465fcd9c313fdd333e876f8364",
+      "lost_retrieved_spans": [
+        {
+          "turn": "t115",
+          "message": "m115",
+          "start": 0,
+          "end": 149
+        }
+      ]
+    },
+    {
+      "case": "multiple_events_direct",
+      "budget": 3000,
+      "baseline_events": [
+        true,
+        true,
+        true
+      ],
+      "candidate_events": [
+        true,
+        true,
+        true
+      ],
+      "baseline_tokens": 2902,
+      "candidate_tokens": 2899,
+      "candidate_request_sha256": "54deb258d41f968d606fe7450afeb91a0448c4e62aa8e095edfb9d8e604fa361",
+      "candidate_config_fingerprint": "85074b0fcdc3e0991204d25f4b6d7b26e0c6109261761b57a20ee5651b535850",
+      "lost_retrieved_spans": [
+        {
+          "turn": "t57",
+          "message": "m57",
+          "start": 0,
+          "end": 148
+        }
+      ]
+    },
+    {
+      "case": "multiple_events_paraphrase",
+      "budget": 900,
+      "baseline_events": [
+        false,
+        false,
+        false
+      ],
+      "candidate_events": [
+        true,
+        true,
+        true
+      ],
+      "baseline_tokens": 834,
+      "candidate_tokens": 819,
+      "candidate_request_sha256": "02dd53024aea0fd0c5f77eae4067e1cafe4b2034902996cf564671e594869b3a",
+      "candidate_config_fingerprint": "8505db19b69d5ca7443b29fb8dfcb8b19d7241465fcd9c313fdd333e876f8364",
+      "lost_retrieved_spans": [
+        {
+          "turn": "t3",
+          "message": "m3",
+          "start": 0,
+          "end": 128
+        },
+        {
+          "turn": "t5",
+          "message": "m5",
+          "start": 0,
+          "end": 128
+        },
+        {
+          "turn": "t4",
+          "message": "m4",
+          "start": 0,
+          "end": 128
+        }
+      ]
+    },
+    {
+      "case": "multiple_events_paraphrase",
+      "budget": 3000,
+      "baseline_events": [
+        false,
+        false,
+        false
+      ],
+      "candidate_events": [
+        true,
+        true,
+        true
+      ],
+      "baseline_tokens": 2896,
+      "candidate_tokens": 2881,
+      "candidate_request_sha256": "505d7e3a38ecb04411f54a860bf5c2db41820f83ea72bf961d0772275336c455",
+      "candidate_config_fingerprint": "85074b0fcdc3e0991204d25f4b6d7b26e0c6109261761b57a20ee5651b535850",
+      "lost_retrieved_spans": [
+        {
+          "turn": "t3",
+          "message": "m3",
+          "start": 0,
+          "end": 128
+        },
+        {
+          "turn": "t5",
+          "message": "m5",
+          "start": 0,
+          "end": 128
+        },
+        {
+          "turn": "t4",
+          "message": "m4",
+          "start": 0,
+          "end": 128
+        }
+      ]
+    },
+    {
+      "case": "missing_evidence",
+      "budget": 900,
+      "baseline_events": [],
+      "candidate_events": [],
+      "baseline_tokens": 843,
+      "candidate_tokens": 843,
+      "candidate_request_sha256": "5e9e60d1fd3e5a6407217541d8edf068b7d88d3f60c36055d017e8f0ae938e9c",
+      "candidate_config_fingerprint": "8505db19b69d5ca7443b29fb8dfcb8b19d7241465fcd9c313fdd333e876f8364",
+      "lost_retrieved_spans": []
+    },
+    {
+      "case": "missing_evidence",
+      "budget": 3000,
+      "baseline_events": [],
+      "candidate_events": [],
+      "baseline_tokens": 2904,
+      "candidate_tokens": 2904,
+      "candidate_request_sha256": "afc3b37777d28ff385094742a2739328854604857777b6104f3c8b1518649c55",
+      "candidate_config_fingerprint": "85074b0fcdc3e0991204d25f4b6d7b26e0c6109261761b57a20ee5651b535850",
+      "lost_retrieved_spans": []
+    }
+  ],
+  "baseline_events_preserved": true,
+  "paraphrase_events_recovered": true,
+  "continuation_gate": "PASS",
+  "source_span_loss_conditions": 6
+}

@@ -14,6 +14,7 @@ from .contracts import (
     ENDPOINT,
     Completion,
     GenerationConfig,
+    InceptionGenerationConfig,
     ModelResult,
     PriceCard,
     QuotaPolicy,
@@ -23,7 +24,7 @@ from .contracts import (
     fingerprint,
 )
 from .store import RuntimeStore
-from .transport import GroqTransport
+from .transport import GroqTransport, InceptionTransport
 
 
 class ProviderClient:
@@ -47,20 +48,30 @@ class ProviderClient:
         self._api_key = api_key  # Never exported, represented or persisted.
         self.generation = generation or GenerationConfig()
         self.retries, self.replay = retries or RetryConfig(), replay or ReplayPolicy()
-        self.transport = transport if transport is not None else GroqTransport()
+        default = (
+            InceptionTransport
+            if isinstance(self.generation, InceptionGenerationConfig)
+            else GroqTransport
+        )
+        self.transport = transport if transport is not None else default()
         self.counter = counter if counter is not None else TiktokenCounter()
         self.clock, self.monotonic, self.sleep = clock, monotonic, sleep
         for value, cls in (
             (store, RuntimeStore),
             (quota, QuotaPolicy),
             (prices, PriceCard),
-            (self.generation, GenerationConfig),
+            (self.generation, (GenerationConfig, InceptionGenerationConfig)),
             (self.retries, RetryConfig),
             (self.replay, ReplayPolicy),
         ):
             if not isinstance(value, cls):
                 raise ContractError("Provider client requires validated configuration")
         quota.validate_prices(prices)
+        inception = isinstance(self.generation, InceptionGenerationConfig)
+        if (inception and type(self.transport) is GroqTransport) or (
+            not inception and isinstance(self.transport, InceptionTransport)
+        ):
+            raise ContractError("Generation settings and provider transport do not match")
 
     async def complete(
         self,
@@ -98,8 +109,9 @@ class ProviderClient:
             raise ContractError("Provider request exceeds the byte limit")
         key = fingerprint(
             {
-                "adapter": ADAPTER_VERSION,
-                "endpoint": ENDPOINT,
+                # Groq keys are unchanged; other transports bind their own endpoint.
+                "adapter": getattr(self.transport, "adapter", ADAPTER_VERSION),
+                "endpoint": getattr(self.transport, "endpoint", ENDPOINT),
                 "payload": payload,
                 "account": self.quota.account_id,
                 "scope": asdict(scope),

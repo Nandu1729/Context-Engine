@@ -11,6 +11,10 @@ from ..models import ToolCall, canonical_json, freeze_sequence, integer_value, t
 ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 ADAPTER_VERSION = "groq-chat-v1"
 MODELS = ("openai/gpt-oss-120b", "openai/gpt-oss-20b")
+# Inception Mercury (OpenAI-compatible); paid per token, no documented free tier.
+INCEPTION_ENDPOINT = "https://api.inceptionlabs.ai/v1/chat/completions"
+INCEPTION_ADAPTER_VERSION = "inception-chat-v1"
+INCEPTION_MODELS = ("mercury-3", "mercury-2.5", "mercury-2")
 
 
 def fingerprint(value) -> str:
@@ -60,6 +64,43 @@ class GenerationConfig:
             "include_reasoning": False,
             "service_tier": "on_demand",
         }
+        if not request.tools:
+            payload.pop("tool_choice")
+        return payload
+
+
+@dataclass(frozen=True)
+class InceptionGenerationConfig:
+    """Mercury request settings; the API accepts temperature 0.5-1 only."""
+
+    model: str = "mercury-3"
+    max_completion_tokens: int = 256
+    temperature: float = 0.5
+    reasoning_effort: str = "low"
+    tool_choice: str = "none"
+
+    def __post_init__(self):
+        if self.model not in INCEPTION_MODELS or self.reasoning_effort not in (
+            "instant",
+            "low",
+            "medium",
+            "high",
+        ):
+            raise ContractError("Unsupported Inception model or reasoning setting")
+        integer_value("max_completion_tokens", self.max_completion_tokens, minimum=1)
+        if self.max_completion_tokens > 50000:
+            raise ContractError("Completion request exceeds the smallest Mercury limit")
+        if (
+            type(self.temperature) not in (int, float)
+            or not math.isfinite(self.temperature)
+            or not 0.5 <= self.temperature <= 1
+        ):
+            raise ContractError("Inception temperature must be between 0.5 and 1")
+        if self.tool_choice not in ("none", "auto"):
+            raise ContractError("Unsupported tool choice")
+
+    def to_wire(self, request):
+        payload = {**request.to_wire(), **asdict(self), "stream": False}
         if not request.tools:
             payload.pop("tool_choice")
         return payload
@@ -209,7 +250,7 @@ class Completion:
 
     def __post_init__(self):
         identifier(self.response_id)
-        if self.model not in MODELS or self.finish_reason not in (
+        if self.model not in MODELS + INCEPTION_MODELS or self.finish_reason not in (
             "stop",
             "length",
             "tool_calls",

@@ -246,7 +246,8 @@ def test_retrieval_recovers_capped_middle_and_excludes_exact_window(counter):
     assert demo["inference_calls"] == 0
 
 
-def test_retrieval_indexes_only_uncapped_old_history(counter, monkeypatch):
+@pytest.mark.parametrize("recover", [False, True])
+def test_retrieval_indexes_old_history_and_only_capped_window_turns(counter, monkeypatch, recover):
     import context_engine.layers.retrieve as module
 
     turns = tuple(turn(i, f"partition {i} " * 100) for i in range(12))
@@ -259,9 +260,12 @@ def test_retrieval_indexes_only_uncapped_old_history(counter, monkeypatch):
         return original_chunker(history, config)
 
     monkeypatch.setattr(module, "chunk_turns", recording_chunker)
-    result = RetrieveLayer(counter).apply(context)
-    assert indexed
-    assert indexed == [t for t in turns if t.turn_id not in result.plan.window_turn_ids]
+    result = RetrieveLayer(counter, RetrievalConfig(recover_capped_window=recover)).apply(context)
+    assert indexed and result.plan.window_turn_ids
+    if recover:  # Every WINDOW turn here exceeds the CAP, so its original is recoverable.
+        assert indexed == list(turns)
+    else:
+        assert indexed == [t for t in turns if t.turn_id not in result.plan.window_turn_ids]
     assert all(counter.count_text(t.messages[0].content) > 35 for t in indexed)
 
 
@@ -501,22 +505,28 @@ def test_layer_configuration_environment_overrides_are_validated():
         RetrievalConfig(k1=10**500)
 
 
-@given(st.integers(min_value=500, max_value=1400), st.integers(min_value=0, max_value=12))
+@pytest.mark.parametrize("recover", [False, True])
+@given(
+    budget=st.integers(min_value=500, max_value=1400),
+    count=st.integers(min_value=0, max_value=12),
+)
 @settings(max_examples=30, deadline=None)
-def test_composed_layers_keep_budget_and_originals_for_generated_histories(budget, count):
+def test_composed_layers_keep_budget_and_originals_for_generated_histories(budget, count, recover):
     counter = TiktokenCounter()
     originals = tuple(turn(i, f"partition evidence {i}. " * 10) for i in range(count))
     config = BudgetConfig(input_cap=budget, retrieval_reserve=180, summary_reserve=50)
     context = prepared(counter, originals, budget=config)
     before = history_digest(originals)
     retrieved = RetrieveLayer(
-        counter, RetrievalConfig(chunk_characters=100, overlap_characters=20)
+        counter,
+        RetrievalConfig(chunk_characters=100, overlap_characters=20, recover_capped_window=recover),
     ).apply(context)
     result = SummaryLayer(counter, None, AT).apply(WindowLayer(counter).apply(retrieved))
     assert history_digest(result.original_turns) == before
-    assert set(c.source.turn_id for c in result.retrieved_chunks).isdisjoint(
-        result.plan.window_turn_ids
-    )
+    if not recover:  # With recovery, capped WINDOW originals may also be retrieved.
+        assert set(c.source.turn_id for c in result.retrieved_chunks).isdisjoint(
+            result.plan.window_turn_ids
+        )
     request = render_request(result.blocks, result.question, result.required_request.tools)
     assert (
         validate_request(request=request, config=config, counter=counter).estimated_tokens <= budget

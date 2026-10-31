@@ -1,7 +1,9 @@
 """Shared rendering/accounting primitives used by layers and the public pipeline."""
 
 import hashlib
+from collections import OrderedDict
 from dataclasses import asdict, replace
+from functools import lru_cache
 
 from ..context import ContextCarrier, LayerDiagnostic
 from ..errors import LayerStateError
@@ -15,7 +17,7 @@ from ..models import (
     Turn,
     canonical_json,
 )
-from ..tokens import TokenCounter
+from ..tokens import CanonicalChatSerializer, TiktokenCounter, TokenCounter, estimated_tokens
 from ..work import raise_if_cancelled
 
 ORDER = tuple(BlockKind)
@@ -23,6 +25,12 @@ OPTIONAL = (BlockKind.SUMMARY, BlockKind.WINDOW, BlockKind.RETRIEVED)
 
 
 def history_digest(turns: tuple[Turn, ...]) -> str:
+    # Turns are immutable values, so equal histories share one cached digest.
+    return _history_digest(tuple(turns))
+
+
+@lru_cache(maxsize=256)
+def _history_digest(turns: tuple[Turn, ...]) -> str:
     values = [
         (asdict(t.scope), t.turn_id, t.revision, t.timestamp.isoformat(), t.content_hash)
         for t in turns
@@ -101,18 +109,21 @@ def set_block(
     )
 
 
+@lru_cache(maxsize=4096)
+def _turn_json(turn) -> str:
+    return canonical_json({"turn": turn.turn_id, "messages": [m.to_wire() for m in turn.messages]})
+
+
 def window_block(
-    context: ContextCarrier, ids: tuple[str, ...], counter: TokenCounter
+    context: ContextCarrier, ids: tuple[str, ...], counter: TokenCounter, *, count: bool = True
 ) -> ContextBlock:
+    """`count=False` skips the block's own token count (planning-only candidates)."""
     selected = [t for t in context.working_turns if t.turn_id in ids]
-    content = (
-        canonical_json(
-            [{"turn": t.turn_id, "messages": [m.to_wire() for m in t.messages]} for t in selected]
-        )
-        if selected
-        else ""
+    # Identical to canonical_json of the list: compact separators, per-item sorted keys.
+    content = "[" + ",".join(_turn_json(t) for t in selected) + "]" if selected else ""
+    return ContextBlock(
+        BlockKind.WINDOW, content, text_tokens=counter.count_text(content) if count else None
     )
-    return ContextBlock(BlockKind.WINDOW, content, text_tokens=counter.count_text(content))
 
 
 def incremental_cost(context: ContextCarrier, block: ContextBlock, counter: TokenCounter) -> int:
@@ -121,8 +132,7 @@ def incremental_cost(context: ContextCarrier, block: ContextBlock, counter: Toke
     )
     return max(
         0,
-        counter.count_request(request).estimated_tokens
-        - context.plan.required_estimate.estimated_tokens,
+        estimated_tokens(counter, request) - context.plan.required_estimate.estimated_tokens,
     )
 
 
@@ -135,24 +145,64 @@ def fits_block(
     # RETRIEVE runs first but must leave the exact planned WINDOW viable.
     if context.window_planned and block.kind != BlockKind.WINDOW:
         blocks = tuple(b for b in blocks if b.kind != BlockKind.WINDOW) + (
-            window_block(context, context.plan.window_turn_ids, counter),
+            window_block(context, context.plan.window_turn_ids, counter, count=False),
         )
     request = render_request(blocks, context.question, context.required_request.tools)
-    return counter.count_request(request).estimated_tokens <= context.plan.input_allowance
+    return estimated_tokens(counter, request) <= context.plan.input_allowance
 
 
-def plan_window(context: ContextCarrier, counter: TokenCounter) -> ContextCarrier:
-    require_prepared(context, counter)
+_WINDOW_MEMO: OrderedDict = OrderedDict()
+_WINDOW_MEMO_SIZE = 64
+
+
+def _window_key(context: ContextCarrier, counter: TokenCounter):
+    """Every input the WINDOW scan reads; None (no memo) for custom counters/serializers."""
+    if (
+        type(counter) is not TiktokenCounter
+        or type(counter.serializer) is not CanonicalChatSerializer
+    ):
+        return None
+    return (
+        counter.config,
+        tuple(context.working_turns),
+        required_blocks(context),
+        context.question,
+        context.required_request.tools,
+        context.plan.window_tokens,
+        context.plan.required_estimate.estimated_tokens,
+    )
+
+
+def _scan_window(context: ContextCarrier, counter: TokenCounter) -> tuple[str, ...]:
     selected: tuple[str, ...] = ()
     for turn in reversed(context.working_turns):
         raise_if_cancelled(context.cancellation)
         candidate = (turn.turn_id,) + selected
         if (
-            incremental_cost(context, window_block(context, candidate, counter), counter)
+            incremental_cost(
+                context, window_block(context, candidate, counter, count=False), counter
+            )
             > context.plan.window_tokens
         ):
             break
         selected = candidate
+    return selected
+
+
+def plan_window(context: ContextCarrier, counter: TokenCounter) -> ContextCarrier:
+    require_prepared(context, counter)
+    # RETRIEVE, WINDOW and SUMMARIZE each re-plan the same inputs; the scan is pure.
+    key = _window_key(context, counter)
+    if key is None or key not in _WINDOW_MEMO:
+        selected = _scan_window(context, counter)
+        if key is not None:
+            _WINDOW_MEMO[key] = selected
+            if len(_WINDOW_MEMO) > _WINDOW_MEMO_SIZE:
+                _WINDOW_MEMO.popitem(last=False)
+    else:
+        raise_if_cancelled(context.cancellation)
+        _WINDOW_MEMO.move_to_end(key)
+        selected = _WINDOW_MEMO[key]
     if context.window_planned:
         if selected != context.plan.window_turn_ids:
             raise LayerStateError("Stored WINDOW membership differs from shared planner")

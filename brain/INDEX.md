@@ -5,6 +5,11 @@ Start here and in [STATE](STATE.md); load deeper documents by topic. Disk is aut
 | Need | Read |
 |---|---|
 | Current progress / next action | [STATE](STATE.md) |
+| 0.10.0 audit / roadmap / strategy benchmark | [Audit](../docs/PROJECT_AUDIT.md), [status](../docs/CURRENT_STATUS.md), [roadmap](../docs/IMPLEMENTATION_ROADMAP.md), [benchmark](../docs/BENCHMARK_REPORT.md), [decisions](../docs/TECHNICAL_DECISIONS.md) |
+| Product / pricing hypotheses / security summary | [Strategy](../docs/PRODUCT_STRATEGY.md), [monetization](../docs/MONETIZATION_PLAN.md), [security](../docs/SECURITY_AUDIT.md) |
+| Completion gates | [Audit](../docs/PROJECT_COMPLETION_STATUS.md) |
+| Try local demo | [Start](../docs/LOCAL_QUICKSTART.md) |
+| LongMemEval development | [Recheck](../docs/C10_LONGMEMEVAL_RECHECK_REPORT.md) |
 | C09 active work / security / evaluation | [C09 report](../docs/C09_REPORT.md), [response diagnosis](../docs/C09_RESPONSE_DIAGNOSTIC_REPORT.md), [caller guard](../docs/C09_EMPTY_ANSWER_REPORT.md), [qualification live002](../docs/C09_QUALIFICATION_LIVE_REPORT.md), [repair001](../docs/C09_REPAIR_REPORT.md), [live001](../docs/C09_LIVE_REPORT.md), [threat model](../docs/C09_THREAT_MODEL.md) |
 | Owner choices / durable defaults | [DECISIONS](DECISIONS.md) |
 | Current delivery and acceptance evidence | [Checkpoints](../docs/CHECKPOINTS.md) |
@@ -23,7 +28,7 @@ Start here and in [STATE](STATE.md); load deeper documents by topic. Disk is aut
 | Security / operations / enterprise gates | [Enterprise scope](../docs/ENTERPRISE.md) |
 | Current release blockers / operational evidence | [C12](../docs/C12_REPORT.md), [C10](../docs/C10_REPORT.md), [SQLite ACLs](../docs/C10_STORAGE_ACL_REPORT.md), [credentials](../docs/C10_CREDENTIALS_REPORT.md), [C11](../docs/C11_REPORT.md), [runbook](../docs/OPERATIONS.md) |
 | Improvement proposals | [Suggestions](SUGGESTIONS.md) |
-| Why a past change happened | [Journal](JOURNAL.md), [C00–C08 archive](archive/JOURNAL_2026-09-07_to_C08.md), [C06 completion archive](archive/JOURNAL_C06_COMPLETION_2026-09-22.md), [C09 archive](archive/JOURNAL_C09_2026-09-22_to_24.md) |
+| Why a past change happened | [Journal](JOURNAL.md), [C00–C08](archive/JOURNAL_2026-09-07_to_C08.md), [C06](archive/JOURNAL_C06_COMPLETION_2026-09-22.md), [C09](archive/JOURNAL_C09_2026-09-22_to_24.md), [Platform](archive/JOURNAL_D088_PLATFORM_2026-09-25_to_28.md) |
 | Time-sensitive external facts | [Sources](../docs/SOURCES.md) |
 
 Commands: `python3 scripts/brain.py status`, `context`, `search "topic"`, `index`, `check`.

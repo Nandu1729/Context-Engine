@@ -4,6 +4,7 @@ import hashlib
 import math
 from dataclasses import dataclass
 from fractions import Fraction
+from functools import lru_cache
 from typing import Protocol, runtime_checkable
 
 from .config import TokenizerConfig
@@ -108,6 +109,18 @@ class TokenCounter(Protocol):
     def count_request(self, request: ChatRequest) -> TokenEstimate: ...
 
 
+# Counts are pure functions of (encoding, text). A bounded process-wide cache makes
+# repeated assembly of the same history (chat loops, CAP probes) much cheaper while
+# returning identical counts. Long texts are counted directly, not cached.
+_ENCODINGS: dict = {}
+CACHE_MAX_TEXT = 4096
+
+
+@lru_cache(maxsize=32768)
+def _cached_count(encoding_name: str, text: str) -> int:
+    return len(_ENCODINGS[encoding_name].encode_ordinary(text))
+
+
 class TiktokenCounter:
     def __init__(
         self, config: TokenizerConfig | None = None, serializer: RequestSerializer | None = None
@@ -120,6 +133,7 @@ class TiktokenCounter:
 
             self._encoding = tiktoken.get_encoding(self.config.encoding_name)
             self._version = tiktoken.__version__
+            _ENCODINGS.setdefault(self.config.encoding_name, self._encoding)
         except Exception:
             # Includes unavailable encoding, missing install, download/hash/cache failures.
             # Never include raw transport errors or filesystem/provider details.
@@ -131,7 +145,20 @@ class TiktokenCounter:
     def count_text(self, text: str) -> int:
         text_value("text", text, nonempty=False)
         # Source text that resembles special control tokens remains ordinary data.
+        if (
+            len(text) <= CACHE_MAX_TEXT
+            and _ENCODINGS.get(self.config.encoding_name) is self._encoding
+        ):
+            return _cached_count(self.config.encoding_name, text)
         return len(self._encoding.encode_ordinary(text))
+
+    def estimate_tokens(self, request: ChatRequest) -> int:
+        """`count_request(request).estimated_tokens` without the reporting-only parts."""
+        serialized = self.count_text(self.serializer.serialize(request))
+        return math.ceil(
+            (serialized + self.config.adapter_overhead_tokens)
+            * Fraction(str(self.config.calibration_factor))
+        )
 
     def count_request(self, request: ChatRequest) -> TokenEstimate:
         rendered = self.serializer.serialize(request)
@@ -150,3 +177,9 @@ class TiktokenCounter:
             serializer_name=self.serializer.name,
             request_fingerprint=hashlib.sha256(rendered.encode("utf-8")).hexdigest(),
         )
+
+
+def estimated_tokens(counter: TokenCounter, request: ChatRequest) -> int:
+    """Budget-check estimate; custom counters without `estimate_tokens` use the full count."""
+    fast = getattr(counter, "estimate_tokens", None)
+    return fast(request) if fast is not None else counter.count_request(request).estimated_tokens

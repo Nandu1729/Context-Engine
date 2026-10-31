@@ -1,5 +1,81 @@
 # Decision register
 
+- D115 / OWNER "COMPLETE THOSE 3",2026-10-31:(1)grading-v2 lenient(trailing .!?,Unicode
+  dashes)beside frozen strict v1;regrade both live runs(strict reproduced;hybrid18→21).
+  (2)Hybrid retrieval default(0.15.0)without hidden downloads:bundled potion-base-8M
+  int8(~7MB,MIT notice)+pure-Python WordPiece;embedder=None keyword-only;frozen
+  harness pins None. Needle-in-filler check moved default weight0.7→0.5(0.7 lost
+  exact matches22/31). (3)Merge PR #1 after these land. PyPI0.15.0 needs the owner's
+  upload command.
+- D114 / OWNER LIVE CHECK: REWORDED QUESTIONS WITH SEMANTIC,2026-10-31:owner said "go
+  for the live check". One free-tier Groq run,gpt-oss-20b,900 tokens,256 output,no
+  retries,no paid use,31 reworded questions x2(combined keyword default vs
+  combined_semantic hybrid)=max62 calls;~79K of200K daily tokens left. D110 rule from
+  start:confirmed zero-token rejections skipped(max10);rate limit/uncertain/cost stop.
+  Runner scripts/semantic_accuracy_live.py on the PyPI0.14.0 wheel. 3000 tokens or
+  paid models still need new approval.
+- D113 / OWNER DIRECTION: SEMANTIC RETRIEVAL BY BEST FIT,2026-10-31:owner rejected
+  simply reusing the earlier BGE-small design and asked for the best fit,evolving by
+  evidence. Isolated bake-off(6 models,4 fusion rules)chose Model2Vec potion-base-8M
+  (MIT,~30MB,pinned bf8b0566)+min-max score fusion0.7/0.3:reworded3→21/31 in the
+  full engine,originals31/31,latency unchanged. Opt-in only(embedder=,[semantic]/
+  [fastembed]extras);default output byte-identical to0.13.0. numpy declared(already
+  installed). Hybrid-by-default and a live reworded run are open owner decisions.
+- D112 / OWNER RELEASE + DESKTOP FIX,2026-10-31:owner approved push+PR and PyPI.
+  Pushed feat/developer-launch,PR #1(no AI attribution). PyPI upload of0.12.0 was
+  blocked by the assistant's permission classifier;owner then explicitly requested the
+  exact command and it ran once:PyPI0.12.0 live,hashes match TestPyPI,fresh install
+  PASS. Owner's Claude Desktop entry ran nonexistent npx @context-engine/mcp;replaced
+  with the venv binary path(backup kept). Merge of PR #1 remains the owner's.
+- D111 / OWNER APPROVALS,2026-10-31:(1)owner's Inception dashboard shows Free Tier,
+  100,000,000 free tokens;owner approved the single smoke call:done,mercury-3,715 input/
+  45 output tokens,correct,no retry(paid-equivalent88 micro-USD under$0.001 cap).
+  (2)Commit approved:feature branch,explicit paths,Conventional Commits,no AI
+  attribution,no push. (3)Publish approved:0.12.0 to TestPyPI;real PyPI is permanent
+  and needs PYPI_TOKEN plus a final confirmation. (4)Owner will try MCP in a client.
+- D110 / OWNER CONTINUATION + TESTPYPI UPLOAD,2026-10-31:owner chose to continue the
+  D109 900-token run after slot17's zero-token provider_rejected4xx:same run,rejected
+  slot stays a terminal failure,never retried;future confirmed zero-token/zero-cost
+  provider_rejected slots are recorded and skipped(max10),while rate limits,uncertain
+  errors or any cost still stop. Runner change bound by amendment-001(base/new runner
+  hashes,reviewed failure slot16). Owner approved one TestPyPI upload of0.11.0:done,
+  hashes match local builds. Real PyPI still needs a separate go-ahead.
+- D109 / OWNER DECISIONS: DEVELOPER LAUNCH,2026-10-31:(1)T2 accepted:
+  `recover_capped_window=True` default(0.11.0);frozen harness pins False;offline
+  combined31/31@900/3000. (2)License Apache-2.0. (3)Publish TestPyPI first,then PyPI;
+  ask owner before EACH upload. (4)Bounded live approval:ONE free-tier Groq run,
+  gpt-oss-20b,900 tokens only,5 assembled strategies x31 frozen synthetic facts
+  (max155 calls),256 completion tokens,no retries,no paid usage,stop on any limit;
+  runner scripts/strategy_accuracy_live.py. 3000 tokens or paid models need new
+  approval. Inception/Mercury adapter offline first;ask before its first live call.
+  Owner adds keys to .env;never paste/print/commit secrets. Stage2 adapters,MCP,
+  CAP latency;no Postgres,rate limits,monitoring,SSO,dashboard or billing.
+  Commits only after owner approval.
+- D108 / OWNER DIRECTIVE: IMPLEMENT CORE, EVALUATION, SDK, 2026-10-31:owner pastes a
+  master audit/completion directive and asks this assistant to own implementation of
+  core engine,evaluation framework and first developer-ready SDK,not SaaS frontend.
+  Audit found SUMMARIZE unusable(exact-coverage reuse,store deleted summaries on every
+  append). Implement0.10.0:opt-in PrefixSummaryPolicy,explicit update_summary with
+  extractive/prompt summarizers,store keeps summaries across uncovered appends,offline
+  strategy-eval,pytest path and268MB sdist fixes. Archive0.9.6 wheel/freeze in
+  archives/c11-summaries-0100;defaults unchanged. strategy-eval reproduces29/31 and
+  S11 19/31 and shows recover_capped_window restores31/31;default change PROPOSED(T2),
+  needs owner decision. Directive explicitly requires approval for external costs;no
+  inference,publishing,commits,deployment or checkpoint acceptance inferred.
+- D107 / ENGINEERING PROPOSAL,2026-10-03:continuation advances semantic design,
+  not more provider calls. Select pinned BGE-small English ONNX for an isolated
+  local hybrid experiment;fixed gates in C11_SEMANTIC_PREFLIGHT. Public metadata
+  and machine preflight only;no installation/downloaded weights/data execution.
+  Manual-first isolated setup confirmation remains next. No core/default change,
+  new generation budget,held-out use or checkpoint acceptance inferred.
+- D106 / ENGINEERING REJECTION,2026-10-03:owner asks to continue/complete quickly.
+  Fixed offline lexical-diversity candidate passes synthetic event checks but
+  regresses complete marked-message retention19/18→10/56 at900/3000 on35development
+  rows,with52/70conditions losing retrieved text. Reject adoption;preserve candidate,
+  protocols and results,keep core0.9.6/defaults unchanged. No parameter sweep,
+  held-out use,new provider budget or inferred acceptance. C11_DIVERSITY_REPORT
+  records evidence;next semantic-relevance design is separate,not implemented.
+
 Status meanings: OWNER = stated by user; BASELINE = original PRD; DEFAULT = reversible engineering choice; PROPOSED = needs product review; SUPERSEDED = replaced with a linked decision.
 
 | ID | Status | Decision | Reason / consequence |
@@ -118,3 +194,13 @@ When recording owner feedback, include date, exact scope, and affected IDs. Neve
 - D093 / OWNER APPROVED VERSIONED ADMISSION REPAIR, 2026-09-26:owner says go for best after confirmed timestamp uniqueness collision and explicit request for schema/runtime change. Implement0.9.3 control schema2 integer admission IDs with unchanged timestamps/atomic quota+audit semantics;schema1 requires explicit migrate_v1=True after operator backup/quiescence. Transactional migration preserves quota/session/audit/policy;no real DB migration performed. Archive actual0.9.2 wheel/freeze first. New development freeze and temporary TEST_ONLY harness manifests use actual0.9.3 identity;historical scripts/manifests/records unchanged and guarded against new-runtime replay. Verify old preparation using real0.9.2 wheel offline. No API calls,automatic CI,release acceptance,new exclusions or quota reset.
 - D094 / OWNER CHOOSES REAL WINDOWS CREDENTIAL SECURITY, 2026-09-26:after42148a6 portable501PASS/credential-permissionFAIL,owner chooses best real-world option from explicit platform exclusion versus versioned Windows enforcement. Implement0.9.4 native owner/DACL checks and no-reparse same-handle credential/config reads with fail-closed errors;never silently alter operator ACLs. Preserve actual0.9.3 wheel/freeze before editing,all older experiments/archives unchanged. Real Windows permission fixtures retain rejection assertions;10new native tests untested locally,not Windows skips. Separate SQLite ACL gap remains open,no full-platform security claim or automatic exclusions. Owner manually pushes/dispatches CI;no real credentials/DB mutation,new inference or release acceptance.
 - D095 / OWNER APPROVES WINDOWS SQLITE SECURITY, 2026-09-27:owner “yeah go for the best” explicitly approves versioned SQLite ACL repair after repeated77f2de7 public-file failure. Implement0.9.5 native database/sidecar and inheritable directory ACL checks across memory/deletion/runtime/control stores;private new-object creation,existing ACLs never rewritten,per-transaction validation,Windows temporary SQL data in memory. Effective user,SYSTEM,administrators and ancestors remain trusted;not an encryption/sandbox/hostile-ancestor-race claim. Preserve actual0.9.4 wheel/freeze and all older evidence. Keep original security assertions using real Windows ACL fixtures;no new historical-module exclusions. Native Windows/full qualification still required;no operator data/ACL migration,inference,remote dispatch or release acceptance authorized.
+- D096 / OWNER DELEGATES OFFLINE WORKLOAD SELECTION, 2026-09-28:after incident-response versus support workload question,owner says “go for best and continue”. Select synthetic incident-response for continuity with the existing benchmark;build bounded offline preflight only.32assembly conditions and10temporary storage/deletion/restore checks pass;no answer generation or trusted-fact authority assumed. Existing failed quality evidence/default policies preserved. This is not approval for real data,deployment,more provider calls,an architecture/scope amendment or release acceptance. Independent domain review and actual source/update rules remain owner inputs.
+- D097 / SAMPLE DEMO BEFORE DATASET INTEGRATION, 2026-09-28:owner requests a demo with sample data first and plans to insert Hugging Face data later. Build a local static HTML inspection using real assembly and a synthetic incident fixture;no model calls,downloads or production/core changes. Explicit sample CAP configuration is not a changed product default or quality repair. Support local inspection-v1 input with content export opt-in;dataset selection,license/privacy review and field mapping remain future work. No arbitrary dataset ingestion,live budget,checkpoint acceptance or deployment inferred.
+- D098 / OWNER-SUPPLIED LONGMEMEVAL LOCAL DEMO, 2026-09-29:owner supplies downloaded longmemeval_s_cleaned.json and requests completion/accounting after dataset-import guidance. Authorizes local validation and five-category offline demo with private content exports,not inference,training,redistribution or production acceptance. Preserve original bytes/order/text;exclude benchmark answer/annotation fields from engine inputs. Pin source hash,record date/ID anomalies and mapping conventions,retain rejected slots,report actual emitted-text coverage without calling it accuracy. Keep core/defaults/frozen evidence unchanged;review retention and temporal mapping before wider evaluation.
+- D099 / OWNER APPROVES LONGMEMEVAL FOLLOW-UP, 2026-09-29:owner says complete all proposed steps and continue. Complete offline diagnosis,date-mapping experiment,broader development review and untouched-for-scoring holdout;the preceding plan explicitly conditioned answer generation on model/call-budget approval. Do not infer that missing14call approval from generic continuation. Four-arm320assembly experiment retains original/core/defaults,source anomalies and failed evidence;70held-out rows not executed. Recovery has mixed results,no automatic adoption or quality pass. Specific bounded Groq14call proposal awaits approval and new frozen/tested runner;historical inference approvals remain exhausted.
+- D100 / OWNER APPROVES BOUNDED LONGMEMEVAL ANSWERS, 2026-09-29:owner explicitly says “approve” to max14 new Groq openai/gpt-oss-20b calls,seven development examples,date-aware recovery OFF/ON at3000estimated input,max256completion per call,no retries or paid use. Original confirmed free-tier account/current.env/shared ledger only;selected public context may be transmitted,not whole corpus/customer data. Separate tested/frozen runner and C10_LONGMEMEVAL_LIVE_PROTOCOL;preserve707historical attempts/all prior evidence,claims and failures. Hash-based category selection excludes future-session cases but not poor retention or identical payloads. Known-settled empty/truncated responses remain recorded;provider/accounting errors stop.70held-out untouched,core/defaults unchanged,no official benchmark score,independent review,release or checkpoint acceptance inferred. No additional prompts/limits/reruns after14attempts.
+- D101 / OWNER REAFFIRMS MANUAL-FIRST, 2026-09-29:while D100 is running,owner requests continuation plus useful manual work and reduced assistant usage. Finish already-authorized14calls and final integrity/reporting;delegate semantic answer review to owner via editable private worksheet. No redundant full suites,automatic further inference or new prompt experiments. Owner ratings are not automatically independent benchmark certification;focus later assistance on specific disputed cases/offline defects.
+- D102 / OWNER REQUESTS ASSISTANT RECHECK, 2026-09-29:owner says go for the best reviewed,recheck and continue. Review all14saved D100 answers and supplied evidence offline;worksheet remains blank,so save assistant judgments separately without claiming owner/independent grading or rewriting frozen metrics. Confirm overlap suppression of answer-bearing chunk on454;no code/default changes or tuning sweep. Preserve exhausted budgets,source/receipts/ledger/70held-out. Reduce owner task to judgment-sensitive156/49 first;next scoped offline retrieval repair with synthetic regression and separate candidate identity,not new inference or release acceptance.
+- D103 / WHOLE-PROJECT DEADLINE REQUEST, 2026-10-02:owner requests all checkpoints completed today. Progress reversible offline engineering and reconcile gates;do not infer acceptance,quality waiver,new inference budget,hosting/data scope or deployment permission. Implement one separately identified overlap-union prototype and fixed70condition development comparison,not a production/core change. Gains and displaced partial evidence both retained;candidate not adopted. Manual owner ratings no longer block technical work. Ask local-demo versus production scope;enterprise closure requires operating targets/pilot/independent quality and explicit acceptance,not a promised same-day outcome.
+- D104 / LOCAL DEMO FIRST, 2026-10-02:owner says “ok continue” after recommendation to finish local demo/SDK as immediate milestone. Proceed with bounded synthetic local launcher/walkthrough and focused verification;this resolves scope choice,not enterprise/checkpoint acceptance,additional inference or production authority. Reuse unchanged0.9.6 and established demo/lifecycle functions;isolated retrieval candidate remains unadopted. Owner can inspect synthetic source facts without rating unfamiliar dataset conversations. No repeated scope question;next try prepared local page.
+- D105 / OWNER APPROVES ONE APPLICATION ANSWER, 2026-10-03:owner explicitly approves one new Groq openai/gpt-oss-20b request using existing row49baseline900prepared context,max256output,no retries or paid use,original confirmed free-tier account/current.env/shared ledger. Separate sample-answer-001 identity and C10_SAMPLE_ANSWER_PROTOCOL;preserve all previous experiments and failures. Reference answer stays local,separate and out of prompt;70held-out untouched. Availability/local quota preflight and durable single claim required;unknown/failed/truncated result must not be retried. No extra calls,larger output,model/account fallback,default adoption,production deployment or acceptance inferred.

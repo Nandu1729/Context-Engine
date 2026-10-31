@@ -45,7 +45,7 @@ Execution: CAP → PIN → RETRIEVE → WINDOW → SUMMARIZE.
 
 Messages: SYSTEM → PINNED → SUMMARY → WINDOW → RETRIEVED → QUESTION.
 
-PIN reserves the entire mandatory request and optional allocations. RETRIEVE and WINDOW share the same capped, contiguous-suffix membership plan. By default retrieval reads only uncapped originals outside that plan. Optional0.9.2 `RetrievalConfig(recover_capped_window=True)` can recover missing original chunks from changed WINDOW messages;retrieved and kept turn IDs may then overlap,while fully represented chunks remain excluded. Each optional admission includes full framing and the planned WINDOW. A caller-supplied summary must match the exact omitted history;there is no hidden summarization inference.
+PIN reserves the entire mandatory request and optional allocations. RETRIEVE and WINDOW share the same capped, contiguous-suffix membership plan. Retrieval reads originals outside that plan and, by default since 0.11.0 (`RetrievalConfig.recover_capped_window=True`), missing original chunks from WINDOW messages that CAP shortened;retrieved and kept turn IDs may then overlap,while fully represented chunks remain excluded. Pass `recover_capped_window=False` for the pre-0.11.0 behavior (retrieval only outside the WINDOW plan). Each optional admission includes full framing and the planned WINDOW. A caller-supplied summary must match the exact omitted history, or with 0.10.0 `PrefixSummaryPolicy` a leading slice of it (see Rolling summaries);there is no hidden summarization inference.
 
 Final admission validates selected evidence against original source ranges, checks WINDOW/evidence content against the plan, and recounts the complete serialized request including tool schemas. Defensive overflow removal is deterministic:
 
@@ -98,3 +98,87 @@ keeps ordinary assembly behavior. Cancellation leaves original history intact an
 rolls back the current index batch, not earlier completed batches. Checks surround
 stages and bounded loops; no guarantee of preempting a tokenizer/database call.
 This is not a hard CPU deadline or a provider-request cancellation API.
+
+## Rolling summaries (0.10.0)
+
+By default a summary is reused only when it covers exactly the history WINDOW
+omits, which changes on every new turn. `PrefixSummaryPolicy` opts into rolling
+reuse: the summary may cover the *oldest* omitted turns, and the newer omitted
+turns stay unsummarized (RETRIEVE can still recover their originals) until you
+refresh it. The engine never calls a model during assembly. You decide when to
+refresh, typically after returning a response:
+
+```python
+from context_engine import assemble_context
+from context_engine.layers import PrefixSummaryPolicy
+from context_engine.summaries import ExtractiveSummarizer, PromptSummarizer, update_summary
+
+result = assemble_context(history, question, pins, budget, system=SYSTEM,
+                          summary_policy=PrefixSummaryPolicy(summary) if summary else None)
+# ... send result.messages to your model ...
+fresh = update_summary(
+    history, result.diagnostics.kept_turn_ids,
+    PromptSummarizer(lambda messages: my_llm(messages)),  # or ExtractiveSummarizer()
+    scope=pins.scope, policy_version="my-summary-v1", created_at=now,
+    previous=summary, min_new_turns=4,
+)
+summary = fresh or summary
+```
+
+`update_summary` returns `None` until `min_new_turns` omitted turns are not yet
+covered, then calls the summarizer once with only those new turns plus the previous
+summary text. Every covered source hash is checked on reuse; editing or deleting a
+covered turn invalidates the summary. `PromptSummarizer` takes any
+`complete(messages) -> str` function, so no provider SDK is imported by the core.
+`ExtractiveSummarizer` is a deterministic, model-free baseline that keeps first
+sentences only; it misses facts stated later in long messages.
+
+With durable memory, store the snapshot with `MemoryStore.put_summary(snapshot,
+fresh)` and assemble with `MemoryStore.assemble(..., summary_prefix=True)`. A
+stored summary now survives appends of turns it does not cover.
+
+Summaries remain lossy background, rendered as `[SUMMARY DATA]` user content.
+Do not rely on them for exact identifiers.
+
+## Strategy comparison (0.10.0; updated 0.11.0)
+
+`context-engine strategy-eval` compares full history, WINDOW only, WINDOW+summary,
+WINDOW+retrieval, all layers (defaults), and all layers with
+`recover_capped_window=False` (`combined_no_recover`) on the frozen 31-fact corpus,
+offline. See [BENCHMARK_REPORT](BENCHMARK_REPORT.md).
+
+## Provider and framework adapters (0.12.0)
+
+`context_engine.adapters` converts assembly output without importing any provider SDK:
+
+- `openai_chat(result)`: the budgeted wire request (`messages`, plus `tools` when
+  present) for OpenAI-compatible chat APIs.
+- `anthropic_messages(result)`: `system` as a top-level string, user data blocks
+  merged into one user turn of text blocks, tools as `input_schema`.
+- `langchain_messages(result)`: `SystemMessage`/`HumanMessage` objects; imports
+  `langchain-core` lazily (extra `[langchain]`, verified with 1.7.3).
+- `turns_from_openai(messages, scope, id_prefix=, timestamp=)`: converts an
+  OpenAI-style history into `Turn`s. Each user message starts a turn; assistant
+  tool calls and tool results stay in that turn. IDs are positional, so repeated
+  conversion keeps the same provenance. System/developer messages are rejected:
+  pass them as `system=`. Only text content is supported.
+
+Adapters accept an `AssembledContext` or a `ChatRequest`. They reject message
+shapes assembly never produces, rather than guessing a mapping. Token budgets are
+counted on the engine's wire format; provider-specific framing (for example
+Anthropic's) may count differently, so keep headroom.
+
+## Semantic (hybrid) retrieval (0.14.0; default since 0.15.0)
+
+`assemble_context(..., embedder=E, semantic_weight=0.5)` changes RETRIEVE's ranking
+only: every searchable chunk (outside WINDOW, or capped WINDOW text when recovery is
+on) gets `weight x scaled cosine + (1 - weight) x scaled BM25+`, each min-max
+scaled per query. The lexical-overlap requirement is dropped, so meaning-only
+matches qualify; `minimum_score` applies to the fused score. Selection, overlap
+removal, `top_k`, budget fitting, provenance and final admission are unchanged.
+The embedder name and weight join the config fingerprint. `E` implements
+`name`, `embed_documents(texts)` and `embed_query(text)`; vectors are cached per
+(name, text) in a bounded process cache. Default `embedder="builtin"` uses the bundled
+model (loaded once per process, ~50 ms); `embedder=None` is the exact keyword-only
+path. External models load only when the caller constructs their embedder.
+

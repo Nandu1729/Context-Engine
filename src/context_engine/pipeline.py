@@ -8,6 +8,13 @@ from . import __version__
 from .budget import validate_request
 from .config import BudgetConfig, CapConfig, RetrievalConfig
 from .context import ContextCarrier, LayerDiagnostic
+from .embeddings import (
+    BUILTIN,
+    DEFAULT_SEMANTIC_WEIGHT,
+    Embedder,
+    resolve_embedder,
+    validate_semantic,
+)
 from .errors import ContractError, LayerStateError, RequiredContextTooLarge
 from .layers import CapLayer, PinLayer, RetrieveLayer, SummaryLayer, WindowLayer
 from .layers.common import ORDER, history_digest, render_request, require_prepared, window_block
@@ -27,7 +34,7 @@ from .models import (
     canonical_json,
     freeze_sequence,
 )
-from .tokens import TiktokenCounter, TokenCounter, TokenEstimate
+from .tokens import TiktokenCounter, TokenCounter, TokenEstimate, estimated_tokens
 from .work import Cancellation, raise_if_cancelled, validate_cancellation
 
 
@@ -245,7 +252,7 @@ def _finalize(
 def _block_accounting(blocks, question, tools, counter, estimate):
     empty_question = replace(question, content="")
     running: tuple[ContextBlock, ...] = ()
-    previous = counter.count_request(render_request((), empty_question, tools)).estimated_tokens
+    previous = estimated_tokens(counter, render_request((), empty_question, tools))
     base = previous
     result = []
     by_kind = {b.kind: b for b in blocks}
@@ -254,9 +261,7 @@ def _block_accounting(blocks, question, tools, counter, estimate):
         current_question = question if kind == BlockKind.QUESTION else empty_question
         if kind != BlockKind.QUESTION:
             running += (item,)
-        current = counter.count_request(
-            render_request(running, current_question, tools)
-        ).estimated_tokens
+        current = estimated_tokens(counter, render_request(running, current_question, tools))
         content = question.content if kind == BlockKind.QUESTION else item.content
         result.append(
             BlockUsage(
@@ -289,6 +294,8 @@ def assemble_context(
     options: AssemblyOptions | None = None,
     chunk_index=None,
     cancellation: Cancellation | None = None,
+    embedder: Embedder | str | None = BUILTIN,
+    semantic_weight: float = DEFAULT_SEMANTIC_WEIGHT,
 ) -> AssembledContext:
     """Assemble authorized history into an estimated-token-safe request, or raise a typed error.
 
@@ -322,6 +329,10 @@ def assemble_context(
     retrieval_config = RetrievalConfig() if retrieval_config is None else retrieval_config
     if not isinstance(cap_config, CapConfig) or not isinstance(retrieval_config, RetrievalConfig):
         raise ContractError("Expected validated layer configuration")
+    # Default "builtin": hybrid retrieval with the bundled model (0.15.0); None: keyword-only.
+    embedder = resolve_embedder(embedder)
+    if embedder is not None:
+        validate_semantic(embedder, semantic_weight)
     if isinstance(question, str):
         used = {m.message_id for t in history for m in t.messages}
         identifier = "current-question"
@@ -338,7 +349,7 @@ def assemble_context(
         context = replace(context, diagnostics=(LayerDiagnostic("CAP", "layer_disabled"),))
     for layer in (
         PinLayer(counter, budget, system, at, tuple(tools)),
-        RetrieveLayer(counter, retrieval_config, chunk_index),
+        RetrieveLayer(counter, retrieval_config, chunk_index, embedder, semantic_weight),
         WindowLayer(counter),
         SummaryLayer(counter, summary_policy if options.summarize else None, at),
     ):
@@ -354,6 +365,11 @@ def assemble_context(
         "cap": asdict(cap_config),
         "retrieval": asdict(retrieval_config),
         "options": asdict(options),
+        **(
+            {"semantic": {"embedder": embedder.name, "weight": semantic_weight}}
+            if embedder is not None
+            else {}
+        ),
         "counting": {
             "tokenizer": estimate.tokenizer_name,
             "version": estimate.tokenizer_version,

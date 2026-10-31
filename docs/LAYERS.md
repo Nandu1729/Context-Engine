@@ -32,8 +32,9 @@ Historical messages are quoted JSON inside a user-data WINDOW block. This retain
 original chunks missing from changed messages within WINDOW. Fully represented
 chunks in the same source message are excluded;partial boundary chunks can overlap
 visible text. Source validation,reserves and final accounting remain unchanged.
-DefaultFalse preserves the original contract below. SDK opt-in only;not a new
-service request field or environment setting. See [repair design](C09_REPAIR_DESIGN.md).
+Default since0.11.0(D109);`False` preserves the original contract below and is
+pinned by the frozen benchmark harness. SDK setting only;not a service request
+field or environment setting. See [repair design](C09_REPAIR_DESIGN.md).
 
 `RetrieveLayer(counter, RetrievalConfig(...))` indexes original message text only from turns outside the planned WINDOW. It does not search tool-call argument metadata. Chunking uses Unicode code-point ranges: 360 characters with 80-character overlap by default. IDs incorporate scope, source IDs, revision, content hash, range and chunker version. Provenance is retained outside the prompt; short turn/message/range references accompany evidence in the prompt.
 

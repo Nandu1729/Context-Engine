@@ -211,7 +211,8 @@ def test_offline_cli_from_other_cwd_and_synthetic_demo(tmp_path, command):
     assert result["inference_calls"] == 0 and result["synthetic_input"]
     assert result["mode"] == ("offline_probe" if command == "probe" else "offline_inspection")
     assert "request" not in result and "answer" not in result
-    assert result["diagnostics"]["estimate"]["estimated_tokens"] == 637
+    # 0.15.0 default hybrid retrieval also admits a weaker chunk (637 keyword-only).
+    assert result["diagnostics"]["estimate"]["estimated_tokens"] == 785
     assert "PRIVATE_TEST_KEY" not in completed.stdout + completed.stderr
 
 
