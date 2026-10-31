@@ -183,8 +183,11 @@ These are enforced in code and covered by about 1,400 tests:
   simulated), we measure whether the answer-bearing turn reaches the context:
   94.2% of questions with ChatMemory's defaults at 3000 tokens, 78.5% with
   `assemble_context` defaults (keyword-only: 74.3%). When an answer needs several
-  turns, all of them are present 79.3% of the time. Whether a model then answers
-  correctly on this data is not measured. Details in the benchmark report.
+  turns, all of them are present 79.3% of the time. One live run on 95 of these
+  questions (one small model, reasoning off, exact-match grading) answered 26 correctly
+  with ChatMemory's defaults vs 18 with `assemble_context` defaults. Absolute accuracy
+  is low and not comparable with published LongMemEval scores. Details in the
+  benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.
   Providers may count differently. On small requests, provider counts were up
   to 1.78× the local estimate in past tests, so leave headroom or calibrate.
