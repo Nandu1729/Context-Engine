@@ -80,6 +80,6 @@ targets, separate retention/accuracy/cost reporting.
 
 2. Owner: try the MCP server in a real client (config in docs/MCP.md).
 3. Owner: review and merge PR #1 (README/PyPI doc links need `main`).
-5. Owner: decide whether to publish 0.14.0 and whether hybrid should become the
-   default (needs a safe way to ship or fetch the model).
+5. Owner: decide whether hybrid should become the default (needs a safe way to ship
+   or fetch the model); optional live check of reworded questions with hybrid.
 6. Engineering: profile much longer histories (1,000+ turns).
