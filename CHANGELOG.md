@@ -3,6 +3,20 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.12.1 — 2026-10-31 (unreleased)
+
+### Changed (performance only; output identical)
+- Budget fit checks compute only the request's estimated token count
+  (`TiktokenCounter.estimate_tokens`), skipping per-message counts and hashing that
+  are only reported. Custom counters keep the full `count_request` path.
+- WINDOW candidates skip their own token count; per-turn JSON is reused.
+- Window planning (run by RETRIEVE, WINDOW and SUMMARIZE) and history digests are
+  memoized by value (bounded; built-in counter/serializer only).
+- All-layers median on the 100-turn benchmark: 95 → 67 ms at 900 tokens and
+  208 → 80 ms at 3000 tokens. All 310 strategy-benchmark assemblies (31 facts x 5
+  strategies x 2 budgets) are byte-identical to 0.12.0. 0.12.0 wheel/freeze archived
+  in `archives/c12-latency-0121/`.
+
 ## 0.12.0 — 2026-10-31 (PyPI)
 
 ### Added

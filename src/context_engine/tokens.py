@@ -152,6 +152,14 @@ class TiktokenCounter:
             return _cached_count(self.config.encoding_name, text)
         return len(self._encoding.encode_ordinary(text))
 
+    def estimate_tokens(self, request: ChatRequest) -> int:
+        """`count_request(request).estimated_tokens` without the reporting-only parts."""
+        serialized = self.count_text(self.serializer.serialize(request))
+        return math.ceil(
+            (serialized + self.config.adapter_overhead_tokens)
+            * Fraction(str(self.config.calibration_factor))
+        )
+
     def count_request(self, request: ChatRequest) -> TokenEstimate:
         rendered = self.serializer.serialize(request)
         return TokenEstimate(
@@ -169,3 +177,9 @@ class TiktokenCounter:
             serializer_name=self.serializer.name,
             request_fingerprint=hashlib.sha256(rendered.encode("utf-8")).hexdigest(),
         )
+
+
+def estimated_tokens(counter: TokenCounter, request: ChatRequest) -> int:
+    """Budget-check estimate; custom counters without `estimate_tokens` use the full count."""
+    fast = getattr(counter, "estimate_tokens", None)
+    return fast(request) if fast is not None else counter.count_request(request).estimated_tokens

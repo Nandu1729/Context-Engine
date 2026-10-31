@@ -27,7 +27,7 @@ from .models import (
     canonical_json,
     freeze_sequence,
 )
-from .tokens import TiktokenCounter, TokenCounter, TokenEstimate
+from .tokens import TiktokenCounter, TokenCounter, TokenEstimate, estimated_tokens
 from .work import Cancellation, raise_if_cancelled, validate_cancellation
 
 
@@ -245,7 +245,7 @@ def _finalize(
 def _block_accounting(blocks, question, tools, counter, estimate):
     empty_question = replace(question, content="")
     running: tuple[ContextBlock, ...] = ()
-    previous = counter.count_request(render_request((), empty_question, tools)).estimated_tokens
+    previous = estimated_tokens(counter, render_request((), empty_question, tools))
     base = previous
     result = []
     by_kind = {b.kind: b for b in blocks}
@@ -254,9 +254,7 @@ def _block_accounting(blocks, question, tools, counter, estimate):
         current_question = question if kind == BlockKind.QUESTION else empty_question
         if kind != BlockKind.QUESTION:
             running += (item,)
-        current = counter.count_request(
-            render_request(running, current_question, tools)
-        ).estimated_tokens
+        current = estimated_tokens(counter, render_request(running, current_question, tools))
         content = question.content if kind == BlockKind.QUESTION else item.content
         result.append(
             BlockUsage(

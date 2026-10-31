@@ -7,7 +7,7 @@
     "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196"
   },
   "runtime": {
-    "code_hash": "59eeb4d28e6b3106a18317d5b6acee255f0b22d5e5143e3e7bb74b1146a39ff4",
+    "code_hash": "c3d4bfbdad58327eb09a763ae398fd97277e33339ce00cfb5395b2615f2d269f",
     "dependencies": {
       "certifi": "2026.10.23",
       "charset-normalizer": "3.5.1",
@@ -19,7 +19,7 @@
       "tiktoken": "0.14.0",
       "urllib3": "2.8.0"
     },
-    "package_version": "0.12.0",
+    "package_version": "0.12.1",
     "python": "3.12.13"
   },
   "schema_version": 1

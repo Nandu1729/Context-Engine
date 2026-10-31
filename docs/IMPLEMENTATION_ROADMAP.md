@@ -33,7 +33,7 @@ Acceptance: findings traced to code/test evidence. Met.
 | 1.3 Keep summaries across uncovered appends (F2) | `memory/store.py` | DONE | `tests/test_summaries.py`, `tests/test_memory.py` |
 | 1.4 SDK example + docs | `examples/rolling_summary.py`, `docs/PIPELINE.md` | DONE | `tests/test_rolling_summary_example.py`; 28/40 turns use a summary vs 0/40 before |
 | 1.5 `recover_capped_window` default on (F4/T2, D109) | `config.py`, `harness.py`, `strategies.py` | DONE (0.11.0) | 31/31 at 900 and 3000 offline; full suite 1429 pass |
-| 1.6 Reduce CAP cost (F6) | `tokens.py` | DONE (0.12.0) at 900: 247 → 95 ms; 3000: 481 → 208 ms, identical output | Further: cheaper admission counting at large budgets |
+| 1.6 Reduce assembly latency (F6) | `tokens.py`, `layers/common.py`, `pipeline.py` | DONE (0.12.1): 67 ms at 900, 80 ms at 3000 (target < 100 ms), identical output | Larger histories not yet profiled |
 
 Risks: default changes alter historical reproducibility (mitigated by version
 archives); summary misuse for exact identifiers (documented).
@@ -78,5 +78,5 @@ targets, separate retention/accuracy/cost reporting.
 
 2. Owner: try the MCP server in a real client (config in docs/MCP.md).
 3. Owner: review and merge PR #1 (README/PyPI doc links need `main`).
-5. Engineering: cheaper admission counting for large budgets; paraphrased-question
-   corpus to test lexical-retrieval limits (2.4).
+5. Engineering: paraphrased-question corpus to test lexical-retrieval limits (2.4);
+   profile much longer histories (1,000+ turns).

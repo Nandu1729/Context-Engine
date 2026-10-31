@@ -60,19 +60,20 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
-## Assembly latency (0.12.0, measured 2026-10-31)
+## Assembly latency (0.12.1, measured 2026-10-31)
 
 All layers (`combined`, including the extractive-summary second pass) on the
 100-turn benchmark, macOS arm64, local wall time, tokenizer already loaded:
 
-| Budget | 0.11.0 median | 0.12.0 median (same history, new question) | 0.12.0 first call |
-|---|---|---|---|
-| 900 | 247 ms | **95 ms** | ~70 ms |
-| 3000 | 481 ms | 208 ms | ~190 ms |
+| Budget | 0.11.0 median | 0.12.0 median | **0.12.1 median** (same history, new question) | 0.12.1 first call |
+|---|---|---|---|---|
+| 900 | 247 ms | 95 ms | **67 ms** | ~53 ms |
+| 3000 | 481 ms | 208 ms | **80 ms** | ~66 ms |
 
-The gain comes from a bounded token-count cache. Outputs are byte-identical (pinned
-retention/token tests and V1–V5 gates unchanged). At 3000 tokens the remaining cost
-is mostly counting large, distinct candidate requests during admission checks.
+0.12.0 added a bounded token-count cache. 0.12.1 removed repeated work in fit checks
+(only the estimated total is computed), reuses per-turn JSON and memoizes the
+WINDOW plan and history digests. Outputs are unchanged: all 310 strategy-benchmark
+assemblies match 0.12.0 byte-for-byte, and V1–V5 gates are unchanged.
 
 ## Live answer accuracy, 900 tokens (D109/D110, 2026-10-31): COMPLETE
 
