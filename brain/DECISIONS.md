@@ -1,5 +1,11 @@
 # Decision register
 
+- D112 / OWNER RELEASE + DESKTOP FIX,2026-10-31:owner approved push+PR and PyPI.
+  Pushed feat/developer-launch,PR #1(no AI attribution). PyPI upload of0.12.0 was
+  blocked by the assistant's permission classifier;owner then explicitly requested the
+  exact command and it ran once:PyPI0.12.0 live,hashes match TestPyPI,fresh install
+  PASS. Owner's Claude Desktop entry ran nonexistent npx @context-engine/mcp;replaced
+  with the venv binary path(backup kept). Merge of PR #1 remains the owner's.
 - D111 / OWNER APPROVALS,2026-10-31:(1)owner's Inception dashboard shows Free Tier,
   100,000,000 free tokens;owner approved the single smoke call:done,mercury-3,715 input/
   45 output tokens,correct,no retry(paid-equivalent88 micro-USD under$0.001 cap).

@@ -58,7 +58,7 @@ targets, separate retention/accuracy/cost reporting.
 | 3.1 Wheel builds and installs in a clean environment; public API smoke | DONE for 0.11.0 (see CURRENT_STATUS) |
 | 3.2 License Apache-2.0 (D109); `LICENSE`, project URLs, classifiers; newcomer README | DONE |
 | 3.2b Dependency vulnerability + license scan | DONE: 71 advisories patched, re-scan 0 |
-| 3.3 Publish to TestPyPI, then PyPI | TestPyPI DONE (0.11.0, 0.12.0, verified installs); PyPI needs `PYPI_TOKEN` + owner confirmation |
+| 3.3 Publish to TestPyPI, then PyPI | DONE: PyPI 0.12.0 (D112), verified install |
 | 3.5 OpenAI/Anthropic message helpers; LangChain adapter (optional extra) | DONE (0.12.0) |
 | 3.6 Inception (Mercury) adapter, offline-tested first | DONE (0.12.0); live smoke passed (D111) |
 | 3.4 Trim install: make `pywin32` and evaluation data optional? | LATER: measure wheel size first |
@@ -77,7 +77,6 @@ targets, separate retention/accuracy/cost reporting.
 ## Immediate next tasks
 
 2. Owner: try the MCP server in a real client (config in docs/MCP.md).
-3. Owner: approve pushing `feat/developer-launch` and opening a PR (README links need `main`).
-4. Owner: add `PYPI_TOKEN`, then confirm the permanent PyPI upload of 0.12.0.
+3. Owner: review and merge PR #1 (README/PyPI doc links need `main`).
 5. Engineering: cheaper admission counting for large budgets; paraphrased-question
    corpus to test lexical-retrieval limits (2.4).

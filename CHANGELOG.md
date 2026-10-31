@@ -3,7 +3,7 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
-## 0.12.0 — 2026-10-31 (unreleased)
+## 0.12.0 — 2026-10-31 (PyPI)
 
 ### Added
 - `context_engine.adapters`: `openai_chat`, `anthropic_messages`,

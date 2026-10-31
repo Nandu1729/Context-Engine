@@ -42,8 +42,8 @@ Uncommitted work from D097–D108 remains for owner review/commit.
 Live D109/D110 900-token run COMPLETE:combined31/31,retrieval31/31,no_recover29/31,
 summary1/29,window1/31;2 zero-token rejections,$0. TestPyPI0.11.0 verified.
 0.12.0:adapters,Inception(live smoke OK,D111),MCP stdio prototype,count cache
-(247→95ms@900,481→208ms@3000);run7 1479 PASS. Committed d9a1680 on feat/developer-launch(not pushed);0.12.0 on TestPyPI verified.
-PyPI needs PYPI_TOKEN+confirmation;push/PR needs approval;owner MCP client check;then admission counting,paraphrases.
+(247→95ms@900,481→208ms@3000);run7 1479 PASS. 0.12.0 released on PyPI+TestPyPI(D112),hashes match;PR #1 open for owner merge.
+Desktop MCP fixed;owner MCP client check;then admission counting,paraphrases.
 
 ## Open risks
 
