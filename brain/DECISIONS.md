@@ -1,5 +1,12 @@
 # Decision register
 
+- D114 / OWNER LIVE CHECK: REWORDED QUESTIONS WITH SEMANTIC,2026-10-31:owner said "go
+  for the live check". One free-tier Groq run,gpt-oss-20b,900 tokens,256 output,no
+  retries,no paid use,31 reworded questions x2(combined keyword default vs
+  combined_semantic hybrid)=max62 calls;~79K of200K daily tokens left. D110 rule from
+  start:confirmed zero-token rejections skipped(max10);rate limit/uncertain/cost stop.
+  Runner scripts/semantic_accuracy_live.py on the PyPI0.14.0 wheel. 3000 tokens or
+  paid models still need new approval.
 - D113 / OWNER DIRECTION: SEMANTIC RETRIEVAL BY BEST FIT,2026-10-31:owner rejected
   simply reusing the earlier BGE-small design and asked for the best fit,evolving by
   evidence. Isolated bake-off(6 models,4 fusion rules)chose Model2Vec potion-base-8M

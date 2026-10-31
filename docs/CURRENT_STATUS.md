@@ -58,7 +58,7 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 | PyPI upload | TestPyPI done; real PyPI needs owner go-ahead |
 | Live accuracy at 3000 tokens / paid models | Not approved |
 | MCP in-chat use by a model | Owner restarts Claude Code and tries the tools |
-| Reworded questions | 0.14.0 optional hybrid retrieval: 3/31 → 21/31 (retrieval-only 24–25/31); default stays keyword-only. Live accuracy with reworded questions not run |
+| Reworded questions | 0.14.0 optional hybrid retrieval: offline 3/31 → 21/31; **live (D114)** keyword 3/31 vs hybrid 18/31 strict (21/31 lenient). Default stays keyword-only |
 | Real-world evaluation data | None; single synthetic scenario |
 | Production operations (load, SLOs, TLS, IdP, rate limits) | Later stages |
 

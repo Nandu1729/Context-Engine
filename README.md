@@ -141,7 +141,9 @@ These are enforced in code and covered by about 1,400 tests:
   reword the 31 benchmark questions so they share no words with the stored facts,
   the default settings keep only 3 of 31 facts. With the optional embedder (see
   above) they keep 21 of 31 (retrieval alone: 24–25 of 31), with no loss on the
-  original questions. Run it yourself:
+  original questions. In a live model run on those reworded questions, keyword-only
+  answered 3 of 31 correctly and hybrid 18 of 31 (21 of 31 ignoring punctuation and
+  dash-character differences). Run the offline test yourself:
   `context-engine strategy-eval --questions paraphrased --semantic`.
 - **Real-world data.** There are no results yet on real user conversations.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.

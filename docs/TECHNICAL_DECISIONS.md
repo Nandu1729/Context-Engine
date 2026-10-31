@@ -80,3 +80,13 @@ Every source change bumps the package version, archives the previous wheel and
 freeze under `archives/`, and refreezes `evaluation/data/freeze.json`, so
 historical experiments keep rejecting new code. 0.10.0 archived 0.9.6 under
 `archives/c11-summaries-0100/` (rebuilt from unchanged committed source).
+
+## T8 — Tolerant answer grading as a new protocol version (proposed)
+
+**Evidence.** In the D114 live run, 3 correct answers failed strict grading over
+formatting: a trailing period and Unicode non-breaking hyphens (U+2011, emitted by
+gpt-oss). Strict grading under-reports hybrid accuracy (18/31 vs 21/31).
+**Proposal.** A `grading-v2` that strips trailing `.!?` and maps Unicode dashes to
+`-`, reported alongside strict v1. **Keep v1 frozen** so historical C06/C09 numbers
+stay comparable. **Needs:** owner decision (it changes reported accuracy).
+

@@ -60,6 +60,28 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Live check: reworded questions, keyword vs hybrid (D114, 2026-10-31)
+
+One approved free-tier Groq run (`scripts/semantic_accuracy_live.py`, run
+`semantic-accuracy-900-001`) on the published 0.14.0 wheel: gpt-oss-20b, 900 tokens,
+256 completion tokens, no retries, 31 reworded questions per strategy. 62/62 calls
+answered, 0 rejections, 46,454 input / 2,815 output tokens, $0. Public report
+without answer content: `output/semantic-accuracy-900-001/report.json`.
+
+| Strategy | Strict grading (C06 protocol) | Lenient grading | Offline retention |
+|---|---|---|---|
+| combined, keyword (default) | 3/31 (Wilson 3–25%) | 3/31 | 3/31 |
+| **combined_semantic (hybrid)** | **18/31** (41–74%) | **21/31** | 21/31 |
+
+Hybrid answered 16 facts that keyword missed; keyword answered 1 that hybrid
+missed. Every answer without the evidence in context was wrong (no lucky guesses).
+The 3 strict-grading misses with evidence present were correct values with
+formatting differences: a trailing period (`PostgreSQL.`) and a Unicode
+non-breaking hyphen (U+2011) instead of `-` (`cert‑marigold`, `batch‑6721`).
+"Lenient" only strips trailing `.!?` and maps Unicode dashes to `-`; the frozen
+strict grader is unchanged. Re-grading the earlier original-question run leniently
+changes nothing. Limits: one synthetic scenario, author-written rewordings, one model.
+
 ## Semantic retrieval: model bake-off and engine results (0.14.0, offline, 2026-10-31)
 
 **Bake-off** (retrieval only, the engine's 360-character chunks, 400 chunks; fact's
