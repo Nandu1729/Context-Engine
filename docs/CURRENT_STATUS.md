@@ -1,6 +1,6 @@
 # Current status — 2026-10-31
 
-Package **0.15.0** (local, unreleased); **0.14.0** released on **PyPI** (also 0.12.0, 0.12.1) (`pip install context-engineering-core`); 0.12.0 also on PyPI/TestPyPI. Code in PR #1 (`feat/developer-launch`). Developer SDK and self-hosted local
+Package **0.16.0** (local, unreleased, branch `feat/chat-memory-longmemeval`: ChatMemory, AsyncChatMemory, opt-in `diverse_turns`, LongMemEval evaluation); **0.15.0** released on **PyPI** (also 0.12.0, 0.12.1, 0.14.0) (`pip install context-engineering-core`). Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
 
@@ -55,11 +55,11 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 
 | Item | Status |
 |---|---|
-| PyPI upload | TestPyPI done; real PyPI needs owner go-ahead |
+| PyPI upload | 0.15.0 on PyPI; 0.16.0 needs owner go-ahead |
 | Live accuracy at 3000 tokens / paid models | Not approved |
 | MCP in-chat use by a model | Owner restarts Claude Code and tries the tools |
 | Reworded questions | 0.15.0 **default** hybrid retrieval (bundled model, weight 0.5): offline 3/31 → 21/31; live (D114, weight 0.7) keyword 3/31 vs hybrid 18/31 strict, 21/31 lenient (grading v2). Needle-in-filler + reworded still hard: 12/31 |
-| Real-world evaluation data | None; single synthetic scenario |
+| Real-world evaluation data | LongMemEval-S evidence recall (offline, 479 questions): 3000 tokens, core hybrid 78.5% any / 45.9% all; ChatMemory default 94.2% / 79.3%. Answer accuracy on it not measured |
 | Production operations (load, SLOs, TLS, IdP, rate limits) | Later stages |
 
 ## Incident

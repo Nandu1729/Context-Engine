@@ -48,11 +48,14 @@ summary1/29,window1/31;2 zero-token rejections,$0. TestPyPI0.11.0 verified.
 retrieval(potion-8M+score fusion)3→21/31,originals31/31;run10 1522 PASS. Live D114:
 keyword3/31 vs hybrid18/31 strict(21/31 lenient). 0.15.0(D115,local):hybrid default via
 bundled int8 model,weight0.5,grading-v2;run1550 PASS. Next:merge PR #1,owner publishes0.15.0.
-Desktop MCP fixed;owner MCP client check;then admission counting,paraphrases.
+Desktop MCP fixed;0.15.0 on PyPI,PR #1 merged,PR #2(release record)open.
+0.16.0(D116,branch feat/chat-memory-longmemeval,uncommitted):ChatMemory/AsyncChatMemory,
+retrieval_share0.4,diverse_turns(ChatMemory default,D117),examples,LongMemEval-S@3000:
+core hybrid78.5%→ChatMemory94.2%(all45.9→79.3%). Committed locally;push/PR pending.
 
 ## Open risks
 
-- Synthetic author-visible corpus;no real-world accuracy or injection-resistance claim.
+- Synthetic corpus+LongMemEval evidence recall only;no real-world answer accuracy or injection claim.
 - Token estimates:12 historical overruns,max actual/estimate1.781321.
 - Extractive summaries add no retention on frozen corpus;model summaries unmeasured.
 - OS scheduling/reaping,global limits,production load/IdP/TLS/audit,per-tenant rate

@@ -296,6 +296,7 @@ def assemble_context(
     cancellation: Cancellation | None = None,
     embedder: Embedder | str | None = BUILTIN,
     semantic_weight: float = DEFAULT_SEMANTIC_WEIGHT,
+    diverse_turns: bool = False,
 ) -> AssembledContext:
     """Assemble authorized history into an estimated-token-safe request, or raise a typed error.
 
@@ -333,6 +334,9 @@ def assemble_context(
     embedder = resolve_embedder(embedder)
     if embedder is not None:
         validate_semantic(embedder, semantic_weight)
+    # Opt-in (0.16.0): at most one retrieved chunk per turn, so evidence spans more turns.
+    if type(diverse_turns) is not bool:
+        raise ContractError("diverse_turns must be an explicit boolean")
     if isinstance(question, str):
         used = {m.message_id for t in history for m in t.messages}
         identifier = "current-question"
@@ -349,7 +353,9 @@ def assemble_context(
         context = replace(context, diagnostics=(LayerDiagnostic("CAP", "layer_disabled"),))
     for layer in (
         PinLayer(counter, budget, system, at, tuple(tools)),
-        RetrieveLayer(counter, retrieval_config, chunk_index, embedder, semantic_weight),
+        RetrieveLayer(
+            counter, retrieval_config, chunk_index, embedder, semantic_weight, diverse_turns
+        ),
         WindowLayer(counter),
         SummaryLayer(counter, summary_policy if options.summarize else None, at),
     ):
@@ -370,6 +376,7 @@ def assemble_context(
             if embedder is not None
             else {}
         ),
+        **({"diversity": {"one_chunk_per_turn": True}} if diverse_turns else {}),
         "counting": {
             "tokenizer": estimate.tokenizer_name,
             "version": estimate.tokenizer_version,
