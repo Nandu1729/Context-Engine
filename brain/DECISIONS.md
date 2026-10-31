@@ -1,5 +1,14 @@
 # Decision register
 
+- D118 / OWNER LIVE LONGMEMEVAL ACCURACY,2026-10-31:one bounded Inception mercury-3
+  run(owner Free Tier),INCEPTION_API_KEY line only,3000 tokens for this run only,100 seeded
+  stratified questions x2 settings(core defaults hybrid vs ChatMemory defaults),256 output,
+  max200 calls,no retries,separate ledger,cap100,000 micro-USD list price;stop on402/429/
+  uncertain;zero-token rejections skippable(max10);plan then owner "go live". Owner chose
+  Inception over Groq(Groq TPD200k<626k needed)and staged start. Run-001(reasoning low)
+  paused after10:5 empty answers(thinking used all256 tokens);owner chose reasoning off
+  (instant)for run-002,95 questions(190 calls)to keep the200-call total. Temperature0
+  unavailable(API min0.5).
 - D117 / OWNER "GO WITH UR RECOMMENDATIONS",2026-10-31:ChatMemory default
   diverse_turns=True(LongMemEval any93.5→94.2,all77.7→79.3;synthetic unchanged);core
   assemble_context defaults unchanged(280 reserve,no diversity)despite78.5% vs94.2%,
