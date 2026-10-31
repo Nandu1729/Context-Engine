@@ -127,6 +127,7 @@ def _prepare_validated(bundle: Bundle, slot: dict) -> dict:
             cap_config=CapConfig(**p["cap"]),
             # The frozen protocol predates the 0.11.0 recovery default; keep it reproducible.
             retrieval_config=RetrievalConfig(**{"recover_capped_window": False, **p["retrieval"]}),
+            embedder=None,  # The frozen protocol predates semantic retrieval (0.15.0).
             summary_policy=BackgroundPolicy(
                 summary["content"],
                 summary["policy_version"],

@@ -3,6 +3,28 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.15.0 — 2026-10-31 (unreleased)
+
+### Changed (behavior)
+- Hybrid retrieval is the default (`assemble_context(embedder="builtin")`): the
+  bundled potion-base-8M model (8-bit vectors, ~7 MB in the package; MIT notice in
+  `embedding_data/LICENSE`) with a pure-Python WordPiece tokenizer. No download,
+  network or new dependency. `embedder=None` gives the pre-0.15.0 keyword-only path.
+- Default `semantic_weight` 0.7 → 0.5: a needle-in-filler check showed 0.7 losing
+  exact keyword matches (22/31 vs 31/31); 0.5 is equal or better on every set.
+- `strategy-eval` includes the hybrid strategies by default (`--no-semantic` to
+  skip; `--semantic` removed). `context-engine-mcp` is hybrid by default
+  (`--no-semantic`; `--semantic` removed).
+- The frozen benchmark harness pins keyword-only retrieval.
+
+### Added
+- `BuiltinEmbedder`, `default_embedder()`, `context_engine.wordpiece`.
+- Lenient grading v2 (`answer_correct_lenient`, `GRADERS`) beside frozen strict v1;
+  `scripts/regrade_live.py` writes `grading.json` for both live runs.
+
+### Unchanged
+- 0.14.0 wheel/freeze archived in `archives/c15-default-semantic-0150/`.
+
 ## 0.14.0 — 2026-10-31 (PyPI)
 
 ### Added

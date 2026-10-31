@@ -67,9 +67,13 @@ def assemble(counter, **overrides):
 
 def test_public_pipeline_order_evidence_and_reproducibility(counter):
     job = demo_job(Settings.from_env({}))
-    result = assemble_context(**job.arguments, token_counter=counter)
+    # Exact figures below are for keyword-only retrieval (embedder=None).
+    result = assemble_context(**job.arguments, token_counter=counter, embedder=None)
     assert isinstance(result, AssembledContext)
-    assert result == assemble_context(**job.arguments, token_counter=counter)
+    assert result == assemble_context(**job.arguments, token_counter=counter, embedder=None)
+    default = assemble_context(**job.arguments, token_counter=counter)
+    assert "t1" in default.diagnostics.retrieved_turn_ids and "shard-19" in str(default.messages)
+    assert default.diagnostics.estimate.estimated_tokens <= default.diagnostics.input_allowance
     assert tuple(b.kind for b in result.blocks) == ORDER
     assert [d.layer for d in result.diagnostics.layer_diagnostics] == [
         "CAP",

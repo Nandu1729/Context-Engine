@@ -9,7 +9,7 @@ that fits the budget. Those messages keep the recent turns, the facts you pinned
 and the older evidence that matches the question. It never calls a model by
 itself, so you send the messages to any provider you like.
 
-> **Status: alpha (0.14.0).** Good for developers to try locally. It is not yet
+> **Status: alpha (0.15.0).** Good for developers to try locally. It is not yet
 > proven on real-world data, and there is no hosted service. See
 > [What is not proven yet](#what-is-not-proven-yet).
 
@@ -70,22 +70,20 @@ chat_model.invoke(langchain_messages(result))  # pip install 'context-engineerin
 history = turns_from_openai(existing_openai_messages, scope)  # reuse a chat history you already have
 ```
 
-### Better recall for reworded questions (optional)
+### Finds meaning, not just matching words
 
-Keyword search needs the question to reuse the fact's words. Add a small local
-embedding model so meaning matches too ("retailer" finds "merchant"):
+Retrieval combines keyword search with a small embedding model bundled in the
+package, so "retailer" finds "merchant". It runs locally with numpy: no download,
+no network, no extra dependency (the package is ~7 MB because of the model).
+Ranking is 0.5 x meaning score + 0.5 x keyword score.
 
 ```python
-# pip install 'context-engineering-core[semantic]'   (~30 MB model, downloaded once)
-from context_engine.embeddings import Model2VecEmbedder
-
-embedder = Model2VecEmbedder()   # pinned minishlab/potion-base-8M; loads only when you create it
-result = assemble_context(history, question, pins, budget, system=system, embedder=embedder)
+result = assemble_context(..., embedder=None)   # keyword-only, as before 0.15.0
+from context_engine.embeddings import FastEmbedEmbedder, FunctionEmbedder, Model2VecEmbedder
+result = assemble_context(..., embedder=FastEmbedEmbedder())  # more accurate, slower (extra [fastembed])
 ```
 
-Ranking becomes 0.7 x meaning score + 0.3 x keyword score. Prefer accuracy over
-speed? `FastEmbedEmbedder("BAAI/bge-small-en-v1.5")` (extra `[fastembed]`). Or wrap
-your own embedding function or API with `FunctionEmbedder`.
+`FunctionEmbedder` wraps your own embedding function or API.
 
 ### Use it from an MCP client
 
@@ -137,14 +135,14 @@ These are enforced in code and covered by about 1,400 tests:
   benchmark, the default settings keep 31 of 31 planted facts at 900 and 3000
   tokens, and a live model run answered 31 of 31 correctly at 900 tokens. But
   that benchmark is one synthetic conversation written alongside the engine.
-- **Reworded questions.** By default, retrieval is keyword-based (BM25). When we
-  reword the 31 benchmark questions so they share no words with the stored facts,
-  the default settings keep only 3 of 31 facts. With the optional embedder (see
-  above) they keep 21 of 31 (retrieval alone: 24–25 of 31), with no loss on the
-  original questions. In a live model run on those reworded questions, keyword-only
-  answered 3 of 31 correctly and hybrid 18 of 31 (21 of 31 ignoring punctuation and
-  dash-character differences). Run the offline test yourself:
-  `context-engine strategy-eval --questions paraphrased --semantic`.
+- **Reworded questions.** When we reword the 31 benchmark questions so they share
+  no words with the stored facts, keyword-only retrieval keeps 3 of 31 facts; the
+  default hybrid retrieval keeps 21 of 31 (retrieval alone: 24–25 of 31), with no
+  loss on the original questions. In a live model run on the reworded questions,
+  keyword-only answered 3 of 31 correctly and hybrid 18 of 31 (21 of 31 with
+  lenient grading, which ignores trailing punctuation and dash characters). A fact
+  buried in a long, repetitive message and asked with different words is still
+  hard (12 of 31). Run the offline test: `context-engine strategy-eval --questions paraphrased`.
 - **Real-world data.** There are no results yet on real user conversations.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.
   Providers may count differently. On small requests, provider counts were up

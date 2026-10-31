@@ -23,6 +23,7 @@ import statistics
 import time
 
 from ..config import BudgetConfig, CapConfig, RetrievalConfig, TokenizerConfig
+from ..embeddings import BUILTIN, resolve_embedder
 from ..errors import BenchmarkError
 from ..layers.retrieve import lexical_tokens
 from ..layers.summarize import PrefixSummaryPolicy
@@ -86,7 +87,8 @@ def _assemble(job, protocol, counter, fact, allowance, strategy, question, embed
             **protocol["retrieval"], recover_capped_window=strategy not in NO_RECOVER
         ),
         options=options,
-        **({"embedder": embedder} if strategy in SEMANTIC else {}),
+        # Named strategies keep their keyword meaning; *_semantic ones add the embedder.
+        embedder=embedder if strategy in SEMANTIC else None,
     )
     pins = job.arguments["pinned_facts"]
     result = assemble_context(history, question, pins, budget, **arguments)
@@ -222,12 +224,13 @@ def assemble_strategy(
     strategy: str,
     *,
     question: str | None = None,
-    embedder=None,
+    embedder=BUILTIN,
 ):
     """The exact request a strategy sends for one frozen fact (for bounded live runs).
 
     `full_history` is not assembled; it either fits raw or is a non-fit.
     """
+    embedder = resolve_embedder(embedder)
     if strategy not in STRATEGIES and (strategy not in SEMANTIC or embedder is None):
         raise ValueError("Unknown or non-assembled strategy (semantic ones need an embedder)")
     protocol = bundle.get("protocol")
@@ -299,16 +302,18 @@ def compare_strategies(
     *,
     include_probes: bool = False,
     questions: str = "original",
-    embedder=None,
+    embedder=BUILTIN,
 ) -> dict:
     """Run every strategy on every frozen fact at each budget. Deterministic except latency.
 
     `questions="paraphrased"` asks reworded questions that share no content words with
-    the evidence (lexical-retrieval stress test); scoring is unchanged. An `embedder`
-    adds the semantic strategies (`retrieval_semantic`, `combined_semantic`).
+    the evidence (lexical-retrieval stress test); scoring is unchanged. The semantic
+    strategies (`retrieval_semantic`, `combined_semantic`) use `embedder` (default:
+    the built-in model); `embedder=None` omits them.
     """
     if questions not in ("original", "paraphrased"):
         raise ValueError("questions must be 'original' or 'paraphrased'")
+    embedder = resolve_embedder(embedder)
     asked = (
         load_paraphrases(bundle)
         if questions == "paraphrased"

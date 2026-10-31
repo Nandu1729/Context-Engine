@@ -1,0 +1,455 @@
+{
+  "graders": [
+    "strict-v1",
+    "lenient-v2"
+  ],
+  "rows": [
+    {
+      "fact_id": "merchant",
+      "lenient-v2": false,
+      "slot": 0,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "merchant",
+      "lenient-v2": false,
+      "slot": 1,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "ticket",
+      "lenient-v2": false,
+      "slot": 2,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "ticket",
+      "lenient-v2": true,
+      "slot": 3,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "service",
+      "lenient-v2": false,
+      "slot": 4,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "service",
+      "lenient-v2": true,
+      "slot": 5,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "owner",
+      "lenient-v2": false,
+      "slot": 6,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "owner",
+      "lenient-v2": false,
+      "slot": 7,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "database",
+      "lenient-v2": false,
+      "slot": 8,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "database",
+      "lenient-v2": true,
+      "slot": 9,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "queue",
+      "lenient-v2": false,
+      "slot": 10,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "queue",
+      "lenient-v2": true,
+      "slot": 11,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "rollback",
+      "lenient-v2": false,
+      "slot": 12,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "rollback",
+      "lenient-v2": false,
+      "slot": 13,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "runbook",
+      "lenient-v2": false,
+      "slot": 14,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "runbook",
+      "lenient-v2": true,
+      "slot": 15,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "cluster",
+      "lenient-v2": false,
+      "slot": 16,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "cluster",
+      "lenient-v2": false,
+      "slot": 17,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "bucket",
+      "lenient-v2": false,
+      "slot": 18,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "bucket",
+      "lenient-v2": false,
+      "slot": 19,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "region",
+      "lenient-v2": false,
+      "slot": 20,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "region",
+      "lenient-v2": true,
+      "slot": 21,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "canary",
+      "lenient-v2": false,
+      "slot": 22,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "canary",
+      "lenient-v2": true,
+      "slot": 23,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "dashboard",
+      "lenient-v2": false,
+      "slot": 24,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "dashboard",
+      "lenient-v2": true,
+      "slot": 25,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "certificate",
+      "lenient-v2": false,
+      "slot": 26,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "certificate",
+      "lenient-v2": true,
+      "slot": 27,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "feature",
+      "lenient-v2": false,
+      "slot": 28,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "feature",
+      "lenient-v2": false,
+      "slot": 29,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "cache",
+      "lenient-v2": false,
+      "slot": 30,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "cache",
+      "lenient-v2": true,
+      "slot": 31,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "trace",
+      "lenient-v2": false,
+      "slot": 32,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "trace",
+      "lenient-v2": true,
+      "slot": 33,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "replica",
+      "lenient-v2": false,
+      "slot": 34,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "replica",
+      "lenient-v2": true,
+      "slot": 35,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "schema",
+      "lenient-v2": false,
+      "slot": 36,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "schema",
+      "lenient-v2": true,
+      "slot": 37,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "retries",
+      "lenient-v2": false,
+      "slot": 38,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "retries",
+      "lenient-v2": false,
+      "slot": 39,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "timeout",
+      "lenient-v2": false,
+      "slot": 40,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "timeout",
+      "lenient-v2": false,
+      "slot": 41,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "region_backup",
+      "lenient-v2": true,
+      "slot": 42,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "region_backup",
+      "lenient-v2": true,
+      "slot": 43,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "policy",
+      "lenient-v2": false,
+      "slot": 44,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "policy",
+      "lenient-v2": true,
+      "slot": 45,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "namespace",
+      "lenient-v2": true,
+      "slot": 46,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "namespace",
+      "lenient-v2": false,
+      "slot": 47,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "endpoint",
+      "lenient-v2": false,
+      "slot": 48,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "endpoint",
+      "lenient-v2": true,
+      "slot": 49,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "checksum",
+      "lenient-v2": false,
+      "slot": 50,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "checksum",
+      "lenient-v2": true,
+      "slot": 51,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "shard",
+      "lenient-v2": false,
+      "slot": 52,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "shard",
+      "lenient-v2": true,
+      "slot": 53,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "batch",
+      "lenient-v2": false,
+      "slot": 54,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "batch",
+      "lenient-v2": true,
+      "slot": 55,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "approval",
+      "lenient-v2": true,
+      "slot": 56,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "approval",
+      "lenient-v2": true,
+      "slot": 57,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "handoff",
+      "lenient-v2": false,
+      "slot": 58,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "handoff",
+      "lenient-v2": false,
+      "slot": 59,
+      "strategy": "combined_semantic",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "archive",
+      "lenient-v2": false,
+      "slot": 60,
+      "strategy": "combined",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "archive",
+      "lenient-v2": true,
+      "slot": 61,
+      "strategy": "combined_semantic",
+      "strict-v1": true
+    }
+  ],
+  "run": "semantic-accuracy-900-001",
+  "strategies": {
+    "combined": {
+      "answered": 31,
+      "lenient-v2": 3,
+      "strict-v1": 3
+    },
+    "combined_semantic": {
+      "answered": 31,
+      "lenient-v2": 21,
+      "strict-v1": 18
+    }
+  }
+}

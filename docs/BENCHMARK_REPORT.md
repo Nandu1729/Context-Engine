@@ -60,6 +60,28 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Default hybrid retrieval and fusion weight (0.15.0, offline, 2026-10-31)
+
+0.15.0 bundles potion-base-8M as 8-bit vectors (cosine >= 0.9999 to the float32
+model; identical recall) with a pure-Python tokenizer, and makes hybrid retrieval
+the default. Adding a "needle in filler" check (each fact sentence buried in 120
+"routine telemetry" sentences; the memory demo's shape) showed that the 0.7 meaning
+weight lost exact keyword matches. Recall@4 of the fact's turn (raw output:
+`output/embedding-bakeoff-001/weights.txt`):
+
+| Meaning weight | Original | Reworded | Needle | Needle, reworded |
+|---|---|---|---|---|
+| 0.7 (0.14.0) | 31 | 23 | **22** | 9 |
+| **0.5 (0.15.0 default)** | 31 | 23 | **31** | **12** |
+| 0.3 | 31 | 21 | 31 | 10 |
+| keyword only | 31 | 5 | 31 | 4 |
+
+A "keep the best keyword match" guard changed nothing at 0.5 and was not added.
+Full-engine retention with 0.5 is unchanged from 0.14.0 (original 31/31; reworded
+21/31 combined, 24/25 retrieval-only). Averaged embeddings dilute a fact in long
+filler, so reworded questions about such facts stay hard (12/31). Hybrid has no
+word-overlap gate, so it fills retrieval space up to `top_k` within the budget.
+
 ## Live check: reworded questions, keyword vs hybrid (D114, 2026-10-31)
 
 One approved free-tier Groq run (`scripts/semantic_accuracy_live.py`, run
@@ -71,7 +93,7 @@ without answer content: `output/semantic-accuracy-900-001/report.json`.
 | Strategy | Strict grading (C06 protocol) | Lenient grading | Offline retention |
 |---|---|---|---|
 | combined, keyword (default) | 3/31 (Wilson 3–25%) | 3/31 | 3/31 |
-| **combined_semantic (hybrid)** | **18/31** (41–74%) | **21/31** | 21/31 |
+| **combined_semantic (hybrid, weight 0.7)** | **18/31** (41–74%) | **21/31** | 21/31 |
 
 Hybrid answered 16 facts that keyword missed; keyword answered 1 that hybrid
 missed. Every answer without the evidence in context was wrong (no lucky guesses).
@@ -80,7 +102,9 @@ formatting differences: a trailing period (`PostgreSQL.`) and a Unicode
 non-breaking hyphen (U+2011) instead of `-` (`cert‑marigold`, `batch‑6721`).
 "Lenient" only strips trailing `.!?` and maps Unicode dashes to `-`; the frozen
 strict grader is unchanged. Re-grading the earlier original-question run leniently
-changes nothing. Limits: one synthetic scenario, author-written rewordings, one model.
+changes nothing (`output/*/grading.json`, `scripts/regrade_live.py`). This run used the
+0.14.0 weight 0.7; 0.15.0 uses 0.5 (same offline retention). Limits: one synthetic
+scenario, author-written rewordings, one model.
 
 ## Semantic retrieval: model bake-off and engine results (0.14.0, offline, 2026-10-31)
 

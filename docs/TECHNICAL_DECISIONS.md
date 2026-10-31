@@ -58,7 +58,7 @@ SQLite with WAL is right for the SDK and self-hosted service. PostgreSQL only
 becomes necessary with a hosted multi-tenant API (Phase 4). The storage interface
 is concentrated in `memory/store.py`; port behind the same tests when needed.
 
-## T6 — Add semantic/hybrid retrieval (implemented as opt-in, 0.14.0, D113)
+## T6 — Semantic/hybrid retrieval (opt-in 0.14.0 D113; default 0.15.0 D115)
 
 BM25 retains 31/31 on the frozen questions but only 6–7/31 (retrieval alone) and
 3/31 (defaults) when the same questions are reworded with no shared words
@@ -71,8 +71,11 @@ BGE-small design. A measured bake-off of six models chose Model2Vec
 `FastEmbedEmbedder` (bge-small) is offered for accuracy; `FunctionEmbedder` wraps
 any other model or API. **Not chosen as default:** bge-small (slower indexing,
 ONNX runtime), EmbeddingGemma (1.24 GB, Gemma license), RRF fusion (hurt).
-**Open:** whether hybrid should become the default once the engine can ship or
-fetch a model safely, and a live accuracy run with reworded questions.
+**0.15.0 (D115).** Default on, shipped safely: the model is bundled (8-bit, ~7 MB),
+run with numpy and a pure-Python WordPiece tokenizer (no download, network or new
+dependency). The default weight moved 0.7 → 0.5 after a needle-in-filler check
+showed 0.7 losing exact matches (22/31 vs 31/31). `embedder=None` restores
+keyword-only; the frozen harness pins it.
 
 ## T7 — Version bump ritual
 
@@ -81,12 +84,13 @@ freeze under `archives/`, and refreezes `evaluation/data/freeze.json`, so
 historical experiments keep rejecting new code. 0.10.0 archived 0.9.6 under
 `archives/c11-summaries-0100/` (rebuilt from unchanged committed source).
 
-## T8 — Tolerant answer grading as a new protocol version (proposed)
+## T8 — Tolerant answer grading as a new protocol version (implemented 0.15.0, D115)
 
 **Evidence.** In the D114 live run, 3 correct answers failed strict grading over
 formatting: a trailing period and Unicode non-breaking hyphens (U+2011, emitted by
 gpt-oss). Strict grading under-reports hybrid accuracy (18/31 vs 21/31).
 **Proposal.** A `grading-v2` that strips trailing `.!?` and maps Unicode dashes to
 `-`, reported alongside strict v1. **Keep v1 frozen** so historical C06/C09 numbers
-stay comparable. **Needs:** owner decision (it changes reported accuracy).
+stay comparable. **Done:** `grading.answer_correct_lenient`, `GRADERS`, and
+`scripts/regrade_live.py` (both completed live runs: strict unchanged; hybrid 18 → 21).
 

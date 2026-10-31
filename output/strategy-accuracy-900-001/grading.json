@@ -1,0 +1,1121 @@
+{
+  "graders": [
+    "strict-v1",
+    "lenient-v2"
+  ],
+  "rows": [
+    {
+      "fact_id": "merchant",
+      "lenient-v2": false,
+      "slot": 0,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "merchant",
+      "lenient-v2": false,
+      "slot": 1,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "merchant",
+      "lenient-v2": true,
+      "slot": 2,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "merchant",
+      "lenient-v2": true,
+      "slot": 3,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "merchant",
+      "lenient-v2": true,
+      "slot": 4,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "ticket",
+      "lenient-v2": false,
+      "slot": 5,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "ticket",
+      "lenient-v2": false,
+      "slot": 6,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "ticket",
+      "lenient-v2": true,
+      "slot": 7,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "ticket",
+      "lenient-v2": true,
+      "slot": 8,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "ticket",
+      "lenient-v2": true,
+      "slot": 9,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "service",
+      "lenient-v2": false,
+      "slot": 10,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "service",
+      "lenient-v2": false,
+      "slot": 11,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "service",
+      "lenient-v2": true,
+      "slot": 12,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "service",
+      "lenient-v2": true,
+      "slot": 13,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "service",
+      "lenient-v2": true,
+      "slot": 14,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "owner",
+      "lenient-v2": false,
+      "slot": 15,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "owner",
+      "lenient-v2": null,
+      "slot": 16,
+      "strategy": "summary_window",
+      "strict-v1": null
+    },
+    {
+      "fact_id": "owner",
+      "lenient-v2": true,
+      "slot": 17,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "owner",
+      "lenient-v2": true,
+      "slot": 18,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "owner",
+      "lenient-v2": true,
+      "slot": 19,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "database",
+      "lenient-v2": false,
+      "slot": 20,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "database",
+      "lenient-v2": false,
+      "slot": 21,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "database",
+      "lenient-v2": true,
+      "slot": 22,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "database",
+      "lenient-v2": true,
+      "slot": 23,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "database",
+      "lenient-v2": true,
+      "slot": 24,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "queue",
+      "lenient-v2": false,
+      "slot": 25,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "queue",
+      "lenient-v2": false,
+      "slot": 26,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "queue",
+      "lenient-v2": true,
+      "slot": 27,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "queue",
+      "lenient-v2": true,
+      "slot": 28,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "queue",
+      "lenient-v2": true,
+      "slot": 29,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "rollback",
+      "lenient-v2": false,
+      "slot": 30,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "rollback",
+      "lenient-v2": false,
+      "slot": 31,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "rollback",
+      "lenient-v2": true,
+      "slot": 32,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "rollback",
+      "lenient-v2": true,
+      "slot": 33,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "rollback",
+      "lenient-v2": true,
+      "slot": 34,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "runbook",
+      "lenient-v2": false,
+      "slot": 35,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "runbook",
+      "lenient-v2": false,
+      "slot": 36,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "runbook",
+      "lenient-v2": true,
+      "slot": 37,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "runbook",
+      "lenient-v2": true,
+      "slot": 38,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "runbook",
+      "lenient-v2": true,
+      "slot": 39,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "cluster",
+      "lenient-v2": false,
+      "slot": 40,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "cluster",
+      "lenient-v2": false,
+      "slot": 41,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "cluster",
+      "lenient-v2": true,
+      "slot": 42,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "cluster",
+      "lenient-v2": true,
+      "slot": 43,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "cluster",
+      "lenient-v2": true,
+      "slot": 44,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "bucket",
+      "lenient-v2": false,
+      "slot": 45,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "bucket",
+      "lenient-v2": false,
+      "slot": 46,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "bucket",
+      "lenient-v2": true,
+      "slot": 47,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "bucket",
+      "lenient-v2": true,
+      "slot": 48,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "bucket",
+      "lenient-v2": true,
+      "slot": 49,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "region",
+      "lenient-v2": false,
+      "slot": 50,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "region",
+      "lenient-v2": false,
+      "slot": 51,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "region",
+      "lenient-v2": true,
+      "slot": 52,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "region",
+      "lenient-v2": true,
+      "slot": 53,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "region",
+      "lenient-v2": true,
+      "slot": 54,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "canary",
+      "lenient-v2": false,
+      "slot": 55,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "canary",
+      "lenient-v2": false,
+      "slot": 56,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "canary",
+      "lenient-v2": true,
+      "slot": 57,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "canary",
+      "lenient-v2": true,
+      "slot": 58,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "canary",
+      "lenient-v2": true,
+      "slot": 59,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "dashboard",
+      "lenient-v2": false,
+      "slot": 60,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "dashboard",
+      "lenient-v2": false,
+      "slot": 61,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "dashboard",
+      "lenient-v2": true,
+      "slot": 62,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "dashboard",
+      "lenient-v2": true,
+      "slot": 63,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "dashboard",
+      "lenient-v2": true,
+      "slot": 64,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "certificate",
+      "lenient-v2": false,
+      "slot": 65,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "certificate",
+      "lenient-v2": false,
+      "slot": 66,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "certificate",
+      "lenient-v2": true,
+      "slot": 67,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "certificate",
+      "lenient-v2": true,
+      "slot": 68,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "certificate",
+      "lenient-v2": true,
+      "slot": 69,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "feature",
+      "lenient-v2": false,
+      "slot": 70,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "feature",
+      "lenient-v2": false,
+      "slot": 71,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "feature",
+      "lenient-v2": true,
+      "slot": 72,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "feature",
+      "lenient-v2": true,
+      "slot": 73,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "feature",
+      "lenient-v2": true,
+      "slot": 74,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "cache",
+      "lenient-v2": false,
+      "slot": 75,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "cache",
+      "lenient-v2": false,
+      "slot": 76,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "cache",
+      "lenient-v2": true,
+      "slot": 77,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "cache",
+      "lenient-v2": true,
+      "slot": 78,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "cache",
+      "lenient-v2": true,
+      "slot": 79,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "trace",
+      "lenient-v2": false,
+      "slot": 80,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "trace",
+      "lenient-v2": false,
+      "slot": 81,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "trace",
+      "lenient-v2": true,
+      "slot": 82,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "trace",
+      "lenient-v2": true,
+      "slot": 83,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "trace",
+      "lenient-v2": true,
+      "slot": 84,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "replica",
+      "lenient-v2": false,
+      "slot": 85,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "replica",
+      "lenient-v2": false,
+      "slot": 86,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "replica",
+      "lenient-v2": true,
+      "slot": 87,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "replica",
+      "lenient-v2": true,
+      "slot": 88,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "replica",
+      "lenient-v2": true,
+      "slot": 89,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "schema",
+      "lenient-v2": false,
+      "slot": 90,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "schema",
+      "lenient-v2": null,
+      "slot": 91,
+      "strategy": "summary_window",
+      "strict-v1": null
+    },
+    {
+      "fact_id": "schema",
+      "lenient-v2": true,
+      "slot": 92,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "schema",
+      "lenient-v2": true,
+      "slot": 93,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "schema",
+      "lenient-v2": true,
+      "slot": 94,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "retries",
+      "lenient-v2": false,
+      "slot": 95,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "retries",
+      "lenient-v2": false,
+      "slot": 96,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "retries",
+      "lenient-v2": true,
+      "slot": 97,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "retries",
+      "lenient-v2": true,
+      "slot": 98,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "retries",
+      "lenient-v2": true,
+      "slot": 99,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "timeout",
+      "lenient-v2": false,
+      "slot": 100,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "timeout",
+      "lenient-v2": false,
+      "slot": 101,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "timeout",
+      "lenient-v2": true,
+      "slot": 102,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "timeout",
+      "lenient-v2": true,
+      "slot": 103,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "timeout",
+      "lenient-v2": true,
+      "slot": 104,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "region_backup",
+      "lenient-v2": false,
+      "slot": 105,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "region_backup",
+      "lenient-v2": false,
+      "slot": 106,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "region_backup",
+      "lenient-v2": true,
+      "slot": 107,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "region_backup",
+      "lenient-v2": true,
+      "slot": 108,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "region_backup",
+      "lenient-v2": true,
+      "slot": 109,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "policy",
+      "lenient-v2": false,
+      "slot": 110,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "policy",
+      "lenient-v2": false,
+      "slot": 111,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "policy",
+      "lenient-v2": true,
+      "slot": 112,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "policy",
+      "lenient-v2": true,
+      "slot": 113,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "policy",
+      "lenient-v2": true,
+      "slot": 114,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "namespace",
+      "lenient-v2": false,
+      "slot": 115,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "namespace",
+      "lenient-v2": false,
+      "slot": 116,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "namespace",
+      "lenient-v2": true,
+      "slot": 117,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "namespace",
+      "lenient-v2": true,
+      "slot": 118,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "namespace",
+      "lenient-v2": true,
+      "slot": 119,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "endpoint",
+      "lenient-v2": false,
+      "slot": 120,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "endpoint",
+      "lenient-v2": false,
+      "slot": 121,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "endpoint",
+      "lenient-v2": true,
+      "slot": 122,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "endpoint",
+      "lenient-v2": true,
+      "slot": 123,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "endpoint",
+      "lenient-v2": true,
+      "slot": 124,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "checksum",
+      "lenient-v2": false,
+      "slot": 125,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "checksum",
+      "lenient-v2": false,
+      "slot": 126,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "checksum",
+      "lenient-v2": true,
+      "slot": 127,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "checksum",
+      "lenient-v2": true,
+      "slot": 128,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "checksum",
+      "lenient-v2": true,
+      "slot": 129,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "shard",
+      "lenient-v2": false,
+      "slot": 130,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "shard",
+      "lenient-v2": false,
+      "slot": 131,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "shard",
+      "lenient-v2": true,
+      "slot": 132,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "shard",
+      "lenient-v2": true,
+      "slot": 133,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "shard",
+      "lenient-v2": true,
+      "slot": 134,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "batch",
+      "lenient-v2": false,
+      "slot": 135,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "batch",
+      "lenient-v2": false,
+      "slot": 136,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "batch",
+      "lenient-v2": true,
+      "slot": 137,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "batch",
+      "lenient-v2": true,
+      "slot": 138,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "batch",
+      "lenient-v2": true,
+      "slot": 139,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "approval",
+      "lenient-v2": false,
+      "slot": 140,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "approval",
+      "lenient-v2": false,
+      "slot": 141,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "approval",
+      "lenient-v2": true,
+      "slot": 142,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "approval",
+      "lenient-v2": true,
+      "slot": 143,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "approval",
+      "lenient-v2": true,
+      "slot": 144,
+      "strategy": "combined_no_recover",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "handoff",
+      "lenient-v2": false,
+      "slot": 145,
+      "strategy": "recent_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "handoff",
+      "lenient-v2": false,
+      "slot": 146,
+      "strategy": "summary_window",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "handoff",
+      "lenient-v2": true,
+      "slot": 147,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "handoff",
+      "lenient-v2": true,
+      "slot": 148,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "handoff",
+      "lenient-v2": false,
+      "slot": 149,
+      "strategy": "combined_no_recover",
+      "strict-v1": false
+    },
+    {
+      "fact_id": "archive",
+      "lenient-v2": true,
+      "slot": 150,
+      "strategy": "recent_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "archive",
+      "lenient-v2": true,
+      "slot": 151,
+      "strategy": "summary_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "archive",
+      "lenient-v2": true,
+      "slot": 152,
+      "strategy": "retrieval_window",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "archive",
+      "lenient-v2": true,
+      "slot": 153,
+      "strategy": "combined",
+      "strict-v1": true
+    },
+    {
+      "fact_id": "archive",
+      "lenient-v2": false,
+      "slot": 154,
+      "strategy": "combined_no_recover",
+      "strict-v1": false
+    }
+  ],
+  "run": "strategy-accuracy-900-001",
+  "strategies": {
+    "combined": {
+      "answered": 31,
+      "lenient-v2": 31,
+      "strict-v1": 31
+    },
+    "combined_no_recover": {
+      "answered": 31,
+      "lenient-v2": 29,
+      "strict-v1": 29
+    },
+    "recent_window": {
+      "answered": 31,
+      "lenient-v2": 1,
+      "strict-v1": 1
+    },
+    "retrieval_window": {
+      "answered": 31,
+      "lenient-v2": 31,
+      "strict-v1": 31
+    },
+    "summary_window": {
+      "answered": 29,
+      "lenient-v2": 1,
+      "strict-v1": 1
+    }
+  }
+}

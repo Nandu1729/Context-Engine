@@ -41,6 +41,36 @@ def answer_correct(answer: str, aliases: tuple[str, ...]) -> bool:
     return normalize(value) in {normalize(a) for a in aliases}
 
 
+# grading-v2 (0.15.0, T8): tolerant of formatting only. Strict v1 above stays frozen
+# so historical results remain comparable; reports should show both.
+_DASHES = dict.fromkeys(
+    map(ord, "\u2010\u2011\u2012\u2013\u2014\u2015\u2212\ufe58\ufe63\uff0d"), "-"
+)
+
+
+def answer_correct_lenient(answer: str, aliases: tuple[str, ...]) -> bool:
+    """v1 rules after mapping Unicode dashes to "-" and dropping trailing ".!?".
+
+    Still exact-value grading: prose that merely contains the answer is wrong.
+    """
+    value = answer.strip()
+    if value.startswith("{"):
+        try:
+            pairs = json.loads(value, object_pairs_hook=lambda items: items)
+        except (ValueError, RecursionError):
+            return False
+        if not isinstance(pairs, list) or len(pairs) != 1 or pairs[0][0] != "answer":
+            return False
+        value = pairs[0][1]
+        if not isinstance(value, str):
+            return False
+    value = re.sub(r"[.!?]+$", "", value.translate(_DASHES).strip()).rstrip()
+    return normalize(value) in {normalize(a.translate(_DASHES)) for a in aliases}
+
+
+GRADERS = {"strict-v1": answer_correct, "lenient-v2": answer_correct_lenient}
+
+
 def proportion(successes: int, denominator: int) -> dict:
     if (
         type(successes) is not int

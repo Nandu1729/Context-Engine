@@ -6,7 +6,9 @@ import pytest
 
 from context_engine.cli import main
 from context_engine.evaluation.corpus import load_bundle
-from context_engine.evaluation.strategies import ORDER, compare_strategies
+from context_engine.evaluation.strategies import ORDER, SEMANTIC, compare_strategies
+
+ALL = ORDER + tuple(SEMANTIC)  # 0.15.0: hybrid strategies are reported by default.
 
 
 @pytest.fixture(scope="module")
@@ -21,7 +23,7 @@ def row(report, budget, strategy):
 def test_every_strategy_and_budget_reported_without_inference(report):
     assert report["inference_calls"] == 0 and report["status"] == "COMPLETE"
     assert [(r["budget"], r["strategy"]) for r in report["results"]] == [
-        (b, s) for b in (900, 3000) for s in ORDER
+        (b, s) for b in (900, 3000) for s in ALL
     ]
     for entry in report["results"]:
         assert entry["probes"] == 31 and len(entry["probe_results"]) == 31
@@ -112,6 +114,7 @@ def test_ground_truth_not_passed_to_engine(monkeypatch):
             "retrieval_config",
             "options",
             "summary_policy",
+            "embedder",  # None for named strategies; the model for *_semantic ones.
         }
 
 
@@ -124,7 +127,7 @@ def test_cli_saves_without_overwrite(tmp_path, capsys):
     target = tmp_path / "strategies.json"
     assert main(["strategy-eval", "--budget", "900", "--output", str(target)]) == 0
     saved = json.loads(target.read_text(encoding="utf-8"))
-    assert {r["strategy"] for r in saved["results"]} == set(ORDER)
+    assert {r["strategy"] for r in saved["results"]} == set(ALL)
     assert "probe_results" not in saved["results"][0]
     capsys.readouterr()
     assert main(["strategy-eval", "--budget", "900", "--output", str(target)]) == 1

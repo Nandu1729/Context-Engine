@@ -80,7 +80,6 @@ targets, separate retention/accuracy/cost reporting.
 
 2. Owner: try the MCP server in a real client (config in docs/MCP.md).
 3. Owner: review and merge PR #1 (README/PyPI doc links need `main`).
-5. Owner: decide whether hybrid should become the default (needs a safe way to ship
-   or fetch the model); live check done (D114: 3/31 → 18/31 strict, 21/31 lenient).
-6. Owner: decide on tolerant grading v2 alongside frozen strict v1 (T8).
+5. Done (D115): hybrid retrieval is the default (bundled model); grading v2 added.
+6. Owner: publish 0.15.0 (PyPI) after merging PR #1.
 7. Engineering: profile much longer histories (1,000+ turns).

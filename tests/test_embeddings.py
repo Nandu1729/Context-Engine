@@ -64,27 +64,26 @@ def assemble(question, **kwargs):
 
 
 def test_keyword_retrieval_misses_reworded_question_but_hybrid_finds_it():
-    assert "fact" not in assemble(REWORDED).diagnostics.retrieved_turn_ids
+    assert "fact" not in assemble(REWORDED, embedder=None).diagnostics.retrieved_turn_ids
     hybrid = assemble(REWORDED, embedder=Concepts())
     assert "fact" in hybrid.diagnostics.retrieved_turn_ids
     assert "merchant-aurora" in str(hybrid.messages)
 
 
-def test_no_embedder_output_is_unchanged_and_unlabelled():
-    plain, explicit = (
-        assemble("Which merchant was involved?"),
-        assemble("Which merchant was involved?", embedder=None),
-    )
-    assert plain.to_dict(include_content=True) == explicit.to_dict(include_content=True)
-    assert plain.diagnostics.config_fingerprint == explicit.diagnostics.config_fingerprint
+def test_keyword_only_is_unlabelled_and_default_is_builtin():
+    keyword = assemble("Which merchant was involved?", embedder=None)
+    default = assemble("Which merchant was involved?")
+    builtin = assemble("Which merchant was involved?", embedder="builtin")
+    assert default.to_dict(include_content=True) == builtin.to_dict(include_content=True)
+    assert keyword.diagnostics.config_fingerprint != default.diagnostics.config_fingerprint
 
 
 def test_semantic_settings_change_the_config_fingerprint():
-    plain = assemble(REWORDED).diagnostics.config_fingerprint
+    plain = assemble(REWORDED, embedder=None).diagnostics.config_fingerprint
     a = assemble(REWORDED, embedder=Concepts("a")).diagnostics.config_fingerprint
     b = assemble(REWORDED, embedder=Concepts("b")).diagnostics.config_fingerprint
     c = assemble(
-        REWORDED, embedder=Concepts("a"), semantic_weight=0.5
+        REWORDED, embedder=Concepts("a"), semantic_weight=0.3
     ).diagnostics.config_fingerprint
     assert len({plain, a, b, c}) == 4
 
@@ -103,7 +102,7 @@ def test_document_vectors_are_cached_across_calls():
 
 
 def test_hybrid_scores_scale_each_signal():
-    fused = hybrid_scores(np.array([0.0, 1.0, 0.5]), np.array([10.0, 0.0, 5.0]), 0.7)
+    fused = hybrid_scores(np.array([0.0, 1.0, 0.5]), np.array([10.0, 0.0, 5.0]), 0.7)  # Explicit.
     assert np.allclose(fused, [0.3, 0.7, 0.5])
     assert np.allclose(hybrid_scores(np.ones(3), np.ones(3)), 0)  # Flat signals add nothing.
 
@@ -141,7 +140,9 @@ def test_memory_store_passes_embedder_through(tmp_path):
         store.put_turn(
             turn, operation_id=turn.turn_id, expected_revision=store.snapshot(SCOPE).revision
         )
-    _, plain = store.assemble(SCOPE, REWORDED, BudgetConfig(input_cap=900), system="s")
+    _, plain = store.assemble(
+        SCOPE, REWORDED, BudgetConfig(input_cap=900), system="s", embedder=None
+    )
     _, hybrid = store.assemble(
         SCOPE, REWORDED, BudgetConfig(input_cap=900), system="s", embedder=Concepts()
     )

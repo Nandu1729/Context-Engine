@@ -1,14 +1,14 @@
-"""Optional semantic retrieval: a small embedder interface and ready-made adapters.
+"""Semantic retrieval: the built-in embedder, the embedder interface and adapters.
 
 Keyword (BM25) retrieval needs the question to reuse the evidence's words. An
-embedder maps text to meaning vectors so "retailer" can find "merchant". Pass one to
-`assemble_context(..., embedder=...)` (or `MemoryStore.assemble`) to rank chunks by
-`semantic_weight` x meaning score + (1 - weight) x keyword score.
+embedder maps text to meaning vectors so "retailer" can find "merchant". RETRIEVE
+ranks chunks by `semantic_weight` x meaning score + (1 - weight) x keyword score.
 
-Models load only when you construct an embedder; assembly never downloads anything.
-
-    from context_engine.embeddings import Model2VecEmbedder
-    embedder = Model2VecEmbedder()          # pip install 'context-engineering-core[semantic]'
+Since 0.15.0 this is on by default with `BuiltinEmbedder`: the potion-base-8M static
+model bundled in the package (8-bit, ~7 MB), run with numpy and a pure-Python
+tokenizer. No download, no network, no extra dependency. `embedder=None` restores
+keyword-only retrieval; any `Embedder` (e.g. `Model2VecEmbedder`,
+`FastEmbedEmbedder`, `FunctionEmbedder`) replaces it.
 """
 
 from collections import OrderedDict
@@ -24,9 +24,11 @@ from .errors import ContractError
 # benchmark (docs/BENCHMARK_REPORT.md). Pinned for reproducible vectors.
 DEFAULT_MODEL = "minishlab/potion-base-8M"
 DEFAULT_REVISION = "bf8b056651a2c21b8d2565580b8569da283cab23"
-DEFAULT_SEMANTIC_WEIGHT = 0.7
+DEFAULT_SEMANTIC_WEIGHT = 0.5  # Best on original, reworded and needle-in-filler sets.
 _CACHE_SIZE = 16384
 _MAX_TEXT = 100_000
+BUILTIN = "builtin"  # `assemble_context(embedder=...)` default: the bundled model.
+_DATA = Path(__file__).with_name("embedding_data")
 
 
 @runtime_checkable
@@ -117,6 +119,60 @@ class FastEmbedEmbedder:
         return next(iter(self._model.query_embed([text])))
 
 
+class BuiltinEmbedder:
+    """potion-base-8M (MIT, minishlab), pinned revision, bundled as 8-bit vectors.
+
+    Reproduces Model2Vec's encoding: WordPiece tokens (no special tokens, unknown
+    tokens dropped, at most 512 tokens after a 512 x median-token-length character
+    cut), mean of token vectors, unit length. Cosine to the original float32 model
+    >= 0.9999 on the benchmark corpus; identical retrieval results there.
+    """
+
+    name = f"builtin:{DEFAULT_MODEL}@{DEFAULT_REVISION[:8]}:int8-v1"
+
+    def __init__(self):
+        from .wordpiece import WordPiece
+
+        with np.load(_DATA / "potion-base-8M-int8.npz") as data:
+            self._vectors, self._scales = data["vectors"], data["scales"]
+        vocab = (_DATA / "potion-base-8M-vocab.txt").read_text(encoding="utf-8").splitlines()
+        if len(vocab) != len(self._vectors) or self._vectors.dtype != np.int8:
+            raise ContractError("Bundled embedding data is inconsistent")
+        self._tokenizer = WordPiece(vocab)
+        self._cut = 512 * int(np.median([len(token) for token in vocab]))
+
+    def _encode(self, text: str) -> np.ndarray:
+        unknown = self._tokenizer.unk_id
+        ids = [i for i in self._tokenizer.encode(text[: self._cut])[:512] if i != unknown]
+        if not ids:
+            return np.zeros(self._vectors.shape[1], np.float32)
+        rows = self._vectors[ids].astype(np.float32) * self._scales[ids][:, None]
+        mean = rows.mean(axis=0)
+        return mean / (np.linalg.norm(mean) + 1e-32)
+
+    def embed_documents(self, texts):
+        return np.stack([self._encode(t) for t in texts]) if texts else np.zeros((0, 256))
+
+    def embed_query(self, text):
+        return self._encode(text)
+
+
+_BUILTIN: BuiltinEmbedder | None = None
+
+
+def default_embedder() -> BuiltinEmbedder:
+    """The process-wide built-in embedder (loaded on first use, ~50 ms)."""
+    global _BUILTIN
+    if _BUILTIN is None:
+        _BUILTIN = BuiltinEmbedder()
+    return _BUILTIN
+
+
+def resolve_embedder(embedder):
+    """`"builtin"` (default) -> bundled model; `None` -> keyword-only; else as given."""
+    return default_embedder() if embedder == BUILTIN else embedder
+
+
 def _unit(vectors, dimension: int | None = None) -> np.ndarray:
     array = np.asarray(vectors, dtype=np.float32)
     if array.ndim != 2 or array.shape[1] == 0 or not np.all(np.isfinite(array)):
@@ -178,6 +234,8 @@ def validate_semantic(embedder, weight) -> None:
 
 
 __all__ = [
+    "BUILTIN",
+    "BuiltinEmbedder",
     "DEFAULT_MODEL",
     "DEFAULT_REVISION",
     "DEFAULT_SEMANTIC_WEIGHT",
@@ -185,5 +243,7 @@ __all__ = [
     "FastEmbedEmbedder",
     "FunctionEmbedder",
     "Model2VecEmbedder",
+    "default_embedder",
     "hybrid_scores",
+    "resolve_embedder",
 ]

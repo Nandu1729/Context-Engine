@@ -1,0 +1,11 @@
+# Fusion weight x keyword-guard on 4 sets, built-in embedder (0.15.0), recall@4 of the fact's turn, 2026-10-31T10:35:07Z
+w=0.7 guard=None: original 31/31 | reworded 23/31 | needle 22/31 | needle-reworded 9/31
+w=0.7 guard=0.5: original 31/31 | reworded 23/31 | needle 31/31 | needle-reworded 9/31
+w=0.7 guard=0.6: original 31/31 | reworded 23/31 | needle 31/31 | needle-reworded 9/31
+w=0.5 guard=None: original 31/31 | reworded 23/31 | needle 31/31 | needle-reworded 12/31
+w=0.5 guard=0.5: original 31/31 | reworded 23/31 | needle 31/31 | needle-reworded 12/31
+w=0.5 guard=0.6: original 31/31 | reworded 23/31 | needle 31/31 | needle-reworded 12/31
+w=0.3 guard=None: original 31/31 | reworded 21/31 | needle 31/31 | needle-reworded 10/31
+w=0.3 guard=0.5: original 31/31 | reworded 21/31 | needle 31/31 | needle-reworded 10/31
+w=0.3 guard=0.6: original 31/31 | reworded 21/31 | needle 31/31 | needle-reworded 10/31
+keyword only: original 31/31 | reworded 5/31 | needle 31/31 | needle-reworded 4/31

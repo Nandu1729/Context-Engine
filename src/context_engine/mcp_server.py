@@ -1,6 +1,6 @@
 """Prototype MCP server over `MemoryStore` (JSON-RPC 2.0 on stdio, standard library only).
 
-Run: `context-engine-mcp --data-dir ./memory --tenant local [--semantic]`. Tools: `add_message`,
+Run: `context-engine-mcp --data-dir ./memory --tenant local [--no-semantic]`. Tools: `add_message`,
 `pin_fact`, `get_context`, `forget`. One local tenant per server process; each tool
 names a session. The server never calls a model: `get_context` returns budgeted
 messages for the client to send. Stored conversation text is data, not instructions.
@@ -103,7 +103,7 @@ def _text(arguments, name, *, required=True):
 
 
 class ContextServer:
-    def __init__(self, store: MemoryStore, tenant: str, embedder=None):
+    def __init__(self, store: MemoryStore, tenant: str, embedder="builtin"):
         self.store, self.tenant, self.embedder = store, tenant, embedder
 
     def _scope(self, arguments):
@@ -143,7 +143,7 @@ class ContextServer:
             _text(arguments, "question"),
             BudgetConfig(input_cap=budget),
             system=system,
-            **({"embedder": self.embedder} if self.embedder is not None else {}),
+            embedder=self.embedder,
         )
         diagnostics = result.diagnostics
         return {
@@ -258,23 +258,14 @@ def main(argv=None):
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--tenant", default="local")
     parser.add_argument(
-        "--semantic",
+        "--no-semantic",
         action="store_true",
-        help="Hybrid keyword + meaning retrieval (needs the [semantic] extra; ~30 MB model)",
+        help="Keyword-only retrieval (default: hybrid with the built-in model)",
     )
     args = parser.parse_args(argv)
     args.data_dir.mkdir(parents=True, exist_ok=True)
     store = MemoryStore(args.data_dir / "memory.sqlite")
-    embedder = None
-    if args.semantic:
-        from .embeddings import Model2VecEmbedder
-
-        try:
-            embedder = Model2VecEmbedder()
-        except ImportError as error:
-            print(str(error), file=sys.stderr)  # stderr: stdout carries JSON-RPC only.
-            return 2
-    serve(ContextServer(store, args.tenant, embedder))
+    serve(ContextServer(store, args.tenant, None if args.no_semantic else "builtin"))
     return 0
 
 

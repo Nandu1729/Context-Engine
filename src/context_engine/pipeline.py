@@ -8,7 +8,13 @@ from . import __version__
 from .budget import validate_request
 from .config import BudgetConfig, CapConfig, RetrievalConfig
 from .context import ContextCarrier, LayerDiagnostic
-from .embeddings import DEFAULT_SEMANTIC_WEIGHT, Embedder, validate_semantic
+from .embeddings import (
+    BUILTIN,
+    DEFAULT_SEMANTIC_WEIGHT,
+    Embedder,
+    resolve_embedder,
+    validate_semantic,
+)
 from .errors import ContractError, LayerStateError, RequiredContextTooLarge
 from .layers import CapLayer, PinLayer, RetrieveLayer, SummaryLayer, WindowLayer
 from .layers.common import ORDER, history_digest, render_request, require_prepared, window_block
@@ -288,7 +294,7 @@ def assemble_context(
     options: AssemblyOptions | None = None,
     chunk_index=None,
     cancellation: Cancellation | None = None,
-    embedder: Embedder | None = None,
+    embedder: Embedder | str | None = BUILTIN,
     semantic_weight: float = DEFAULT_SEMANTIC_WEIGHT,
 ) -> AssembledContext:
     """Assemble authorized history into an estimated-token-safe request, or raise a typed error.
@@ -323,6 +329,8 @@ def assemble_context(
     retrieval_config = RetrievalConfig() if retrieval_config is None else retrieval_config
     if not isinstance(cap_config, CapConfig) or not isinstance(retrieval_config, RetrievalConfig):
         raise ContractError("Expected validated layer configuration")
+    # Default "builtin": hybrid retrieval with the bundled model (0.15.0); None: keyword-only.
+    embedder = resolve_embedder(embedder)
     if embedder is not None:
         validate_semantic(embedder, semantic_weight)
     if isinstance(question, str):

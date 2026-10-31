@@ -1,5 +1,12 @@
 # Decision register
 
+- D115 / OWNER "COMPLETE THOSE 3",2026-10-31:(1)grading-v2 lenient(trailing .!?,Unicode
+  dashes)beside frozen strict v1;regrade both live runs(strict reproduced;hybrid18→21).
+  (2)Hybrid retrieval default(0.15.0)without hidden downloads:bundled potion-base-8M
+  int8(~7MB,MIT notice)+pure-Python WordPiece;embedder=None keyword-only;frozen
+  harness pins None. Needle-in-filler check moved default weight0.7→0.5(0.7 lost
+  exact matches22/31). (3)Merge PR #1 after these land. PyPI0.15.0 needs the owner's
+  upload command.
 - D114 / OWNER LIVE CHECK: REWORDED QUESTIONS WITH SEMANTIC,2026-10-31:owner said "go
   for the live check". One free-tier Groq run,gpt-oss-20b,900 tokens,256 output,no
   retries,no paid use,31 reworded questions x2(combined keyword default vs

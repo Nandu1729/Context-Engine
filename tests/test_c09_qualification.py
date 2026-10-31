@@ -224,12 +224,25 @@ def test_empty_optional_blocks_are_absent_evidence():
     assert qualification.retained(scenarios[0], truth[scenarios[0]["id"]], result) is False
 
 
-def test_candidate_payloads_match_baseline_but_runtime_identity_differs(plan):
+def test_candidate_payloads_match_baseline_but_runtime_identity_differs(plan, monkeypatch):
+    import functools
+
     saved = json.loads((ROOT / "output/c09-qualification-002/preparation.json").read_text())
     assert saved["manifest_hash"] != plan["manifest_hash"]
-    # Exact historical full-plan reproduction is checked under the archived wheel.
-    assert {k: v for k, v in saved.items() if k != "manifest_hash"} == {
+    # 0.15.0 made hybrid retrieval the default; the frozen script predates it and
+    # cannot be edited, so compare its keyword-only path. Exact historical full-plan
+    # reproduction is checked under the archived wheel.
+    assert {k: v for k, v in saved.items() if k != "manifest_hash"} != {
         k: v for k, v in plan.items() if k != "manifest_hash"
+    }
+    monkeypatch.setattr(
+        qualification,
+        "assemble_context",
+        functools.partial(qualification.assemble_context, embedder=None),
+    )
+    keyword = qualification.prepare()
+    assert {k: v for k, v in saved.items() if k != "manifest_hash"} == {
+        k: v for k, v in keyword.items() if k != "manifest_hash"
     }
 
 
