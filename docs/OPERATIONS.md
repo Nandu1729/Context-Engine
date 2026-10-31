@@ -46,10 +46,12 @@ before using these measurements to choose an SLO;single-process p95 is not HTTP 
 ## Rollback and migration
 
 Retain immutable previous artifacts and compatible configuration. Test a new
-version on an isolated restored copy first. Schema1 currently rejects unsupported
-versions;there is no forward/down migration to another schema. Never edit SQLite
-`user_version` to bypass that guard. A same-version restore rehearsal is not proof
-of cross-version deployment rollback. Prior to any schema-changing release,write
+version on an isolated restored copy first. Distinguish the memory schema from
+the service-control admission schema: D093 provides an explicit opt-in control
+schema1→2 migration with rollback-on-failure tests;it is not a general memory or
+service-wide downgrade facility. Unsupported versions still fail closed. Never edit
+SQLite `user_version` to bypass that guard. A same-version restore rehearsal is not
+proof of cross-version deployment rollback. Prior to any schema-changing release,write
 and test migration/reversal or a documented forward-recovery path,including all
 tombstones and provider uncertainty records. Switch traffic only after checks pass.
 
@@ -72,10 +74,11 @@ tombstones and provider uncertainty records. Switch traffic only after checks pa
 ## Manual cross-platform CI
 
 `.github/workflows/qualification.yml` is manual-only,read-only repository permission,
-no deployment,secrets or model calls;it uses a locked environment and full tests on
-macOS/Linux/Windows. It has NOT run remotely. Frozen research runners import POSIX
-`fcntl`;Windows collection is a known qualification risk,not hidden by skips.
-Do not claim three-platform support from this configuration alone.
+no deployment,secrets or model calls;it uses a locked environment and full suites
+on macOS/Linux,the portable suite on Windows. Run36411597639 on3e3e0e4 passes all
+three jobs,including platform/operations probes and builds. Exactly17frozen POSIX
+research modules remain visibly NOT TESTED on Windows per D090. This is scoped CI
+evidence,not production operational acceptance;see [results](C10_PLATFORM_REPORT.md).
 
 Run `uv run python scripts/platform_check.py --output output/NEW_RUN/platform.json`
 first for actual memory/worker/termination/authenticated-loopback probes. It reports

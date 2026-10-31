@@ -1,5 +1,49 @@
 # C10 — local operational baseline, ACTIVE
 
+2026-10-02,D104:[local demo/SDK handoff](C10_LOCAL_DEMO_REPORT.md) READY to try.
+One offline launcher,15SDK/memory checks PASS,51focused tests PASS;fresh synthetic
+HTML and beginner walkthrough. No core changes,inference or production acceptance.
+
+2026-09-29,D102:[saved-answer recheck](C10_LONGMEMEVAL_RECHECK_REPORT.md):all14
+responses reviewed offline;each arm3 main-answer reference-consistent,3 incorrect
+abstentions,1 incomplete. Confirmed answer-span overlap suppression;no core repair,
+new calls,official score or acceptance. Owner worksheet remains blank and separate.
+
+2026-09-29,D100:[LongMemEval live development comparison](C10_LONGMEMEVAL_LIVE_REPORT.md)
+complete14/14approved calls:12normal/2truncated,38,145tokens/$0configured,
+no provider errors or input-cap overruns.707prior ledger rows/original dataset
+preserved;70held-out unexecuted. Semantic review pending;owner worksheet ready.
+Budget exhausted;no default adoption or acceptance. Earlier approval notes historical.
+
+2026-09-29,D099:[LongMemEval retention/date review](C10_LONGMEMEVAL_REVIEW_REPORT.md).
+35new development/five prior cases,four arms/two budgets:320offline assemblies
+complete;70held-out rows unexecuted. Recovery helps one development condition but
+regresses one prior-demo condition;date metadata visible,no semantic claim.
+Core/defaults unchanged. Generated-answer step awaits specific14call approval.
+
+2026-09-29,D098:[LongMemEval local demo](C10_LONGMEMEVAL_DEMO_REPORT.md).
+Owner-supplied file validated500rows;five source examples produce10offline
+assemblies within900/3000budgets. Original hash unchanged;labels separate,
+private exports only. Incomplete marked-message coverage and source/date caveats
+recorded;no answer generation,quality pass,core change or checkpoint acceptance.
+
+2026-09-28,D097:[sample-data browser demo](INCIDENT_DEMO.md) prepared on the real
+engine,offline and without answers. Later Hugging Face mapping deferred until
+dataset selection;not production or model-quality qualification.
+
+2026-09-28,D096:[incident-response preflight](C10_INCIDENT_PILOT_REPORT.md).
+Owner delegates workload selection;synthetic incident-response selected. New
+offline script:32assembly/10lifecycle checks PASS,138targeted tests PASS;no model
+calls,production changes or semantic-quality claim. Independent domain reviewer
+and trusted source/update rules remain needed before real pilot qualification.
+
+2026-09-28:three-platform offline qualification PASS,run36411597639,commit3e3e0e4.
+Ubuntu/macOS each1195PASS/48SKIP;Windows976PASS with17declared POSIX exclusions.
+Every platform passes four platform probes,11synthetic operations checks,brain
+integrity,and sdist/wheel builds. [Full evidence](C10_PLATFORM_REPORT.md).
+CI verification is complete;production operational targets/pilot qualification
+and owner acceptance remain open. Older CI-pending notes below are historical.
+
 2026-09-28:complete Windows portable suite PASS on7a8ecb5,run36382286882.
 ZIP98509138631:976PASS/2warnings394.22s;credential71/concurrency14/SQLite62 probes
 also PASS. Windows repair verified;17frozen POSIX modules remain explicitly
@@ -12,7 +56,7 @@ private screenshot audit. Changed-code lint,lock,build,isolated-wheel demos,
 four platform probes and11operational checks PASS. No further product fix found.
 Windows workflow now runs the complete portable suite without fail-fast,15minute
 suite/25minute job. Native ACL probes and full Windows suite now PASS;
-cross-platform qualification still requires owner-run CI.0.9.6 unchanged.
+cross-platform CI now also passes as recorded above.0.9.6 unchanged.
 
 2026-09-28:[Windows c6b82fc results](C10_PLATFORM_REPORT.md):credential71PASS,
 concurrency14PASS,SQLite ACL62PASS. Main suite records849passes before its7minute

@@ -7,9 +7,9 @@
     "summary_fixture": "b3c1b76bb330b52493e5150647747bad77d5de3a55d05d032bb5703be1c70196"
   },
   "runtime": {
-    "code_hash": "304253f7109add9df916592881d2ff4929da28bb13fea51fe020d1262e8196f2",
+    "code_hash": "59eeb4d28e6b3106a18317d5b6acee255f0b22d5e5143e3e7bb74b1146a39ff4",
     "dependencies": {
-      "certifi": "2026.7.22",
+      "certifi": "2026.10.23",
       "charset-normalizer": "3.5.1",
       "idna": "3.19",
       "numpy": "2.5.3",
@@ -17,9 +17,9 @@
       "regex": "2026.9.3",
       "requests": "2.34.2",
       "tiktoken": "0.14.0",
-      "urllib3": "2.7.0"
+      "urllib3": "2.8.0"
     },
-    "package_version": "0.9.6",
+    "package_version": "0.12.0",
     "python": "3.12.13"
   },
   "schema_version": 1

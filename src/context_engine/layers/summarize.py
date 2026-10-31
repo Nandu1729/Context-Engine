@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Protocol
+from typing import ClassVar, Protocol
 
 from ..context import ContextCarrier, LayerDiagnostic
 from ..errors import ContextEngineError, ContractError, SummaryPolicyError
@@ -99,6 +99,11 @@ class SummarySnapshot:
             return False
         return True
 
+    def covers_prefix(self, history: tuple[Turn, ...], scope: Scope, at: datetime) -> bool:
+        """Exact lineage match for a nonempty leading slice of `history`."""
+        count = len(self.covered_turn_ids)
+        return 0 < count <= len(history) and self.matches(history[:count], scope, at)
+
 
 class SummaryPolicy(Protocol):
     def get_summary(
@@ -114,6 +119,23 @@ class FrozenSummaryPolicy:
         self, history: tuple[Turn, ...], scope: Scope, at: datetime
     ) -> SummarySnapshot | None:
         return self.snapshot if self.snapshot.matches(history, scope, at) else None
+
+
+@dataclass(frozen=True)
+class PrefixSummaryPolicy:
+    """Opt-in rolling reuse: the summary may cover only the oldest omitted turns.
+
+    Later omitted turns remain unsummarized (RETRIEVE may still recover them), so a
+    summary stays usable while WINDOW slides forward until the caller refreshes it.
+    """
+
+    snapshot: SummarySnapshot
+    accepts_prefix: ClassVar[bool] = True
+
+    def get_summary(
+        self, history: tuple[Turn, ...], scope: Scope, at: datetime
+    ) -> SummarySnapshot | None:
+        return self.snapshot if self.snapshot.covers_prefix(history, scope, at) else None
 
 
 @dataclass(frozen=True)
@@ -145,7 +167,14 @@ class SummaryLayer:
                 raise SummaryPolicyError("Supplied summary policy failed") from None
             if snapshot is not None and not isinstance(snapshot, SummarySnapshot):
                 raise SummaryPolicyError("Supplied summary policy returned an invalid snapshot")
-            if snapshot is None or not snapshot.matches(old, planned.scope, self.at):
+            exact = snapshot is not None and snapshot.matches(old, planned.scope, self.at)
+            prefix = (
+                not exact
+                and snapshot is not None
+                and getattr(self.policy, "accepts_prefix", False) is True
+                and snapshot.covers_prefix(old, planned.scope, self.at)
+            )
+            if not exact and not prefix:
                 reason = "summary_unavailable_or_stale"
             elif not snapshot.content:
                 reason = "empty_summary"
@@ -158,7 +187,8 @@ class SummaryLayer:
                     text_tokens=self.counter.count_text(snapshot.content),
                 )
                 if fits_block(planned, candidate, planned.plan.summary_tokens, self.counter):
-                    block, reason = candidate, "summary_reused"
+                    block = candidate
+                    reason = "summary_reused" if exact else "summary_reused_prefix"
                 else:
                     reason = "summary_over_budget"
         return set_block(

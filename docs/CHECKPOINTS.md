@@ -2,6 +2,10 @@
 
 Status: PLANNED → ACTIVE → READY → ACCEPTED. READY requires recorded evidence; ACCEPTED requires owner review. BLOCKED must name the missing prerequisite. Owner acceptance is tracked independently from routine implementation progress. Full V1 and enterprise release acceptance remain pending.
 
+2026-10-02,D103:[completion audit](PROJECT_COMPLETION_STATUS.md) records today's
+work and exact remaining gates. Deadline requested;no gate waiver,spend or acceptance
+inferred. Local SDK/demo is available;enterprise qualification remains incomplete.
+
 | Checkpoint | Deliverable | Depends on | Status |
 |---|---|---|---|
 | C00 | Project brain, scope and architecture | — | READY |
@@ -216,6 +220,46 @@ fresh quality qualification;default-policy adoption and owner acceptance pending
 
 ## C10 — Operations and recovery
 
+D104:[local demo/SDK milestone](C10_LOCAL_DEMO_REPORT.md) READY to try under owner's
+local-first choice;15synthetic checks/51focused tests PASS. Broader C10 operational
+acceptance and C09–C12 gates remain open;not an enterprise release.
+Local continuation:standalone `examples/sdk_quickstart.py` and question-edit exercise
+added;7new SDK-example tests plus8launcher tests PASS. Core/defaults unchanged.
+Owner supplied passing SDK/API demo outputs. Interactive `sample_app.py` connection
+verified locally;6app+7SDK tests PASS. Not semantic-quality or enterprise acceptance.
+2026-10-03:dataset connection complete via `sample_app.py --longmemeval`;existing
+row49baseline512turns→892/900tokens,58focused tests PASS. Reference labels excluded;
+original download unchanged,70held-out unused. Details in local milestone report.
+2026-10-03,D105:[one approved answer test](C10_SAMPLE_ANSWER_REPORT.md) completed:
+1/1success,827input/88outputtokens,reference-consistent main answer. Approval exhausted;
+not independent quality evidence or checkpoint acceptance. Saved answer view available.
+
+D102:[assistant recheck](C10_LONGMEMEVAL_RECHECK_REPORT.md) complete offline;
+confirmed retrieval omission,not a quality pass. Owner/independent review pending;
+original reports/core unchanged,no further calls or held-out execution.
+
+D100:[LongMemEval live comparison](C10_LONGMEMEVAL_LIVE_REPORT.md):14/14approved
+attempts complete,12normal/2truncated;owner semantic-review worksheet ready.
+No further calls authorized;70held-out untouched,prior evidence/defaults unchanged.
+C10 remains ACTIVE. The following D099 approval note describes the earlier state.
+
+D098/D099:[LongMemEval local review](C10_LONGMEMEVAL_REVIEW_REPORT.md):owner-supplied
+file unchanged;320offline assemblies across40examples,70held-out rows not scored.
+Retention/date mapping reviewed;no default adoption or answer-quality pass.
+New generated-answer budget/runner approval pending;C10 remains ACTIVE.
+
+D097:[sample-data demo](INCIDENT_DEMO.md),static browser inspection using real
+assembly;no answers or dataset download. Later dataset mapping recorded above.
+
+D096:[synthetic incident preflight](C10_INCIDENT_PILOT_REPORT.md),32assembly and
+10lifecycle checks PASS;138targeted tests PASS. Offline development only,not model
+quality or pilot acceptance. Domain reviewer/source-authority inputs still pending.
+
+Three-platform CI PASS:3e3e0e4/run36411597639. Ubuntu/macOS each1195PASS/48SKIP;
+Windows976PASS. All platform/operations/brain/build steps pass. Cross-platform
+verification complete;production operations and owner acceptance remain open.
+[Evidence and declared exclusions](C10_PLATFORM_REPORT.md). Earlier notes historical.
+
 Windows portable verification PASS:7a8ecb5,976tests/2warnings394.22s;credential,
 concurrency and SQLite probes also pass. Windows repair complete for this scope;
 17frozen POSIX modules remain NOT TESTED. [Evidence](C10_PLATFORM_REPORT.md).
@@ -224,7 +268,7 @@ Broader qualification/operational acceptance remains open.
 Final change review:[evidence](C10_PLATFORM_REPORT.md). Complete macOS suite
 1195PASS/48SKIP269.81s;build/lint/lock/packaged demos/platform/operations PASS.
 Windows main suite now collects all failures with a15minute limit and has passed.
-Three-platform qualification remains pending,not owner acceptance.
+Three-platform CI qualification now passes;not owner acceptance.
 
 Windows c6b82fc (ZIP98501161699):credential71PASS,concurrency14PASS,SQLite62PASS.
 Main suite849 PASS lines before7minute timeout,no assertion failure. Diagnostic
@@ -269,6 +313,24 @@ Acceptance: required tests pass on macOS/Linux/Windows; sustained load on declar
 Owner demonstration: restore into an isolated environment, verify history/context integrity, simulate provider outage and recover. Evidence: CI results, load report, restore timing, runbooks, SBOM and rollback transcript.
 
 ## C11 — Cost-driven evolution
+
+2026-10-03:[semantic design/preflight](C11_SEMANTIC_PREFLIGHT.md) complete;local
+English model pinned,setup and evaluation pending. No quality result or status change.
+
+2026-10-03,D106:[diversity experiment](C11_DIVERSITY_REPORT.md) finished and rejected:
+70development conditions reveal regressions despite synthetic improvement. Working
+baseline unchanged,C11 ACTIVE;no cost/quality qualification or release approval.
+
+2026-10-03:[synthetic retrieval probe](C11_RETRIEVAL_PROBE_REPORT.md) records a fixed
+8-condition baseline. Paraphrased multi-event evidence remains missing;no gate waiver.
+
+2026-10-03:[offline multi-event diagnosis](C11_MULTIEVENT_DIAGNOSTIC_REPORT.md)
+reproduces two prior failed-case requests/selections and identifies relevance plus
+retrieval-budget exclusions. No repair adopted or quality gate passed;C11 ACTIVE.
+
+D103:[overlap-union candidate](C11_RETRIEVAL_UNION_REPORT.md):137focused tests PASS,
+70fixed offline assemblies complete,known missing span restored;partial-evidence
+tradeoffs recorded. No production/default adoption or live quality/cost claim.
 
 D086 offline profile:[C11 report](C11_REPORT.md). Existing index reuse measured;
 no new optimization or production-cost/quality claim. Acceptance remains pending.

@@ -125,7 +125,8 @@ def _prepare_validated(bundle: Bundle, slot: dict) -> dict:
             at=job.arguments["at"],
             token_counter=counter,
             cap_config=CapConfig(**p["cap"]),
-            retrieval_config=RetrievalConfig(**p["retrieval"]),
+            # The frozen protocol predates the 0.11.0 recovery default; keep it reproducible.
+            retrieval_config=RetrievalConfig(**{"recover_capped_window": False, **p["retrieval"]}),
             summary_policy=BackgroundPolicy(
                 summary["content"],
                 summary["policy_version"],

@@ -1,69 +1,167 @@
 # Context Engine
 
-A reusable context engine and evaluation harness for long-running agents, with an enterprise delivery roadmap.
+Fit long conversations into a fixed token budget for any LLM, and know exactly
+where every piece of context came from.
 
-**Current delivery (2026-09-28):** package0.9.6 is a local development candidate,not an enterprise-qualified release. It retains Windows SQLite file/directory/sidecar ACL enforcement and repairs temporary storage setup;see [security and provisioning](docs/C10_STORAGE_ACL_REPORT.md). Complete Windows portable verification passes:976tests and all focused ACL/concurrency probes;17frozen POSIX research modules remain explicitly excluded. C09 quality remains open;C10/C11 offline operations/profiling have advanced;C12 is blocked on qualification and owner pilot decisions. See [release blockers](docs/C12_REPORT.md),[operations evidence](docs/C10_REPORT.md),[cost baseline](docs/C11_REPORT.md) and [C09 report](docs/C09_REPORT.md). C06 is complete at snapshot249 with retention/calibration limitations;all historical experiments remain preserved,not regraded. The authenticated local API is available via the [service guide](docs/SERVICE.md). No deployment or release acceptance is implied.
+`context-engineering-core` is a small Python library. You give it the full chat
+history, the new question and a token budget. It returns a list of chat messages
+that fits the budget. Those messages keep the recent turns, the facts you pinned,
+and the older evidence that matches the question. It never calls a model by
+itself, so you send the messages to any provider you like.
 
-## Run the core
+> **Status: alpha (0.12.0).** Good for developers to try locally. It is not yet
+> proven on real-world data, and there is no hosted service. See
+> [What is not proven yet](#what-is-not-proven-yet).
 
-```bash
-uv sync --locked --python 3.12
-uv run --locked context-engine check
-uv run --locked context-engine demo-budget
-uv run --locked context-engine demo-layers
-uv run --locked context-engine config
-uv run --locked context-engine inspect
-uv run --locked context-engine inspect --input examples/inspection-input.json --show-content
-uv run --locked context-engine benchmark-check
-uv run --locked context-engine benchmark-plan
-uv run --locked context-engine provider-demo
-uv run --locked context-engine memory-demo
-uv run --locked context-engine benchmark-run --help
-uv run --locked context-engine benchmark-report --help
-uv run --locked pytest -q
-uv run --locked ruff check src tests scripts
+## Install
+
+Requires Python 3.12+.
+
+```sh
+pip install context-engineering-core        # after the first PyPI release
 ```
 
-Setup prints `deps ok`. The demo shows a valid mandatory request and a rejected oversized pin without inference. First-time installation/tokenizer vocabulary loading requires network access; subsequent checks use cached assets. No API key is required. Dependencies are resolved in `uv.lock`; the build backend is pinned separately in `pyproject.toml`.
+From source:
 
-The reference benchmark freezes Python **3.12.13**, source and dependency versions; use `uv sync --locked --python 3.12.13`. The current freeze identifies package 0.7.2 and [owner-approved targets](docs/PREREGISTRATION.md). Earlier wheels/protocols are preserved under `archives/` and historical results require their matching wheel. General SDK use remains Python 3.12+. Benchmark commands validate the packaged protocol; no paid inference has run.
-
-Package 0.7.1 introduced free-tier accounting and private `--env-file` loading; 0.7.2 records approval before inference. See [runner safeguards](docs/RUNNER.md). A saved key alone never establishes account tier or target approval; those now have explicit owner confirmation. C06 live qualification remains incomplete.
-
-The optional live transport installs with `uv sync --locked --extra provider --python 3.12.13`. `provider-probe --help` documents explicit authorization, credential, account limits and price-card requirements. Do not run it without a spending decision. The offline demo needs no key and uses synthetic pricing; it does not measure provider savings.
-
-Install PNG reporting with `uv sync --locked --extra reports --extra provider --python 3.12.13`. `benchmark-run` and `model-swap` default to a synthetic UNKNOWN transport; only an explicitly authorized live mode can spend. `benchmark-report` regenerates outputs from a validated saved snapshot without inference. Follow the [bounded run/resume example](docs/RUNNER.md).
-
-Use `from context_engine import assemble_context` for the public API. The [SDK/CLI guide](docs/PIPELINE.md) documents typed inputs, messages, diagnostics, shrink behavior and JSON inspection. `inspect` and `probe` make no inference calls and hide prompt bodies unless `--show-content` is given. `context_engine.layers` remains available for independent composition; `demo-layers` shows capped middle evidence recovered from originals.
-
-Token totals are **local estimates** of the complete prompt-bearing request, with explicit framing/schema accounting, configurable overhead and calibration. The default canonical JSON serializer is not Groq's private prompt template; provider calibration remains C05/C06. The 1.07 factor is not a proven safety bound.
-
-## Project entry points
-
-- [Brain index](brain/INDEX.md): where to read for each task.
-- [Current state](brain/STATE.md): verified progress and exact next action.
-- [Checkpoints](docs/CHECKPOINTS.md): delivery gates from foundation to enterprise release.
-- [Architecture](docs/ARCHITECTURE.md): contracts, budget rules, and trust boundaries.
-- [Requirements](docs/REQUIREMENTS.md): all 73 PRD sections and all 27 V1 acceptance criteria mapped to checkpoints.
-- [Original PRD](CONTEXT_ENGINEERING_PRD.md): unchanged source of requirements.
-
-## Use the project brain
-
-From this directory, using Python 3.12+ for project work:
-
-```bash
-python3 scripts/brain.py status
-python3 scripts/brain.py context
-python3 scripts/brain.py search "summary budget"
-python3 scripts/brain.py index
-python3 scripts/brain.py check
-uv run --locked pytest -q
+```sh
+git clone https://github.com/Nandu1729/Context-Engine.git
+cd Context-Engine
+uv sync --locked
+uv run context-engine check                  # prints "deps ok"
 ```
 
-The brain utility also supports Python 3.11 for bootstrap. It uses only the standard library and makes no API calls. The product core requires Python 3.12+; use `uv run --locked python` for its scripts and tests if the system Python is older. Commands locate the workspace relative to the script, so they also work from another directory. Search returns bounded excerpts with file and line references. The index stores paths, hashes, and heading locations, not another copy of document content.
+The first run downloads the tokenizer vocabulary (tiktoken `o200k_harmony`) once.
+After that, everything works offline.
 
-The development brain documents this project. The product's future runtime memory stores agent conversations, pins, summaries, and evidence. They are separate systems with different privacy and lifecycle requirements.
+## Quick example
 
-## Development direction
+```python
+from context_engine import assemble_context
+from context_engine.config import BudgetConfig
+from context_engine.models import KeyedPins, Message, Role, Scope, Turn
 
-Python SDK and offline-tested Groq adapter are implemented; live benchmark proof is next, then durable runtime memory and a self-hosted service. Hosted SaaS is an owner decision. See [enterprise scope](docs/ENTERPRISE.md). No production readiness, model quality, provider savings or latency result is claimed before measurement.
+scope = Scope("my-app", "chat-1")
+notes = [f"Note {i}: shipment {i} left from dock D-{i}." for i in range(300)]
+history = [Turn(f"t{i}", scope, (Message(f"m{i}", Role.USER, text),)) for i, text in enumerate(notes)]
+
+result = assemble_context(history, "Which dock did shipment 42 leave from?", KeyedPins(scope),
+                          BudgetConfig(input_cap=900), system="Answer only from the context.")
+print(result.diagnostics.estimate.estimated_tokens, "of", result.diagnostics.input_allowance)
+print("evidence from turns:", result.diagnostics.retrieved_turn_ids)
+messages = result.messages  # ready for any chat-completions API
+```
+
+The 300 notes are far over the 900-token budget. The result fits (about 716 of
+900 tokens), and turn `t42`, the one with the answer, is among the retrieved
+evidence. Then send `messages` to OpenAI, Anthropic, Groq or a local model.
+
+## Use it with your provider
+
+`context_engine.adapters` reshapes the result for common clients. None of them is
+a dependency of the engine:
+
+```python
+from context_engine.adapters import anthropic_messages, langchain_messages, openai_chat, turns_from_openai
+
+openai_client.chat.completions.create(model="...", **openai_chat(result))             # OpenAI, Groq, local servers
+anthropic_client.messages.create(model="...", max_tokens=512, **anthropic_messages(result))
+chat_model.invoke(langchain_messages(result))  # pip install 'context-engineering-core[langchain]'
+
+history = turns_from_openai(existing_openai_messages, scope)  # reuse a chat history you already have
+```
+
+### Use it from an MCP client
+
+`context-engine-mcp --data-dir ./context-memory` runs a local MCP server (stdio) with
+`add_message`, `pin_fact`, `get_context` and `forget` tools. Prototype; see the
+[MCP guide](https://github.com/Nandu1729/Context-Engine/blob/main/docs/MCP.md).
+
+## How it works
+
+Every call runs five steps, in this order:
+
+| Step | What it does |
+|---|---|
+| CAP | Shortens very long messages (keeps the start and end). |
+| PIN | Always includes facts you pinned with `KeyedPins`. |
+| RETRIEVE | Finds older text that matches the question (BM25), including text that CAP cut from recent turns. |
+| WINDOW | Keeps as many recent turns as fit. |
+| SUMMARIZE | Adds a summary of older turns, if you supply one. |
+
+You can turn each step on or off with `AssemblyOptions`. For a chat that keeps
+growing, `MemoryStore` saves turns, pins and summaries in SQLite. The
+[rolling summary example](https://github.com/Nandu1729/Context-Engine/blob/main/examples/rolling_summary.py) shows a full loop.
+
+## What the engine guarantees
+
+These are enforced in code and covered by about 1,400 tests:
+
+- **Within budget, or a clear error.** The result never exceeds your input
+  budget as counted by the local tokenizer. If the required parts (system
+  prompt, question, pins) cannot fit, you get a typed error, not a silently
+  cut prompt.
+- **Provenance.** Every recent-turn and retrieved block carries source
+  references: turn, message, revision, character range and a content hash.
+  A summary records which turns it covers and their hashes, and is rejected if
+  any of them changed. `result.diagnostics` lists which turns were kept,
+  retrieved or dropped, and why.
+- **No hidden model calls.** Assembly is local and deterministic. Summaries are
+  made only when you call `update_summary()`, with a summarizer you choose.
+- **History is data, not instructions.** Older turns, retrieved text and
+  summaries are labelled as data blocks inside user content, never as system
+  instructions.
+- **Your originals are never changed.** CAP and retrieval work on copies.
+  Retrieval can bring back the original text of a capped message.
+
+## What is not proven yet
+
+- **Answer quality.** Tests measure whether the needed facts *reach* the model's
+  context, not whether the model then answers correctly. On the built-in
+  benchmark, the default settings keep 31 of 31 planted facts at 900 and 3000
+  tokens. But that benchmark is one synthetic conversation written alongside
+  the engine.
+- **Real-world data.** There are no results yet on real user conversations or
+  on questions phrased differently from the source text. Retrieval is
+  keyword-based (BM25), so heavily reworded questions may miss evidence.
+- **Exact provider token counts.** Budgets use a local tokenizer estimate.
+  Providers may count differently. On small requests, provider counts were up
+  to 1.78× the local estimate in past tests, so leave headroom or calibrate.
+- **Speed.** With all five steps on, assembly takes about 250–350 ms on the
+  benchmark (about 17–35 ms without CAP). Faster CAP is on the roadmap.
+- **Production use.** The local HTTP service is for development. It has not
+  been load-tested or security-qualified for production.
+
+## Try it
+
+```sh
+uv run context-engine demo-layers                         # the five steps on sample data
+uv run --offline context-engine strategy-eval --budget 900   # compare strategies, no model calls
+uv run --offline python examples/rolling_summary.py       # memory + rolling summaries
+```
+
+## Documentation
+
+- [SDK and CLI guide](https://github.com/Nandu1729/Context-Engine/blob/main/docs/PIPELINE.md): inputs, options, diagnostics, summaries.
+- [Benchmark report](https://github.com/Nandu1729/Context-Engine/blob/main/docs/BENCHMARK_REPORT.md): strategy comparison and its limits.
+- [Security audit](https://github.com/Nandu1729/Context-Engine/blob/main/docs/SECURITY_AUDIT.md): trust boundaries and known gaps.
+- [Architecture](https://github.com/Nandu1729/Context-Engine/blob/main/docs/ARCHITECTURE.md) and [current status](https://github.com/Nandu1729/Context-Engine/blob/main/docs/CURRENT_STATUS.md).
+- [Changelog](https://github.com/Nandu1729/Context-Engine/blob/main/CHANGELOG.md).
+
+## For contributors
+
+```sh
+uv sync --locked
+uv run --locked --offline pytest -q
+uv run ruff check src
+```
+
+The repository also holds frozen historical benchmarks under `archives/` and
+`output/`, and a project log under `brain/` (start at `brain/INDEX.md`; check it
+with `python3 scripts/brain.py check`). Historical experiments only run with their
+archived wheels, on purpose. The [local quickstart](https://github.com/Nandu1729/Context-Engine/blob/main/docs/LOCAL_QUICKSTART.md)
+and [checkpoints](https://github.com/Nandu1729/Context-Engine/blob/main/docs/CHECKPOINTS.md)
+cover the full project history.
+
+## License
+
+[Apache-2.0](https://github.com/Nandu1729/Context-Engine/blob/main/LICENSE).

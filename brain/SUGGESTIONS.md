@@ -56,3 +56,19 @@ chunks within CAP-shortened WINDOW messages. Default PRD exclusion is unchanged;
 development recovery/source/deletion/budget tests pass. This is mitigation,not
 independent quality proof or approval to change the default. Fresh qualification
 and owner adoption remain pending;C06/live001 results are not rerun or regraded.
+
+## S14 — LongMemEval evidence selection and time metadata
+
+Stage:D099 offline comparison complete;adoption pending. See
+[review](../docs/C10_LONGMEMEVAL_REVIEW_REPORT.md).
+
+- Benefit:make time metadata available and recover capped-window evidence without
+  rewriting originals or treating larger context as guaranteed better recall.
+- Cost/risk:date metadata spends budget and affects source-ID tie-breaking;
+  recovery changes the competing retrieval pool. One prior-demo regression remains.
+- Experiment:fixed35development/five prior cases,four arms/two budgets,320runs;
+  70held-out rows unused. Recovery improves one development condition;dates preserve
+  complete-message counts but semantic benefit is not evaluated. Investigate30not
+  selected/eight partial annotated messages at3000 before tuning or enlarging data.
+- Decision:keep product defaults unchanged. Owner approval needed for proposed
+  14call diagnostic,independent quality assessment and any eventual default adoption.

@@ -1,4 +1,5 @@
-"""Groq HTTPS transport with bounded body reads, no redirects and no automatic retries."""
+"""Chat-completions HTTPS transports (Groq, Inception) with bounded body reads, no
+redirects and no automatic retries."""
 
 import json
 import math
@@ -8,7 +9,16 @@ from importlib import metadata
 
 from ..errors import ContractError
 from ..models import ToolCall
-from .contracts import ENDPOINT, Completion, TransportFailure, Usage, identifier
+from .contracts import (
+    ADAPTER_VERSION,
+    ENDPOINT,
+    INCEPTION_ADAPTER_VERSION,
+    INCEPTION_ENDPOINT,
+    Completion,
+    TransportFailure,
+    Usage,
+    identifier,
+)
 
 
 def retry_after(value: str | None, now: float) -> float | None:
@@ -110,6 +120,10 @@ def parse_completion(raw: bytes, expected_model: str) -> Completion:
 class GroqTransport:
     """A custom HTTP transport is for offline testing, not an authorization boundary."""
 
+    endpoint = ENDPOINT
+    adapter = ADAPTER_VERSION
+    name = "groq"
+
     def __init__(self, *, http_transport=None):
         self.http_transport = http_transport
         try:
@@ -117,7 +131,7 @@ class GroqTransport:
         except metadata.PackageNotFoundError:
             version = "unavailable"
         mode = "live" if http_transport is None else "test-http"
-        self.namespace = f"groq-{mode}-httpx-{version}-v1"
+        self.namespace = f"{self.name}-{mode}-httpx-{version}-v1"
 
     async def send(self, payload: dict, api_key: str, timeout: float) -> Completion:
         try:
@@ -133,7 +147,7 @@ class GroqTransport:
             ) as client:
                 async with client.stream(
                     "POST",
-                    ENDPOINT,
+                    self.endpoint,
                     json=payload,
                     headers={
                         "Authorization": "Bearer " + api_key,
@@ -150,6 +164,7 @@ class GroqTransport:
                     if 400 <= response.status_code < 500 and response.status_code != 408:
                         code = {
                             401: "authentication",
+                            402: "billing_or_quota",
                             403: "permission",
                             404: "model_unavailable",
                         }.get(response.status_code, "provider_rejected")
@@ -170,3 +185,11 @@ class GroqTransport:
             raise TransportFailure("timeout", uncertain=True) from None
         except httpx.HTTPError:
             raise TransportFailure("transport", uncertain=True) from None
+
+
+class InceptionTransport(GroqTransport):
+    """Inception Mercury chat completions; same bounded, non-retrying behavior."""
+
+    endpoint = INCEPTION_ENDPOINT
+    adapter = INCEPTION_ADAPTER_VERSION
+    name = "inception"

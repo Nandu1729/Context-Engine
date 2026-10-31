@@ -17,12 +17,32 @@ ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ROOT / "archives/c10-admission-093"
 WHEEL = ARCHIVE / "context_engineering_core-0.9.2-py3-none-any.whl"
 BASELINE_HASH = "298ca2e71c4a9ed652f72a70bb2edfe678194353863e381db3ef8f9a7bf3dfdc"
+# 0.11.0 patched certifi/urllib3; historical runtime identities recorded these exact wheels.
+HISTORICAL_DEPENDENCIES = {
+    "certifi-2026.7.22-py3-none-any.whl": (
+        "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775"
+    ),
+    "urllib3-2.7.0-py3-none-any.whl": (
+        "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897"
+    ),
+}
+
+
+def historical_dependencies() -> list[str]:
+    """Verified pre-0.11.0 dependency wheels, to prepend for archived-runtime replays."""
+    directory = ROOT / "archives/runtime-deps-pre-0110"
+    paths = []
+    for name, expected in HISTORICAL_DEPENDENCIES.items():
+        path = directory / name
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
+        paths.append(str(path))
+    return paths
 
 
 def test_current_runtime_matches_new_freeze_not_baseline():
     assert load_freeze()["runtime"]["code_hash"] == code_hash()
     assert code_hash() != BASELINE_HASH
-    assert load_freeze()["runtime"]["package_version"] == "0.9.6"
+    assert load_freeze()["runtime"]["package_version"] == "0.12.0"
     assert (
         json.loads((ARCHIVE / "baseline-freeze.json").read_text())["runtime"]["code_hash"]
         == BASELINE_HASH
@@ -55,6 +75,21 @@ def test_old_qualification_rejects_new_runtime_without_modified_guards():
             "c10-tempdirs-096",
             "0.9.5",
             "f9103807db9317ff15f9f191a02b513b55b49decd2b3bd8bd83d0c1fc616a9e0",
+        ),
+        (
+            "c11-summaries-0100",
+            "0.9.6",
+            "d8a2a0bb5171fbb9098e0e821f763e3484befee70c5a236c6c0a36d60eada5b3",
+        ),
+        (
+            "c11-recover-default-0110",
+            "0.10.0",
+            "59157d991027063bf3cf96a8be9fb484062c142552ee4f86bd255dd0ac16788e",
+        ),
+        (
+            "c12-adapters-0120",
+            "0.11.0",
+            "fa9882324cd39554fa2cce364aa5cc5009ba827e1592fc9a1206d9985fc821ff",
         ),
     ],
 )
@@ -97,6 +132,7 @@ import asyncio, json, runpy, socket, ssl, sys
 from pathlib import Path
 assert sys.flags.utf8_mode == 1
 sys.path.insert(0, sys.argv[1])
+sys.path[:0] = json.loads(sys.argv[3])
 def deny(*args, **kwargs):
     raise AssertionError('No network in historical runtime validation')
 class DeniedSocket(socket.socket):
@@ -130,7 +166,16 @@ print(json.dumps({'hash': code_hash(), 'version': runtime_identity()['package_ve
     result = subprocess.run(
         # The sanitized environment deliberately does not inherit PYTHONUTF8.
         # Preserve historical default UTF-8 reads even on Windows CP1252 hosts.
-        [sys.executable, "-X", "utf8", "-c", program, str(WHEEL), str(ROOT)],
+        [
+            sys.executable,
+            "-X",
+            "utf8",
+            "-c",
+            program,
+            str(WHEEL),
+            str(ROOT),
+            json.dumps(historical_dependencies()),
+        ],
         cwd=tmp_path,
         env=env,
         capture_output=True,

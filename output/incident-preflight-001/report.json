@@ -1,0 +1,563 @@
+{
+  "answer_quality": "NOT_EVALUATED",
+  "content_included": false,
+  "id": "incident-preflight-001",
+  "independently_reviewed": false,
+  "inference_calls": 0,
+  "inputs_sha256": "7ba6baef7217a2ab1b4d00a1a66fe222769b2d3a61dfa271497d031ee31c8e73",
+  "lifecycle_checks": {
+    "cache_seeded": true,
+    "current_content_retained": true,
+    "deleted_content_absent": true,
+    "deleted_evidence_was_present": true,
+    "deleted_turn_absent": true,
+    "old_cache_invalidated": true,
+    "other_scope_absent": true,
+    "other_scope_preserved": true,
+    "restore_epoch_changed": true,
+    "surviving_history_preserved": true
+  },
+  "limitations": [
+    "Small synthetic author-visible histories;not heldout or real pilot data.",
+    "No answer generation,semantic resolution or authenticated fact authority.",
+    "Canonical request estimates,not provider-schema or actual-token validation.",
+    "Scope separation is not an HTTP authorization test.",
+    "Same-host deletion authority;not offsite recovery,load or an SLO."
+  ],
+  "planned_conditions": 32,
+  "preflight_passed": true,
+  "production_qualified": false,
+  "python_network_blocked": true,
+  "rows": [
+    {
+      "case": "conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "778594810d6fb73505ac1328622e9fdab038e87ea2f2b2599aac34f2a32451dc",
+      "status": "PASS"
+    },
+    {
+      "case": "conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "778594810d6fb73505ac1328622e9fdab038e87ea2f2b2599aac34f2a32451dc",
+      "status": "PASS"
+    },
+    {
+      "case": "conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "778594810d6fb73505ac1328622e9fdab038e87ea2f2b2599aac34f2a32451dc",
+      "status": "PASS"
+    },
+    {
+      "case": "conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "778594810d6fb73505ac1328622e9fdab038e87ea2f2b2599aac34f2a32451dc",
+      "status": "PASS"
+    },
+    {
+      "case": "conflict-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "1fa5fa8c21532a2a4d7e8f9a03711c4b091fc18772317e03befa14303cd05f7d",
+      "status": "PASS"
+    },
+    {
+      "case": "conflict-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "1fa5fa8c21532a2a4d7e8f9a03711c4b091fc18772317e03befa14303cd05f7d",
+      "status": "PASS"
+    },
+    {
+      "case": "conflict-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "1fa5fa8c21532a2a4d7e8f9a03711c4b091fc18772317e03befa14303cd05f7d",
+      "status": "PASS"
+    },
+    {
+      "case": "conflict-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 142,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "1fa5fa8c21532a2a4d7e8f9a03711c4b091fc18772317e03befa14303cd05f7d",
+      "status": "PASS"
+    },
+    {
+      "case": "duplicate-conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 185,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "c87d0adf656b46a383fa5ad2b709692882e640af90bb7483e098534de451edb4",
+      "status": "PASS"
+    },
+    {
+      "case": "duplicate-conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 185,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "c87d0adf656b46a383fa5ad2b709692882e640af90bb7483e098534de451edb4",
+      "status": "PASS"
+    },
+    {
+      "case": "duplicate-conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 185,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "c87d0adf656b46a383fa5ad2b709692882e640af90bb7483e098534de451edb4",
+      "status": "PASS"
+    },
+    {
+      "case": "duplicate-conflict",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 185,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "c87d0adf656b46a383fa5ad2b709692882e640af90bb7483e098534de451edb4",
+      "status": "PASS"
+    },
+    {
+      "case": "update",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "38d29b2519be7384b1735c8ca3fc580b842c51abd288601f7b011c3a5d7fd927",
+      "status": "PASS"
+    },
+    {
+      "case": "update",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "38d29b2519be7384b1735c8ca3fc580b842c51abd288601f7b011c3a5d7fd927",
+      "status": "PASS"
+    },
+    {
+      "case": "update",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "38d29b2519be7384b1735c8ca3fc580b842c51abd288601f7b011c3a5d7fd927",
+      "status": "PASS"
+    },
+    {
+      "case": "update",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "38d29b2519be7384b1735c8ca3fc580b842c51abd288601f7b011c3a5d7fd927",
+      "status": "PASS"
+    },
+    {
+      "case": "update-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "eca147e3d9a3bc2b5ae23363496af281b256d24f5165376455cd4d599da1d513",
+      "status": "PASS"
+    },
+    {
+      "case": "update-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "eca147e3d9a3bc2b5ae23363496af281b256d24f5165376455cd4d599da1d513",
+      "status": "PASS"
+    },
+    {
+      "case": "update-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "eca147e3d9a3bc2b5ae23363496af281b256d24f5165376455cd4d599da1d513",
+      "status": "PASS"
+    },
+    {
+      "case": "update-reversed",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 133,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "eca147e3d9a3bc2b5ae23363496af281b256d24f5165376455cd4d599da1d513",
+      "status": "PASS"
+    },
+    {
+      "case": "entity-scope",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 129,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "1d375c8ade8d433a8e785416f9a0fed808c9a141e4dcaeadd222cd896f6eee57",
+      "status": "PASS"
+    },
+    {
+      "case": "entity-scope",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 129,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "1d375c8ade8d433a8e785416f9a0fed808c9a141e4dcaeadd222cd896f6eee57",
+      "status": "PASS"
+    },
+    {
+      "case": "entity-scope",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 129,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "1d375c8ade8d433a8e785416f9a0fed808c9a141e4dcaeadd222cd896f6eee57",
+      "status": "PASS"
+    },
+    {
+      "case": "entity-scope",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 129,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "1d375c8ade8d433a8e785416f9a0fed808c9a141e4dcaeadd222cd896f6eee57",
+      "status": "PASS"
+    },
+    {
+      "case": "missing",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 91,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "b311f54d2ca6d1cd98dfb0649cbaef3fc81ca5f976b387d972cce422a577a2bc",
+      "status": "PASS"
+    },
+    {
+      "case": "missing",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 91,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "b311f54d2ca6d1cd98dfb0649cbaef3fc81ca5f976b387d972cce422a577a2bc",
+      "status": "PASS"
+    },
+    {
+      "case": "missing",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 91,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "b311f54d2ca6d1cd98dfb0649cbaef3fc81ca5f976b387d972cce422a577a2bc",
+      "status": "PASS"
+    },
+    {
+      "case": "missing",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 91,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "b311f54d2ca6d1cd98dfb0649cbaef3fc81ca5f976b387d972cce422a577a2bc",
+      "status": "PASS"
+    },
+    {
+      "case": "hostile-tool",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 143,
+      "input_cap": 900,
+      "recovery": false,
+      "request_hash": "629b3241faf4364920ceb5a90a179d4347889f9acd6281797609a86a58e6ca9e",
+      "status": "PASS"
+    },
+    {
+      "case": "hostile-tool",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 143,
+      "input_cap": 900,
+      "recovery": true,
+      "request_hash": "629b3241faf4364920ceb5a90a179d4347889f9acd6281797609a86a58e6ca9e",
+      "status": "PASS"
+    },
+    {
+      "case": "hostile-tool",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 143,
+      "input_cap": 3000,
+      "recovery": false,
+      "request_hash": "629b3241faf4364920ceb5a90a179d4347889f9acd6281797609a86a58e6ca9e",
+      "status": "PASS"
+    },
+    {
+      "case": "hostile-tool",
+      "checks": {
+        "all_records_retained": true,
+        "budget_and_recount": true,
+        "evidence_blocks_match_wire": true,
+        "originals_unchanged": true,
+        "question_preserved": true,
+        "system_boundary": true
+      },
+      "estimated_tokens": 143,
+      "input_cap": 3000,
+      "recovery": true,
+      "request_hash": "629b3241faf4364920ceb5a90a179d4347889f9acd6281797609a86a58e6ca9e",
+      "status": "PASS"
+    }
+  ],
+  "runner_sha256": "6ff8fb487a9504e9e04126c4b81f614eb9e192c084946fa53fbdf12606342cff",
+  "runtime": {
+    "code_hash": "304253f7109add9df916592881d2ff4929da28bb13fea51fe020d1262e8196f2",
+    "dependencies": {
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "idna": "3.19",
+      "numpy": "2.5.3",
+      "rank-bm25": "0.2.2",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "tiktoken": "0.14.0",
+      "urllib3": "2.7.0"
+    },
+    "package_version": "0.9.6",
+    "python": "3.12.13"
+  },
+  "status": "TEST_ONLY"
+}
