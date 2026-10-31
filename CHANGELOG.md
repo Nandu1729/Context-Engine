@@ -3,7 +3,7 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
-## 0.16.0 — 2026-10-31 (unreleased)
+## 0.16.0 — 2026-10-31 (PyPI)
 
 ### Added
 - `ChatMemory`: persistent chat memory in two lines (`context(question)` before

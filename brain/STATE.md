@@ -50,7 +50,7 @@ keyword3/31 vs hybrid18/31 strict(21/31 lenient). 0.15.0(D115):hybrid default vi
 bundled int8 model,weight0.5,grading-v2;run1550 PASS. PR #1 merged(28f1649);0.15.0 on PyPI.
 0.16.0(D116/D117,PR #3 feat/chat-memory-longmemeval):ChatMemory/AsyncChatMemory,
 retrieval_share0.4,diverse_turns(ChatMemory default),examples,LongMemEval-S@3000:
-core hybrid78.5%→ChatMemory94.2%(all45.9→79.3%). Publish after merge.
+core hybrid78.5%→ChatMemory94.2%(all45.9→79.3%). PR #3 merged(c3a214d);0.16.0 on PyPI.
 
 ## Open risks
 
