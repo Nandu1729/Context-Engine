@@ -60,6 +60,46 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Semantic retrieval: model bake-off and engine results (0.14.0, offline, 2026-10-31)
+
+**Bake-off** (retrieval only, the engine's 360-character chunks, 400 chunks; fact's
+source turn in the top 4; reworded questions; raw output and scripts in
+`output/embedding-bakeoff-001/`):
+
+| Model (license) | Found / 31 | MRR | Index per chunk | Query | Model download |
+|---|---|---|---|---|---|
+| BM25 keyword (current default) | 5 | 0.14 | — | — | — |
+| BAAI/bge-small-en-v1.5 (MIT, ONNX) | **27** | 0.69 | 8.4 ms | 1.4 ms | ~67 MB |
+| **minishlab/potion-base-8M (MIT, static)** | 24 | 0.55 | **0.09 ms** | **0.03 ms** | **~30 MB** |
+| nomic-embed-text-v1.5-Q (Apache-2.0) | 24 | 0.62 | 15 ms | 2.3 ms | ~130 MB |
+| granite-embedding-small-english-r2 (Apache-2.0) | 23 | 0.68 | 5.2 ms | 0.8 ms | ~180 MB |
+| potion-retrieval-32M (MIT, static) | 21 | 0.55 | 0.12 ms | 0.02 ms | ~130 MB |
+| snowflake-arctic-embed-xs (Apache-2.0) | 16 | 0.48 | 2.4 ms | 0.4 ms | ~90 MB |
+
+All keep 31/31 on the original questions. Not tested as defaults: EmbeddingGemma
+(1.24 GB in fastembed, Gemma license) and Qwen3-Embedding-0.6B (~1.1 GB).
+
+**Fusion** (reworded, found/31): reciprocal-rank fusion hurt (potion 14, bge 16,
+because keyword ranks are noise without shared words); per-query min-max score
+fusion 0.7 x meaning + 0.3 x keyword kept quality (potion 23 with better MRR 0.59,
+bge 27) and 31/31 on originals. **Chosen default:** potion-base-8M + score fusion.
+bge-small is 3 facts more accurate here but ~90x slower to index (a 100-turn
+history from scratch: ~3.4 s vs ~40 ms), which breaks the < 100 ms target; it is
+offered as `FastEmbedEmbedder`.
+
+**Full engine** (`strategy-eval --semantic`, Model2VecEmbedder, found/31):
+
+| Strategy | Original 900 / 3000 | Reworded 900 / 3000 | Median latency 900 / 3000 |
+|---|---|---|---|
+| retrieval_window (keyword) | 31 / 31 | 6 / 7 | 8 / 11 ms |
+| **retrieval_semantic** | 31 / 31 | **24 / 25** | 8 / 11 ms |
+| combined (keyword, defaults) | 31 / 31 | 3 / 3 | 66 / 81 ms |
+| **combined_semantic** | 31 / 31 | **21 / 21** | 68 / 75 ms |
+
+`combined_semantic` trails `retrieval_semantic` because the summary reserve leaves
+retrieval less room. Limits: one synthetic scenario; reworded questions written by
+the engine author; no live answer-accuracy run with semantic retrieval yet.
+
 ## Reworded-question stress test (0.13.0, offline, 2026-10-31)
 
 The frozen questions reuse their evidence sentence's words ("Which merchant was

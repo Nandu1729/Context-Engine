@@ -44,6 +44,9 @@ STRATEGIES = {
 }
 NO_RECOVER = {"combined_no_recover"}
 ORDER = ("full_history", *STRATEGIES)
+# Added only when an embedder is supplied: same layers as the base strategy, with
+# BM25 fused with embeddings (0.14.0).
+SEMANTIC = {"retrieval_semantic": "retrieval_window", "combined_semantic": "combined"}
 
 
 def _budget(protocol: dict, allowance: int, strategy: str) -> BudgetConfig:
@@ -68,11 +71,12 @@ def _percentile(values: list[float], fraction: float) -> float | None:
     return ordered[min(len(ordered) - 1, round(fraction * (len(ordered) - 1)))]
 
 
-def _assemble(job, protocol, counter, fact, allowance, strategy, question):
+def _assemble(job, protocol, counter, fact, allowance, strategy, question, embedder=None):
     """Assemble one strategy's request; returns (result, summary source tokens)."""
     history = job.arguments["history"]
-    budget = _budget(protocol, allowance, strategy)
-    options = STRATEGIES[strategy]
+    base = SEMANTIC.get(strategy, strategy)
+    budget = _budget(protocol, allowance, base)
+    options = STRATEGIES[base]
     arguments = dict(
         system=job.arguments["system"],
         at=job.arguments["at"],
@@ -82,6 +86,7 @@ def _assemble(job, protocol, counter, fact, allowance, strategy, question):
             **protocol["retrieval"], recover_capped_window=strategy not in NO_RECOVER
         ),
         options=options,
+        **({"embedder": embedder} if strategy in SEMANTIC else {}),
     )
     pins = job.arguments["pinned_facts"]
     result = assemble_context(history, question, pins, budget, **arguments)
@@ -116,7 +121,7 @@ def _assemble(job, protocol, counter, fact, allowance, strategy, question):
     return result, summary_tokens
 
 
-def _probe(bundle, protocol, counter, fact, allowance, strategy, question) -> dict:
+def _probe(bundle, protocol, counter, fact, allowance, strategy, question, embedder=None) -> dict:
     job = bundle.job(fact["question"])
     history = job.arguments["history"]
     values = aliases(fact)
@@ -147,7 +152,9 @@ def _probe(bundle, protocol, counter, fact, allowance, strategy, question) -> di
             "latency_ms": 0.0,
         }
     started = time.perf_counter()
-    result, summary_tokens = _assemble(job, protocol, counter, fact, allowance, strategy, question)
+    result, summary_tokens = _assemble(
+        job, protocol, counter, fact, allowance, strategy, question, embedder
+    )
     latency = (time.perf_counter() - started) * 1000
     source = fact["source_turn_id"]
     chunks = [b for b in result.blocks if b.kind == BlockKind.RETRIEVED and b.content]
@@ -209,20 +216,26 @@ def _aggregate(probes: list[dict]) -> dict:
 
 
 def assemble_strategy(
-    bundle: Bundle, fact: dict, allowance: int, strategy: str, *, question: str | None = None
+    bundle: Bundle,
+    fact: dict,
+    allowance: int,
+    strategy: str,
+    *,
+    question: str | None = None,
+    embedder=None,
 ):
     """The exact request a strategy sends for one frozen fact (for bounded live runs).
 
     `full_history` is not assembled; it either fits raw or is a non-fit.
     """
-    if strategy not in STRATEGIES:
-        raise ValueError("Unknown or non-assembled strategy")
+    if strategy not in STRATEGIES and (strategy not in SEMANTIC or embedder is None):
+        raise ValueError("Unknown or non-assembled strategy (semantic ones need an embedder)")
     protocol = bundle.get("protocol")
     counter = TiktokenCounter(TokenizerConfig(**protocol["tokenizer"]))
     job = bundle.job(fact["question"])
     asked = fact["question"] if question is None else question
-    result, _ = _assemble(job, protocol, counter, fact, allowance, strategy, asked)
-    return result, _budget(protocol, allowance, strategy)
+    result, _ = _assemble(job, protocol, counter, fact, allowance, strategy, asked, embedder)
+    return result, _budget(protocol, allowance, SEMANTIC.get(strategy, strategy))
 
 
 # Function words allowed in a paraphrase; everything else must differ from the evidence.
@@ -286,11 +299,13 @@ def compare_strategies(
     *,
     include_probes: bool = False,
     questions: str = "original",
+    embedder=None,
 ) -> dict:
     """Run every strategy on every frozen fact at each budget. Deterministic except latency.
 
     `questions="paraphrased"` asks reworded questions that share no content words with
-    the evidence (lexical-retrieval stress test); scoring is unchanged.
+    the evidence (lexical-retrieval stress test); scoring is unchanged. An `embedder`
+    adds the semantic strategies (`retrieval_semantic`, `combined_semantic`).
     """
     if questions not in ("original", "paraphrased"):
         raise ValueError("questions must be 'original' or 'paraphrased'")
@@ -306,9 +321,18 @@ def compare_strategies(
     counter = TiktokenCounter(TokenizerConfig(**protocol["tokenizer"]))
     results = []
     for allowance in budgets:
-        for strategy in ORDER:
+        for strategy in ORDER + (tuple(SEMANTIC) if embedder is not None else ()):
             probes = [
-                _probe(bundle, protocol, counter, fact, allowance, strategy, asked[fact["fact_id"]])
+                _probe(
+                    bundle,
+                    protocol,
+                    counter,
+                    fact,
+                    allowance,
+                    strategy,
+                    asked[fact["fact_id"]],
+                    embedder,
+                )
                 for fact in bundle.facts
             ]
             entry = {"budget": allowance, "strategy": strategy, **_aggregate(probes)}
@@ -323,6 +347,7 @@ def compare_strategies(
         "inference_calls": 0,
         "corpus": {"scenario_id": protocol["scenario_id"], "facts": len(bundle.facts)},
         "question_set": questions,
+        "embedder": None if embedder is None else embedder.name,
         "fixture_hashes": bundle.hashes,
         "summary_policy": SUMMARY_POLICY_VERSION,
         "results": results,

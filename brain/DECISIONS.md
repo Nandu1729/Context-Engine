@@ -1,5 +1,12 @@
 # Decision register
 
+- D113 / OWNER DIRECTION: SEMANTIC RETRIEVAL BY BEST FIT,2026-10-31:owner rejected
+  simply reusing the earlier BGE-small design and asked for the best fit,evolving by
+  evidence. Isolated bake-off(6 models,4 fusion rules)chose Model2Vec potion-base-8M
+  (MIT,~30MB,pinned bf8b0566)+min-max score fusion0.7/0.3:reworded3→21/31 in the
+  full engine,originals31/31,latency unchanged. Opt-in only(embedder=,[semantic]/
+  [fastembed]extras);default output byte-identical to0.13.0. numpy declared(already
+  installed). Hybrid-by-default and a live reworded run are open owner decisions.
 - D112 / OWNER RELEASE + DESKTOP FIX,2026-10-31:owner approved push+PR and PyPI.
   Pushed feat/developer-launch,PR #1(no AI attribution). PyPI upload of0.12.0 was
   blocked by the assistant's permission classifier;owner then explicitly requested the

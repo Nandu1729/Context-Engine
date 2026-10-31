@@ -3,6 +3,27 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.14.0 — 2026-10-31 (unreleased)
+
+### Added
+- Optional hybrid retrieval: `assemble_context(..., embedder=, semantic_weight=0.7)`
+  (also via `MemoryStore.assemble`) ranks chunks by 0.7 x meaning + 0.3 x keyword
+  score. `context_engine.embeddings`: `Embedder` protocol, `Model2VecEmbedder`
+  (default model pinned: `minishlab/potion-base-8M@bf8b0566`, extra `[semantic]`),
+  `FastEmbedEmbedder` (extra `[fastembed]`), `FunctionEmbedder`. Bounded vector cache.
+- `strategy-eval --semantic` (adds `retrieval_semantic`, `combined_semantic`) and
+  `context-engine-mcp --semantic`.
+- Reworded questions: default retention 3/31 → 21/31 with the embedder; original
+  questions stay 31/31. Bake-off evidence in `output/embedding-bakeoff-001/`.
+
+### Changed
+- `numpy` is now a declared dependency (it was already installed via `rank-bm25`).
+- Missing optional extras give an install hint instead of a traceback.
+
+### Unchanged
+- Without an embedder, all 310 strategy-benchmark assemblies are byte-identical to
+  0.13.0 (archived in `archives/c14-semantic-0140/`).
+
 ## 0.13.0 — 2026-10-31 (unreleased)
 
 ### Added

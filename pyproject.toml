@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "context-engineering-core"
-version = "0.13.0"
+version = "0.14.0"
 description = "Provider-independent context layers, source contracts, and token budget accounting"
 readme = "README.md"
 license = "Apache-2.0"
@@ -21,11 +21,13 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
-dependencies = ["tiktoken>=0.14,<0.15", "rank-bm25>=0.2.2,<0.3", "pywin32==311; sys_platform == 'win32'"]
+dependencies = ["tiktoken>=0.14,<0.15", "rank-bm25>=0.2.2,<0.3", "numpy>=1.26", "pywin32==311; sys_platform == 'win32'"]
 
 [project.optional-dependencies]
 provider = ["httpx>=0.28,<0.29"]
 langchain = ["langchain-core>=1.0,<2"]
+semantic = ["model2vec>=0.10,<0.11"]
+fastembed = ["fastembed>=0.9,<0.10"]
 reports = ["matplotlib>=3.11,<3.12"]
 service = ["fastapi>=0.135,<0.136", "uvicorn>=0.41,<0.42", "PyJWT[crypto]>=2.12,<3", "httpx>=0.28,<0.29"]
 

@@ -44,8 +44,8 @@ summary1/29,window1/31;2 zero-token rejections,$0. TestPyPI0.11.0 verified.
 0.12.0:adapters,Inception(live smoke OK,D111),MCP stdio prototype,count cache
 (247→95ms@900,481→208ms@3000);run7 1479 PASS. 0.12.0 released on PyPI+TestPyPI(D112),hashes match;PR #1 open for owner merge.
 0.12.1 on PyPI(hashes match):latency67ms@900,80ms@3000,identical output;run8 1486 PASS.
-0.13.0(local):reworded questions drop default retention31→3/31(BM25 needs word overlap);
-T6 semantic retrieval awaits owner approval. Run9 1502 PASS.
+0.13.0:reworded questions drop keyword retention31→3/31. 0.14.0(local,D113):opt-in hybrid
+retrieval(potion-8M+score fusion)3→21/31,originals31/31;run10 1522 PASS.
 Desktop MCP fixed;owner MCP client check;then admission counting,paraphrases.
 
 ## Open risks

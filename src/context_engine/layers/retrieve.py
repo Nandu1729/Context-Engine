@@ -1,4 +1,4 @@
-"""BM25+ over originals; optional recovery of missing chunks in capped WINDOW turns."""
+"""BM25+ over originals (optionally fused with embeddings); WINDOW recovery of capped text."""
 
 import hashlib
 import re
@@ -9,6 +9,13 @@ from rank_bm25 import BM25Plus
 
 from ..config import RetrievalConfig
 from ..context import ContextCarrier, LayerDiagnostic
+from ..embeddings import (
+    DEFAULT_SEMANTIC_WEIGHT,
+    Embedder,
+    document_vectors,
+    hybrid_scores,
+    query_vector,
+)
 from ..errors import MemoryIntegrityError
 from ..models import BlockKind, Chunk, ContextBlock, SourceRef, Turn, canonical_json
 from ..tokens import TokenCounter
@@ -138,6 +145,9 @@ class RetrieveLayer:
     counter: TokenCounter
     config: RetrievalConfig = RetrievalConfig()
     chunk_index: ChunkIndex | None = None
+    # Optional semantic ranking (0.14.0). None keeps the exact BM25-only behavior.
+    embedder: Embedder | None = None
+    semantic_weight: float = DEFAULT_SEMANTIC_WEIGHT
 
     def apply(self, context: ContextCarrier) -> ContextCarrier:
         if self.chunk_index is not None:
@@ -194,11 +204,23 @@ class RetrieveLayer:
                 )
                 scores = ranker.get_scores(query)
                 raise_if_cancelled(context.cancellation)
-                ranked = [
-                    (float(score), c)
-                    for (c, terms), score in zip(searchable, scores, strict=True)
-                    if set(query).intersection(terms) and score > self.config.minimum_score
-                ]
+                if self.embedder is None:
+                    ranked = [
+                        (float(score), c)
+                        for (c, terms), score in zip(searchable, scores, strict=True)
+                        if set(query).intersection(terms) and score > self.config.minimum_score
+                    ]
+                else:
+                    # Meaning can match without shared words, so no lexical-overlap gate;
+                    # minimum_score applies to the fused score.
+                    vectors = document_vectors(self.embedder, [c.content for c, _ in searchable])
+                    asked = query_vector(self.embedder, planned.question.content, vectors.shape[1])
+                    fused = hybrid_scores(vectors @ asked, scores, self.semantic_weight)
+                    ranked = [
+                        (float(score), c)
+                        for (c, _), score in zip(searchable, fused, strict=True)
+                        if score > self.config.minimum_score
+                    ]
                 ranked.sort(key=lambda item: (-item[0], item[1].chunk_id))
                 raise_if_cancelled(context.cancellation)
                 if ranked:

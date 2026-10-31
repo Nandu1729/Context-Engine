@@ -32,6 +32,9 @@ Invalid arguments and engine errors return `isError: true` with a code, never st
 content. Protocol versions negotiated: 2025-11-25 (default), 2025-06-18,
 2025-03-26, 2024-11-05.
 
+`--semantic` enables hybrid retrieval (needs the `[semantic]` extra; loads the
+pinned ~30 MB model at start-up).
+
 Prototype limits: stdio only (no HTTP transport or auth), text messages only, no
 tool-call turns, no streaming, no resources/prompts. Tested offline in
 `tests/test_mcp_server.py` (in-process and a real stdio subprocess).

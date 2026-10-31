@@ -1,6 +1,6 @@
 """Prototype MCP server over `MemoryStore` (JSON-RPC 2.0 on stdio, standard library only).
 
-Run: `context-engine-mcp --data-dir ./memory --tenant local`. Tools: `add_message`,
+Run: `context-engine-mcp --data-dir ./memory --tenant local [--semantic]`. Tools: `add_message`,
 `pin_fact`, `get_context`, `forget`. One local tenant per server process; each tool
 names a session. The server never calls a model: `get_context` returns budgeted
 messages for the client to send. Stored conversation text is data, not instructions.
@@ -103,8 +103,8 @@ def _text(arguments, name, *, required=True):
 
 
 class ContextServer:
-    def __init__(self, store: MemoryStore, tenant: str):
-        self.store, self.tenant = store, tenant
+    def __init__(self, store: MemoryStore, tenant: str, embedder=None):
+        self.store, self.tenant, self.embedder = store, tenant, embedder
 
     def _scope(self, arguments):
         scope = Scope(self.tenant, _text(arguments, "session"))
@@ -143,6 +143,7 @@ class ContextServer:
             _text(arguments, "question"),
             BudgetConfig(input_cap=budget),
             system=system,
+            **({"embedder": self.embedder} if self.embedder is not None else {}),
         )
         diagnostics = result.diagnostics
         return {
@@ -256,10 +257,24 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Context Engine MCP server (stdio)")
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--tenant", default="local")
+    parser.add_argument(
+        "--semantic",
+        action="store_true",
+        help="Hybrid keyword + meaning retrieval (needs the [semantic] extra; ~30 MB model)",
+    )
     args = parser.parse_args(argv)
     args.data_dir.mkdir(parents=True, exist_ok=True)
     store = MemoryStore(args.data_dir / "memory.sqlite")
-    serve(ContextServer(store, args.tenant))
+    embedder = None
+    if args.semantic:
+        from .embeddings import Model2VecEmbedder
+
+        try:
+            embedder = Model2VecEmbedder()
+        except ImportError as error:
+            print(str(error), file=sys.stderr)  # stderr: stdout carries JSON-RPC only.
+            return 2
+    serve(ContextServer(store, args.tenant, embedder))
     return 0
 
 

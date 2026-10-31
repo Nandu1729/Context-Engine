@@ -8,6 +8,7 @@ from . import __version__
 from .budget import validate_request
 from .config import BudgetConfig, CapConfig, RetrievalConfig
 from .context import ContextCarrier, LayerDiagnostic
+from .embeddings import DEFAULT_SEMANTIC_WEIGHT, Embedder, validate_semantic
 from .errors import ContractError, LayerStateError, RequiredContextTooLarge
 from .layers import CapLayer, PinLayer, RetrieveLayer, SummaryLayer, WindowLayer
 from .layers.common import ORDER, history_digest, render_request, require_prepared, window_block
@@ -287,6 +288,8 @@ def assemble_context(
     options: AssemblyOptions | None = None,
     chunk_index=None,
     cancellation: Cancellation | None = None,
+    embedder: Embedder | None = None,
+    semantic_weight: float = DEFAULT_SEMANTIC_WEIGHT,
 ) -> AssembledContext:
     """Assemble authorized history into an estimated-token-safe request, or raise a typed error.
 
@@ -320,6 +323,8 @@ def assemble_context(
     retrieval_config = RetrievalConfig() if retrieval_config is None else retrieval_config
     if not isinstance(cap_config, CapConfig) or not isinstance(retrieval_config, RetrievalConfig):
         raise ContractError("Expected validated layer configuration")
+    if embedder is not None:
+        validate_semantic(embedder, semantic_weight)
     if isinstance(question, str):
         used = {m.message_id for t in history for m in t.messages}
         identifier = "current-question"
@@ -336,7 +341,7 @@ def assemble_context(
         context = replace(context, diagnostics=(LayerDiagnostic("CAP", "layer_disabled"),))
     for layer in (
         PinLayer(counter, budget, system, at, tuple(tools)),
-        RetrieveLayer(counter, retrieval_config, chunk_index),
+        RetrieveLayer(counter, retrieval_config, chunk_index, embedder, semantic_weight),
         WindowLayer(counter),
         SummaryLayer(counter, summary_policy if options.summarize else None, at),
     ):
@@ -352,6 +357,11 @@ def assemble_context(
         "cap": asdict(cap_config),
         "retrieval": asdict(retrieval_config),
         "options": asdict(options),
+        **(
+            {"semantic": {"embedder": embedder.name, "weight": semantic_weight}}
+            if embedder is not None
+            else {}
+        ),
         "counting": {
             "tokenizer": estimate.tokenizer_name,
             "version": estimate.tokenizer_version,

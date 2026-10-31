@@ -9,7 +9,7 @@ that fits the budget. Those messages keep the recent turns, the facts you pinned
 and the older evidence that matches the question. It never calls a model by
 itself, so you send the messages to any provider you like.
 
-> **Status: alpha (0.13.0).** Good for developers to try locally. It is not yet
+> **Status: alpha (0.14.0).** Good for developers to try locally. It is not yet
 > proven on real-world data, and there is no hosted service. See
 > [What is not proven yet](#what-is-not-proven-yet).
 
@@ -70,6 +70,23 @@ chat_model.invoke(langchain_messages(result))  # pip install 'context-engineerin
 history = turns_from_openai(existing_openai_messages, scope)  # reuse a chat history you already have
 ```
 
+### Better recall for reworded questions (optional)
+
+Keyword search needs the question to reuse the fact's words. Add a small local
+embedding model so meaning matches too ("retailer" finds "merchant"):
+
+```python
+# pip install 'context-engineering-core[semantic]'   (~30 MB model, downloaded once)
+from context_engine.embeddings import Model2VecEmbedder
+
+embedder = Model2VecEmbedder()   # pinned minishlab/potion-base-8M; loads only when you create it
+result = assemble_context(history, question, pins, budget, system=system, embedder=embedder)
+```
+
+Ranking becomes 0.7 x meaning score + 0.3 x keyword score. Prefer accuracy over
+speed? `FastEmbedEmbedder("BAAI/bge-small-en-v1.5")` (extra `[fastembed]`). Or wrap
+your own embedding function or API with `FunctionEmbedder`.
+
 ### Use it from an MCP client
 
 `context-engine-mcp --data-dir ./context-memory` runs a local MCP server (stdio) with
@@ -120,12 +137,12 @@ These are enforced in code and covered by about 1,400 tests:
   benchmark, the default settings keep 31 of 31 planted facts at 900 and 3000
   tokens, and a live model run answered 31 of 31 correctly at 900 tokens. But
   that benchmark is one synthetic conversation written alongside the engine.
-- **Reworded questions.** Retrieval is keyword-based (BM25). When we reword the
-  31 benchmark questions so they share no words with the stored facts, the
-  default settings keep only 3 of 31 facts (6–7 of 31 with retrieval alone).
-  The 31/31 result depends on questions reusing the facts' words. Semantic
-  retrieval is the planned fix. Run it yourself:
-  `context-engine strategy-eval --questions paraphrased`.
+- **Reworded questions.** By default, retrieval is keyword-based (BM25). When we
+  reword the 31 benchmark questions so they share no words with the stored facts,
+  the default settings keep only 3 of 31 facts. With the optional embedder (see
+  above) they keep 21 of 31 (retrieval alone: 24–25 of 31), with no loss on the
+  original questions. Run it yourself:
+  `context-engine strategy-eval --questions paraphrased --semantic`.
 - **Real-world data.** There are no results yet on real user conversations.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.
   Providers may count differently. On small requests, provider counts were up

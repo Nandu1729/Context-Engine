@@ -167,3 +167,17 @@ Adapters accept an `AssembledContext` or a `ChatRequest`. They reject message
 shapes assembly never produces, rather than guessing a mapping. Token budgets are
 counted on the engine's wire format; provider-specific framing (for example
 Anthropic's) may count differently, so keep headroom.
+
+## Semantic (hybrid) retrieval (0.14.0, optional)
+
+`assemble_context(..., embedder=E, semantic_weight=0.7)` changes RETRIEVE's ranking
+only: every searchable chunk (outside WINDOW, or capped WINDOW text when recovery is
+on) gets `weight x scaled cosine + (1 - weight) x scaled BM25+`, each min-max
+scaled per query. The lexical-overlap requirement is dropped, so meaning-only
+matches qualify; `minimum_score` applies to the fused score. Selection, overlap
+removal, `top_k`, budget fitting, provenance and final admission are unchanged.
+The embedder name and weight join the config fingerprint. `E` implements
+`name`, `embed_documents(texts)` and `embed_query(text)`; vectors are cached per
+(name, text) in a bounded process cache. No embedder means the exact keyword-only
+path. Models load only when the caller constructs an embedder.
+

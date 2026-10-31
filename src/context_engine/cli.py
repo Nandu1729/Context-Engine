@@ -87,6 +87,11 @@ def main(argv: list[str] | None = None) -> int:
         default="original",
         help="paraphrased: reworded questions with no shared words (lexical stress test)",
     )
+    strategies.add_argument(
+        "--semantic",
+        action="store_true",
+        help="Also run hybrid strategies with the default embedder (needs the [semantic] extra)",
+    )
     strategies.add_argument("--data-dir", type=Path)
     strategies.add_argument("--output", type=Path, help="Save JSON to a new file; never overwrite")
     planned = commands.add_parser(
@@ -142,8 +147,17 @@ def main(argv: list[str] | None = None) -> int:
             budgets = None if args.budget is None else tuple(args.budget)
             if budgets is not None and any(b <= 0 for b in budgets):
                 raise ContextEngineError("Budgets must be positive integers")
+            embedder = None
+            if args.semantic:
+                from .embeddings import Model2VecEmbedder
+
+                embedder = Model2VecEmbedder()
             result = compare_strategies(
-                bundle, budgets, include_probes=args.probes, questions=args.questions
+                bundle,
+                budgets,
+                include_probes=args.probes,
+                questions=args.questions,
+                embedder=embedder,
             )
             if args.output is not None:
                 save_inspection(args.output, result)
@@ -224,6 +238,9 @@ def main(argv: list[str] | None = None) -> int:
     except ContextEngineError as error:
         print(json.dumps(error.to_dict()), file=sys.stderr)
         return 1
+    except ImportError as error:  # An optional extra (e.g. [semantic]) is missing.
+        print(json.dumps({"code": "missing_extra", "message": str(error)}), file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":
