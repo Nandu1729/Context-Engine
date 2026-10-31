@@ -81,5 +81,5 @@ targets, separate retention/accuracy/cost reporting.
 2. Owner: try the MCP server in a real client (config in docs/MCP.md).
 3. Owner: review and merge PR #1 (README/PyPI doc links need `main`).
 5. Done (D115): hybrid retrieval is the default (bundled model); grading v2 added.
-6. Owner: publish 0.15.0 (PyPI) after merging PR #1.
+6. Done: PR #1 merged (28f1649); 0.15.0 published on PyPI.
 7. Engineering: profile much longer histories (1,000+ turns).

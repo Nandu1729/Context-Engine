@@ -1,6 +1,6 @@
 # Current status — 2026-10-31
 
-Package **0.15.0** (local, unreleased); **0.14.0** released on **PyPI** (also 0.12.0, 0.12.1) (`pip install context-engineering-core`); 0.12.0 also on PyPI/TestPyPI. Code in PR #1 (`feat/developer-launch`). Developer SDK and self-hosted local
+Package **0.15.0**, released on **PyPI** (also 0.12.0, 0.12.1, 0.14.0); merged to `main` (PR #1) (`pip install context-engineering-core`); 0.12.0 also on PyPI/TestPyPI. Code in PR #1 (`feat/developer-launch`). Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
 
@@ -45,7 +45,9 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 
 - TestPyPI: `context-engineering-core` 0.11.0 (D110) and 0.12.0 (D111; wheel
   `9b289b16…`, sdist `0c44130b…`), both verified by a fresh install from TestPyPI.
-- PyPI: 0.14.0 released 2026-10-31 (wheel `b9357141…`, sdist `b132bde0…`; fresh install
+- PyPI: 0.15.0 released 2026-10-31 (wheel `ab5c234f…`, sdist `34b2b33b…`, ~7 MB with the
+  bundled model; fresh install with no extras and network blocked finds a reworded
+  fact). 0.14.0 released 2026-10-31 (wheel `b9357141…`, sdist `b132bde0…`; fresh install
   with `[semantic]` PASS, hybrid finds a reworded fact). 0.12.1 released 2026-10-31 (wheel `1585cabd…`, sdist `db6d635b…`; owner ran the
   upload command; fresh install PASS). 0.12.0 released 2026-10-31 (D112), same files as TestPyPI (hashes match);
   fresh install from PyPI passes `context-engine check`, the README example and
@@ -69,8 +71,8 @@ folder without inspecting it. Lost with no copy: 0.1.0–0.3.0 wheels, most olde
 sdists and the c02–c07 requirements files. No test or runner used them; archived
 wheels for 0.4.0–0.10.0 and c06/c08/c09 requirements remain. See the brain journal.
 
-## Uncommitted work
+## Repository state
 
-D097–D112 work is on branch `feat/developer-launch`, pushed, in PR #1
-(https://github.com/Nandu1729/Context-Engine/pull/1). README/PyPI doc links point
-to `main`, so they work once the PR is merged (owner merges).
+D097–D115 work is merged into `main` through PR #1
+(https://github.com/Nandu1729/Context-Engine/pull/1, merge commit `28f1649`); the
+feature branch is deleted. README/PyPI doc links resolve on `main`.
