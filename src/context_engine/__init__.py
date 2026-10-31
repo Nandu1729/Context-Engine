@@ -1,6 +1,6 @@
 """Core contracts. Importing this package performs no configuration or network I/O."""
 
-__version__ = "0.15.0"
+__version__ = "0.16.0"
 
 
 def __getattr__(name):
@@ -9,7 +9,18 @@ def __getattr__(name):
         from . import pipeline
 
         return getattr(pipeline, name)
+    if name in ("ChatMemory", "AsyncChatMemory"):
+        from . import chat_memory
+
+        return getattr(chat_memory, name)
     raise AttributeError(name)
 
 
-__all__ = ["assemble_context", "AssembledContext", "AssemblyOptions", "__version__"]
+__all__ = [
+    "assemble_context",
+    "AssembledContext",
+    "AssemblyOptions",
+    "AsyncChatMemory",
+    "ChatMemory",
+    "__version__",
+]

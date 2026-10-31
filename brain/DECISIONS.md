@@ -1,5 +1,17 @@
 # Decision register
 
+- D117 / OWNER "GO WITH UR RECOMMENDATIONS",2026-10-31:ChatMemory default
+  diverse_turns=True(LongMemEval any93.5→94.2,all77.7→79.3;synthetic unchanged);core
+  assemble_context defaults unchanged(280 reserve,no diversity)despite78.5% vs94.2%,
+  to keep frozen benchmarks stable;commit0.16.0 on feat/chat-memory-longmemeval.
+- D116 / OWNER DEVELOPER-LAUNCH STEPS 1-3,2026-10-31:(1)ChatMemory helper+README
+  "Chat memory in two lines";choose its retrieval share from a LongMemEval sweep;core
+  assemble_context defaults unchanged unless evidence+owner approval.(2)AsyncChatMemory,
+  examples terminal_chat/fastapi_chat tested offline with fake models,keys from env only.
+  (3)Time awareness,fact updates,optional auto-pin:keep only if LongMemEval improves
+  without hurting the synthetic benchmark;ask before any default change. No live model
+  calls;show results before commit;feature branch. Dataset LongMemEval-S(MIT,HF rev
+  98d7416c)stays in output/private,not committed.
 - D115 / OWNER "COMPLETE THOSE 3",2026-10-31:(1)grading-v2 lenient(trailing .!?,Unicode
   dashes)beside frozen strict v1;regrade both live runs(strict reproduced;hybrid18→21).
   (2)Hybrid retrieval default(0.15.0)without hidden downloads:bundled potion-base-8M

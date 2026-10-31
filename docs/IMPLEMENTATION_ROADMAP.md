@@ -9,7 +9,7 @@ here is engineering evidence, not owner acceptance.
 |---|---|---|
 | 0 | Repository audit and current-state docs | DONE |
 | 1 | Complete and stabilize the core engine | ACTIVE (T2 done in 0.11.0; CAP latency next) |
-| 2 | Reproducible evaluation and benchmarking | ACTIVE (offline + live 900-token accuracy done; real data missing) |
+| 2 | Reproducible evaluation and benchmarking | ACTIVE (offline + live 900-token accuracy done; LongMemEval-S evidence recall done, answer accuracy on it not run) |
 | 3 | Package and publish the Python SDK | ACTIVE (license, README, audit done; TestPyPI awaits go-ahead) |
 | 4 | Hosted REST API and authentication | LATER (self-hosted API exists) |
 | 5 | Developer dashboard and usage analytics | LATER |
@@ -81,5 +81,5 @@ targets, separate retention/accuracy/cost reporting.
 2. Owner: try the MCP server in a real client (config in docs/MCP.md).
 3. Owner: review and merge PR #1 (README/PyPI doc links need `main`).
 5. Done (D115): hybrid retrieval is the default (bundled model); grading v2 added.
-6. Owner: publish 0.15.0 (PyPI) after merging PR #1.
+6. Done: PR #1 merged (28f1649); 0.15.0 on PyPI. 0.16.0 (ChatMemory, LongMemEval) in PR #3; publish after merge.
 7. Engineering: profile much longer histories (1,000+ turns).

@@ -9,8 +9,9 @@ that fits the budget. Those messages keep the recent turns, the facts you pinned
 and the older evidence that matches the question. It never calls a model by
 itself, so you send the messages to any provider you like.
 
-> **Status: alpha (0.15.0).** Good for developers to try locally. It is not yet
-> proven on real-world data, and there is no hosted service. See
+> **Status: alpha (0.16.0).** Good for developers to try locally. Evidence
+> recall is measured on a public long-chat benchmark (LongMemEval), but answer
+> accuracy on real data is not, and there is no hosted service. See
 > [What is not proven yet](#what-is-not-proven-yet).
 
 ## Install
@@ -32,6 +33,41 @@ uv run context-engine check                  # prints "deps ok"
 
 The first run downloads the tokenizer vocabulary (tiktoken `o200k_harmony`) once.
 After that, everything works offline.
+
+## Chat memory in two lines
+
+`ChatMemory` stores the conversation in a local SQLite file and gives you, for each
+new question, messages that fit your token budget:
+
+```python
+from context_engine import ChatMemory
+
+memory = ChatMemory("chat.db", session="alice")
+
+def chat(user_text):
+    messages = memory.context(user_text)             # 1. memory in: fits the budget
+    reply = client.chat.completions.create(model="...", messages=messages).choices[0].message.content
+    memory.save(user_text, reply)                    # 2. memory out: store the exchange
+    return reply
+```
+
+`messages` holds your system prompt, pinned facts, the recent turns and older turns
+that match the question, even when it uses other words ("storage box" finds
+"locker"). It survives restarts. Also: `memory.pin("name", "Alice")` (always
+included), `memory.forget(turn_id)`, `memory.assemble(question)` (full result with
+diagnostics, for the adapters below) and `ChatMemory(..., budget=8000)`.
+
+On [LongMemEval](https://github.com/Nandu1729/Context-Engine/blob/main/docs/BENCHMARK_REPORT.md#real-data-longmemeval-s-evidence-recall-0160-offline-2026-10-31)
+(500 questions over ~490-turn chat histories), the turn with the answer reached
+the context for 94.2% of questions at the default 3000-token budget (78.5% with
+plain `assemble_context` defaults). ChatMemory gives 40% of the budget to
+retrieved older turns, at most one chunk per turn; set `retrieval_share` lower to
+keep more recent turns instead.
+
+For asyncio apps (FastAPI and others) use `AsyncChatMemory`, which has the same
+methods with an `a` prefix: `await memory.acontext(...)`, `await memory.asave(...)`.
+Runnable examples: [terminal chatbot](https://github.com/Nandu1729/Context-Engine/blob/main/examples/terminal_chat.py)
+and [FastAPI endpoint with per-user sessions](https://github.com/Nandu1729/Context-Engine/blob/main/examples/fastapi_chat.py).
 
 ## Quick example
 
@@ -143,7 +179,12 @@ These are enforced in code and covered by about 1,400 tests:
   lenient grading, which ignores trailing punctuation and dash characters). A fact
   buried in a long, repetitive message and asked with different words is still
   hard (12 of 31). Run the offline test: `context-engine strategy-eval --questions paraphrased`.
-- **Real-world data.** There are no results yet on real user conversations.
+- **Real-world data.** On LongMemEval-S (public long chat histories, partly
+  simulated), we measure whether the answer-bearing turn reaches the context:
+  94.2% of questions with ChatMemory's defaults at 3000 tokens, 78.5% with
+  `assemble_context` defaults (keyword-only: 74.3%). When an answer needs several
+  turns, all of them are present 79.3% of the time. Whether a model then answers
+  correctly on this data is not measured. Details in the benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.
   Providers may count differently. On small requests, provider counts were up
   to 1.78× the local estimate in past tests, so leave headroom or calibrate.
@@ -158,6 +199,7 @@ These are enforced in code and covered by about 1,400 tests:
 uv run context-engine demo-layers                         # the five steps on sample data
 uv run --offline context-engine strategy-eval --budget 900   # compare strategies, no model calls
 uv run --offline python examples/rolling_summary.py       # memory + rolling summaries
+python examples/terminal_chat.py --session alice          # chatbot with memory (needs OPENAI_API_KEY)
 ```
 
 ## Documentation

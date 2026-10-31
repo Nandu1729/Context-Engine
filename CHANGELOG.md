@@ -3,7 +3,36 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
-## 0.15.0 — 2026-10-31 (unreleased)
+## 0.16.0 — 2026-10-31 (unreleased)
+
+### Added
+- `ChatMemory`: persistent chat memory in two lines (`context(question)` before
+  the model call, `save(user, reply)` after), plus `pin`, `forget`, `assemble`
+  and `delete_session`. SQLite via `MemoryStore`; hybrid retrieval by default.
+  Retrieval gets `retrieval_share` of the budget (default 0.4, one chunk per 90
+  tokens) and at most one chunk per old turn (`diverse_turns=True`), chosen on
+  LongMemEval-S: evidence in context at 3000 tokens 78.5% → 94.2% of questions
+  (all evidence 45.9% → 79.3%), mean recent turns kept 42 → 27. Core defaults
+  unchanged (owner decision D117).
+- `AsyncChatMemory` (`acontext`, `asave`, ... in worker threads) for asyncio
+  apps; calls on one instance are serialized. No new dependency.
+- `assemble_context(..., diverse_turns=True)` (opt-in in the core, default in
+  `ChatMemory`): at most one retrieved chunk per turn. LongMemEval-S with ChatMemory settings:
+  any 93.5% → 94.2%, all 77.7% → 79.3%; synthetic benchmark unchanged.
+- `scripts/longmemeval_retrieval.py`: offline evidence recall on LongMemEval-S
+  (public, MIT; not redistributed). Results in `output/longmemeval-001/`.
+- Examples: `examples/terminal_chat.py` (OpenAI-compatible client) and
+  `examples/fastapi_chat.py` (per-user sessions), tested offline with fake models.
+
+### Measured and not adopted
+- Per-sentence meaning scores (+0.8 pt real data, synthetic reworded 21 → 19),
+  recency bonus (synthetic 21 → 18), date-window boost (+1 question) and
+  rule-based auto-pinning (no change: no evidence turn matched a rule).
+
+### Unchanged
+- 0.15.0 wheel/freeze archived in `archives/c16-chat-memory-0160/`.
+
+## 0.15.0 — 2026-10-31 (PyPI)
 
 ### Changed (behavior)
 - Hybrid retrieval is the default (`assemble_context(embedder="builtin")`): the

@@ -148,6 +148,8 @@ class RetrieveLayer:
     # Optional semantic ranking (0.14.0). None keeps the exact BM25-only behavior.
     embedder: Embedder | None = None
     semantic_weight: float = DEFAULT_SEMANTIC_WEIGHT
+    # Opt-in (0.16.0): skip further chunks of an already-selected turn.
+    diverse_turns: bool = False
 
     def apply(self, context: ContextCarrier) -> ContextCarrier:
         if self.chunk_index is not None:
@@ -227,7 +229,11 @@ class RetrieveLayer:
                     reason = "evidence_over_budget"
                 for _, chunk in ranked:
                     raise_if_cancelled(context.cancellation)
-                    if any(overlaps(chunk, existing) for existing in selected):
+                    if any(
+                        overlaps(chunk, existing)
+                        or (self.diverse_turns and chunk.source.turn_id == existing.source.turn_id)
+                        for existing in selected
+                    ):
                         continue
                     candidate = selected + (chunk,)
                     if fits_block(
