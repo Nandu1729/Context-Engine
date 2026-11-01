@@ -1,5 +1,10 @@
 # Decision register
 
+- D121 / OWNER TEMPORAL OUTPUT-LIMIT RUN,2026-11-01:owner "commit, do after that whats
+  best",then "go live" on the shown plan and "continue" after the10-call stage. Stage B's
+  26 temporal questions x core/ChatMemory 3000,2048 output tokens,all else stage B(contexts
+  byte-identical),own ledger,cap70,000 micro-USD,max110 calls,no retries;empty_response
+  up to10 each counted wrong/"no". Stage B runner reused by patching its module globals.
 - D120 / OWNER EMPTY-RESPONSE CODE,2026-11-01:owner chose option B("go for it")over
   converting null to "". A completion with content null,finish stop and no tool calls now
   raises TransportFailure("empty_response",uncertain=False)with parsed usage:settled at

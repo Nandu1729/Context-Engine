@@ -191,6 +191,8 @@ These are enforced in code and covered by about 1,400 tests:
   A second run with thinking on, a better prompt and LongMemEval's own model judge
   (same small model family as judge) scored 56 of 95 with ChatMemory's defaults vs 37
   with `assemble_context` defaults; 8000 tokens did not beat 3000 (54).
+  Date questions are the weakest type; doubling the output limit to 2048 tokens let
+  14 of 21 cut-off date answers finish (judge 6 → 9 of 26 with ChatMemory).
   Absolute accuracy is low and not comparable with published LongMemEval scores.
   Details in the benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.

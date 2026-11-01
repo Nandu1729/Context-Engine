@@ -58,7 +58,9 @@ ChatMemory31;wrong core77=a8/b15/c37/d17,ChatMemory69=a11/b15/c10/d33;stop words
 chunks worse→no default change;committed5bdc363. Stage B COMPLETE(517 calls,157,133
 micro-USD list):judge core37/ChatMemory56@3000/54@8000;v3 26/38/40;d errors33→10;
 43 out-of-tokens,10 null-content answers;committed9505cd2,PR #6 open(not merged).
-D120 0.17.1(unreleased,same branch):null-content stop→certain empty_response;uncommitted.
+D120 0.17.1(unreleased,same branch):null-content stop→certain empty_response;committed340b761.
+D121 temporal@2048 COMPLETE(93 calls,28,289 micro-USD):out-of-tokens21→8,judge core4→7,
+ChatMemory6→9 of26(paired3/0 each). No default change;uncommitted runner+tests+report.
 
 ## Open risks
 

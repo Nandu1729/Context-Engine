@@ -13,6 +13,11 @@ Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
   Mercury-3 returned this shape 10 times in D119 stage B. Responses with broken usage
   or tool calls still fail as `invalid_response`.
 
+### Added
+- `scripts/longmemeval_temporal_tokens_live.py` (D121): the stage B runner with 2048
+  output tokens on its 26 temporal questions. Out-of-tokens answers 21 → 8; judge
+  core 4 → 7, ChatMemory 6 → 9 of 26. Results in `output/longmemeval-temporal-tokens-001/`.
+
 ### Unchanged
 - Assembly output and defaults. 0.17.0 wheel/freeze (the code that ran D119 stage B)
   archived in `archives/c17-empty-response-0171/`.

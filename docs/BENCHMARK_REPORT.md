@@ -1,6 +1,6 @@
 # Benchmark report
 
-Updated 2026-10-31. Every number here is labeled with how it was produced.
+Updated 2026-11-01. Every number here is labeled with how it was produced.
 "Retention" means the planted fact's evidence reached the assembled context at its
 declared source. It is **not** answer accuracy.
 
@@ -59,6 +59,46 @@ Latencies are from one unloaded run and vary by machine.
 5. Token reduction is a function of the budget you choose, not of strategy: every
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
+
+## Larger output limit for date questions (D121, mercury-3, 2026-11-01)
+
+`scripts/longmemeval_temporal_tokens_live.py`; public counts in
+`output/longmemeval-temporal-tokens-001/report.json`, answers private. The 26
+temporal-reasoning questions of stage B, core and ChatMemory defaults at 3000 tokens,
+**2048** output tokens instead of 1024. Everything else is stage B (prompt, reasoning
+"low", temperature 0.5, judge); all 52 assembled contexts are byte-identical to stage
+B's, so the output limit is the only change. Each answer is paired with its own stage
+B answer.
+
+| Arm (n = 26, Wilson 95%) | strict-v1 | lenient-v2 | lenient-v3 | judge | out of tokens |
+|---|---|---|---|---|---|
+| core 3000, stage B (1024) | 3 | 4 | 4 | 4 (6–34%) | 9 |
+| core 3000, 2048 | 2 (2–24%) | 4 (6–34%) | 6 (11–42%) | 7 (14–46%) | 4 |
+| ChatMemory 3000, stage B (1024) | 1 | 2 | 6 | 6 (11–42%) | 12 |
+| ChatMemory 3000, 2048 | 2 (2–24%) | 3 (4–29%) | 6 (11–42%) | 9 (19–54%) | 4 |
+
+Paired, judge: core 3 improved / 0 regressed, ChatMemory 3 / 0 (each p = 0.25; both
+arms together 6 / 0, p ≈ 0.03, but the arms share questions). lenient-v3: core 2 / 0,
+ChatMemory 1 / 1.
+
+Of the 21 answers that ran out of tokens in stage B, 14 now finished (6 of them judged
+correct) and 7 ran out again at 2048. One answer that finished in stage B ran out now,
+and 3 came back with no text (`empty_response`, counted wrong); 2 stage-B no-text
+answers now finished. Finished answers thought for a median of 390 tokens; 7 needed
+more than 1024. So the limit was the cause for about two thirds of the cut-off date
+answers; the rest keep thinking past 2048. Even so, date questions stay the weakest
+type (judge 7 and 9 of 26).
+
+The first 10 staged calls suggested otherwise (the 3 cut-off answers among them were
+cut off again); the full run did not bear that out.
+
+Calls 93 (52 answers, 41 judge; none for the 11 answers without text), 0 retries,
+0 rate limits. Tokens: answers 103,220 in / 23,830 out (23,598 thinking); judge 7,678
+in / 159 out. List-price estimate 28,289 micro-USD (cap 70,000).
+
+Limitations: 26 questions, one run, one model, temperature 0.5 (some paired changes
+are noise); the judge is the same model family; a larger limit also lets answers that
+would have finished think longer.
 
 ## Live accuracy with thinking and a model judge (D119 stage B, mercury-3, 2026-11-01)
 
