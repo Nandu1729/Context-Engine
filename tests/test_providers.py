@@ -740,3 +740,52 @@ def test_retry_attempt_limit_is_enforced(store, counter):
     result = call(client(store, counter, transport=transport, sleep=no_wait))
     assert result.error_code == "rate_limit" and len(transport.calls) == 3
     assert len(result.attempt_ids) == 3 and result.new_cost_microusd == 0
+
+
+def null_stop(**message):
+    raw = response()
+    raw["choices"][0]["message"].update(content=None, **message)
+    return json.dumps(raw).encode()
+
+
+def test_stop_with_null_content_is_a_certain_empty_response():
+    with pytest.raises(TransportFailure) as caught:
+        parse_completion(null_stop(), "openai/gpt-oss-120b")
+    assert caught.value.code == "empty_response"
+    assert not caught.value.uncertain and not caught.value.retryable
+    assert caught.value.usage.total_tokens == 45
+
+
+@pytest.mark.parametrize("content", ["", " "])
+def test_stop_with_empty_string_still_parses_verbatim(content):
+    raw = response()
+    raw["choices"][0]["message"]["content"] = content
+    assert parse_completion(json.dumps(raw).encode(), "openai/gpt-oss-120b").content == content
+
+
+def test_null_stop_without_valid_usage_stays_uncertain():
+    raw = json.loads(null_stop())
+    raw["usage"]["total_tokens"] = 99
+    with pytest.raises(TransportFailure) as caught:
+        parse_completion(json.dumps(raw).encode(), "openai/gpt-oss-120b")
+    assert caught.value.code == "invalid_response" and caught.value.uncertain
+
+
+def test_null_stop_with_tool_calls_stays_invalid():
+    call_entry = {"id": "c1", "type": "function", "function": {"name": "f", "arguments": "{}"}}
+    with pytest.raises(TransportFailure) as caught:
+        parse_completion(null_stop(tool_calls=[call_entry]), "openai/gpt-oss-120b")
+    assert caught.value.code == "invalid_response" and caught.value.uncertain
+
+
+def test_empty_response_is_settled_at_known_cost_without_retry(store, counter):
+    async def empty():
+        return parse_completion(null_stop(), "openai/gpt-oss-120b")
+
+    transport = FakeTransport([empty])
+    result = call(client(store, counter, transport=transport))
+    assert result.status == "error" and result.error_code == "empty_response"
+    assert result.completion is None and result.new_cost_microusd == 48
+    assert len(transport.calls) == 1
+    snapshot = store.snapshot(QUOTA)
+    assert snapshot["unresolved_attempts"] == 0 and snapshot["known_cost_microusd"] == 48

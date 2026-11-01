@@ -3,6 +3,20 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.17.1 — 2026-11-01 (unreleased)
+
+### Changed
+- A completion with no text (`content: null`), finish reason `stop` and no tool calls
+  now fails with its own certain error code `empty_response` instead of the uncertain
+  `invalid_response` (D120). Its token usage is known, so the cost is settled exactly
+  and nothing is held; it is not retried and is never returned as an empty answer.
+  Mercury-3 returned this shape 10 times in D119 stage B. Responses with broken usage
+  or tool calls still fail as `invalid_response`.
+
+### Unchanged
+- Assembly output and defaults. 0.17.0 wheel/freeze (the code that ran D119 stage B)
+  archived in `archives/c17-empty-response-0171/`.
+
 ## 0.17.0 — 2026-10-31 (unreleased)
 
 ### Added

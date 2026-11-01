@@ -1,5 +1,12 @@
 # Decision register
 
+- D120 / OWNER EMPTY-RESPONSE CODE,2026-11-01:owner chose option B("go for it")over
+  converting null to "". A completion with content null,finish stop and no tool calls now
+  raises TransportFailure("empty_response",uncertain=False)with parsed usage:settled at
+  known cost,never retried,never shown as an empty answer(D081 intent kept;its test now
+  expects empty_response). Broken usage or tool calls stay invalid_response/uncertain.
+  0.17.1 unreleased;0.17.0 wheel(c9cb0edd…,ran stage B)archived. Token-limit rerun and
+  Anthropic transport are separate proposals,not approved.
 - D119 / OWNER REDUCE WRONG ANSWERS,2026-10-31:staged. Stage A offline:classify D118
   run-002 wrong answers(format/rubric gold/evidence missing/model error),add lenient-v3
   grader(approved;beside v1/v2,not in GRADERS),chunking cut-off+stop-word check;no default

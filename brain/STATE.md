@@ -57,7 +57,8 @@ D119 stage A(0.17.0 unreleased,branch feat/longmemeval-error-breakdown):lenient-
 ChatMemory31;wrong core77=a8/b15/c37/d17,ChatMemory69=a11/b15/c10/d33;stop words and600
 chunks worse→no default change;committed5bdc363. Stage B COMPLETE(517 calls,157,133
 micro-USD list):judge core37/ChatMemory56@3000/54@8000;v3 26/38/40;d errors33→10;
-43 out-of-tokens,10 null-content answers. Uncommitted:runner+tests+report.
+43 out-of-tokens,10 null-content answers;committed9505cd2,PR #6 open(not merged).
+D120 0.17.1(unreleased,same branch):null-content stop→certain empty_response;uncommitted.
 
 ## Open risks
 

@@ -96,6 +96,9 @@ def parse_completion(raw: bytes, expected_model: str) -> Completion:
             "content_filter",
         ):
             content = ""
+        if content is None and choice["finish_reason"] == "stop" and not calls:
+            # Settled with known usage, but never presented as an empty answer.
+            raise TransportFailure("empty_response", uncertain=False, usage=usage)
         return Completion(
             expected_model,
             response_id,
