@@ -51,6 +51,16 @@ bundled int8 model,weight0.5,grading-v2;run1550 PASS. PR #1 merged(28f1649);0.15
 0.16.0(D116/D117,PR #3 feat/chat-memory-longmemeval):ChatMemory/AsyncChatMemory,
 retrieval_share0.4,diverse_turns(ChatMemory default),examples,LongMemEval-S@3000:
 core hybrid78.5%→ChatMemory94.2%(all45.9→79.3%). PR #3 merged(c3a214d);0.16.0 on PyPI.
+D118 live LongMemEval(mercury-3,95q,3000,reasoning off):lenient core18 vs ChatMemory26
+(paired9 vs1);$0.046 list;committed6e9fb15,PR #5 open(not merged).
+D119 stage A(0.17.0 unreleased,branch feat/longmemeval-error-breakdown):lenient-v3 core21/
+ChatMemory31;wrong core77=a8/b15/c37/d17,ChatMemory69=a11/b15/c10/d33;stop words and600
+chunks worse→no default change;committed5bdc363. Stage B COMPLETE(517 calls,157,133
+micro-USD list):judge core37/ChatMemory56@3000/54@8000;v3 26/38/40;d errors33→10;
+43 out-of-tokens,10 null-content answers;committed9505cd2,PR #6 open(not merged).
+D120 0.17.1(unreleased,same branch):null-content stop→certain empty_response;committed340b761.
+D121 temporal@2048 COMPLETE(93 calls,28,289 micro-USD):out-of-tokens21→8,judge core4→7,
+ChatMemory6→9 of26(paired3/0 each). No default change;uncommitted runner+tests+report.
 
 ## Open risks
 

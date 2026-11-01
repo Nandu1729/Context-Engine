@@ -84,7 +84,7 @@ def test_transport_preserves_content_verbatim(content):
 def test_stop_with_null_is_not_silently_converted_to_empty():
     with pytest.raises(TransportFailure) as error:
         parse_completion(payload(None), MODEL)
-    assert error.value.code == "invalid_response"
+    assert error.value.code == "empty_response" and not error.value.uncertain
     assert error.value.usage.total_tokens == 87
 
 

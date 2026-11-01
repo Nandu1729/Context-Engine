@@ -3,6 +3,48 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.17.1 — 2026-11-01 (unreleased)
+
+### Changed
+- A completion with no text (`content: null`), finish reason `stop` and no tool calls
+  now fails with its own certain error code `empty_response` instead of the uncertain
+  `invalid_response` (D120). Its token usage is known, so the cost is settled exactly
+  and nothing is held; it is not retried and is never returned as an empty answer.
+  Mercury-3 returned this shape 10 times in D119 stage B. Responses with broken usage
+  or tool calls still fail as `invalid_response`.
+
+### Added
+- `scripts/longmemeval_temporal_tokens_live.py` (D121): the stage B runner with 2048
+  output tokens on its 26 temporal questions. Out-of-tokens answers 21 → 8; judge
+  core 4 → 7, ChatMemory 6 → 9 of 26. Results in `output/longmemeval-temporal-tokens-001/`.
+
+### Unchanged
+- Assembly output and defaults. 0.17.0 wheel/freeze (the code that ran D119 stage B)
+  archived in `archives/c17-empty-response-0171/`.
+
+## 0.17.0 — 2026-10-31 (unreleased)
+
+### Added
+- Lenient grading v3 (`answer_correct_lenient_v3`, `v3_tokens`; D119): drops a
+  leading article, removes punctuation from reply and gold, reads number words 0–99
+  as digits, and accepts a bare number for a "<number> <unit>" gold. Not added to
+  `GRADERS`, so strict-v1/lenient-v2 reports reproduce unchanged.
+- `scripts/longmemeval_error_breakdown.py`: offline classification of D118 wrong
+  answers (format / rubric gold / evidence missing / model error) and v3 regrade.
+- `scripts/retrieval_chunking_check.py`: offline answer-text cut-off and stop-word
+  check on LongMemEval-S and the synthetic benchmark.
+- `scripts/longmemeval_accuracy_live_b.py`: bounded live run (D119 stage B) with three
+  arms and the published LongMemEval judge prompts; results in
+  `output/longmemeval-accuracy-b-001/`.
+
+### Measured and not adopted
+- Stop-word removal in keyword search and 600/150-character chunks: both lower
+  LongMemEval-S evidence recall and reworded synthetic retention.
+
+### Unchanged
+- Assembly output and defaults. 0.16.0 wheel/freeze archived in
+  `archives/c17-grading-v3-0170/`.
+
 ## 0.16.0 — 2026-10-31 (PyPI)
 
 ### Added
