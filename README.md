@@ -188,6 +188,9 @@ These are enforced in code and covered by about 1,400 tests:
   with ChatMemory's defaults vs 18 with `assemble_context` defaults (31 vs 21 with a
   grader that also accepts "3" for "three days"). With ChatMemory, most remaining
   misses had the evidence in context: the model said "unknown" or miscounted.
+  A second run with thinking on, a better prompt and LongMemEval's own model judge
+  (same small model family as judge) scored 56 of 95 with ChatMemory's defaults vs 37
+  with `assemble_context` defaults; 8000 tokens did not beat 3000 (54).
   Absolute accuracy is low and not comparable with published LongMemEval scores.
   Details in the benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.

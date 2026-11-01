@@ -6,6 +6,11 @@
   change without asking. Stage B live only after "go live B":same95q/seed118/2 settings,
   reasoning low,1024 output,improved prompt,optional ChatMemory@8000(approved for that run
   only),mercury-3 judge(instant,64 out),cap300,000 micro-USD,max600 calls,no retries.
+  Owner said "commit and go live to stage b" before seeing the plan; plan+10-slot stage
+  shown, then "continue". Amendments(owner "1" each time):accept up to10 answer
+  invalid_response(content null,finish stop;counted wrong,raw body saved privately);
+  then up to10 judge replies with no text counted "no". Out-of-tokens answers counted
+  wrong(report fix). Published judge prompt:LongMemEval evaluate_qa.py@9e0b455.
 - D118 / OWNER LIVE LONGMEMEVAL ACCURACY,2026-10-31:one bounded Inception mercury-3
   run(owner Free Tier),INCEPTION_API_KEY line only,3000 tokens for this run only,100 seeded
   stratified questions x2 settings(core defaults hybrid vs ChatMemory defaults),256 output,

@@ -28,7 +28,7 @@ service; not an enterprise-qualified release. Owner decisions: D109 in
 Full suite, `uv run --locked --offline pytest -q`, macOS arm64, Python 3.12.13.
 0.11.0: run 3 **1429 passed, 0 failed** (earlier runs 1–2 failures were fixed;
 see the brain journal). 0.12.0: run 4 (adapters) 1450 passed; run 5 (Inception)
-1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s).
+1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s); stage B runner: **1639 passed**.
 All with 0 failed and 48 skipped (Windows-only and one private-screenshot test).
 
 Lint: `ruff check src` passes. `python3 scripts/brain.py check` passes.
@@ -61,7 +61,7 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 | Live accuracy at 3000 tokens / paid models | Not approved |
 | MCP in-chat use by a model | Owner restarts Claude Code and tries the tools |
 | Reworded questions | 0.15.0 **default** hybrid retrieval (bundled model, weight 0.5): offline 3/31 → 21/31; live (D114, weight 0.7) keyword 3/31 vs hybrid 18/31 strict, 21/31 lenient (grading v2). Needle-in-filler + reworded still hard: 12/31 |
-| Real-world evaluation data | LongMemEval-S evidence recall (offline, 479 questions): 3000 tokens, core hybrid 78.5% any / 45.9% all; ChatMemory default 94.2% / 79.3%. Live answer accuracy (D118, mercury-3, 95 questions, lenient exact match): core 18/95, ChatMemory 26/95 (paired 9 vs 1); lenient-v3 (0.17.0, D119) 21/95 vs 31/95. Error breakdown: core mostly missing evidence (37 of 77 wrong), ChatMemory mostly model errors with evidence present (33 of 69) |
+| Real-world evaluation data | LongMemEval-S evidence recall (offline, 479 questions): 3000 tokens, core hybrid 78.5% any / 45.9% all; ChatMemory default 94.2% / 79.3%. Live answer accuracy (D118, mercury-3, 95 questions, lenient exact match): core 18/95, ChatMemory 26/95 (paired 9 vs 1); lenient-v3 (0.17.0, D119) 21/95 vs 31/95. Error breakdown: core mostly missing evidence (37 of 77 wrong), ChatMemory mostly model errors with evidence present (33 of 69). D119 stage B (mercury-3, reasoning low, improved prompt, LongMemEval judge): judge core 37/95, ChatMemory 56/95 at 3000 and 54/95 at 8000 (paired 23 vs 4); model errors 33 → 10, but 43 answers ran out of tokens and 10 returned no text |
 | Production operations (load, SLOs, TLS, IdP, rate limits) | Later stages |
 
 ## Incident

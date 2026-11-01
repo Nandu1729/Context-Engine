@@ -14,6 +14,9 @@ Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
   answers (format / rubric gold / evidence missing / model error) and v3 regrade.
 - `scripts/retrieval_chunking_check.py`: offline answer-text cut-off and stop-word
   check on LongMemEval-S and the synthetic benchmark.
+- `scripts/longmemeval_accuracy_live_b.py`: bounded live run (D119 stage B) with three
+  arms and the published LongMemEval judge prompts; results in
+  `output/longmemeval-accuracy-b-001/`.
 
 ### Measured and not adopted
 - Stop-word removal in keyword search and 600/150-character chunks: both lower

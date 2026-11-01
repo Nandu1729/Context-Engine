@@ -60,6 +60,80 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Live accuracy with thinking and a model judge (D119 stage B, mercury-3, 2026-11-01)
+
+`scripts/longmemeval_accuracy_live_b.py`; public counts in
+`output/longmemeval-accuracy-b-001/report.json`, answers and judge replies private.
+Same 95 questions and seed as D118. Changes for cause (d): reasoning "low", 1024
+output tokens, a system prompt that says the answer is usually in the memory, to
+search it carefully, compute dates from the question date and answer "unknown" only
+if it is truly missing. Judge: mercury-3, reasoning "instant", 64 tokens, the
+published LongMemEval judge prompts verbatim
+([evaluate_qa.py @ 9e0b455](https://github.com/xiaowu0162/LongMemEval/blob/9e0b455f4ef0e2ab8f2e582289761153549043fc/src/evaluation/evaluate_qa.py),
+MIT; correct when the judge reply contains "yes").
+
+| Arm (n = 95, Wilson 95%) | strict-v1 | lenient-v2 | lenient-v3 | judge |
+|---|---|---|---|---|
+| `assemble_context` defaults, 3000 | 22 (16–33%) | 23 (17–34%) | 26 (19–37%) | 37 (30–49%) |
+| ChatMemory defaults, 3000 | 26 (19–37%) | 27 (20–38%) | 38 (31–50%) | **56** (49–68%) |
+| ChatMemory defaults, 8000 | 30 (23–42%) | 30 (23–42%) | **40** (33–52%) | 54 (47–66%) |
+
+Same question, both arms: ChatMemory vs core at 3000 tokens, judge 23 vs 4 (sign
+test p < 0.001), lenient-v3 17 vs 5 (p ≈ 0.02). ChatMemory 8000 vs 3000: judge 6 vs 8,
+lenient-v3 10 vs 8 (no difference shown).
+
+Paired against D118 (same questions; three things changed at once):
+
+| Arm vs D118 | lenient-v3 improved / regressed | lenient-v2 | strict-v1 |
+|---|---|---|---|
+| core 3000 | 8 / 3 (p ≈ 0.23) | 7 / 2 | 8 / 3 |
+| ChatMemory 3000 | 14 / 7 (p ≈ 0.19) | 9 / 8 | 10 / 5 |
+| ChatMemory 8000 (vs D118 ChatMemory 3000) | 18 / 9 (p ≈ 0.12) | 12 / 8 | 16 / 7 |
+
+By type, judge (core / ChatMemory 3000 / ChatMemory 8000): multi-session 6 / 17 / 19
+of 24, knowledge-update 10 / 13 / 10 of 15, single-session-user 11 / 12 / 11 of 13,
+single-session-assistant 5 / 5 / 5 of 11, temporal 4 / 6 / 7 of 26, preference
+1 / 3 / 2 of 6.
+
+**Error breakdown again** (lenient-v2 misses, stage A rules plus two new groups):
+
+| Group | core D118 → B | ChatMemory 3000 D118 → B | ChatMemory 8000 |
+|---|---|---|---|
+| (a) format only | 8 → 9 | 11 → 21 | 18 |
+| (b) rubric gold | 15 → 13 | 15 → 9 | 8 |
+| (c) evidence missing | 37 → 31 | 10 → 11 | 4 |
+| (d) model error, evidence present | 17 → **5** | 33 → **10** | 13 |
+| out of tokens (thinking used all 1024, empty answer) | – → 11 | – → 16 | 16 |
+| invalid response (no answer text) | – → 3 | – → 1 | 6 |
+
+Group (d) shrank (ChatMemory 33 → 10; "unknown" replies 34 → 11), but 43 of 285
+answers (33 of them temporal questions) ran out of tokens and 10 came back with no
+text, so the net gain under exact-match grading is modest. More of the remaining
+misses are format-only (11 → 21), which the judge accepts.
+
+**Judge vs lenient-v3** on the 232 judged answers: agree on 187; the judge accepts 44
+that v3 rejects and rejects 1 that v3 accepts. Ten private disagreement samples: all
+judge-yes, v3-no — "UCLA" for "University of California, Los Angeles (UCLA)", "1 hour
+30 minutes" for "an hour and a half", "12" for a sentence gold, "Trader Joe's lavender
+scented shampoo" for "Trader Joe's", two preference answers that use the user's
+details. They read as correct; none looked like a judge error.
+
+**Provider behavior** (raw bodies saved privately for each new case): Inception
+sometimes returns `content: null` with finish "stop" after thinking (10 answers, 1
+judge reply). The client rejects that as `invalid_response`. By owner amendments these
+were counted wrong (answers) or "no" (judge), never resent, each capped at 10.
+
+Calls 517 of 600 (285 answers, 232 judge; no judge for the 53 answers without text),
+0 retries, 0 rate limits. Tokens: answers 901,674 in / 67,482 out (65,712 thinking);
+judge 31,658 in / 907 out. List-price estimate 157,133 micro-USD (cap 300,000); the API
+reports no billing.
+
+Limitations: one model and one run; partly simulated chats; the judge is the same
+model family as the answerer, with prompts written for GPT-4o, at temperature 0.5
+(paper: 0); answers at temperature 0.5 (API minimum); the D118 comparison changes
+reasoning, output limit and prompt together; D118 answers were not judged (call
+limit); 1024 tokens was too few for "low" thinking on date questions.
+
 ## Why D118 answers were wrong (D119 stage A, offline, 2026-10-31)
 
 No model calls. `scripts/longmemeval_error_breakdown.py` rebuilds all 190 D118
