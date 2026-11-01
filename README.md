@@ -185,9 +185,11 @@ These are enforced in code and covered by about 1,400 tests:
   `assemble_context` defaults (keyword-only: 74.3%). When an answer needs several
   turns, all of them are present 79.3% of the time. One live run on 95 of these
   questions (one small model, reasoning off, exact-match grading) answered 26 correctly
-  with ChatMemory's defaults vs 18 with `assemble_context` defaults. Absolute accuracy
-  is low and not comparable with published LongMemEval scores. Details in the
-  benchmark report.
+  with ChatMemory's defaults vs 18 with `assemble_context` defaults (31 vs 21 with a
+  grader that also accepts "3" for "three days"). With ChatMemory, most remaining
+  misses had the evidence in context: the model said "unknown" or miscounted.
+  Absolute accuracy is low and not comparable with published LongMemEval scores.
+  Details in the benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.
   Providers may count differently. On small requests, provider counts were up
   to 1.78× the local estimate in past tests, so leave headroom or calibrate.

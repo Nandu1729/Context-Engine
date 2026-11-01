@@ -60,6 +60,78 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Why D118 answers were wrong (D119 stage A, offline, 2026-10-31)
+
+No model calls. `scripts/longmemeval_error_breakdown.py` rebuilds all 190 D118
+contexts (every request hash matches the live manifest) and reads the private
+receipts. Public counts: `output/longmemeval-error-breakdown-001/report.json`;
+replies, contexts and examples stay in `output/private/`.
+
+**Lenient-v3 grader** (new in 0.17.0, owner-approved; beside v1/v2, not replacing
+them): drops one leading "the/a/an", removes punctuation from both reply and gold,
+reads number words 0–99 as digits, and accepts a bare number for a
+"&lt;number&gt; &lt;unit&gt;" gold ("3" for "3 days"). It still fails a different unit, a
+partial answer, prose around the answer, and "3" for "three times a week".
+
+| Setting (n = 95) | strict-v1 | lenient-v2 | lenient-v3 |
+|---|---|---|---|
+| `assemble_context` defaults | 17 (11–27%) | 18 (12–28%) | 21 (15–31%) |
+| ChatMemory defaults | 21 (15–31%) | 26 (19–37%) | **31** (24–43%) |
+
+Paired on the same question (lenient-v3): only ChatMemory right 12, only core 2.
+By type (v3, core → ChatMemory): multi-session 2 → 8, temporal 4 → 5,
+knowledge-update 6 → 7, single-session-user 5 → 6, single-session-assistant 4 → 5,
+preference 0 → 0.
+
+**Wrong answers** (lenient-v2 false), first matching rule wins:
+
+| Group | Rule | Core (77) | ChatMemory (69) |
+|---|---|---|---|
+| (a) format only | lenient-v3 accepts (a1), or the reply is the gold plus words (a2) | 8 | 11 |
+| (b) rubric gold | gold lists an alternative ("acceptable", "(or "), is a preference description, or has 8+ words | 15 | 15 |
+| (c) evidence missing | c1: a needed evidence turn is not in context (knowledge-update: the newest; others: all); c2: the turn is there but the gold words are not (cut off) | **37** (33 + 4) | 10 (7 + 3) |
+| (d) model error | evidence present; "unknown" (d1) or wrong (d2) | 17 | **33** |
+
+Model errors split into gold-words-in-context ("extractive") and computed answers:
+ChatMemory d1 11 + 4, d2 7 + 11; core d1 7 + 2, d2 3 + 5. So ChatMemory's main
+remaining problem is the model (it answers "unknown" or miscounts with the evidence
+in front of it); core's is missing evidence. Examples (3 per rule) were reviewed
+privately: a1 "3 times a week" vs "Three times a week."; c2 "$2,000" absent from the
+retrieved chunk; d2 37 vs 38 coins.
+
+Caveats: a2 can accept a hedged reply; (b) is counted whatever the reply says;
+short numeric golds ("4") can match a number elsewhere in the context, so
+"extractive" is an upper bound.
+
+### Retrieval check for cause (c) (offline)
+
+`scripts/retrieval_chunking_check.py`, all 470 eligible questions at 3000 tokens;
+"answer text" = the gold's words appear in the context, for the 142 extractive
+questions; "cut" = the gold-bearing turn is in context but the words are not.
+
+| Variant | Setting | any / all / latest (of 470) | answer text (of 142) | cut |
+|---|---|---|---|---|
+| **360/80, all words (current)** | core | 371 / 217 / 312 | 108 | 7 |
+| | ChatMemory | **442 / 371 / 411** | **125** | 9 |
+| 360/80, NLTK stop words removed | core | 353 / 202 / 289 | 103 | 8 |
+| | ChatMemory | 435 / 353 / 403 | 121 | 9 |
+| 600/150 chunks | core | 365 / 215 / 302 | 111 | 3 |
+| | ChatMemory | 430 / 356 / 401 | 125 | 3 |
+| 600/150 + stop words | core | 348 / 208 / 291 | 111 | 3 |
+| | ChatMemory | 427 / 346 / 397 | 123 | 4 |
+
+Synthetic benchmark (evidence sentence in context, 31 facts): original questions
+31/31 for every variant. Reworded questions at 3000 tokens, hybrid all-layers
+(`combined_semantic`): 21 current, 20 stop words, 17 600-char chunks, 16 both;
+keyword all-layers 3 → 0 with stop words.
+
+Result: chunking cuts the answer off in only 9 of 142 extractive questions
+(ChatMemory). Bigger chunks reduce cuts (9 → 3) but fit fewer chunks, so evidence
+recall falls (442 → 430) and reworded synthetic retention falls (21 → 17). Removing
+stop words is worse on every measure (BM25's IDF already discounts common words, and
+removing them likely also drops words like "my" that anchor personal questions; not verified). **No default
+changed.**
+
 ## Live answer accuracy on LongMemEval-S (D118, Inception mercury-3, 2026-10-31)
 
 One bounded live run (`scripts/longmemeval_accuracy_live.py`, run

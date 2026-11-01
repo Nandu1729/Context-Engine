@@ -3,6 +3,26 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.17.0 — 2026-10-31 (unreleased)
+
+### Added
+- Lenient grading v3 (`answer_correct_lenient_v3`, `v3_tokens`; D119): drops a
+  leading article, removes punctuation from reply and gold, reads number words 0–99
+  as digits, and accepts a bare number for a "<number> <unit>" gold. Not added to
+  `GRADERS`, so strict-v1/lenient-v2 reports reproduce unchanged.
+- `scripts/longmemeval_error_breakdown.py`: offline classification of D118 wrong
+  answers (format / rubric gold / evidence missing / model error) and v3 regrade.
+- `scripts/retrieval_chunking_check.py`: offline answer-text cut-off and stop-word
+  check on LongMemEval-S and the synthetic benchmark.
+
+### Measured and not adopted
+- Stop-word removal in keyword search and 600/150-character chunks: both lower
+  LongMemEval-S evidence recall and reworded synthetic retention.
+
+### Unchanged
+- Assembly output and defaults. 0.16.0 wheel/freeze archived in
+  `archives/c17-grading-v3-0170/`.
+
 ## 0.16.0 — 2026-10-31 (PyPI)
 
 ### Added

@@ -1,5 +1,11 @@
 # Decision register
 
+- D119 / OWNER REDUCE WRONG ANSWERS,2026-10-31:staged. Stage A offline:classify D118
+  run-002 wrong answers(format/rubric gold/evidence missing/model error),add lenient-v3
+  grader(approved;beside v1/v2,not in GRADERS),chunking cut-off+stop-word check;no default
+  change without asking. Stage B live only after "go live B":same95q/seed118/2 settings,
+  reasoning low,1024 output,improved prompt,optional ChatMemory@8000(approved for that run
+  only),mercury-3 judge(instant,64 out),cap300,000 micro-USD,max600 calls,no retries.
 - D118 / OWNER LIVE LONGMEMEVAL ACCURACY,2026-10-31:one bounded Inception mercury-3
   run(owner Free Tier),INCEPTION_API_KEY line only,3000 tokens for this run only,100 seeded
   stratified questions x2 settings(core defaults hybrid vs ChatMemory defaults),256 output,
