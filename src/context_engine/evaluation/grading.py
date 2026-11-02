@@ -71,6 +71,73 @@ def answer_correct_lenient(answer: str, aliases: tuple[str, ...]) -> bool:
 GRADERS = {"strict-v1": answer_correct, "lenient-v2": answer_correct_lenient}
 
 
+# grading-v3 (0.17.0, D119): also tolerant of articles, punctuation, number words and
+# a bare number for "<number> <unit>". Kept out of GRADERS so v1/v2 reports reproduce.
+_ONES = (
+    "zero one two three four five six seven eight nine ten eleven twelve thirteen "
+    "fourteen fifteen sixteen seventeen eighteen nineteen"
+).split()
+_TENS = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+_NUMBER_WORDS = {w: i for i, w in enumerate(_ONES)} | {w: 20 + 10 * i for i, w in enumerate(_TENS)}
+_NUMBER = re.compile(r"\d+(?:\.\d+)?")
+
+
+def v3_tokens(text: str) -> list[str]:
+    """Words after v3 normalization: every non-alphanumeric character becomes a space,
+    number words 0-99 become digits and one leading article is dropped. "1,000" ->
+    "1000"; "3.5" keeps its point; apostrophes are removed ("Joe's" -> "joes")."""
+    value = normalize(text.translate(_DASHES))
+    value = re.sub(r"(?<=\d),(?=\d{3}\b)", "", value)
+    value = re.sub(r"['\u2019]", "", value)
+    value = "".join(
+        c if c.isalnum() or c in "\0 " else " " for c in re.sub(r"(?<=\d)\.(?=\d)", "\0", value)
+    ).replace("\0", ".")
+    words, tokens = value.split(), []
+    for previous, word in zip([None, *words], words, strict=False):
+        number = _NUMBER_WORDS.get(word)
+        if number is not None and previous in _TENS and number < 10:
+            tokens[-1] = str(int(tokens[-1]) + number)  # "twenty one" -> 21
+        elif number is not None:
+            tokens.append(str(number))
+        else:
+            tokens.append(word)
+    if tokens and tokens[0] in ("the", "a", "an"):
+        tokens = tokens[1:]
+    return tokens
+
+
+def answer_correct_lenient_v3(answer: str, aliases: tuple[str, ...]) -> bool:
+    """v3 tokens must be equal, or the reply is exactly the number of a "<number> <unit>"
+    alias ("3" for "3 days"). Prose that merely contains the answer is still wrong."""
+    value = answer.strip()
+    if value.startswith("{"):
+        try:
+            pairs = json.loads(value, object_pairs_hook=lambda items: items)
+        except (ValueError, RecursionError):
+            return False
+        if not isinstance(pairs, list) or len(pairs) != 1 or pairs[0][0] != "answer":
+            return False
+        value = pairs[0][1]
+        if not isinstance(value, str):
+            return False
+    reply = v3_tokens(value)
+    if not reply:
+        return False
+    for alias in aliases:
+        gold = v3_tokens(alias)
+        if reply == gold:
+            return True
+        if (
+            len(gold) == 2
+            and len(reply) == 1
+            and reply[0] == gold[0]
+            and _NUMBER.fullmatch(gold[0])
+            and not _NUMBER.search(gold[1])
+        ):
+            return True
+    return False
+
+
 def proportion(successes: int, denominator: int) -> dict:
     if (
         type(successes) is not int

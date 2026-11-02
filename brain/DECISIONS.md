@@ -1,5 +1,42 @@
 # Decision register
 
+- D123 / OWNER "GO FOR THE BEST",2026-11-02:owner has $200 Anthropic credit and rejects
+  the cheapest models. Proposed run(not yet approved to go live):Fable5.1 answers(adaptive,
+  effort high,8192 out)95q x core/ChatMemory3000,Opus5.5 judge(adaptive,effort medium,
+  2048 out)on Fable answers+re-judge of232 stage B mercury answers. Cap130,000,000
+  micro-USD(worst124.5M with1.5x token margin),max700 calls,no retries,own ledger,
+  key=ANTHROPIC_API_KEY line(Default-workspace key,30-day expiry). 0.17.3 allows
+  Opus/Fable;0.17.2 wheel(be06a83f…)archived. Owner "go live,continue,commit":committed
+  0043859 before dispatch;10-call stage clean,then full run.
+- D122 / OWNER "OK" TO BOTH FOLLOW-UPS,2026-11-02:(1)docs recommend 2048+ output tokens
+  with thinking;defaults stay 256(changing them needs a separate ask).(2)Anthropic
+  provider in src,offline only:Haiku5.5/Sonnet5.5(Opus excluded:thinking always on),
+  temperature not sent,cache writes refused,no tools. Facts from platform.claude.com
+  docs. 0.17.2 unreleased;0.17.1 wheel(8a8f7843…)archived. A live Claude run needs its
+  own plan,cap and owner approval;ANTHROPIC_API_KEY goes in .env by the owner only.
+- D121 / OWNER TEMPORAL OUTPUT-LIMIT RUN,2026-11-01:owner "commit, do after that whats
+  best",then "go live" on the shown plan and "continue" after the10-call stage. Stage B's
+  26 temporal questions x core/ChatMemory 3000,2048 output tokens,all else stage B(contexts
+  byte-identical),own ledger,cap70,000 micro-USD,max110 calls,no retries;empty_response
+  up to10 each counted wrong/"no". Stage B runner reused by patching its module globals.
+- D120 / OWNER EMPTY-RESPONSE CODE,2026-11-01:owner chose option B("go for it")over
+  converting null to "". A completion with content null,finish stop and no tool calls now
+  raises TransportFailure("empty_response",uncertain=False)with parsed usage:settled at
+  known cost,never retried,never shown as an empty answer(D081 intent kept;its test now
+  expects empty_response). Broken usage or tool calls stay invalid_response/uncertain.
+  0.17.1 unreleased;0.17.0 wheel(c9cb0edd…,ran stage B)archived. Token-limit rerun and
+  Anthropic transport are separate proposals,not approved.
+- D119 / OWNER REDUCE WRONG ANSWERS,2026-10-31:staged. Stage A offline:classify D118
+  run-002 wrong answers(format/rubric gold/evidence missing/model error),add lenient-v3
+  grader(approved;beside v1/v2,not in GRADERS),chunking cut-off+stop-word check;no default
+  change without asking. Stage B live only after "go live B":same95q/seed118/2 settings,
+  reasoning low,1024 output,improved prompt,optional ChatMemory@8000(approved for that run
+  only),mercury-3 judge(instant,64 out),cap300,000 micro-USD,max600 calls,no retries.
+  Owner said "commit and go live to stage b" before seeing the plan; plan+10-slot stage
+  shown, then "continue". Amendments(owner "1" each time):accept up to10 answer
+  invalid_response(content null,finish stop;counted wrong,raw body saved privately);
+  then up to10 judge replies with no text counted "no". Out-of-tokens answers counted
+  wrong(report fix). Published judge prompt:LongMemEval evaluate_qa.py@9e0b455.
 - D118 / OWNER LIVE LONGMEMEVAL ACCURACY,2026-10-31:one bounded Inception mercury-3
   run(owner Free Tier),INCEPTION_API_KEY line only,3000 tokens for this run only,100 seeded
   stratified questions x2 settings(core defaults hybrid vs ChatMemory defaults),256 output,

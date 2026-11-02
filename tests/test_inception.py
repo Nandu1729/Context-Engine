@@ -224,3 +224,19 @@ def test_smoke_key_reader_reads_only_its_line(tmp_path):
     env.write_text("GROQ_API_KEY=g\n")
     with pytest.raises(ValueError, match="never displayed"):
         smoke.inception_key(env)
+
+
+def test_null_content_stop_reply_is_a_certain_empty_response(tmp_path):
+    # Shape seen live in D119 stage B: content null, finish "stop", no tool calls.
+    raw = body()
+    raw["choices"][0]["message"] = {
+        "role": "assistant",
+        "content": None,
+        "reasoning_details": [],
+        "tool_call_id": None,
+        "tool_calls": None,
+    }
+    result = call(provider(tmp_path, lambda request: httpx.Response(200, json=raw)))
+    assert result.status == "error" and result.error_code == "empty_response"
+    assert result.completion is None and result.warning is None
+    assert result.new_cost_microusd == 7  # 40 x 0.10 + 6 x 0.35 = 6.1, rounded up

@@ -1,6 +1,6 @@
 # Benchmark report
 
-Updated 2026-10-31. Every number here is labeled with how it was produced.
+Updated 2026-11-02. Every number here is labeled with how it was produced.
 "Retention" means the planted fact's evidence reached the assembled context at its
 declared source. It is **not** answer accuracy.
 
@@ -59,6 +59,238 @@ Latencies are from one unloaded run and vary by machine.
 5. Token reduction is a function of the budget you choose, not of strategy: every
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
+
+## A top model and an outside judge (D123, Claude Fable 5.1 / Opus 5.5, 2026-11-02)
+
+`scripts/longmemeval_claude_live.py`; public counts in
+`output/longmemeval-claude-001/report.json`, answers private. Claude Fable 5.1
+(adaptive thinking, effort "high", 8192 output tokens) answered stage B's 95 questions
+with stage B's prompt; all 190 contexts are byte-identical to the ones mercury-3 saw.
+Claude Opus 5.5 (adaptive thinking, effort "medium", 2048 tokens, the published
+LongMemEval judge prompts) judged every Fable answer and re-judged all 232 stage B
+mercury-3 answers that had text.
+
+| n = 95 (Wilson 95%) | strict-v1 | lenient-v3 | Opus judge |
+|---|---|---|---|
+| Fable, `assemble_context` defaults, 3000 | 19 (13–29%) | 23 (17–34%) | 46 (39–58%) |
+| Fable, ChatMemory defaults, 3000 | 27 (20–38%) | 36 (29–48%) | **70** (64–81%) |
+| mercury-3 (stage B), core, Opus judge | 22 | 26 | 38 (31–50%) |
+| mercury-3 (stage B), ChatMemory, Opus judge | 26 | 38 | 59 (52–71%) |
+
+**ChatMemory vs core with the same strong model:** judge 27 vs 3 questions
+(p < 0.001), lenient-v3 15 vs 2 (p ≈ 0.002). The gap does not close with a better
+model: with core defaults, 35 of Fable's 49 misses had evidence missing from the
+context (ChatMemory: 12), and Fable said "unknown" 31 times (ChatMemory: 12).
+
+**Fable vs mercury-3, same contexts and same Opus judge:** core 10 improved / 2
+regressed (p ≈ 0.04), ChatMemory 12 / 1 (p ≈ 0.003). Exact-match graders show no gain
+(lenient-v3 6 / 9 and 7 / 9): Fable often answers in a short sentence rather than the
+bare value (format-only misses: ChatMemory 29, core 18).
+
+By type, Opus judge (core / ChatMemory): knowledge-update 10 / 15 of 15,
+single-session-user 11 / 13 of 13, multi-session 6 / 17 of 24, temporal 9 / 14 of 26,
+single-session-assistant 5 / 6 of 11, preference 5 / 5 of 6.
+
+**Was the mercury judge fair to its own family?** On the 232 stage B answers, the Opus
+judge agreed with the mercury-3 judge on 226. Opus never rejected an answer mercury
+accepted; it accepted 6 that mercury rejected (p ≈ 0.03). So stage B's judge scores
+were, if anything, slightly low, not inflated.
+
+Calls 612 (190 answers, 190 judges, 232 re-judges), 0 errors, 0 retries, no empty or
+cut-off answers. Tokens: answers 742,121 in / 30,383 out (27,437 thinking); judge
+93,356 in / 9,165 out. Claude counted about 1.37x the local input estimate. List-price
+cost 9,497,084 micro-USD ($9.50; cap $130, worst case $124.48).
+
+Limitations: one run; 95 questions; Fable used much more thinking than mercury-3
+(effort high / 8192 vs low / 1024), so the model comparison includes the thinking
+budget; the Opus judge is the same family as Fable; prompts written for GPT-4o;
+temperatures differ (Claude API default vs 0.5); not human-checked.
+
+## Larger output limit for date questions (D121, mercury-3, 2026-11-01)
+
+`scripts/longmemeval_temporal_tokens_live.py`; public counts in
+`output/longmemeval-temporal-tokens-001/report.json`, answers private. The 26
+temporal-reasoning questions of stage B, core and ChatMemory defaults at 3000 tokens,
+**2048** output tokens instead of 1024. Everything else is stage B (prompt, reasoning
+"low", temperature 0.5, judge); all 52 assembled contexts are byte-identical to stage
+B's, so the output limit is the only change. Each answer is paired with its own stage
+B answer.
+
+| Arm (n = 26, Wilson 95%) | strict-v1 | lenient-v2 | lenient-v3 | judge | out of tokens |
+|---|---|---|---|---|---|
+| core 3000, stage B (1024) | 3 | 4 | 4 | 4 (6–34%) | 9 |
+| core 3000, 2048 | 2 (2–24%) | 4 (6–34%) | 6 (11–42%) | 7 (14–46%) | 4 |
+| ChatMemory 3000, stage B (1024) | 1 | 2 | 6 | 6 (11–42%) | 12 |
+| ChatMemory 3000, 2048 | 2 (2–24%) | 3 (4–29%) | 6 (11–42%) | 9 (19–54%) | 4 |
+
+Paired, judge: core 3 improved / 0 regressed, ChatMemory 3 / 0 (each p = 0.25; both
+arms together 6 / 0, p ≈ 0.03, but the arms share questions). lenient-v3: core 2 / 0,
+ChatMemory 1 / 1.
+
+Of the 21 answers that ran out of tokens in stage B, 14 now finished (6 of them judged
+correct) and 7 ran out again at 2048. One answer that finished in stage B ran out now,
+and 3 came back with no text (`empty_response`, counted wrong); 2 stage-B no-text
+answers now finished. Finished answers thought for a median of 390 tokens; 7 needed
+more than 1024. So the limit was the cause for about two thirds of the cut-off date
+answers; the rest keep thinking past 2048. Even so, date questions stay the weakest
+type (judge 7 and 9 of 26).
+
+The first 10 staged calls suggested otherwise (the 3 cut-off answers among them were
+cut off again); the full run did not bear that out.
+
+Calls 93 (52 answers, 41 judge; none for the 11 answers without text), 0 retries,
+0 rate limits. Tokens: answers 103,220 in / 23,830 out (23,598 thinking); judge 7,678
+in / 159 out. List-price estimate 28,289 micro-USD (cap 70,000).
+
+Limitations: 26 questions, one run, one model, temperature 0.5 (some paired changes
+are noise); the judge is the same model family; a larger limit also lets answers that
+would have finished think longer.
+
+## Live accuracy with thinking and a model judge (D119 stage B, mercury-3, 2026-11-01)
+
+`scripts/longmemeval_accuracy_live_b.py`; public counts in
+`output/longmemeval-accuracy-b-001/report.json`, answers and judge replies private.
+Same 95 questions and seed as D118. Changes for cause (d): reasoning "low", 1024
+output tokens, a system prompt that says the answer is usually in the memory, to
+search it carefully, compute dates from the question date and answer "unknown" only
+if it is truly missing. Judge: mercury-3, reasoning "instant", 64 tokens, the
+published LongMemEval judge prompts verbatim
+([evaluate_qa.py @ 9e0b455](https://github.com/xiaowu0162/LongMemEval/blob/9e0b455f4ef0e2ab8f2e582289761153549043fc/src/evaluation/evaluate_qa.py),
+MIT; correct when the judge reply contains "yes").
+
+| Arm (n = 95, Wilson 95%) | strict-v1 | lenient-v2 | lenient-v3 | judge |
+|---|---|---|---|---|
+| `assemble_context` defaults, 3000 | 22 (16–33%) | 23 (17–34%) | 26 (19–37%) | 37 (30–49%) |
+| ChatMemory defaults, 3000 | 26 (19–37%) | 27 (20–38%) | 38 (31–50%) | **56** (49–68%) |
+| ChatMemory defaults, 8000 | 30 (23–42%) | 30 (23–42%) | **40** (33–52%) | 54 (47–66%) |
+
+Same question, both arms: ChatMemory vs core at 3000 tokens, judge 23 vs 4 (sign
+test p < 0.001), lenient-v3 17 vs 5 (p ≈ 0.02). ChatMemory 8000 vs 3000: judge 6 vs 8,
+lenient-v3 10 vs 8 (no difference shown).
+
+Paired against D118 (same questions; three things changed at once):
+
+| Arm vs D118 | lenient-v3 improved / regressed | lenient-v2 | strict-v1 |
+|---|---|---|---|
+| core 3000 | 8 / 3 (p ≈ 0.23) | 7 / 2 | 8 / 3 |
+| ChatMemory 3000 | 14 / 7 (p ≈ 0.19) | 9 / 8 | 10 / 5 |
+| ChatMemory 8000 (vs D118 ChatMemory 3000) | 18 / 9 (p ≈ 0.12) | 12 / 8 | 16 / 7 |
+
+By type, judge (core / ChatMemory 3000 / ChatMemory 8000): multi-session 6 / 17 / 19
+of 24, knowledge-update 10 / 13 / 10 of 15, single-session-user 11 / 12 / 11 of 13,
+single-session-assistant 5 / 5 / 5 of 11, temporal 4 / 6 / 7 of 26, preference
+1 / 3 / 2 of 6.
+
+**Error breakdown again** (lenient-v2 misses, stage A rules plus two new groups):
+
+| Group | core D118 → B | ChatMemory 3000 D118 → B | ChatMemory 8000 |
+|---|---|---|---|
+| (a) format only | 8 → 9 | 11 → 21 | 18 |
+| (b) rubric gold | 15 → 13 | 15 → 9 | 8 |
+| (c) evidence missing | 37 → 31 | 10 → 11 | 4 |
+| (d) model error, evidence present | 17 → **5** | 33 → **10** | 13 |
+| out of tokens (thinking used all 1024, empty answer) | – → 11 | – → 16 | 16 |
+| invalid response (no answer text) | – → 3 | – → 1 | 6 |
+
+Group (d) shrank (ChatMemory 33 → 10; "unknown" replies 34 → 11), but 43 of 285
+answers (33 of them temporal questions) ran out of tokens and 10 came back with no
+text, so the net gain under exact-match grading is modest. More of the remaining
+misses are format-only (11 → 21), which the judge accepts.
+
+**Judge vs lenient-v3** on the 232 judged answers: agree on 187; the judge accepts 44
+that v3 rejects and rejects 1 that v3 accepts. Ten private disagreement samples: all
+judge-yes, v3-no — "UCLA" for "University of California, Los Angeles (UCLA)", "1 hour
+30 minutes" for "an hour and a half", "12" for a sentence gold, "Trader Joe's lavender
+scented shampoo" for "Trader Joe's", two preference answers that use the user's
+details. They read as correct; none looked like a judge error.
+
+**Provider behavior** (raw bodies saved privately for each new case): Inception
+sometimes returns `content: null` with finish "stop" after thinking (10 answers, 1
+judge reply). The client rejects that as `invalid_response`. By owner amendments these
+were counted wrong (answers) or "no" (judge), never resent, each capped at 10.
+
+Calls 517 of 600 (285 answers, 232 judge; no judge for the 53 answers without text),
+0 retries, 0 rate limits. Tokens: answers 901,674 in / 67,482 out (65,712 thinking);
+judge 31,658 in / 907 out. List-price estimate 157,133 micro-USD (cap 300,000); the API
+reports no billing.
+
+Limitations: one model and one run; partly simulated chats; the judge is the same
+model family as the answerer, with prompts written for GPT-4o, at temperature 0.5
+(paper: 0); answers at temperature 0.5 (API minimum); the D118 comparison changes
+reasoning, output limit and prompt together; D118 answers were not judged (call
+limit); 1024 tokens was too few for "low" thinking on date questions.
+
+## Why D118 answers were wrong (D119 stage A, offline, 2026-10-31)
+
+No model calls. `scripts/longmemeval_error_breakdown.py` rebuilds all 190 D118
+contexts (every request hash matches the live manifest) and reads the private
+receipts. Public counts: `output/longmemeval-error-breakdown-001/report.json`;
+replies, contexts and examples stay in `output/private/`.
+
+**Lenient-v3 grader** (new in 0.17.0, owner-approved; beside v1/v2, not replacing
+them): drops one leading "the/a/an", removes punctuation from both reply and gold,
+reads number words 0–99 as digits, and accepts a bare number for a
+"&lt;number&gt; &lt;unit&gt;" gold ("3" for "3 days"). It still fails a different unit, a
+partial answer, prose around the answer, and "3" for "three times a week".
+
+| Setting (n = 95) | strict-v1 | lenient-v2 | lenient-v3 |
+|---|---|---|---|
+| `assemble_context` defaults | 17 (11–27%) | 18 (12–28%) | 21 (15–31%) |
+| ChatMemory defaults | 21 (15–31%) | 26 (19–37%) | **31** (24–43%) |
+
+Paired on the same question (lenient-v3): only ChatMemory right 12, only core 2.
+By type (v3, core → ChatMemory): multi-session 2 → 8, temporal 4 → 5,
+knowledge-update 6 → 7, single-session-user 5 → 6, single-session-assistant 4 → 5,
+preference 0 → 0.
+
+**Wrong answers** (lenient-v2 false), first matching rule wins:
+
+| Group | Rule | Core (77) | ChatMemory (69) |
+|---|---|---|---|
+| (a) format only | lenient-v3 accepts (a1), or the reply is the gold plus words (a2) | 8 | 11 |
+| (b) rubric gold | gold lists an alternative ("acceptable", "(or "), is a preference description, or has 8+ words | 15 | 15 |
+| (c) evidence missing | c1: a needed evidence turn is not in context (knowledge-update: the newest; others: all); c2: the turn is there but the gold words are not (cut off) | **37** (33 + 4) | 10 (7 + 3) |
+| (d) model error | evidence present; "unknown" (d1) or wrong (d2) | 17 | **33** |
+
+Model errors split into gold-words-in-context ("extractive") and computed answers:
+ChatMemory d1 11 + 4, d2 7 + 11; core d1 7 + 2, d2 3 + 5. So ChatMemory's main
+remaining problem is the model (it answers "unknown" or miscounts with the evidence
+in front of it); core's is missing evidence. Examples (3 per rule) were reviewed
+privately: a1 "3 times a week" vs "Three times a week."; c2 "$2,000" absent from the
+retrieved chunk; d2 37 vs 38 coins.
+
+Caveats: a2 can accept a hedged reply; (b) is counted whatever the reply says;
+short numeric golds ("4") can match a number elsewhere in the context, so
+"extractive" is an upper bound.
+
+### Retrieval check for cause (c) (offline)
+
+`scripts/retrieval_chunking_check.py`, all 470 eligible questions at 3000 tokens;
+"answer text" = the gold's words appear in the context, for the 142 extractive
+questions; "cut" = the gold-bearing turn is in context but the words are not.
+
+| Variant | Setting | any / all / latest (of 470) | answer text (of 142) | cut |
+|---|---|---|---|---|
+| **360/80, all words (current)** | core | 371 / 217 / 312 | 108 | 7 |
+| | ChatMemory | **442 / 371 / 411** | **125** | 9 |
+| 360/80, NLTK stop words removed | core | 353 / 202 / 289 | 103 | 8 |
+| | ChatMemory | 435 / 353 / 403 | 121 | 9 |
+| 600/150 chunks | core | 365 / 215 / 302 | 111 | 3 |
+| | ChatMemory | 430 / 356 / 401 | 125 | 3 |
+| 600/150 + stop words | core | 348 / 208 / 291 | 111 | 3 |
+| | ChatMemory | 427 / 346 / 397 | 123 | 4 |
+
+Synthetic benchmark (evidence sentence in context, 31 facts): original questions
+31/31 for every variant. Reworded questions at 3000 tokens, hybrid all-layers
+(`combined_semantic`): 21 current, 20 stop words, 17 600-char chunks, 16 both;
+keyword all-layers 3 → 0 with stop words.
+
+Result: chunking cuts the answer off in only 9 of 142 extractive questions
+(ChatMemory). Bigger chunks reduce cuts (9 → 3) but fit fewer chunks, so evidence
+recall falls (442 → 430) and reworded synthetic retention falls (21 → 17). Removing
+stop words is worse on every measure (BM25's IDF already discounts common words, and
+removing them likely also drops words like "my" that anchor personal questions; not verified). **No default
+changed.**
 
 ## Live answer accuracy on LongMemEval-S (D118, Inception mercury-3, 2026-10-31)
 

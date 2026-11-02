@@ -106,6 +106,9 @@ chat_model.invoke(langchain_messages(result))  # pip install 'context-engineerin
 history = turns_from_openai(existing_openai_messages, scope)  # reuse a chat history you already have
 ```
 
+If your model thinks before it answers, its output limit includes the thinking. Leave
+room (2048 tokens or more): in our runs, smaller limits often ended with an empty answer.
+
 ### Finds meaning, not just matching words
 
 Retrieval combines keyword search with a small embedding model bundled in the
@@ -185,9 +188,19 @@ These are enforced in code and covered by about 1,400 tests:
   `assemble_context` defaults (keyword-only: 74.3%). When an answer needs several
   turns, all of them are present 79.3% of the time. One live run on 95 of these
   questions (one small model, reasoning off, exact-match grading) answered 26 correctly
-  with ChatMemory's defaults vs 18 with `assemble_context` defaults. Absolute accuracy
-  is low and not comparable with published LongMemEval scores. Details in the
-  benchmark report.
+  with ChatMemory's defaults vs 18 with `assemble_context` defaults (31 vs 21 with a
+  grader that also accepts "3" for "three days"). With ChatMemory, most remaining
+  misses had the evidence in context: the model said "unknown" or miscounted.
+  A second run with thinking on, a better prompt and LongMemEval's own model judge
+  (same small model family as judge) scored 56 of 95 with ChatMemory's defaults vs 37
+  with `assemble_context` defaults; 8000 tokens did not beat 3000 (54).
+  Date questions are the weakest type; doubling the output limit to 2048 tokens let
+  14 of 21 cut-off date answers finish (judge 6 → 9 of 26 with ChatMemory).
+  With a top model (Claude Fable 5.1, judged by Claude Opus 5.5) on the same
+  contexts, ChatMemory's defaults scored 70 of 95 vs 46 for `assemble_context`
+  defaults: a stronger model does not make up for evidence missing from the context.
+  Absolute accuracy is low and not comparable with published LongMemEval scores.
+  Details in the benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.
   Providers may count differently. On small requests, provider counts were up
   to 1.78× the local estimate in past tests, so leave headroom or calibrate.

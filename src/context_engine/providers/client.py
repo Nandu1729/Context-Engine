@@ -12,6 +12,7 @@ from ..tokens import TiktokenCounter
 from .contracts import (
     ADAPTER_VERSION,
     ENDPOINT,
+    AnthropicGenerationConfig,
     Completion,
     GenerationConfig,
     InceptionGenerationConfig,
@@ -24,7 +25,13 @@ from .contracts import (
     fingerprint,
 )
 from .store import RuntimeStore
-from .transport import GroqTransport, InceptionTransport
+from .transport import AnthropicTransport, GroqTransport, InceptionTransport
+
+TRANSPORTS = {
+    GenerationConfig: GroqTransport,
+    InceptionGenerationConfig: InceptionTransport,
+    AnthropicGenerationConfig: AnthropicTransport,
+}
 
 
 class ProviderClient:
@@ -48,29 +55,25 @@ class ProviderClient:
         self._api_key = api_key  # Never exported, represented or persisted.
         self.generation = generation or GenerationConfig()
         self.retries, self.replay = retries or RetryConfig(), replay or ReplayPolicy()
-        default = (
-            InceptionTransport
-            if isinstance(self.generation, InceptionGenerationConfig)
-            else GroqTransport
+        expected = next(
+            (t for cls, t in TRANSPORTS.items() if isinstance(self.generation, cls)), None
         )
-        self.transport = transport if transport is not None else default()
+        self.transport = transport if transport is not None else (expected or GroqTransport)()
         self.counter = counter if counter is not None else TiktokenCounter()
         self.clock, self.monotonic, self.sleep = clock, monotonic, sleep
         for value, cls in (
             (store, RuntimeStore),
             (quota, QuotaPolicy),
             (prices, PriceCard),
-            (self.generation, (GenerationConfig, InceptionGenerationConfig)),
+            (self.generation, tuple(TRANSPORTS)),
             (self.retries, RetryConfig),
             (self.replay, ReplayPolicy),
         ):
             if not isinstance(value, cls):
                 raise ContractError("Provider client requires validated configuration")
         quota.validate_prices(prices)
-        inception = isinstance(self.generation, InceptionGenerationConfig)
-        if (inception and type(self.transport) is GroqTransport) or (
-            not inception and isinstance(self.transport, InceptionTransport)
-        ):
+        # A built-in transport must match its settings; test transports are not checked.
+        if type(self.transport) in TRANSPORTS.values() and type(self.transport) is not expected:
             raise ContractError("Generation settings and provider transport do not match")
 
     async def complete(

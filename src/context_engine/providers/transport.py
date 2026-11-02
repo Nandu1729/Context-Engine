@@ -11,6 +11,9 @@ from ..errors import ContractError
 from ..models import ToolCall
 from .contracts import (
     ADAPTER_VERSION,
+    ANTHROPIC_ADAPTER_VERSION,
+    ANTHROPIC_API_VERSION,
+    ANTHROPIC_ENDPOINT,
     ENDPOINT,
     INCEPTION_ADAPTER_VERSION,
     INCEPTION_ENDPOINT,
@@ -96,6 +99,9 @@ def parse_completion(raw: bytes, expected_model: str) -> Completion:
             "content_filter",
         ):
             content = ""
+        if content is None and choice["finish_reason"] == "stop" and not calls:
+            # Settled with known usage, but never presented as an empty answer.
+            raise TransportFailure("empty_response", uncertain=False, usage=usage)
         return Completion(
             expected_model,
             response_id,
@@ -133,6 +139,12 @@ class GroqTransport:
         mode = "live" if http_transport is None else "test-http"
         self.namespace = f"{self.name}-{mode}-httpx-{version}-v1"
 
+    def headers(self, api_key: str) -> dict:
+        return {"Authorization": "Bearer " + api_key, "Content-Type": "application/json"}
+
+    def parse(self, raw: bytes, expected_model: str) -> Completion:
+        return parse_completion(raw, expected_model)
+
     async def send(self, payload: dict, api_key: str, timeout: float) -> Completion:
         try:
             import httpx
@@ -149,10 +161,7 @@ class GroqTransport:
                     "POST",
                     self.endpoint,
                     json=payload,
-                    headers={
-                        "Authorization": "Bearer " + api_key,
-                        "Content-Type": "application/json",
-                    },
+                    headers=self.headers(api_key),
                 ) as response:
                     if response.status_code == 429:
                         delay = retry_after(
@@ -176,7 +185,7 @@ class GroqTransport:
                         body.extend(part)
                         if len(body) > 2_000_000:
                             raise TransportFailure("response_too_large", uncertain=True)
-                    return parse_completion(bytes(body), payload["model"])
+                    return self.parse(bytes(body), payload["model"])
         except TransportFailure:
             raise
         except (httpx.ConnectError, httpx.ConnectTimeout, httpx.PoolTimeout):
@@ -193,3 +202,97 @@ class InceptionTransport(GroqTransport):
     endpoint = INCEPTION_ENDPOINT
     adapter = INCEPTION_ADAPTER_VERSION
     name = "inception"
+
+
+# Claude stop reasons -> chat-completions finish reasons. Others ("tool_use" without
+# tools, "pause_turn") are not expected for a single tool-free request.
+_ANTHROPIC_FINISH = {
+    "end_turn": "stop",
+    "stop_sequence": "stop",
+    "max_tokens": "length",
+    "model_context_window_exceeded": "length",
+    "refusal": "content_filter",
+}
+
+
+def parse_anthropic_message(raw: bytes, expected_model: str) -> Completion:
+    """A Messages API response as a Completion. Text blocks are joined; thinking blocks
+    are dropped. No text with a normal stop is a certain `empty_response`, as for chat
+    completions. Prompt-cache writes are never requested, so any are refused."""
+    usage = None
+
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate key")
+            result[key] = value
+        return result
+
+    def reject(_):
+        raise ValueError("nonfinite")
+
+    try:
+        data = json.loads(raw.decode("utf-8"), object_pairs_hook=unique, parse_constant=reject)
+        if (
+            data["model"] != expected_model
+            or data["type"] != "message"
+            or data["role"] != "assistant"
+        ):
+            raise ValueError("response identity mismatch")
+        response_id = identifier(data["id"])
+        raw_usage = data["usage"]
+        written = raw_usage.get("cache_creation_input_tokens") or 0
+        read = raw_usage.get("cache_read_input_tokens") or 0
+        details = raw_usage.get("output_tokens_details")
+        if details is not None and not isinstance(details, dict):
+            raise ValueError("invalid usage details")
+        if type(written) is not int or type(read) is not int:
+            raise ValueError("invalid cache usage")
+        usage = Usage(
+            raw_usage["input_tokens"] + written + read,
+            raw_usage["output_tokens"],
+            read,
+            (details or {}).get("thinking_tokens"),
+        )
+        if written:
+            raise ValueError("unrequested cache write")
+        finish = _ANTHROPIC_FINISH[data["stop_reason"]]
+        texts = []
+        for block in data["content"]:
+            if block["type"] == "text":
+                texts.append(block["text"])
+            elif block["type"] not in ("thinking", "redacted_thinking"):
+                raise ValueError("unexpected content block")
+        if not texts and finish == "stop":
+            raise TransportFailure("empty_response", uncertain=False, usage=usage)
+        return Completion(expected_model, response_id, "".join(texts), finish, usage)
+    except (
+        ValueError,
+        TypeError,
+        KeyError,
+        IndexError,
+        AttributeError,
+        RecursionError,
+        ContractError,
+    ):
+        raise TransportFailure("invalid_response", uncertain=True, usage=usage) from None
+
+
+class AnthropicTransport(GroqTransport):
+    """Claude Messages API; same bounded, non-retrying behavior and status mapping
+    (402 billing, 429 rate limit with retry-after, 5xx/529 uncertain)."""
+
+    endpoint = ANTHROPIC_ENDPOINT
+    adapter = ANTHROPIC_ADAPTER_VERSION
+    name = "anthropic"
+
+    def headers(self, api_key: str) -> dict:
+        return {
+            "x-api-key": api_key,
+            "anthropic-version": ANTHROPIC_API_VERSION,
+            "content-type": "application/json",
+        }
+
+    def parse(self, raw: bytes, expected_model: str) -> Completion:
+        return parse_anthropic_message(raw, expected_model)

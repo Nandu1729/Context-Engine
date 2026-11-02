@@ -3,6 +3,85 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.17.3 — 2026-11-02 (unreleased)
+
+### Changed
+- `AnthropicGenerationConfig` also accepts Claude Opus 5.5 and Fable 5.1 (thinking always
+  on, so `thinking="adaptive"` is required), effort `xhigh`/`max` with adaptive thinking,
+  and the documented 128K output limit (D123). Thinking "off" with `xhigh`/`max`, which
+  the API rejects, is refused locally.
+
+### Added
+- `scripts/longmemeval_claude_live.py` (D123): Claude Fable 5.1 answers stage B's 95
+  questions in two 3000-token arms; Claude Opus 5.5 judges them and re-judges stage
+  B's mercury-3 answers. Judge: ChatMemory 70 vs core 46 of 95 (paired 27 vs 3);
+  Opus agreed with the mercury judge on 226 of 232. $9.50 at list price. Results in
+  `output/longmemeval-claude-001/`.
+
+### Unchanged
+- Assembly output and defaults. 0.17.2 wheel/freeze archived in
+  `archives/c17-claude-top-models-0173/`.
+
+## 0.17.2 — 2026-11-02 (unreleased)
+
+### Added
+- Anthropic provider (D122): `AnthropicGenerationConfig` (Claude Haiku 5.5 / Sonnet 5.5,
+  thinking off or adaptive, optional effort; temperature not sent) and
+  `AnthropicTransport` for the Messages API, with the same admission, ledger,
+  no-retry and redaction rules as Groq and Inception. Tested offline only; no live call.
+- `ProviderClient` picks the matching built-in transport for each settings class and
+  refuses mismatched pairs (Groq / Inception / Anthropic).
+
+### Docs
+- `docs/PROVIDER.md` and README: leave 2048+ output tokens when thinking is on
+  (D118/D119/D121 evidence). Defaults unchanged (256).
+
+### Unchanged
+- Assembly output and defaults. 0.17.1 wheel/freeze (the code that ran D121) archived
+  in `archives/c17-anthropic-0172/`.
+
+## 0.17.1 — 2026-11-01 (unreleased)
+
+### Changed
+- A completion with no text (`content: null`), finish reason `stop` and no tool calls
+  now fails with its own certain error code `empty_response` instead of the uncertain
+  `invalid_response` (D120). Its token usage is known, so the cost is settled exactly
+  and nothing is held; it is not retried and is never returned as an empty answer.
+  Mercury-3 returned this shape 10 times in D119 stage B. Responses with broken usage
+  or tool calls still fail as `invalid_response`.
+
+### Added
+- `scripts/longmemeval_temporal_tokens_live.py` (D121): the stage B runner with 2048
+  output tokens on its 26 temporal questions. Out-of-tokens answers 21 → 8; judge
+  core 4 → 7, ChatMemory 6 → 9 of 26. Results in `output/longmemeval-temporal-tokens-001/`.
+
+### Unchanged
+- Assembly output and defaults. 0.17.0 wheel/freeze (the code that ran D119 stage B)
+  archived in `archives/c17-empty-response-0171/`.
+
+## 0.17.0 — 2026-10-31 (unreleased)
+
+### Added
+- Lenient grading v3 (`answer_correct_lenient_v3`, `v3_tokens`; D119): drops a
+  leading article, removes punctuation from reply and gold, reads number words 0–99
+  as digits, and accepts a bare number for a "<number> <unit>" gold. Not added to
+  `GRADERS`, so strict-v1/lenient-v2 reports reproduce unchanged.
+- `scripts/longmemeval_error_breakdown.py`: offline classification of D118 wrong
+  answers (format / rubric gold / evidence missing / model error) and v3 regrade.
+- `scripts/retrieval_chunking_check.py`: offline answer-text cut-off and stop-word
+  check on LongMemEval-S and the synthetic benchmark.
+- `scripts/longmemeval_accuracy_live_b.py`: bounded live run (D119 stage B) with three
+  arms and the published LongMemEval judge prompts; results in
+  `output/longmemeval-accuracy-b-001/`.
+
+### Measured and not adopted
+- Stop-word removal in keyword search and 600/150-character chunks: both lower
+  LongMemEval-S evidence recall and reworded synthetic retention.
+
+### Unchanged
+- Assembly output and defaults. 0.16.0 wheel/freeze archived in
+  `archives/c17-grading-v3-0170/`.
+
 ## 0.16.0 — 2026-10-31 (PyPI)
 
 ### Added
