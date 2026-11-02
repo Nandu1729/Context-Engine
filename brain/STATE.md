@@ -51,6 +51,8 @@ bundled int8 model,weight0.5,grading-v2;run1550 PASS. PR #1 merged(28f1649);0.15
 0.16.0(D116/D117,PR #3 feat/chat-memory-longmemeval):ChatMemory/AsyncChatMemory,
 retrieval_share0.4,diverse_turns(ChatMemory default),examples,LongMemEval-S@3000:
 core hybrid78.5%→ChatMemory94.2%(all45.9→79.3%). PR #3 merged(c3a214d);0.16.0 on PyPI.
+D118 live LongMemEval(mercury-3,95q,3000,reasoning off):lenient core18 vs ChatMemory26
+(paired9 vs1);$0.046 list;branch feat/longmemeval-live-accuracy uncommitted.
 
 ## Open risks
 

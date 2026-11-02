@@ -60,6 +60,65 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Live answer accuracy on LongMemEval-S (D118, Inception mercury-3, 2026-10-31)
+
+One bounded live run (`scripts/longmemeval_accuracy_live.py`, run
+`longmemeval-accuracy-3000-002`; public rows in `output/longmemeval-accuracy-3000-002/`,
+prompts and answers private). 95 LongMemEval-S questions (seed 118, stratified by type,
+abstention skipped) x 2 settings at 3000 input tokens: **core** = `assemble_context`
+defaults with hybrid retrieval (280-token reserve, top 4); **ChatMemory** = its
+defaults (40% reserve = 1200 tokens, top 13, one chunk per turn). Model mercury-3,
+temperature 0.5 (the API minimum), reasoning off (`instant`), 256 output tokens, no
+retries. 190/190 answered, 0 rejections; 475,576 input / 992 output tokens; list-price
+estimate 46,181 micro-USD ($0.046) on the owner's free tier. After the first 11 calls
+the owner's usage dashboard matched the local ledger exactly (requests and tokens);
+the API reports no billed cost, so charges can only be confirmed on the dashboard.
+
+| Setting (n = 95) | Strict v1 | Lenient v2 | Reply contains gold* | Evidence in context | "unknown" replies |
+|---|---|---|---|---|---|
+| Core defaults | 17 (17.9%; 95% CI 11.5–26.8) | 18 (18.9%; 12.3–28.0) | 22 | 72 | 49 |
+| **ChatMemory defaults** | **21 (22.1%; 14.9–31.4)** | **26 (27.4%; 19.4–37.1)** | **32** | **94** | **34** |
+
+\*Diagnostic, not a grader: the gold text appears inside the reply.
+
+Same questions, both settings (paired): lenient v2, ChatMemory-only correct 9 vs
+core-only 1 (sign test p ≈ 0.02); reply-contains-gold 12 vs 2 (p ≈ 0.01); strict v1
+8 vs 4 (not significant). Evidence in context but still wrong (lenient): core 56/72,
+ChatMemory 68/94. Right without evidence in context: core 2, ChatMemory 0.
+
+| Type (n) | Core strict / lenient | ChatMemory strict / lenient |
+|---|---|---|
+| single-session-user (13) | 5 / 5 | 6 / 6 |
+| single-session-assistant (11) | 3 / 3 | 4 / 4 |
+| single-session-preference (6) | 0 / 0 | 0 / 0 |
+| multi-session (24) | 2 / 2 | 7 / 7 |
+| knowledge-update (15) | 5 / 5 | 4 / 6 |
+| temporal-reasoning (26) | 2 / 3 | 0 / 3 |
+
+**What this shows.** With the same model and questions, ChatMemory's settings get
+more answers right (lenient 18 → 26) and fewer "unknown" replies (49 → 34), consistent
+with the evidence-recall gain. **Absolute accuracy is low and should not be compared
+with published LongMemEval scores**, which use a model judge, stronger models and
+reasoning. Reasons seen in the mismatch sample: (1) exact-value grading rejects
+correct paraphrases ("The bike." vs "bike", "3 times a week" vs "Three times a
+week.", "3" vs "3 days."; lenient v2 strips a trailing period from the reply but not
+from the gold answer); (2) temporal golds are rubrics ("4 days. 5 days (including
+the last day) is also acceptable.") and preference golds are descriptions, so exact
+grading cannot pass them; (3) real model errors: "unknown" despite evidence, wrong
+counts and date arithmetic, with reasoning off; (4) "evidence in context" is
+turn-level, and a retrieved chunk of the right turn may miss the answer sentence.
+
+**Run history.** Run -001 (reasoning "low") was paused by design after 10 staged
+calls: 5 answers were empty because thinking used the whole 256-token output. The
+owner chose reasoning off for run -002; the 200-call limit covered both runs (10 +
+190). A post-run bug in the runner's `report` command (the pre-run cap check also ran
+at report time) was fixed; the regenerated report is byte-identical.
+
+**Limitations.** 95 questions; histories partly simulated by the dataset authors; one
+model, one run, temperature 0.5; exact-match grading without a model judge; a
+different model from the earlier Groq runs, so compare the two settings with each
+other, not with past numbers.
+
 ## Real data: LongMemEval-S evidence recall (0.16.0, offline, 2026-10-31)
 
 [LongMemEval](https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned)
@@ -295,6 +354,6 @@ engine. C09 qualification on fresh cases **failed** its strict target (PRIMARY
 | Metric | Status |
 |---|---|
 | Answer correctness per strategy | 900 tokens: measured (above). 3000 tokens and faithfulness: not measured; not approved. |
-| Real-world retention | Evidence recall on LongMemEval-S measured (above); answer accuracy on it not measured (needs model calls). |
+| Real-world retention | LongMemEval-S evidence recall (offline) and one live answer-accuracy run (D118, 95 questions, exact-match grading) measured above. |
 | Provider-billed tokens / cost | Local estimates only; historical overruns up to 1.78× on small requests. |
 | Model summarization quality/cost | `PromptSummarizer` exists; not run against a model. |
