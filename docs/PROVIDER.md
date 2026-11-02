@@ -91,16 +91,18 @@ single capped call; it refuses to run twice (one attempt per run directory).
 `AnthropicGenerationConfig` + `AnthropicTransport` (`https://api.anthropic.com/v1/messages`,
 headers `x-api-key` and `anthropic-version: 2023-06-01`) reuse `ProviderClient`: final
 token admission, local ledger, no automatic retries, redacted errors, the same status
-mapping (402 billing, 429 rate limit, 5xx/529 uncertain). Models `claude-haiku-5-5` and
-`claude-sonnet-5-5`; `thinking="off"` sends `disabled` (Haiku) or `between_tools`
-(Sonnet, its lowest setting), `"adaptive"` sends adaptive thinking with the text
-omitted; optional `effort` low/medium/high. Temperature is not sent (API default).
+mapping (402 billing, 429 rate limit, 5xx/529 uncertain). Models `claude-haiku-5-5`,
+`claude-sonnet-5-5`, and (0.17.3) `claude-opus-5-5` and `claude-fable-5-1`, which always
+think and require `thinking="adaptive"`; `thinking="off"` sends `disabled` (Haiku) or
+`between_tools` (Sonnet, its lowest setting), `"adaptive"` sends adaptive thinking with
+the text omitted; optional `effort` low/medium/high, and xhigh/max with adaptive thinking.
+Output limit 128K. Temperature is not sent (API default).
 Tools are refused. Text blocks are joined, thinking blocks dropped; `end_turn` with no
 text is a certain `empty_response`; `max_tokens` is `truncated`, `refusal` is
 `filtered`. Prompt-cache writes are never requested; a response reporting one is
 refused as uncertain, because its price differs. Published Haiku 5.5 prices (read
 2026-11-02, prompts up to 100k tokens): $0.10 input / $0.01 cache hit / $0.50 output
-per 1M; Sonnet 5.5 $2 / $0.10 / $10. Budgets use a local tokenizer estimate, and
+per 1M; Sonnet 5.5 $2 / $0.10 / $10; Opus 5.5 $4 / $0.20 / $20; Fable 5.1 $10 / $0.25 / $50. Budgets use a local tokenizer estimate, and
 Claude's tokenizer may count more tokens; keep a margin under any spend cap.
 No live call has been made.
 

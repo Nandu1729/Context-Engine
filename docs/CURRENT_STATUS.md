@@ -1,6 +1,6 @@
 # Current status — 2026-10-31
 
-Development version **0.17.2** (unreleased: lenient-v3 grader and D119 runs in 0.17.0; certain `empty_response` error for no-text replies in 0.17.1, D120; Anthropic provider, offline only, in 0.17.2, D122). Package **0.16.0** released on **PyPI** and merged to `main` (PR #3: ChatMemory, AsyncChatMemory, `diverse_turns`, LongMemEval evaluation); earlier PyPI releases 0.12.0, 0.12.1, 0.14.0, 0.15.0 (`pip install context-engineering-core`). Developer SDK and self-hosted local
+Development version **0.17.2** (unreleased: lenient-v3 grader and D119 runs in 0.17.0; certain `empty_response` error for no-text replies in 0.17.1, D120; Anthropic provider, offline only, in 0.17.2, D122; Opus/Fable in 0.17.3, D123). Package **0.16.0** released on **PyPI** and merged to `main` (PR #3: ChatMemory, AsyncChatMemory, `diverse_turns`, LongMemEval evaluation); earlier PyPI releases 0.12.0, 0.12.1, 0.14.0, 0.15.0 (`pip install context-engineering-core`). Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
 
@@ -29,7 +29,7 @@ service; not an enterprise-qualified release. Owner decisions: D109 in
 Full suite, `uv run --locked --offline pytest -q`, macOS arm64, Python 3.12.13.
 0.11.0: run 3 **1429 passed, 0 failed** (earlier runs 1–2 failures were fixed;
 see the brain journal). 0.12.0: run 4 (adapters) 1450 passed; run 5 (Inception)
-1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s); stage B runner: **1639 passed**; 0.17.1 (D120 `empty_response`): **1647 passed** (225 s); D121 runner: **1656 passed**; 0.17.2 (D122 Anthropic provider): **1687 passed** (229 s).
+1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s); stage B runner: **1639 passed**; 0.17.1 (D120 `empty_response`): **1647 passed** (225 s); D121 runner: **1656 passed**; 0.17.2 (D122 Anthropic provider): **1687 passed** (229 s). 0.17.3 (D123 Opus/Fable + Claude runner): **1704 passed** (231 s).
 All with 0 failed and 48 skipped (Windows-only and one private-screenshot test).
 
 Lint: `ruff check src` passes. `python3 scripts/brain.py check` passes.

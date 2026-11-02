@@ -89,12 +89,15 @@ def parse(raw):
 @pytest.mark.parametrize(
     "settings",
     [
-        {"model": "claude-opus-5-5"},  # Not offered: thinking cannot be turned off.
+        {"model": "claude-opus-5-5"},  # Always thinks: "off" is refused.
+        {"model": "claude-fable-5-1"},
         {"model": "mercury-3"},
         {"thinking": "enabled"},
-        {"effort": "max"},
+        {"effort": "max"},  # Rejected by the API with thinking off.
+        {"effort": "xhigh"},
+        {"effort": "maximum"},
         {"max_completion_tokens": 0},
-        {"max_completion_tokens": 64001},
+        {"max_completion_tokens": 128001},
         {"tool_choice": "auto"},
     ],
 )
@@ -246,3 +249,24 @@ def test_generation_and_transport_must_match(tmp_path):
             ProviderClient(**common, generation=generation, transport=transport)
     assert type(ProviderClient(**common, generation=GENERATION).transport) is AnthropicTransport
     assert AnthropicTransport().namespace.startswith("anthropic-live-httpx-")
+
+
+@pytest.mark.parametrize("model", ["claude-opus-5-5", "claude-fable-5-1"])
+def test_always_thinking_models_use_adaptive_thinking(tmp_path, model):
+    generation = AnthropicGenerationConfig(
+        model=model, max_completion_tokens=8192, thinking="adaptive", effort="high"
+    )
+    payload = generation.to_wire(REQUEST)
+    assert payload["thinking"] == {"type": "adaptive", "display": "omitted"}
+    assert payload["output_config"] == {"effort": "high"} and payload["max_tokens"] == 8192
+    raw = body(model=model)
+    budget = BudgetConfig(input_cap=9000, completion_reservation=8192)
+    roomy = QuotaPolicy("anthropic-roomy", 100_000, rpm=100, tpm=1_000_000, rpd=100, tpd=10**6)
+    client = provider(
+        tmp_path, lambda request: httpx.Response(200, json=raw), generation=generation, quota=roomy
+    )
+    result = asyncio.run(
+        client.complete(REQUEST, budget, scope=SCOPE, security_scope="t", snapshot_revision="r")
+    )
+    assert result.status == "success" and result.completion.model == model
+    assert AnthropicGenerationConfig(model=model, thinking="adaptive", effort="max")

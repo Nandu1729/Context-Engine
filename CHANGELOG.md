@@ -3,6 +3,23 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.17.3 — 2026-11-02 (unreleased)
+
+### Changed
+- `AnthropicGenerationConfig` also accepts Claude Opus 5.5 and Fable 5.1 (thinking always
+  on, so `thinking="adaptive"` is required), effort `xhigh`/`max` with adaptive thinking,
+  and the documented 128K output limit (D123). Thinking "off" with `xhigh`/`max`, which
+  the API rejects, is refused locally.
+
+### Added
+- `scripts/longmemeval_claude_live.py` (D123, not yet run): Claude Fable 5.1 answers
+  stage B's 95 questions in two 3000-token arms; Claude Opus 5.5 judges them and
+  re-judges stage B's mercury-3 answers.
+
+### Unchanged
+- Assembly output and defaults. 0.17.2 wheel/freeze archived in
+  `archives/c17-claude-top-models-0173/`.
+
 ## 0.17.2 — 2026-11-02 (unreleased)
 
 ### Added

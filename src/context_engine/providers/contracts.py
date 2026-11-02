@@ -17,11 +17,12 @@ INCEPTION_ENDPOINT = "https://api.inceptionlabs.ai/v1/chat/completions"
 INCEPTION_ADAPTER_VERSION = "inception-chat-v1"
 INCEPTION_MODELS = ("mercury-3", "mercury-2.5", "mercury-2")
 # Anthropic Messages API (docs read 2026-11-02). Haiku 5.5 allows thinking "disabled";
-# Sonnet 5.5's lowest setting is "between_tools" (no up-front thinking).
+# Sonnet 5.5's lowest setting is "between_tools" (no up-front thinking); Opus 5.5 and
+# Fable 5.1 always think (adaptive). Every model has a 128K synchronous output limit.
 ANTHROPIC_ENDPOINT = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_ADAPTER_VERSION = "anthropic-messages-v1"
 ANTHROPIC_API_VERSION = "2023-06-01"
-ANTHROPIC_MODELS = ("claude-haiku-5-5", "claude-sonnet-5-5")
+ANTHROPIC_MODELS = ("claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5", "claude-fable-5-1")
 _THINKING_OFF = {"claude-haiku-5-5": "disabled", "claude-sonnet-5-5": "between_tools"}
 
 
@@ -129,12 +130,16 @@ class AnthropicGenerationConfig:
         if (
             self.model not in ANTHROPIC_MODELS
             or self.thinking not in ("off", "adaptive")
-            or self.effort not in (None, "low", "medium", "high")
+            or self.effort not in (None, "low", "medium", "high", "xhigh", "max")
         ):
             raise ContractError("Unsupported Anthropic model, thinking or effort setting")
+        if self.thinking == "off" and (
+            self.model not in _THINKING_OFF or self.effort in ("xhigh", "max")
+        ):
+            raise ContractError("This model or effort needs adaptive thinking")
         integer_value("max_completion_tokens", self.max_completion_tokens, minimum=1)
-        if self.max_completion_tokens > 64000:
-            raise ContractError("Completion request exceeds the smallest Claude limit")
+        if self.max_completion_tokens > 128000:
+            raise ContractError("Completion request exceeds the Claude output limit")
         if self.tool_choice != "none":
             raise ContractError("Anthropic transport does not send tools")
 

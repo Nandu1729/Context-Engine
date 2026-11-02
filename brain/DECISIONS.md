@@ -1,5 +1,12 @@
 # Decision register
 
+- D123 / OWNER "GO FOR THE BEST",2026-11-02:owner has $200 Anthropic credit and rejects
+  the cheapest models. Proposed run(not yet approved to go live):Fable5.1 answers(adaptive,
+  effort high,8192 out)95q x core/ChatMemory3000,Opus5.5 judge(adaptive,effort medium,
+  2048 out)on Fable answers+re-judge of232 stage B mercury answers. Cap130,000,000
+  micro-USD(worst124.5M with1.5x token margin),max700 calls,no retries,own ledger,
+  key=ANTHROPIC_API_KEY line(Default-workspace key,30-day expiry). 0.17.3 allows
+  Opus/Fable;0.17.2 wheel(be06a83f…)archived.
 - D122 / OWNER "OK" TO BOTH FOLLOW-UPS,2026-11-02:(1)docs recommend 2048+ output tokens
   with thinking;defaults stay 256(changing them needs a separate ask).(2)Anthropic
   provider in src,offline only:Haiku5.5/Sonnet5.5(Opus excluded:thinking always on),

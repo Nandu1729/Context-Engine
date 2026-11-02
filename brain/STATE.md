@@ -61,7 +61,9 @@ micro-USD list):judge core37/ChatMemory56@3000/54@8000;v3 26/38/40;d errors33→
 D120 0.17.1(unreleased,same branch):null-content stop→certain empty_response;committed340b761.
 D121 temporal@2048 COMPLETE(93 calls,28,289 micro-USD):out-of-tokens21→8,judge core4→7,
 ChatMemory6→9 of26(paired3/0 each). No default change;committed9ca84ba.
-D122 0.17.2(unreleased):Anthropic provider offline(30 tests),2048+ guidance;uncommitted.
+D122 0.17.2:Anthropic provider offline,2048+ guidance;committed a181c3a.
+D123 0.17.3(unreleased):Opus/Fable allowed;Claude run planned(worst$124.5,cap$130);
+awaiting owner go live;uncommitted.
 
 ## Open risks
 

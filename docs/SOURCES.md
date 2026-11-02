@@ -50,7 +50,7 @@ Engineering choices, not provider promises: retry only known pre-send failures/4
 
 - [Messages API reference](https://platform.claude.com/docs/en/api/messages): request fields (`max_tokens`, top-level `system`, `thinking` types adaptive/disabled/between_tools with `display`), response `type`/`role`/`content` blocks (text, thinking, redacted_thinking), `stop_reason` values and `usage` (`input_tokens`, `output_tokens`, cache fields, `output_tokens_details.thinking_tokens`; total input is the sum of the three input fields).
 - [Errors](https://platform.claude.com/docs/en/api/errors): 400 invalid request (also a reached spend limit), 401, 402 billing, 403, 404, 413, 429 rate limit, 500, 504, 529 overloaded; `anthropic-version: 2023-06-01` in the documented request example. Haiku 5.5 accepts thinking `disabled`; Sonnet 5.5 needs `between_tools`; Opus 5.5 cannot turn thinking off.
-- [Pricing](https://platform.claude.com/docs/en/about-claude/pricing): Haiku 5.5 $0.10/$0.01/$0.50 per 1M (input/cache hit/output, prompts up to 100k), Sonnet 5.5 $2/$0.10/$10. Point-in-time observations; runners pass a versioned price card. No key or paid call was used.
+- [Pricing](https://platform.claude.com/docs/en/about-claude/pricing): Haiku 5.5 $0.10/$0.01/$0.50 per 1M (input/cache hit/output, prompts up to 100k), Sonnet 5.5 $2/$0.10/$10, Opus 5.5 $4/$0.20/$20, Fable 5.1 $10/$0.25/$50. [Models overview](https://platform.claude.com/docs/en/about-claude/models/overview): IDs `claude-fable-5-1`/`claude-opus-5-5` are pinned snapshots; thinking always on (adaptive) for both; default effort high/medium; 128K max output. Point-in-time observations; runners pass a versioned price card. No key or paid call was used.
 
 ## C06 rendering verification — 2026-09-08
 
