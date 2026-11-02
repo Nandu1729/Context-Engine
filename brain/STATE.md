@@ -64,7 +64,8 @@ ChatMemory6→9 of26(paired3/0 each). No default change;committed9ca84ba.
 D122 0.17.2:Anthropic provider offline,2048+ guidance;committed a181c3a.
 D123 0.17.3(unreleased,0043859):Claude run COMPLETE(612 calls,$9.50 list):Opus judge
 Fable ChatMemory70/core46 of95(paired27 vs3);vs mercury same judge core10/2,CM12/1;
-Opus agreed with mercury judge226/232(0 mercury-only yes). Report uncommitted.
+Opus agreed with mercury judge226/232(0 mercury-only yes). Committed a6792aa.
+Owner "merge and publish":PR #5(0b2a415)+#6(07c5fa8)merged,branches deleted;0.17.3 on PyPI.
 
 ## Open risks
 
