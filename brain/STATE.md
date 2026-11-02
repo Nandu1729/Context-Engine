@@ -1,6 +1,6 @@
 # Current state
 
-Updated: 2026-10-31
+Updated: 2026-11-02
 
 ## Objective
 
@@ -66,6 +66,9 @@ D123 0.17.3(unreleased,0043859):Claude run COMPLETE(612 calls,$9.50 list):Opus j
 Fable ChatMemory70/core46 of95(paired27 vs3);vs mercury same judge core10/2,CM12/1;
 Opus agreed with mercury judge226/232(0 mercury-only yes). Committed a6792aa.
 Owner "merge and publish":PR #5(0b2a415)+#6(07c5fa8)merged,branches deleted;0.17.3 on PyPI.
+D124 0.18.0(uncommitted,feat/core-chatmemory-defaults):core defaults=ChatMemory's;LME any@3000
+78.5→94.2%;full run1728 PASS. D125 1.0 run planned(470q,1880 calls,~$47,cap$90);
+NEXT:owner approves commit+live run;then release1.0 and focus on developer adoption.
 
 ## Open risks
 

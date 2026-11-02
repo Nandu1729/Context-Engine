@@ -11,6 +11,12 @@ from .errors import ConfigurationError
 CONFIG_DIRECTORY = Path(__file__).resolve().parent
 MAX_INSPECTION_BYTES = 2_000_000
 MAX_INSPECTION_TURNS = 10_000
+# Automatic retrieval defaults (0.18.0, D124; ChatMemory's since 0.16.0): the reserve is
+# DEFAULT_RETRIEVAL_SHARE of the input allowance, with one evidence chunk per
+# TOKENS_PER_CHUNK reserve tokens (about one 360-character chunk), at least MINIMUM_TOP_K.
+DEFAULT_RETRIEVAL_SHARE = 0.4
+TOKENS_PER_CHUNK = 90
+MINIMUM_TOP_K = 4
 
 
 def nonnegative_integer(name: str, value: int, *, minimum: int = 0) -> None:
@@ -23,21 +29,30 @@ class BudgetConfig:
     input_cap: int = 3000
     model_capacity: int = 131072
     completion_reservation: int = 256
-    retrieval_reserve: int = 280
+    retrieval_reserve: int | None = None  # None: DEFAULT_RETRIEVAL_SHARE of the allowance.
     summary_reserve: int = 80
     provider_input_cap: int | None = None
 
     def __post_init__(self) -> None:
         for name in ("input_cap", "model_capacity", "completion_reservation"):
             nonnegative_integer(name, getattr(self, name), minimum=1)
-        for name in ("retrieval_reserve", "summary_reserve"):
-            nonnegative_integer(name, getattr(self, name))
+        nonnegative_integer("summary_reserve", self.summary_reserve)
+        if self.retrieval_reserve is not None:
+            nonnegative_integer("retrieval_reserve", self.retrieval_reserve)
         if self.provider_input_cap is not None:
             nonnegative_integer("provider_input_cap", self.provider_input_cap, minimum=1)
         if self.completion_reservation >= self.model_capacity:
             raise ConfigurationError("Completion reservation leaves no input capacity")
-        if self.retrieval_reserve + self.summary_reserve > self.input_allowance:
+        if self.effective_retrieval_reserve + self.summary_reserve > self.input_allowance:
             raise ConfigurationError("Layer reserves exceed the input allowance")
+
+    @property
+    def effective_retrieval_reserve(self) -> int:
+        """The explicit reserve, or the automatic share of the allowance. Resolved on
+        read, so `replace(budget, input_cap=...)` rescales an automatic reserve."""
+        if self.retrieval_reserve is not None:
+            return self.retrieval_reserve
+        return int(self.input_allowance * DEFAULT_RETRIEVAL_SHARE)
 
     @property
     def input_allowance(self) -> int:
@@ -83,7 +98,7 @@ class CapConfig:
 class RetrievalConfig:
     chunk_characters: int = 360
     overlap_characters: int = 80
-    top_k: int = 4
+    top_k: int | None = None  # None: one chunk per TOKENS_PER_CHUNK of reserve, min 4.
     minimum_score: float = 0.0
     k1: float = 1.5
     b: float = 0.75
@@ -94,7 +109,8 @@ class RetrievalConfig:
             raise ConfigurationError("WINDOW recovery must be an explicit boolean")
         nonnegative_integer("chunk_characters", self.chunk_characters, minimum=1)
         nonnegative_integer("overlap_characters", self.overlap_characters)
-        nonnegative_integer("top_k", self.top_k, minimum=1)
+        if self.top_k is not None:
+            nonnegative_integer("top_k", self.top_k, minimum=1)
         if self.overlap_characters >= self.chunk_characters:
             raise ConfigurationError("Chunk overlap must be smaller than chunk size")
         for name in ("minimum_score", "k1", "b"):
@@ -107,6 +123,11 @@ class RetrievalConfig:
                 raise ConfigurationError("Invalid retrieval parameter", field=name)
         if self.k1 <= 0 or self.b > 1:
             raise ConfigurationError("BM25 requires positive k1 and b between zero and one")
+
+    def effective_top_k(self, reserve_tokens: int) -> int:
+        if self.top_k is not None:
+            return self.top_k
+        return max(MINIMUM_TOP_K, reserve_tokens // TOKENS_PER_CHUNK)
 
 
 @dataclass(frozen=True, slots=True)
@@ -163,7 +184,11 @@ class Settings:
                 input_cap=integer("CONTEXT_BUDGET_TOKENS", 3000),
                 model_capacity=integer("MODEL_CONTEXT_TOKENS", 131072),
                 completion_reservation=integer("MAX_COMPLETION_TOKENS", 256),
-                retrieval_reserve=integer("RETRIEVAL_RESERVE_TOKENS", 280),
+                retrieval_reserve=(
+                    integer("RETRIEVAL_RESERVE_TOKENS", 0)
+                    if "RETRIEVAL_RESERVE_TOKENS" in env
+                    else None
+                ),
                 summary_reserve=integer("SUMMARY_RESERVE_TOKENS", 80),
                 provider_input_cap=(
                     integer("PROVIDER_INPUT_CAP_TOKENS", 0)
@@ -185,7 +210,7 @@ class Settings:
             retrieval=RetrievalConfig(
                 chunk_characters=integer("RETRIEVAL_CHUNK_CHARACTERS", 360),
                 overlap_characters=integer("RETRIEVAL_OVERLAP_CHARACTERS", 80),
-                top_k=integer("RETRIEVAL_TOP_K", 4),
+                top_k=integer("RETRIEVAL_TOP_K", 0) if "RETRIEVAL_TOP_K" in env else None,
                 minimum_score=number("RETRIEVAL_MINIMUM_SCORE", 0.0),
                 k1=number("BM25_K1", 1.5),
                 b=number("BM25_B", 0.75),

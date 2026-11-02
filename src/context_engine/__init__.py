@@ -1,6 +1,6 @@
 """Core contracts. Importing this package performs no configuration or network I/O."""
 
-__version__ = "0.17.3"
+__version__ = "0.18.0"
 
 
 def __getattr__(name):

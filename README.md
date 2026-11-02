@@ -60,9 +60,11 @@ diagnostics, for the adapters below) and `ChatMemory(..., budget=8000)`.
 On [LongMemEval](https://github.com/Nandu1729/Context-Engine/blob/main/docs/BENCHMARK_REPORT.md#real-data-longmemeval-s-evidence-recall-0160-offline-2026-10-31)
 (500 questions over ~490-turn chat histories), the turn with the answer reached
 the context for 94.2% of questions at the default 3000-token budget (78.5% with
-plain `assemble_context` defaults). ChatMemory gives 40% of the budget to
+the 0.17 `assemble_context` defaults). ChatMemory gives 40% of the budget to
 retrieved older turns, at most one chunk per turn; set `retrieval_share` lower to
-keep more recent turns instead.
+keep more recent turns instead. Since 0.18.0 `assemble_context` uses the same
+settings by default (`retrieval_reserve=280`, `RetrievalConfig(top_k=4)` and
+`diverse_turns=False` restore 0.17 behavior).
 
 For asyncio apps (FastAPI and others) use `AsyncChatMemory`, which has the same
 methods with an `a` prefix: `await memory.acontext(...)`, `await memory.asave(...)`.
@@ -184,20 +186,20 @@ These are enforced in code and covered by about 1,400 tests:
   hard (12 of 31). Run the offline test: `context-engine strategy-eval --questions paraphrased`.
 - **Real-world data.** On LongMemEval-S (public long chat histories, partly
   simulated), we measure whether the answer-bearing turn reaches the context:
-  94.2% of questions with ChatMemory's defaults at 3000 tokens, 78.5% with
-  `assemble_context` defaults (keyword-only: 74.3%). When an answer needs several
+  94.2% of questions with ChatMemory's defaults at 3000 tokens (also `assemble_context`'s
+  since 0.18.0), 78.5% with the 0.17 `assemble_context` defaults (keyword-only: 74.3%). When an answer needs several
   turns, all of them are present 79.3% of the time. One live run on 95 of these
   questions (one small model, reasoning off, exact-match grading) answered 26 correctly
-  with ChatMemory's defaults vs 18 with `assemble_context` defaults (31 vs 21 with a
+  with ChatMemory's defaults vs 18 with 0.17 `assemble_context` defaults (31 vs 21 with a
   grader that also accepts "3" for "three days"). With ChatMemory, most remaining
   misses had the evidence in context: the model said "unknown" or miscounted.
   A second run with thinking on, a better prompt and LongMemEval's own model judge
   (same small model family as judge) scored 56 of 95 with ChatMemory's defaults vs 37
-  with `assemble_context` defaults; 8000 tokens did not beat 3000 (54).
+  with 0.17 `assemble_context` defaults; 8000 tokens did not beat 3000 (54).
   Date questions are the weakest type; doubling the output limit to 2048 tokens let
   14 of 21 cut-off date answers finish (judge 6 → 9 of 26 with ChatMemory).
   With a top model (Claude Fable 5.1, judged by Claude Opus 5.5) on the same
-  contexts, ChatMemory's defaults scored 70 of 95 vs 46 for `assemble_context`
+  contexts, ChatMemory's defaults scored 70 of 95 vs 46 for 0.17 `assemble_context`
   defaults: a stronger model does not make up for evidence missing from the context.
   Absolute accuracy is low and not comparable with published LongMemEval scores.
   Details in the benchmark report.

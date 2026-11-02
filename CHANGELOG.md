@@ -3,6 +3,36 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.18.0 — 2026-11-02 (unreleased)
+
+### Changed (defaults)
+- `assemble_context` now uses ChatMemory's retrieval settings by default (D124):
+  `BudgetConfig.retrieval_reserve` defaults to `None` = 40% of the input allowance
+  (was a fixed 280 tokens), `RetrievalConfig.top_k` to `None` = one chunk per 90
+  reserve tokens, at least 4 (was 4), and `diverse_turns` to `True` (at most one
+  chunk per turn; was `False`). Automatic values are resolved at assembly, so
+  `replace(budget, input_cap=...)` rescales them; `BudgetConfig.effective_retrieval_reserve`
+  and `RetrievalConfig.effective_top_k(reserve)` return the values used, and the
+  config fingerprint records them. Explicit values keep their meaning; pass
+  `retrieval_reserve=280`, `RetrievalConfig(top_k=4)` and `diverse_turns=False` for
+  0.17 behavior. `RETRIEVAL_RESERVE_TOKENS` / `RETRIEVAL_TOP_K` unset now mean automatic.
+- Offline evidence (LongMemEval-S, 479 questions, hybrid; any / all evidence turns in
+  context): 900 tokens 75.0/42.0% → 81.0/50.5%, 3000 tokens 78.5/45.9% →
+  94.2/79.3%, 8000 tokens 88.1/54.5% → 97.3/89.4%. Recent turns kept fall (3000: 42 →
+  27). Synthetic benchmark at 900/3000: original questions 31/31 unchanged; reworded
+  questions (hybrid) 21 → 23 / 21 → 29. C09 development matrix: with WINDOW recovery
+  off at 900 tokens, one case is lost and another gained (default recovery: unchanged).
+- The frozen evaluation protocol (`strategy-eval`, benchmark harness) keeps its
+  explicit settings and passes `diverse_turns=False`, so its results are unchanged.
+
+### Added
+- `scripts/longmemeval_v1_live.py` (D125, offline until approved): the 1.0 confirmation
+  run, all 470 eligible LongMemEval-S questions, new vs old defaults, Claude Fable 5.1
+  answers and Claude Opus 5.5 judge, with a $90 spending limit checked before every call.
+
+### Unchanged
+- ChatMemory output. 0.17.3 wheel/freeze archived in `archives/c18-core-defaults-0180/`.
+
 ## 0.17.3 — 2026-11-02 (PyPI)
 
 First published 0.17 release; it includes everything in 0.17.0–0.17.2 below, which

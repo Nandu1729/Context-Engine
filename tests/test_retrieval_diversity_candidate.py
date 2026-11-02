@@ -15,6 +15,9 @@ from scripts import retrieval_diversity_candidate as candidate
 from scripts import retrieval_quality_probe as probe
 from scripts.incident_demo import offline_network
 
+# The rejected D106 candidate predates automatic top_k (0.18.0): use 0.17's 4.
+OLD = RetrievalConfig(top_k=4)
+
 
 def chunks():
     history, _, _ = probe.inputs(probe.cases()[2])
@@ -79,6 +82,7 @@ def test_public_candidate_preserves_budget_required_and_sources(reserve):
             BudgetConfig(input_cap=900, retrieval_reserve=reserve, summary_reserve=0),
             system=probe.SYSTEM,
             at=probe.AT,
+            retrieval_config=OLD,
         )
     assert result.diagnostics.estimate.estimated_tokens <= 900
     assert result.messages[0]["content"] == probe.SYSTEM
@@ -127,11 +131,12 @@ def test_cli_refuses_existing_output_before_running(tmp_path, monkeypatch):
 @pytest.mark.parametrize("damage", [None, "stale", "deleted"])
 def test_index_parity_and_stale_source_rejection(damage):
     history, question, scope = probe.inputs(probe.cases()[0])
-    config = RetrievalConfig()
+    config = OLD
     index = ChunkIndex(
         history_digest(history), candidate.digest(asdict(config)), chunk_turns(history, config)
     )
-    args = (history, question, KeyedPins(scope), BudgetConfig(input_cap=900, summary_reserve=0))
+    budget = BudgetConfig(input_cap=900, retrieval_reserve=280, summary_reserve=0)
+    args = (history, question, KeyedPins(scope), budget)
     with offline_network():
         if damage:
             if damage == "stale":
@@ -142,12 +147,14 @@ def test_index_parity_and_stale_source_rejection(damage):
                 args = (changed, *args[1:])
             with pytest.raises(MemoryIntegrityError):
                 candidate.candidate_assemble(
-                    *args, chunk_index=index, system=probe.SYSTEM, at=probe.AT
+                    *args, chunk_index=index, system=probe.SYSTEM, at=probe.AT, retrieval_config=config
                 )
         else:
-            fresh = candidate.candidate_assemble(*args, system=probe.SYSTEM, at=probe.AT)
+            fresh = candidate.candidate_assemble(
+                *args, system=probe.SYSTEM, at=probe.AT, retrieval_config=config
+            )
             cached = candidate.candidate_assemble(
-                *args, chunk_index=index, system=probe.SYSTEM, at=probe.AT
+                *args, chunk_index=index, system=probe.SYSTEM, at=probe.AT, retrieval_config=config
             )
             assert fresh.request.to_wire() == cached.request.to_wire()
     assert pipeline.RetrieveLayer is RetrieveLayer

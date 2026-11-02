@@ -1,4 +1,4 @@
-"""Opt-in `diverse_turns`: at most one retrieved chunk per turn (0.16.0)."""
+"""`diverse_turns`: at most one retrieved chunk per turn (0.16.0; default since 0.18.0)."""
 
 from datetime import UTC, datetime
 
@@ -42,8 +42,8 @@ def assemble(**kwargs):
     )
 
 
-def test_default_can_spend_retrieval_on_one_long_turn():
-    diagnostics = assemble().diagnostics
+def test_opting_out_can_spend_retrieval_on_one_long_turn():
+    diagnostics = assemble(diverse_turns=False).diagnostics
     assert len(diagnostics.retrieved_chunk_ids) > len(diagnostics.retrieved_turn_ids)
 
 
@@ -53,14 +53,14 @@ def test_diverse_turns_takes_one_chunk_per_turn():
     assert {"long", "short"} <= set(diagnostics.retrieved_turn_ids)
 
 
-def test_diverse_turns_is_fingerprinted_and_off_by_default():
+def test_diverse_turns_is_fingerprinted_and_on_by_default():
     assert (
         assemble().diagnostics.config_fingerprint
-        == assemble(diverse_turns=False).diagnostics.config_fingerprint
+        == assemble(diverse_turns=True).diagnostics.config_fingerprint
     )
     assert (
         assemble().diagnostics.config_fingerprint
-        != assemble(diverse_turns=True).diagnostics.config_fingerprint
+        != assemble(diverse_turns=False).diagnostics.config_fingerprint
     )
 
 

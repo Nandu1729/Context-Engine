@@ -42,7 +42,7 @@ def historical_dependencies() -> list[str]:
 def test_current_runtime_matches_new_freeze_not_baseline():
     assert load_freeze()["runtime"]["code_hash"] == code_hash()
     assert code_hash() != BASELINE_HASH
-    assert load_freeze()["runtime"]["package_version"] == "0.17.3"
+    assert load_freeze()["runtime"]["package_version"] == "0.18.0"
     assert (
         json.loads((ARCHIVE / "baseline-freeze.json").read_text())["runtime"]["code_hash"]
         == BASELINE_HASH
@@ -135,6 +135,11 @@ def test_old_qualification_rejects_new_runtime_without_modified_guards():
             "c17-claude-top-models-0173",
             "0.17.2",
             "be06a83f469352f860685da2ef9740b1b3dd163162cd5207b74dd75683a0d563",
+        ),
+        (
+            "c18-core-defaults-0180",
+            "0.17.3",
+            "e4e36975f30709aed3ffae115fc0a16faab7a2b5485c2414486f3234c803b8cc",
         ),
     ],
 )
