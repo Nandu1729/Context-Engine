@@ -1,5 +1,7 @@
 # Current status — 2026-11-02
 
+**1.0.0 (unreleased, branch `feat/core-chatmemory-defaults`, D124/D125):** `assemble_context` now uses ChatMemory's retrieval defaults (40% reserve, automatic top_k, one chunk per turn); LongMemEval evidence recall at 3000 tokens 78.5% → 94.2%. Confirmation run on all 470 eligible questions (Fable 5.1 answers, Opus 5.5 judge): 69.7% correct vs 48.9% with 0.17 defaults ($44.93).
+
 Package **0.17.3** released on **PyPI** and merged to `main` (PRs #5 and #6: lenient-v3 grader, certain `empty_response` error, Anthropic provider with Haiku/Sonnet/Opus/Fable, LongMemEval live runs D118–D123; 0.17.0–0.17.2 were never published). Earlier: **0.16.0** (PR #3: ChatMemory, AsyncChatMemory, `diverse_turns`, LongMemEval evaluation); earlier PyPI releases 0.12.0, 0.12.1, 0.14.0, 0.15.0 (`pip install context-engineering-core`). Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
@@ -29,7 +31,7 @@ service; not an enterprise-qualified release. Owner decisions: D109 in
 Full suite, `uv run --locked --offline pytest -q`, macOS arm64, Python 3.12.13.
 0.11.0: run 3 **1429 passed, 0 failed** (earlier runs 1–2 failures were fixed;
 see the brain journal). 0.12.0: run 4 (adapters) 1450 passed; run 5 (Inception)
-1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s); stage B runner: **1639 passed**; 0.17.1 (D120 `empty_response`): **1647 passed** (225 s); D121 runner: **1656 passed**; 0.17.2 (D122 Anthropic provider): **1687 passed** (229 s). 0.17.3 (D123 Opus/Fable + Claude runner): **1704 passed** (231 s).
+1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s); stage B runner: **1639 passed**; 0.17.1 (D120 `empty_response`): **1647 passed** (225 s); D121 runner: **1656 passed**; 0.17.2 (D122 Anthropic provider): **1687 passed** (229 s). 0.17.3 (D123 Opus/Fable + Claude runner): **1704 passed** (231 s). 0.18.0 (D124 defaults + D125 runner): **1728 passed** (248 s). 1.0.0: **1729 passed** (233 s).
 All with 0 failed and 48 skipped (Windows-only and one private-screenshot test).
 
 Lint: `ruff check src` passes. `python3 scripts/brain.py check` passes.

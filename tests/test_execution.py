@@ -352,7 +352,7 @@ def test_replay_receipt_keeps_original_usage_but_no_new_cost(tmp_path, bundle, f
     original = asyncio.run(
         client.complete(
             request_from_wire(prepared["request"]),
-            BudgetConfig(input_cap=900),
+            BudgetConfig(input_cap=900, retrieval_reserve=280),  # The frozen protocol's.
             scope=bundle.job("Synthetic question").arguments["pinned_facts"].scope,
             security_scope=journal.profile["security_scope"],
             snapshot_revision=journal.profile["snapshot_revision"],

@@ -14,6 +14,7 @@ import pytest
 from context_engine.answers import AnswerContract
 from context_engine.errors import BenchmarkError
 from context_engine.tokens import TiktokenCounter
+from old_defaults import with_0_17_defaults
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location(
@@ -229,16 +230,17 @@ def test_candidate_payloads_match_baseline_but_runtime_identity_differs(plan, mo
 
     saved = json.loads((ROOT / "output/c09-qualification-002/preparation.json").read_text())
     assert saved["manifest_hash"] != plan["manifest_hash"]
-    # 0.15.0 made hybrid retrieval the default; the frozen script predates it and
-    # cannot be edited, so compare its keyword-only path. Exact historical full-plan
-    # reproduction is checked under the archived wheel.
+    # 0.15.0 made hybrid retrieval the default and 0.18.0 automatic retrieval settings;
+    # the frozen script predates both and cannot be edited, so compare its keyword-only
+    # path with 0.17's retrieval defaults. Exact historical full-plan reproduction is
+    # checked under the archived wheel.
     assert {k: v for k, v in saved.items() if k != "manifest_hash"} != {
         k: v for k, v in plan.items() if k != "manifest_hash"
     }
     monkeypatch.setattr(
         qualification,
         "assemble_context",
-        functools.partial(qualification.assemble_context, embedder=None),
+        with_0_17_defaults(functools.partial(qualification.assemble_context, embedder=None)),
     )
     keyword = qualification.prepare()
     assert {k: v for k, v in saved.items() if k != "manifest_hash"} == {

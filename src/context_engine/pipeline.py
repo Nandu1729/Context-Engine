@@ -296,7 +296,7 @@ def assemble_context(
     cancellation: Cancellation | None = None,
     embedder: Embedder | str | None = BUILTIN,
     semantic_weight: float = DEFAULT_SEMANTIC_WEIGHT,
-    diverse_turns: bool = False,
+    diverse_turns: bool = True,
 ) -> AssembledContext:
     """Assemble authorized history into an estimated-token-safe request, or raise a typed error.
 
@@ -315,7 +315,7 @@ def assemble_context(
         pinned_facts = KeyedPins(pinned_facts.scope)
     budget = replace(
         budget,
-        retrieval_reserve=budget.retrieval_reserve if options.retrieve else 0,
+        retrieval_reserve=budget.effective_retrieval_reserve if options.retrieve else 0,
         summary_reserve=budget.summary_reserve if options.summarize else 0,
     )
     if not isinstance(history, (list, tuple)) or any(not isinstance(t, Turn) for t in history):
@@ -334,7 +334,8 @@ def assemble_context(
     embedder = resolve_embedder(embedder)
     if embedder is not None:
         validate_semantic(embedder, semantic_weight)
-    # Opt-in (0.16.0): at most one retrieved chunk per turn, so evidence spans more turns.
+    # At most one retrieved chunk per turn, so evidence spans more turns (0.16.0 opt-in;
+    # default since 0.18.0, D124).
     if type(diverse_turns) is not bool:
         raise ContractError("diverse_turns must be an explicit boolean")
     if isinstance(question, str):
@@ -369,7 +370,9 @@ def assemble_context(
     config_data = {
         "budget": asdict(budget),
         "cap": asdict(cap_config),
-        "retrieval": asdict(retrieval_config),
+        # Automatic settings are recorded as their resolved values.
+        "retrieval": asdict(retrieval_config)
+        | {"top_k": retrieval_config.effective_top_k(budget.retrieval_reserve)},
         "options": asdict(options),
         **(
             {"semantic": {"embedder": embedder.name, "weight": semantic_weight}}

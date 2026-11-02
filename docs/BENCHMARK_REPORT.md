@@ -60,6 +60,79 @@ Latencies are from one unloaded run and vary by machine.
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
 
+## Core defaults become ChatMemory's (0.18.0, D124, offline, 2026-11-02)
+
+`assemble_context` now gives retrieval 40% of the input allowance (was a fixed 280
+tokens), one chunk per 90 reserve tokens with at least 4 (was 4), and at most one
+chunk per turn (was off). These are the ChatMemory settings measured in the 0.16.0
+section below. No model was called.
+
+LongMemEval-S evidence recall (479 questions with labelled evidence, hybrid):
+
+| Budget | 0.17 defaults: any / all / newest, recent turns | 0.18 defaults |
+|---|---|---|
+| 900 | 75.0 / 42.0 / 58.9%, 7.5 | **81.0 / 50.5 / 66.0%**, 6.2 |
+| 3000 | 78.5 / 45.9 / 66.0%, 42.3 | **94.2 / 79.3 / 87.7%**, 27.0 |
+| 8000 | 88.1 / 54.5 / 80.2%, 125.3 | **97.3 / 89.4 / 95.4%**, 76.8 |
+
+Synthetic frozen benchmark (31 facts, `combined` strategies, same settings applied):
+
+| Questions | 900: 0.17 → 0.18 | 3000: 0.17 → 0.18 |
+|---|---|---|
+| Original, keyword / hybrid | 31 / 31 → 31 / 31 | 31 / 31 → 31 / 31 |
+| Reworded, keyword / hybrid | 3 / 21 → 5 / 23 | 3 / 21 → 11 / 29 |
+
+C09 development matrix (8 author-visible cases × 900/3000 × recovery off/on, policy
+and baseline prompts): with the default WINDOW recovery, retention is unchanged.
+With recovery off at 900 tokens, the smaller window loses one case per prompt
+(q2-conflict with the policy prompt, q2-hostile with the baseline prompt): 26 → 25 of
+32 rows each.
+
+Trade-off: fewer recent turns are kept (at 3000 tokens, 42 → 27 on average). Chats
+that mostly ask about the last few messages can set `retrieval_reserve` lower, as in
+0.17. The frozen evaluation protocol keeps its explicit settings and turn diversity
+off, so earlier `strategy-eval` and benchmark results reproduce unchanged.
+
+Reproduce (no model calls):
+
+```sh
+uv run python scripts/longmemeval_retrieval.py --budget 3000 --reserve 1200 --top-k 13 --diverse
+uv run python scripts/longmemeval_retrieval.py --budget 3000   # 0.17 defaults
+```
+
+## The 1.0 confirmation run (D125, Claude Fable 5.1 / Opus 5.5, 2026-11-02)
+
+`scripts/longmemeval_v1_live.py`; public counts in `output/longmemeval-v1-001/report.json`,
+answers private. All 470 eligible LongMemEval-S questions at 3000 tokens, two arms:
+`assemble_context` with no retrieval settings (the 0.18/1.0 defaults) and with the 0.17
+defaults (reserve 280, top_k 4, no turn diversity). Same models, prompts and settings
+as D123. 1877 calls, 0 errors or retries, **$44.93** list price (limit $90). Three answers
+(one new, two old) were blocked by the provider's content filter and are not counted.
+
+| Wilson 95% | Opus judge | lenient-v3 | answer turn in context |
+|---|---|---|---|
+| 0.17 defaults (n = 468) | 229 (44–53%) | 130 (24–32%) | 370 |
+| **1.0 defaults** (n = 469) | **327 (65–74%)** | **167 (31–40%)** | **440** |
+
+Paired on the same questions: judge 105 improved / 8 regressed (sign test p < 0.001),
+lenient-v3 54 / 17 (p < 0.001). "Unknown" replies fell from 155 to 80. Misses with the
+needed turn absent fell from 150 to 60; misses with the evidence present rose from 33
+to 49 (more questions now reach the model with evidence it then gets wrong).
+
+| Type (judge correct) | n | 0.17 | 1.0 |
+|---|---|---|---|
+| knowledge-update | 72 | 55 | 70 |
+| multi-session | 121 | 32 | 76 |
+| single-session-assistant | 56 | 36 | 38 |
+| single-session-preference | 30 | 9 | 18 |
+| single-session-user | 64 | 57 | 62 |
+| temporal-reasoning | 127 | 40 | 63 |
+
+Limits: one run per arm; the judge is the same model family as the answerer and was
+not human-checked; LongMemEval-S mixes public and simulated chats; D123's 95 questions
+are among these 470. Not comparable with published LongMemEval scores (different
+context budget and models).
+
 ## A top model and an outside judge (D123, Claude Fable 5.1 / Opus 5.5, 2026-11-02)
 
 `scripts/longmemeval_claude_live.py`; public counts in

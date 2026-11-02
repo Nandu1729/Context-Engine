@@ -14,6 +14,7 @@ from context_engine.pipeline import AssemblyOptions, assemble_context
 from context_engine.tokens import TiktokenCounter
 from examples.evidence_answer_policy import EVIDENCE_POLICY, evidence_answer_policy
 from examples.structured_answers import StructuredGeneration, StructuredSerializer
+from old_defaults import with_0_17_defaults
 
 AT = datetime(2026, 9, 24, tzinfo=UTC)
 SCOPE = Scope("policy-development", "offline")
@@ -76,7 +77,19 @@ def test_format_validation_does_not_claim_semantic_correctness():
         assert CONTRACT.parse('{"answer":"' + value + '"}') == value
 
 
-def test_author_visible_development_matrix_retention_does_not_regress(candidate_harness):
+# 0.18.0 defaults (40% reserve) leave less window at 900 tokens. With WINDOW recovery off
+# (CONTROL), the policy and baseline prompts then differ on two cases: the policy prompt
+# loses q2-conflict and keeps q2-hostile, which the baseline loses (D124). Same totals.
+PROMPT_DIFFERENCES = {
+    "0.17": set(),
+    "0.18": {("q2-conflict", 900, "CONTROL"), ("q2-hostile", 900, "CONTROL")},
+}
+
+
+@pytest.mark.parametrize("defaults", sorted(PROMPT_DIFFERENCES))
+def test_author_visible_development_matrix_retention_does_not_regress(
+    candidate_harness, monkeypatch, defaults
+):
     # Existing cases are development evidence, not new held-out quality scores.
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
@@ -91,6 +104,11 @@ def test_author_visible_development_matrix_retention_does_not_regress(candidate_
     candidate_harness(q)  # Disposable TEST_ONLY copy with real candidate identity.
     assert q.DIRECTORY / "manifest.json" != original_manifest
     cases, truth, _ = q.load()  # Resource and runtime guards still execute.
+    assemble = assemble_context
+    if defaults == "0.17":
+        assemble = with_0_17_defaults(assemble_context)
+        monkeypatch.setattr(q, "assemble_context", assemble)
+    differences = set()  # Where the policy and baseline prompts differ in retention.
     at = datetime(2026, 9, 23, tzinfo=UTC)
     for case in cases:
         contract = AnswerContract(case["kind"])
@@ -104,14 +122,16 @@ def test_author_visible_development_matrix_retention_does_not_regress(candidate_
         for budget in (900, 3000):
             for variant in ("CONTROL", "PRIMARY"):
                 before = q.assemble(case, budget, variant, counter)
-                result = assemble_context(
+                result = assemble(
                     history, question, pins, BudgetConfig(input_cap=budget),
                     system=evidence_answer_policy(contract), at=at, token_counter=counter,
                     retrieval_config=RetrievalConfig(recover_capped_window=variant == "PRIMARY"),
                     options=AssemblyOptions(summarize=False),
                 )
                 assert result.diagnostics.estimate.estimated_tokens <= budget
-                assert q.retained(case, truth[case["id"]], result) == q.retained(
+                if q.retained(case, truth[case["id"]], result) != q.retained(
                     case, truth[case["id"]], before
-                )
+                ):
+                    differences.add((case["id"], budget, variant))
+    assert differences == PROMPT_DIFFERENCES[defaults]
     assert original_manifest.read_bytes() == original_bytes

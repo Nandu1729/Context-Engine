@@ -89,6 +89,7 @@ def _assemble(job, protocol, counter, fact, allowance, strategy, question, embed
         options=options,
         # Named strategies keep their keyword meaning; *_semantic ones add the embedder.
         embedder=embedder if strategy in SEMANTIC else None,
+        diverse_turns=False,  # The frozen protocol predates turn diversity (0.16.0).
     )
     pins = job.arguments["pinned_facts"]
     result = assemble_context(history, question, pins, budget, **arguments)

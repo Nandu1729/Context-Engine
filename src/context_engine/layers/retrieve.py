@@ -243,7 +243,7 @@ class RetrieveLayer:
                         self.counter,
                     ):
                         selected = candidate
-                    if len(selected) >= self.config.top_k:
+                    if len(selected) >= self.config.effective_top_k(planned.plan.retrieval_tokens):
                         break
         if selected:
             reason = "evidence_retrieved"

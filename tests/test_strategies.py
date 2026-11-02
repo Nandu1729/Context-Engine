@@ -115,7 +115,9 @@ def test_ground_truth_not_passed_to_engine(monkeypatch):
             "options",
             "summary_policy",
             "embedder",  # None for named strategies; the model for *_semantic ones.
+            "diverse_turns",  # Always False: the frozen protocol predates it.
         }
+        assert kwargs["diverse_turns"] is False
 
 
 def test_invalid_budgets_rejected():

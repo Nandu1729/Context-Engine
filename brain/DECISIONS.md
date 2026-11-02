@@ -1,5 +1,20 @@
 # Decision register
 
+- D125 / OWNER "VERSION 1.0" PLAN,2026-11-02(approved "approve 1,2",run COMPLETE):one confirmation run
+  after D124:all470 eligible LongMemEval-S q x new_default(assemble_context with no
+  retrieval settings)/old_default(280,4,no diversity)@3000,Fable5.1 answers(adaptive,
+  high,8192),Opus5.5 judge(medium,2048);1880 calls,expected~$47(D123 usage),$90
+  spending limit checked before each call(all-calls worst$511 not reachable),own ledger
+  longmemeval-d125,no retries. Result:judge new327/469 vs old229/468,paired105/8;$44.93.
+  Owner "go ahead":release as1.0.0(same code as0.18.0).
+  After it:call the release1.0,then focus on developer adoption.
+- D124 / OWNER "DO STEP 1",2026-11-02:core defaults become ChatMemory's(0.18.0):reserve
+  None=40% of allowance,top_k None=reserve//90 min4,diverse_turns True;explicit values
+  unchanged;frozen protocol pins diverse_turns False. Offline:LongMemEval any/all 900
+  75.0/42.0->81.0/50.5,3000 78.5/45.9->94.2/79.3,8000 88.1/54.5->97.3/89.4;synthetic
+  original31/31 kept,reworded hybrid21->23/29;C09 matrix recovery-off@900 one loss per
+  prompt(26->25 of32),default recovery unchanged. 0.17.3 PyPI wheel archived
+  (archives/c18-core-defaults-0180). Commit pending owner approval.
 - D123 / OWNER "GO FOR THE BEST",2026-11-02:owner has $200 Anthropic credit and rejects
   the cheapest models. Proposed run(not yet approved to go live):Fable5.1 answers(adaptive,
   effort high,8192 out)95q x core/ChatMemory3000,Opus5.5 judge(adaptive,effort medium,

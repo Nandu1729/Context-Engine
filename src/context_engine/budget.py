@@ -66,16 +66,15 @@ def plan_budget(
             input_allowance=allowance,
             overflow_tokens=-remaining,
         )
-    reserve = config.retrieval_reserve + config.summary_reserve
+    retrieval = config.effective_retrieval_reserve
+    reserve = retrieval + config.summary_reserve
     if reserve > remaining:
         raise LayerAllocationError(
             "Layer reserves exceed space remaining after required context",
             available_tokens=remaining,
             reserved_tokens=reserve,
         )
-    return BudgetPlan(
-        allowance, estimate, config.retrieval_reserve, config.summary_reserve, remaining - reserve
-    )
+    return BudgetPlan(allowance, estimate, retrieval, config.summary_reserve, remaining - reserve)
 
 
 def validate_request(
