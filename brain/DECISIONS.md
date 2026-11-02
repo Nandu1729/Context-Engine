@@ -1,5 +1,11 @@
 # Decision register
 
+- D122 / OWNER "OK" TO BOTH FOLLOW-UPS,2026-11-02:(1)docs recommend 2048+ output tokens
+  with thinking;defaults stay 256(changing them needs a separate ask).(2)Anthropic
+  provider in src,offline only:Haiku5.5/Sonnet5.5(Opus excluded:thinking always on),
+  temperature not sent,cache writes refused,no tools. Facts from platform.claude.com
+  docs. 0.17.2 unreleased;0.17.1 wheel(8a8f7843…)archived. A live Claude run needs its
+  own plan,cap and owner approval;ANTHROPIC_API_KEY goes in .env by the owner only.
 - D121 / OWNER TEMPORAL OUTPUT-LIMIT RUN,2026-11-01:owner "commit, do after that whats
   best",then "go live" on the shown plan and "continue" after the10-call stage. Stage B's
   26 temporal questions x core/ChatMemory 3000,2048 output tokens,all else stage B(contexts

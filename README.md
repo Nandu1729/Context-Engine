@@ -106,6 +106,9 @@ chat_model.invoke(langchain_messages(result))  # pip install 'context-engineerin
 history = turns_from_openai(existing_openai_messages, scope)  # reuse a chat history you already have
 ```
 
+If your model thinks before it answers, its output limit includes the thinking. Leave
+room (2048 tokens or more): in our runs, smaller limits often ended with an empty answer.
+
 ### Finds meaning, not just matching words
 
 Retrieval combines keyword search with a small embedding model bundled in the

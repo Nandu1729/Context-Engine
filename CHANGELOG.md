@@ -3,6 +3,24 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
+## 0.17.2 — 2026-11-02 (unreleased)
+
+### Added
+- Anthropic provider (D122): `AnthropicGenerationConfig` (Claude Haiku 5.5 / Sonnet 5.5,
+  thinking off or adaptive, optional effort; temperature not sent) and
+  `AnthropicTransport` for the Messages API, with the same admission, ledger,
+  no-retry and redaction rules as Groq and Inception. Tested offline only; no live call.
+- `ProviderClient` picks the matching built-in transport for each settings class and
+  refuses mismatched pairs (Groq / Inception / Anthropic).
+
+### Docs
+- `docs/PROVIDER.md` and README: leave 2048+ output tokens when thinking is on
+  (D118/D119/D121 evidence). Defaults unchanged (256).
+
+### Unchanged
+- Assembly output and defaults. 0.17.1 wheel/freeze (the code that ran D121) archived
+  in `archives/c17-anthropic-0172/`.
+
 ## 0.17.1 — 2026-11-01 (unreleased)
 
 ### Changed

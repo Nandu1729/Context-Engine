@@ -1,6 +1,6 @@
 # Current status — 2026-10-31
 
-Development version **0.17.1** (unreleased: lenient-v3 grader and D119 runs in 0.17.0; certain `empty_response` error for no-text replies in 0.17.1, D120). Package **0.16.0** released on **PyPI** and merged to `main` (PR #3: ChatMemory, AsyncChatMemory, `diverse_turns`, LongMemEval evaluation); earlier PyPI releases 0.12.0, 0.12.1, 0.14.0, 0.15.0 (`pip install context-engineering-core`). Developer SDK and self-hosted local
+Development version **0.17.2** (unreleased: lenient-v3 grader and D119 runs in 0.17.0; certain `empty_response` error for no-text replies in 0.17.1, D120; Anthropic provider, offline only, in 0.17.2, D122). Package **0.16.0** released on **PyPI** and merged to `main` (PR #3: ChatMemory, AsyncChatMemory, `diverse_turns`, LongMemEval evaluation); earlier PyPI releases 0.12.0, 0.12.1, 0.14.0, 0.15.0 (`pip install context-engineering-core`). Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
 
@@ -19,6 +19,7 @@ service; not an enterprise-qualified release. Owner decisions: D109 in
 | Dependency audit: 0 known vulnerabilities (OSV) after lock upgrades; all licenses permissive | [SECURITY_AUDIT](SECURITY_AUDIT.md) supply-chain row |
 | Bounded live strategy-accuracy runner (no retries, free tier, amendment-bound skips) | `scripts/strategy_accuracy_live.py`; `tests/test_strategy_accuracy_live.py` (9, offline) |
 | Provider/framework adapters: OpenAI, Anthropic, LangChain (optional), OpenAI-history import | `context_engine.adapters`; `tests/test_adapters.py` (11); real langchain-core 1.7.3 checked in a scratch venv |
+| Anthropic (Claude) provider | `tests/test_anthropic.py` (30, offline); no live call yet (D122) |
 | Inception (Mercury) provider | `tests/test_inception.py` (16, offline); live smoke D111: 1 call, mercury-3, 715/45 tokens, correct, free tier |
 | MCP server prototype over `MemoryStore` (stdio) | `context-engine-mcp`; `tests/test_mcp_server.py` (10); Claude Code reports Connected; installed-binary round trip PASS |
 | All-layers latency under 100 ms: 67 ms at 900, 80 ms at 3000 (was 247/481 ms in 0.11.0), identical output | 0.12.1; `tests/test_assembly_speed.py`, `tests/test_token_cache.py`; 310/310 outputs match 0.12.0 |
@@ -28,7 +29,7 @@ service; not an enterprise-qualified release. Owner decisions: D109 in
 Full suite, `uv run --locked --offline pytest -q`, macOS arm64, Python 3.12.13.
 0.11.0: run 3 **1429 passed, 0 failed** (earlier runs 1–2 failures were fixed;
 see the brain journal). 0.12.0: run 4 (adapters) 1450 passed; run 5 (Inception)
-1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s); stage B runner: **1639 passed**; 0.17.1 (D120 `empty_response`): **1647 passed** (225 s); D121 runner: **1656 passed**.
+1466 passed; run 6 (MCP) 1476 passed; run 7 (latency) **1479 passed** (316 s, was 538 s). 0.17.0 (D119 stage A): **1620 passed** (227 s); stage B runner: **1639 passed**; 0.17.1 (D120 `empty_response`): **1647 passed** (225 s); D121 runner: **1656 passed**; 0.17.2 (D122 Anthropic provider): **1687 passed** (229 s).
 All with 0 failed and 48 skipped (Windows-only and one private-screenshot test).
 
 Lint: `ruff check src` passes. `python3 scripts/brain.py check` passes.

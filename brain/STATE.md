@@ -60,7 +60,8 @@ micro-USD list):judge core37/ChatMemory56@3000/54@8000;v3 26/38/40;d errors33→
 43 out-of-tokens,10 null-content answers;committed9505cd2,PR #6 open(not merged).
 D120 0.17.1(unreleased,same branch):null-content stop→certain empty_response;committed340b761.
 D121 temporal@2048 COMPLETE(93 calls,28,289 micro-USD):out-of-tokens21→8,judge core4→7,
-ChatMemory6→9 of26(paired3/0 each). No default change;uncommitted runner+tests+report.
+ChatMemory6→9 of26(paired3/0 each). No default change;committed9ca84ba.
+D122 0.17.2(unreleased):Anthropic provider offline(30 tests),2048+ guidance;uncommitted.
 
 ## Open risks
 

@@ -86,3 +86,29 @@ Live smoke (D111): 1 call, 715 input / 45 output tokens, correct answer. A Groq 
 Inception transport, or the reverse. `scripts/inception_smoke.py plan` shows the
 single capped call; it refuses to run twice (one attempt per run directory).
 
+## Anthropic (Claude Messages API), 0.17.2 — offline only (D122)
+
+`AnthropicGenerationConfig` + `AnthropicTransport` (`https://api.anthropic.com/v1/messages`,
+headers `x-api-key` and `anthropic-version: 2023-06-01`) reuse `ProviderClient`: final
+token admission, local ledger, no automatic retries, redacted errors, the same status
+mapping (402 billing, 429 rate limit, 5xx/529 uncertain). Models `claude-haiku-5-5` and
+`claude-sonnet-5-5`; `thinking="off"` sends `disabled` (Haiku) or `between_tools`
+(Sonnet, its lowest setting), `"adaptive"` sends adaptive thinking with the text
+omitted; optional `effort` low/medium/high. Temperature is not sent (API default).
+Tools are refused. Text blocks are joined, thinking blocks dropped; `end_turn` with no
+text is a certain `empty_response`; `max_tokens` is `truncated`, `refusal` is
+`filtered`. Prompt-cache writes are never requested; a response reporting one is
+refused as uncertain, because its price differs. Published Haiku 5.5 prices (read
+2026-11-02, prompts up to 100k tokens): $0.10 input / $0.01 cache hit / $0.50 output
+per 1M; Sonnet 5.5 $2 / $0.10 / $10. Budgets use a local tokenizer estimate, and
+Claude's tokenizer may count more tokens; keep a margin under any spend cap.
+No live call has been made.
+
+**Output limit with thinking.** `max_completion_tokens` counts thinking tokens too, and
+the default (256) is too small when reasoning is on. With mercury-3 and reasoning
+"low" on LongMemEval-S: at 256, 5 of 10 answers spent all tokens thinking and were
+empty (D118); at 1024, 43 of 285 were (D119); at 2048 on date questions, 14 of 21 of
+those finished (D121), with a median of 390 thinking tokens and some above 1024. Use
+at least 2048 with reasoning on, or reasoning "instant" for short answers. A
+`truncated` result (finish "length") with empty text means the limit was too small.
+

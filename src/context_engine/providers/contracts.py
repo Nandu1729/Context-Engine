@@ -5,6 +5,7 @@ import math
 import re
 from dataclasses import asdict, dataclass
 
+from ..adapters import anthropic_messages
 from ..errors import ContractError
 from ..models import ToolCall, canonical_json, freeze_sequence, integer_value, text_value
 
@@ -15,6 +16,13 @@ MODELS = ("openai/gpt-oss-120b", "openai/gpt-oss-20b")
 INCEPTION_ENDPOINT = "https://api.inceptionlabs.ai/v1/chat/completions"
 INCEPTION_ADAPTER_VERSION = "inception-chat-v1"
 INCEPTION_MODELS = ("mercury-3", "mercury-2.5", "mercury-2")
+# Anthropic Messages API (docs read 2026-11-02). Haiku 5.5 allows thinking "disabled";
+# Sonnet 5.5's lowest setting is "between_tools" (no up-front thinking).
+ANTHROPIC_ENDPOINT = "https://api.anthropic.com/v1/messages"
+ANTHROPIC_ADAPTER_VERSION = "anthropic-messages-v1"
+ANTHROPIC_API_VERSION = "2023-06-01"
+ANTHROPIC_MODELS = ("claude-haiku-5-5", "claude-sonnet-5-5")
+_THINKING_OFF = {"claude-haiku-5-5": "disabled", "claude-sonnet-5-5": "between_tools"}
 
 
 def fingerprint(value) -> str:
@@ -103,6 +111,49 @@ class InceptionGenerationConfig:
         payload = {**request.to_wire(), **asdict(self), "stream": False}
         if not request.tools:
             payload.pop("tool_choice")
+        return payload
+
+
+@dataclass(frozen=True)
+class AnthropicGenerationConfig:
+    """Claude Messages request settings. Temperature is not sent (API default).
+    `max_completion_tokens` is the wire `max_tokens` and includes thinking."""
+
+    model: str = "claude-haiku-5-5"
+    max_completion_tokens: int = 256
+    thinking: str = "off"
+    effort: str | None = None
+    tool_choice: str = "none"
+
+    def __post_init__(self):
+        if (
+            self.model not in ANTHROPIC_MODELS
+            or self.thinking not in ("off", "adaptive")
+            or self.effort not in (None, "low", "medium", "high")
+        ):
+            raise ContractError("Unsupported Anthropic model, thinking or effort setting")
+        integer_value("max_completion_tokens", self.max_completion_tokens, minimum=1)
+        if self.max_completion_tokens > 64000:
+            raise ContractError("Completion request exceeds the smallest Claude limit")
+        if self.tool_choice != "none":
+            raise ContractError("Anthropic transport does not send tools")
+
+    def to_wire(self, request):
+        if request.tools:
+            raise ContractError("Anthropic transport does not send tools")
+        payload = {
+            "model": self.model,
+            "max_tokens": self.max_completion_tokens,
+            **anthropic_messages(request),
+            "thinking": {"type": _THINKING_OFF[self.model]}
+            if self.thinking == "off"
+            else {"type": "adaptive", "display": "omitted"},
+            "stream": False,
+        }
+        if not payload["system"]:
+            payload.pop("system")
+        if self.effort is not None:
+            payload["output_config"] = {"effort": self.effort}
         return payload
 
 
@@ -250,11 +301,15 @@ class Completion:
 
     def __post_init__(self):
         identifier(self.response_id)
-        if self.model not in MODELS + INCEPTION_MODELS or self.finish_reason not in (
-            "stop",
-            "length",
-            "tool_calls",
-            "content_filter",
+        if (
+            self.model not in MODELS + INCEPTION_MODELS + ANTHROPIC_MODELS
+            or self.finish_reason
+            not in (
+                "stop",
+                "length",
+                "tool_calls",
+                "content_filter",
+            )
         ):
             raise ContractError("Unsupported provider completion")
         text_value("content", self.content, nonempty=False)
