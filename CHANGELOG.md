@@ -3,7 +3,21 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
-## 0.18.0 — 2026-11-02 (unreleased)
+## 1.0.0 — 2026-11-02
+
+First stable release. Same code as 0.18.0 (below, never published); only the version
+and the "Production/Stable" classifier change.
+
+### Confirmed (D125, live)
+- All 470 eligible LongMemEval-S questions at 3000 tokens, Claude Fable 5.1 answers,
+  Claude Opus 5.5 judge (LongMemEval prompts): `assemble_context` 1.0 defaults
+  **327/469 correct (69.7%, Wilson 65–74%)** vs 0.17 defaults 229/468 (48.9%). Paired:
+  105 improved, 8 regressed (p < 0.001); lenient-v3 167 vs 130. 1877 calls, $44.93 list
+  price; 3 answers blocked by the provider's content filter. Report:
+  `output/longmemeval-v1-001/report.json`. 0.18.0 wheel/freeze archived in
+  `archives/c19-release-100/`.
+
+## 0.18.0 — 2026-11-02 (not published; released as 1.0.0)
 
 ### Changed (defaults)
 - `assemble_context` now uses ChatMemory's retrieval settings by default (D124):
@@ -26,7 +40,7 @@ Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
   explicit settings and passes `diverse_turns=False`, so its results are unchanged.
 
 ### Added
-- `scripts/longmemeval_v1_live.py` (D125, offline until approved): the 1.0 confirmation
+- `scripts/longmemeval_v1_live.py` (D125): the 1.0 confirmation
   run, all 470 eligible LongMemEval-S questions, new vs old defaults, Claude Fable 5.1
   answers and Claude Opus 5.5 judge, with a $90 spending limit checked before every call.
 

@@ -63,7 +63,8 @@ the context for 94.2% of questions at the default 3000-token budget (78.5% with
 the 0.17 `assemble_context` defaults). ChatMemory gives 40% of the budget to
 retrieved older turns, at most one chunk per turn; set `retrieval_share` lower to
 keep more recent turns instead. Since 0.18.0 `assemble_context` uses the same
-settings by default (`retrieval_reserve=280`, `RetrievalConfig(top_k=4)` and
+settings by default; on all 470 eligible LongMemEval questions this raised
+model-judged accuracy from 48.9% to 69.7% (`retrieval_reserve=280`, `RetrievalConfig(top_k=4)` and
 `diverse_turns=False` restore 0.17 behavior).
 
 For asyncio apps (FastAPI and others) use `AsyncChatMemory`, which has the same
@@ -201,6 +202,8 @@ These are enforced in code and covered by about 1,400 tests:
   With a top model (Claude Fable 5.1, judged by Claude Opus 5.5) on the same
   contexts, ChatMemory's defaults scored 70 of 95 vs 46 for 0.17 `assemble_context`
   defaults: a stronger model does not make up for evidence missing from the context.
+  On all 470 eligible questions (same models), `assemble_context`'s 1.0 defaults
+  answered 327 of 469 correctly (69.7%) vs 229 of 468 with the 0.17 defaults.
   Absolute accuracy is low and not comparable with published LongMemEval scores.
   Details in the benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.

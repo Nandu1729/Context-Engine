@@ -100,6 +100,39 @@ uv run python scripts/longmemeval_retrieval.py --budget 3000 --reserve 1200 --to
 uv run python scripts/longmemeval_retrieval.py --budget 3000   # 0.17 defaults
 ```
 
+## The 1.0 confirmation run (D125, Claude Fable 5.1 / Opus 5.5, 2026-11-02)
+
+`scripts/longmemeval_v1_live.py`; public counts in `output/longmemeval-v1-001/report.json`,
+answers private. All 470 eligible LongMemEval-S questions at 3000 tokens, two arms:
+`assemble_context` with no retrieval settings (the 0.18/1.0 defaults) and with the 0.17
+defaults (reserve 280, top_k 4, no turn diversity). Same models, prompts and settings
+as D123. 1877 calls, 0 errors or retries, **$44.93** list price (limit $90). Three answers
+(one new, two old) were blocked by the provider's content filter and are not counted.
+
+| Wilson 95% | Opus judge | lenient-v3 | answer turn in context |
+|---|---|---|---|
+| 0.17 defaults (n = 468) | 229 (44–53%) | 130 (24–32%) | 370 |
+| **1.0 defaults** (n = 469) | **327 (65–74%)** | **167 (31–40%)** | **440** |
+
+Paired on the same questions: judge 105 improved / 8 regressed (sign test p < 0.001),
+lenient-v3 54 / 17 (p < 0.001). "Unknown" replies fell from 155 to 80. Misses with the
+needed turn absent fell from 150 to 60; misses with the evidence present rose from 33
+to 49 (more questions now reach the model with evidence it then gets wrong).
+
+| Type (judge correct) | n | 0.17 | 1.0 |
+|---|---|---|---|
+| knowledge-update | 72 | 55 | 70 |
+| multi-session | 121 | 32 | 76 |
+| single-session-assistant | 56 | 36 | 38 |
+| single-session-preference | 30 | 9 | 18 |
+| single-session-user | 64 | 57 | 62 |
+| temporal-reasoning | 127 | 40 | 63 |
+
+Limits: one run per arm; the judge is the same model family as the answerer and was
+not human-checked; LongMemEval-S mixes public and simulated chats; D123's 95 questions
+are among these 470. Not comparable with published LongMemEval scores (different
+context budget and models).
+
 ## A top model and an outside judge (D123, Claude Fable 5.1 / Opus 5.5, 2026-11-02)
 
 `scripts/longmemeval_claude_live.py`; public counts in

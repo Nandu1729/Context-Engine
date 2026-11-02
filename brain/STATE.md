@@ -67,8 +67,10 @@ Fable ChatMemory70/core46 of95(paired27 vs3);vs mercury same judge core10/2,CM12
 Opus agreed with mercury judge226/232(0 mercury-only yes). Committed a6792aa.
 Owner "merge and publish":PR #5(0b2a415)+#6(07c5fa8)merged,branches deleted;0.17.3 on PyPI.
 D124 0.18.0(uncommitted,feat/core-chatmemory-defaults):core defaults=ChatMemory's;LME any@3000
-78.5→94.2%;full run1728 PASS. D125 1.0 run planned(470q,1880 calls,~$47,cap$90);
-NEXT:owner approves commit+live run;then release1.0 and focus on developer adoption.
+78.5→94.2%;full run1728 PASS;committed44c3021. D125 COMPLETE(1877 calls,$44.93):judge
+new327/469(69.7%)vs old229/468,paired105/8. 1.0.0 bump(uncommitted):0.18.0 wheel archived
+c19-release-100(b34fc1e3…),code hash ac690ea0….
+NEXT:owner reviews+approves1.0.0 commit;merge/PyPI only on request;then developer adoption.
 
 ## Open risks
 

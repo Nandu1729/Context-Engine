@@ -1,11 +1,12 @@
 # Decision register
 
-- D125 / OWNER "VERSION 1.0" PLAN,2026-11-02(proposed,not live):one confirmation run
+- D125 / OWNER "VERSION 1.0" PLAN,2026-11-02(approved "approve 1,2",run COMPLETE):one confirmation run
   after D124:all470 eligible LongMemEval-S q x new_default(assemble_context with no
   retrieval settings)/old_default(280,4,no diversity)@3000,Fable5.1 answers(adaptive,
   high,8192),Opus5.5 judge(medium,2048);1880 calls,expected~$47(D123 usage),$90
   spending limit checked before each call(all-calls worst$511 not reachable),own ledger
-  longmemeval-d125,no retries. Needs owner go-ahead;plan->STOP->10-call stage->continue.
+  longmemeval-d125,no retries. Result:judge new327/469 vs old229/468,paired105/8;$44.93.
+  Owner "go ahead":release as1.0.0(same code as0.18.0).
   After it:call the release1.0,then focus on developer adoption.
 - D124 / OWNER "DO STEP 1",2026-11-02:core defaults become ChatMemory's(0.18.0):reserve
   None=40% of allowance,top_k None=reserve//90 min4,diverse_turns True;explicit values
