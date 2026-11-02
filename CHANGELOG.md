@@ -3,7 +3,10 @@
 Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
 `docs/C10_STORAGE_ACL_REPORT.md` and preserved as wheels under `archives/`.
 
-## 0.17.3 — 2026-11-02 (unreleased)
+## 0.17.3 — 2026-11-02 (PyPI)
+
+First published 0.17 release; it includes everything in 0.17.0–0.17.2 below, which
+were never published.
 
 ### Changed
 - `AnthropicGenerationConfig` also accepts Claude Opus 5.5 and Fable 5.1 (thinking always

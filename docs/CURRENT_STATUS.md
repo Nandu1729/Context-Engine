@@ -1,6 +1,6 @@
-# Current status — 2026-10-31
+# Current status — 2026-11-02
 
-Development version **0.17.2** (unreleased: lenient-v3 grader and D119 runs in 0.17.0; certain `empty_response` error for no-text replies in 0.17.1, D120; Anthropic provider, offline only, in 0.17.2, D122; Opus/Fable in 0.17.3, D123). Package **0.16.0** released on **PyPI** and merged to `main` (PR #3: ChatMemory, AsyncChatMemory, `diverse_turns`, LongMemEval evaluation); earlier PyPI releases 0.12.0, 0.12.1, 0.14.0, 0.15.0 (`pip install context-engineering-core`). Developer SDK and self-hosted local
+Package **0.17.3** released on **PyPI** and merged to `main` (PRs #5 and #6: lenient-v3 grader, certain `empty_response` error, Anthropic provider with Haiku/Sonnet/Opus/Fable, LongMemEval live runs D118–D123; 0.17.0–0.17.2 were never published). Earlier: **0.16.0** (PR #3: ChatMemory, AsyncChatMemory, `diverse_turns`, LongMemEval evaluation); earlier PyPI releases 0.12.0, 0.12.1, 0.14.0, 0.15.0 (`pip install context-engineering-core`). Developer SDK and self-hosted local
 service; not an enterprise-qualified release. Owner decisions: D109 in
 [brain/DECISIONS.md](../brain/DECISIONS.md). Plan: [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md).
 
@@ -46,7 +46,7 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 
 - TestPyPI: `context-engineering-core` 0.11.0 (D110) and 0.12.0 (D111; wheel
   `9b289b16…`, sdist `0c44130b…`), both verified by a fresh install from TestPyPI.
-- PyPI: 0.15.0 released 2026-10-31 (wheel `ab5c234f…`, sdist `34b2b33b…`, ~7 MB with the
+- PyPI: 0.17.3 released 2026-11-02 (wheel `e4e36975…`, sdist `3f821a66…`, built from merged `main` `07c5fa8`; fresh install from PyPI passes `context-engine check` and loads the Claude settings). 0.15.0 released 2026-10-31 (wheel `ab5c234f…`, sdist `34b2b33b…`, ~7 MB with the
   bundled model; fresh install with no extras and network blocked finds a reworded
   fact). 0.14.0 released 2026-10-31 (wheel `b9357141…`, sdist `b132bde0…`; fresh install
   with `[semantic]` PASS, hybrid finds a reworded fact). 0.12.1 released 2026-10-31 (wheel `1585cabd…`, sdist `db6d635b…`; owner ran the
@@ -58,7 +58,7 @@ offline retention on this synthetic corpus. See [BENCHMARK_REPORT](BENCHMARK_REP
 
 | Item | Status |
 |---|---|
-| PyPI upload | 0.16.0 on PyPI (hashes match the tested build) |
+| PyPI upload | 0.17.3 on PyPI (hashes match the tested build) |
 | Live accuracy at 3000 tokens / paid models | Not approved |
 | MCP in-chat use by a model | Owner restarts Claude Code and tries the tools |
 | Reworded questions | 0.15.0 **default** hybrid retrieval (bundled model, weight 0.5): offline 3/31 → 21/31; live (D114, weight 0.7) keyword 3/31 vs hybrid 18/31 strict, 21/31 lenient (grading v2). Needle-in-filler + reworded still hard: 12/31 |
