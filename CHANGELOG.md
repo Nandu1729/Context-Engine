@@ -12,9 +12,11 @@ Earlier versions (0.1.0–0.9.6) are documented in `docs/C01_REPORT.md` through
   the API rejects, is refused locally.
 
 ### Added
-- `scripts/longmemeval_claude_live.py` (D123, not yet run): Claude Fable 5.1 answers
-  stage B's 95 questions in two 3000-token arms; Claude Opus 5.5 judges them and
-  re-judges stage B's mercury-3 answers.
+- `scripts/longmemeval_claude_live.py` (D123): Claude Fable 5.1 answers stage B's 95
+  questions in two 3000-token arms; Claude Opus 5.5 judges them and re-judges stage
+  B's mercury-3 answers. Judge: ChatMemory 70 vs core 46 of 95 (paired 27 vs 3);
+  Opus agreed with the mercury judge on 226 of 232. $9.50 at list price. Results in
+  `output/longmemeval-claude-001/`.
 
 ### Unchanged
 - Assembly output and defaults. 0.17.2 wheel/freeze archived in

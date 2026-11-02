@@ -196,6 +196,9 @@ These are enforced in code and covered by about 1,400 tests:
   with `assemble_context` defaults; 8000 tokens did not beat 3000 (54).
   Date questions are the weakest type; doubling the output limit to 2048 tokens let
   14 of 21 cut-off date answers finish (judge 6 → 9 of 26 with ChatMemory).
+  With a top model (Claude Fable 5.1, judged by Claude Opus 5.5) on the same
+  contexts, ChatMemory's defaults scored 70 of 95 vs 46 for `assemble_context`
+  defaults: a stronger model does not make up for evidence missing from the context.
   Absolute accuracy is low and not comparable with published LongMemEval scores.
   Details in the benchmark report.
 - **Exact provider token counts.** Budgets use a local tokenizer estimate.

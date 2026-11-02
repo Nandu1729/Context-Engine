@@ -6,7 +6,8 @@
   2048 out)on Fable answers+re-judge of232 stage B mercury answers. Cap130,000,000
   micro-USD(worst124.5M with1.5x token margin),max700 calls,no retries,own ledger,
   key=ANTHROPIC_API_KEY line(Default-workspace key,30-day expiry). 0.17.3 allows
-  Opus/Fable;0.17.2 wheel(be06a83f…)archived.
+  Opus/Fable;0.17.2 wheel(be06a83f…)archived. Owner "go live,continue,commit":committed
+  0043859 before dispatch;10-call stage clean,then full run.
 - D122 / OWNER "OK" TO BOTH FOLLOW-UPS,2026-11-02:(1)docs recommend 2048+ output tokens
   with thinking;defaults stay 256(changing them needs a separate ask).(2)Anthropic
   provider in src,offline only:Haiku5.5/Sonnet5.5(Opus excluded:thinking always on),

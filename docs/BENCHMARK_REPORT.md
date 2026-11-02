@@ -1,6 +1,6 @@
 # Benchmark report
 
-Updated 2026-11-01. Every number here is labeled with how it was produced.
+Updated 2026-11-02. Every number here is labeled with how it was produced.
 "Retention" means the planted fact's evidence reached the assembled context at its
 declared source. It is **not** answer accuracy.
 
@@ -59,6 +59,52 @@ Latencies are from one unloaded run and vary by machine.
 5. Token reduction is a function of the budget you choose, not of strategy: every
    assembled strategy fills its allowance. Savings claims must be paired with
    retention/accuracy at that budget.
+
+## A top model and an outside judge (D123, Claude Fable 5.1 / Opus 5.5, 2026-11-02)
+
+`scripts/longmemeval_claude_live.py`; public counts in
+`output/longmemeval-claude-001/report.json`, answers private. Claude Fable 5.1
+(adaptive thinking, effort "high", 8192 output tokens) answered stage B's 95 questions
+with stage B's prompt; all 190 contexts are byte-identical to the ones mercury-3 saw.
+Claude Opus 5.5 (adaptive thinking, effort "medium", 2048 tokens, the published
+LongMemEval judge prompts) judged every Fable answer and re-judged all 232 stage B
+mercury-3 answers that had text.
+
+| n = 95 (Wilson 95%) | strict-v1 | lenient-v3 | Opus judge |
+|---|---|---|---|
+| Fable, `assemble_context` defaults, 3000 | 19 (13–29%) | 23 (17–34%) | 46 (39–58%) |
+| Fable, ChatMemory defaults, 3000 | 27 (20–38%) | 36 (29–48%) | **70** (64–81%) |
+| mercury-3 (stage B), core, Opus judge | 22 | 26 | 38 (31–50%) |
+| mercury-3 (stage B), ChatMemory, Opus judge | 26 | 38 | 59 (52–71%) |
+
+**ChatMemory vs core with the same strong model:** judge 27 vs 3 questions
+(p < 0.001), lenient-v3 15 vs 2 (p ≈ 0.002). The gap does not close with a better
+model: with core defaults, 35 of Fable's 49 misses had evidence missing from the
+context (ChatMemory: 12), and Fable said "unknown" 31 times (ChatMemory: 12).
+
+**Fable vs mercury-3, same contexts and same Opus judge:** core 10 improved / 2
+regressed (p ≈ 0.04), ChatMemory 12 / 1 (p ≈ 0.003). Exact-match graders show no gain
+(lenient-v3 6 / 9 and 7 / 9): Fable often answers in a short sentence rather than the
+bare value (format-only misses: ChatMemory 29, core 18).
+
+By type, Opus judge (core / ChatMemory): knowledge-update 10 / 15 of 15,
+single-session-user 11 / 13 of 13, multi-session 6 / 17 of 24, temporal 9 / 14 of 26,
+single-session-assistant 5 / 6 of 11, preference 5 / 5 of 6.
+
+**Was the mercury judge fair to its own family?** On the 232 stage B answers, the Opus
+judge agreed with the mercury-3 judge on 226. Opus never rejected an answer mercury
+accepted; it accepted 6 that mercury rejected (p ≈ 0.03). So stage B's judge scores
+were, if anything, slightly low, not inflated.
+
+Calls 612 (190 answers, 190 judges, 232 re-judges), 0 errors, 0 retries, no empty or
+cut-off answers. Tokens: answers 742,121 in / 30,383 out (27,437 thinking); judge
+93,356 in / 9,165 out. Claude counted about 1.37x the local input estimate. List-price
+cost 9,497,084 micro-USD ($9.50; cap $130, worst case $124.48).
+
+Limitations: one run; 95 questions; Fable used much more thinking than mercury-3
+(effort high / 8192 vs low / 1024), so the model comparison includes the thinking
+budget; the Opus judge is the same family as Fable; prompts written for GPT-4o;
+temperatures differ (Claude API default vs 0.5); not human-checked.
 
 ## Larger output limit for date questions (D121, mercury-3, 2026-11-01)
 
